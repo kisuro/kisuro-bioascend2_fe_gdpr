@@ -145,3 +145,5 @@ export const playlistsData: Playlist[] = [
     createdAt: "2024-01-05",
   },
 ]
+
+export { audioTracksData as audioTracks }

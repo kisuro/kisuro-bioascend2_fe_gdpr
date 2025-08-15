@@ -55,8 +55,8 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
         {
           label: "Physical",
           data: data.map((d) => d.physical),
-          borderColor: "hsl(var(--chart-1))",
-          backgroundColor: "hsla(var(--chart-1), 0.1)",
+          borderColor: "#ef4444", // red-500
+          backgroundColor: "rgba(239, 68, 68, 0.1)",
           borderWidth: 3,
           pointRadius: 4,
           pointHoverRadius: 6,
@@ -65,8 +65,8 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
         {
           label: "Emotional",
           data: data.map((d) => d.emotional),
-          borderColor: "hsl(var(--chart-2))",
-          backgroundColor: "hsla(var(--chart-2), 0.1)",
+          borderColor: "#ec4899", // pink-500
+          backgroundColor: "rgba(236, 72, 153, 0.1)",
           borderWidth: 3,
           pointRadius: 4,
           pointHoverRadius: 6,
@@ -75,8 +75,8 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
         {
           label: "Intellectual",
           data: data.map((d) => d.intellectual),
-          borderColor: "hsl(var(--chart-3))",
-          backgroundColor: "hsla(var(--chart-3), 0.1)",
+          borderColor: "#06b6d4", // cyan-500
+          backgroundColor: "rgba(6, 182, 212, 0.1)",
           borderWidth: 3,
           pointRadius: 4,
           pointHoverRadius: 6,
