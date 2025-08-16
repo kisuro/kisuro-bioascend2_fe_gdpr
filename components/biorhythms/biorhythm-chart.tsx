@@ -112,7 +112,7 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
         const bottomY = yAxis.bottom
 
         ctx.save()
-        ctx.strokeStyle = "rgba(16, 185, 129, 0.8)"
+        ctx.strokeStyle = "rgba(200, 200, 200, 0.6)"
         ctx.lineWidth = 3
         ctx.setLineDash([8, 4])
         ctx.beginPath()
