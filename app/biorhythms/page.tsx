@@ -2,12 +2,11 @@
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
-import { LiquidButton } from "@/components/ui/liquid-button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BiorhythmChart } from "@/components/biorhythms/biorhythm-chart"
 import { BiorhythmSummary } from "@/components/biorhythms/biorhythm-summary"
-import { Calendar, Download, RotateCcw, TrendingUp } from "lucide-react"
+import { Calendar, TrendingUp } from "lucide-react"
 
 interface BiorhythmData {
   date: string
@@ -212,13 +211,12 @@ export default function BiorhythmsPage() {
                 </div>
 
                 <div className="flex gap-3">
-                  <LiquidButton onClick={handleExport} disabled={!dateOfBirth} variant="outline" className="flex-1">
-                    <Download className="h-4 w-4 mr-2" />
-                    Export
-                  </LiquidButton>
-                  <LiquidButton onClick={handleReset} variant="ghost">
-                    <RotateCcw className="h-4 w-4" />
-                  </LiquidButton>
+                  <button
+                    onClick={handleReset}
+                    className="text-primary hover:text-primary/80 transition-colors text-sm font-medium underline underline-offset-4"
+                  >
+                    Reset
+                  </button>
                 </div>
               </div>
             </GlassCard>

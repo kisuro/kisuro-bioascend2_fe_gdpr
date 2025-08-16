@@ -3,7 +3,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
-import { Activity, Brain, BookOpen, Zap, Sparkles, TrendingUp, Shield, Users, ArrowRight, Play } from "lucide-react"
+import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, Play } from "lucide-react"
 
 const features = [
   {
@@ -41,12 +41,6 @@ const features = [
     href: "/assistant",
     color: "text-chart-5",
   },
-]
-
-const stats = [
-  { label: "Active Users", value: "10K+", icon: Users },
-  { label: "Success Rate", value: "94%", icon: TrendingUp },
-  { label: "Data Security", value: "100%", icon: Shield },
 ]
 
 export default function HomePage() {
@@ -110,29 +104,6 @@ export default function HomePage() {
                 </Link>
               </LiquidButton>
             </motion.div>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            {stats.map((stat, index) => {
-              const Icon = stat.icon
-              return (
-                <div
-                  key={stat.label}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 dark:bg-white/5 dark:border-white/10 rounded-2xl p-6 text-center animate-bounce"
-                  style={{ animationDelay: `${index * 0.2}s`, animationDuration: "6s" }}
-                >
-                  <Icon className="h-8 w-8 mx-auto mb-3 text-primary" />
-                  <div className="text-3xl font-bold text-primary mb-1">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
-              )
-            })}
           </motion.div>
         </div>
       </section>

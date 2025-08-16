@@ -1,5 +1,6 @@
 "use client"
 import { useMemo } from "react"
+import { motion } from "framer-motion"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +13,7 @@ import {
   type ChartOptions,
 } from "chart.js"
 import { Line } from "react-chartjs-2"
+import { Activity, Brain, Heart } from "lucide-react"
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
@@ -55,51 +57,67 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
         {
           label: "Physical",
           data: data.map((d) => d.physical),
-          borderColor: "#ef4444", // red-500
-          backgroundColor: "rgba(239, 68, 68, 0.1)",
-          borderWidth: 3,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.4,
+          borderColor: "rgba(229, 115, 115, 0.8)",
+          backgroundColor: "rgba(229, 115, 115, 0.1)",
+          borderWidth: 4,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          tension: 0.5,
+          shadowColor: "rgba(229, 115, 115, 0.3)",
+          shadowBlur: 8,
         },
         {
           label: "Emotional",
           data: data.map((d) => d.emotional),
-          borderColor: "#ec4899", // pink-500
-          backgroundColor: "rgba(236, 72, 153, 0.1)",
-          borderWidth: 3,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.4,
+          borderColor: "rgba(100, 181, 246, 0.8)",
+          backgroundColor: "rgba(100, 181, 246, 0.1)",
+          borderWidth: 4,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          tension: 0.5,
+          shadowColor: "rgba(100, 181, 246, 0.3)",
+          shadowBlur: 8,
         },
         {
           label: "Intellectual",
           data: data.map((d) => d.intellectual),
-          borderColor: "#06b6d4", // cyan-500
-          backgroundColor: "rgba(6, 182, 212, 0.1)",
-          borderWidth: 3,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          tension: 0.4,
+          borderColor: "rgba(129, 199, 132, 0.8)",
+          backgroundColor: "rgba(129, 199, 132, 0.1)",
+          borderWidth: 4,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          tension: 0.5,
+          shadowColor: "rgba(129, 199, 132, 0.3)",
+          shadowBlur: 8,
         },
       ],
     }
   }, [data])
 
+  const targetDateIndex = useMemo(() => {
+    return data.findIndex((d) => d.date === targetDate)
+  }, [data, targetDate])
+
   const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: 0,
+    },
     plugins: {
       legend: {
         position: "top" as const,
         labels: {
-          color: "hsl(var(--foreground))",
+          color: "rgba(156, 163, 175, 0.8)",
           font: {
+            family: "system-ui, -apple-system, sans-serif",
             size: 12,
-            weight: "500",
+            weight: "400",
           },
           usePointStyle: true,
-          pointStyle: "line",
+          pointStyle: "circle",
+          boxWidth: 8,
+          boxHeight: 8,
         },
       },
       tooltip: {
@@ -122,12 +140,23 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
     scales: {
       x: {
         grid: {
-          color: "hsla(var(--border), 0.3)",
+          display: false,
+        },
+        border: {
+          color: "rgba(156, 163, 175, 0.6)",
+          width: 2,
         },
         ticks: {
-          color: "hsl(var(--muted-foreground))",
+          color: "rgba(156, 163, 175, 0.8)",
           font: {
+            family: "system-ui, -apple-system, sans-serif",
             size: 11,
+            weight: "400",
+          },
+          callback: (value, index) => {
+            const date = new Date(data[index]?.date || "")
+            const label = date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+            return label
           },
         },
       },
@@ -135,12 +164,18 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
         min: -1,
         max: 1,
         grid: {
-          color: "hsla(var(--border), 0.3)",
+          display: false,
+        },
+        border: {
+          color: "rgba(156, 163, 175, 0.6)",
+          width: 2,
         },
         ticks: {
-          color: "hsl(var(--muted-foreground))",
+          color: "rgba(156, 163, 175, 0.8)",
           font: {
+            family: "system-ui, -apple-system, sans-serif",
             size: 11,
+            weight: "400",
           },
           callback: (value) => `${Math.round(Number(value) * 100)}%`,
         },
@@ -158,8 +193,54 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
     return (
       <div className="h-96 flex items-center justify-center text-muted-foreground">
         <div className="text-center">
-          <div className="text-4xl mb-2">📊</div>
-          <p>Enter your date of birth to see your biorhythm chart</p>
+          <div className="flex justify-center gap-4 mb-6">
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                delay: 0,
+              }}
+            >
+              <Activity className="h-8 w-8 text-[#E57373]" />
+            </motion.div>
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+                rotate: [0, -5, 5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                delay: 0.3,
+              }}
+            >
+              <Heart className="h-8 w-8 text-[#64B5F6]" />
+            </motion.div>
+            <motion.div
+              animate={{
+                y: [0, -10, 0],
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Number.POSITIVE_INFINITY,
+                delay: 0.6,
+              }}
+            >
+              <Brain className="h-8 w-8 text-[#81C784]" />
+            </motion.div>
+          </div>
+          <motion.p
+            animate={{ opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+            className="text-lg"
+          >
+            Enter your date of birth to see your biorhythm chart
+          </motion.p>
         </div>
       </div>
     )
