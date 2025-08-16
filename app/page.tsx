@@ -184,31 +184,33 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-32 px-4">
+      <section className="relative overflow-hidden py-24 pb-8 px-4">
         <div className="absolute inset-0">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-[#E57373]/10 via-[#64B5F6]/8 to-[#81C784]/12"
+            className="absolute inset-0 bg-gradient-to-br from-[#E57373]/12 via-[#64B5F6]/10 to-[#81C784]/15"
             animate={{
               background: [
-                "linear-gradient(45deg, #E57373/10, #64B5F6/8, #81C784/12)",
-                "linear-gradient(90deg, #64B5F6/12, #81C784/10, #E57373/8)",
-                "linear-gradient(135deg, #81C784/10, #E57373/12, #64B5F6/8)",
-                "linear-gradient(45deg, #E57373/10, #64B5F6/8, #81C784/12)",
+                "linear-gradient(45deg, #E57373/12, #64B5F6/10, #81C784/15)",
+                "linear-gradient(90deg, #64B5F6/15, #81C784/12, #E57373/10)",
+                "linear-gradient(135deg, #81C784/12, #E57373/15, #64B5F6/10)",
+                "linear-gradient(180deg, #E57373/10, #64B5F6/15, #81C784/12)",
+                "linear-gradient(45deg, #E57373/12, #64B5F6/10, #81C784/15)",
               ],
             }}
-            transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#64B5F6]/5 to-[#E57373]/8"
+            className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#64B5F6]/8 to-[#E57373]/10"
             animate={{
               background: [
-                "linear-gradient(225deg, transparent, #64B5F6/5, #E57373/8)",
-                "linear-gradient(270deg, transparent, #81C784/5, #64B5F6/8)",
-                "linear-gradient(315deg, transparent, #E57373/5, #81C784/8)",
-                "linear-gradient(225deg, transparent, #64B5F6/5, #E57373/8)",
+                "linear-gradient(225deg, transparent, #64B5F6/8, #E57373/10)",
+                "linear-gradient(270deg, transparent, #81C784/8, #64B5F6/10)",
+                "linear-gradient(315deg, transparent, #E57373/8, #81C784/10)",
+                "linear-gradient(0deg, transparent, #64B5F6/10, #E57373/8)",
+                "linear-gradient(225deg, transparent, #64B5F6/8, #E57373/10)",
               ],
             }}
-            transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+            transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 3 }}
           />
         </div>
 
@@ -225,7 +227,7 @@ export default function HomePage() {
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent font-heading"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
+              transition={{ duration: 1.2, delay: 0.1 }}
             >
               Optimize Your
               <br />
@@ -238,7 +240,7 @@ export default function HomePage() {
               className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
               Unlock the science of biohacking with personalized insights, evidence-based supplements, and AI-powered
               recommendations for mental health and longevity.
@@ -248,32 +250,36 @@ export default function HomePage() {
               className="flex flex-col sm:flex-row gap-6 justify-center items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <LiquidButton
-                size="lg"
-                className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30"
-                asChild
-              >
-                <Link href="/biorhythms">
-                  Start Your Journey
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </LiquidButton>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.2 }}>
+                <LiquidButton
+                  size="lg"
+                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300"
+                  asChild
+                >
+                  <Link href="/biorhythms">
+                    Start Your Journey
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </LiquidButton>
+              </motion.div>
 
-              <LiquidButton variant="outline" size="lg" asChild>
-                <Link href="#features">
-                  <Play className="mr-2 h-5 w-5" />
-                  Explore Features
-                </Link>
-              </LiquidButton>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.2 }}>
+                <LiquidButton variant="outline" size="lg" asChild>
+                  <Link href="#features">
+                    <Play className="mr-2 h-5 w-5" />
+                    Explore Features
+                  </Link>
+                </LiquidButton>
+              </motion.div>
             </motion.div>
 
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
             >
               <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
                 <div className="text-4xl font-bold text-primary mb-2">25+</div>
@@ -295,31 +301,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="relative py-12">
+      <div className="relative py-9">
+        {/* Wave-shaped SVG divider */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
+          transition={{ duration: 2 }}
           viewport={{ once: true }}
         >
-          <svg className="w-64 h-16 text-[#64B5F6]/10" viewBox="0 0 200 50">
+          <svg className="w-full h-24 text-[#64B5F6]/10" viewBox="0 0 1200 100" preserveAspectRatio="none">
             <motion.path
-              d="M0,25 Q50,5 100,25 T200,25"
+              d="M0,50 Q300,20 600,50 Q900,80 1200,50"
               stroke="currentColor"
               strokeWidth="2"
               fill="none"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              transition={{ duration: 2, delay: 0.5 }}
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 3, delay: 0.5 }}
               viewport={{ once: true }}
             />
+          </svg>
+        </motion.div>
+
+        {/* Simple gradient transition overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a4d4d]/5 to-transparent" />
+
+        {/* Parallax background shapes */}
+        <motion.div
+          className="absolute top-0 left-1/4 w-32 h-32 opacity-5"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 0.05, y: 0 }}
+          transition={{ duration: 2 }}
+          viewport={{ once: true }}
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full text-[#81C784]">
+            <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="2" fill="none" />
+            <circle cx="50" cy="50" r="20" stroke="currentColor" strokeWidth="1" fill="none" />
           </svg>
         </motion.div>
       </div>
 
       {/* Features Section */}
-      <section id="features" className="relative py-24 px-4">
+      <section id="features" className="relative py-18 px-4">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.svg
             className="absolute top-10 right-10 w-40 h-40 text-[#81C784]/8"
@@ -406,33 +430,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <div className="relative py-16">
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 2 }}
-          viewport={{ once: true }}
-        >
-          <svg className="w-80 h-20 text-[#E57373]/8" viewBox="0 0 300 60">
-            <motion.path
-              d="M0,30 Q75,10 150,30 Q225,50 300,30"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-              animate={{
-                d: [
-                  "M0,30 Q75,10 150,30 Q225,50 300,30",
-                  "M0,30 Q75,20 150,30 Q225,40 300,30",
-                  "M0,30 Q75,10 150,30 Q225,50 300,30",
-                ],
-              }}
-              transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-            />
-          </svg>
-        </motion.div>
-      </div>
 
       {/* CTA Section */}
       <section className="py-24 px-4">

@@ -50,39 +50,41 @@ export default function ProfilePage() {
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <GlassCard className="p-6">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-6">
-              <div className="relative">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="flex items-center gap-4 sm:gap-6 min-w-0 flex-1">
+              <div className="relative flex-shrink-0">
                 <img
                   src={user.avatar || "/placeholder.svg"}
                   alt="Profile"
-                  className="w-24 h-24 rounded-full object-cover border-2 border-primary/20"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-primary/20"
                 />
-                <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <Crown className="w-4 h-4 text-primary-foreground" />
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full flex items-center justify-center">
+                  <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-primary-foreground" />
                 </div>
               </div>
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-2xl font-bold">{user.name}</h1>
-                  <Badge variant="secondary" className="bg-primary/20 text-primary">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                  <h1 className="text-xl sm:text-2xl font-bold truncate">{user.name}</h1>
+                  <Badge variant="secondary" className="bg-primary/20 text-primary w-fit">
                     {user.subscription}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground mb-1">{user.email}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground mb-1 text-sm sm:text-base truncate">{user.email}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Member since {new Date(user.joinDate).toLocaleDateString()}
                 </p>
               </div>
             </div>
-            <LiquidButton
-              variant={isEditing ? "destructive" : "outline"}
-              onClick={isEditing ? handleCancel : () => setIsEditing(true)}
-              className="gap-2"
-            >
-              {isEditing ? <X className="w-4 h-4" /> : <Edit3 className="w-4 h-4" />}
-              {isEditing ? "Cancel" : "Edit Profile"}
-            </LiquidButton>
+            <div className="flex-shrink-0 w-full sm:w-auto">
+              <LiquidButton
+                variant={isEditing ? "destructive" : "outline"}
+                onClick={isEditing ? handleCancel : () => setIsEditing(true)}
+                className="gap-2 w-full sm:w-auto"
+              >
+                {isEditing ? <X className="w-4 h-4" /> : <Edit3 className="w-4 h-4" />}
+                {isEditing ? "Cancel" : "Edit Profile"}
+              </LiquidButton>
+            </div>
           </div>
         </GlassCard>
 
