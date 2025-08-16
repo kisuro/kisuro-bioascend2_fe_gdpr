@@ -1,10 +1,13 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { GlassCard } from "@/components/ui/glass-card"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { Activity, Brain, BookOpen, Zap, User, Sparkles } from "lucide-react"
+import { BioAscendIcon } from "@/components/ui/bioascend-icon"
+import { Activity, Brain, BookOpen, Zap, User, Sparkles, Menu, X } from "lucide-react"
 
 const navigation = [
   { name: "Biorhythms", href: "/biorhythms", icon: Activity },
@@ -16,50 +19,145 @@ const navigation = [
 
 export function Navigation() {
   const pathname = usePathname()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <GlassCard className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3">
-      <nav className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2 font-bold text-primary">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-            <Activity className="w-5 h-5 text-primary" />
-          </div>
-          <span className="hidden sm:block">Bioascend</span>
-        </Link>
-
-        <div className="flex items-center gap-1">
-          {navigation.map((item) => {
-            const Icon = item.icon
-            const isActive = pathname === item.href
-
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200",
-                  "hover:glass-subtle hover:scale-105",
-                  isActive ? "glass-strong text-primary" : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="hidden md:block">{item.name}</span>
+    <>
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="fixed top-0 left-0 right-0 z-50 p-4"
+      >
+        <GlassCard
+          variant="strong"
+          className="max-w-7xl mx-auto px-6 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border-white/30 dark:border-white/20"
+        >
+          <nav className="flex items-center justify-between">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link href="/" className="flex items-center gap-2 font-bold text-primary">
+                <div className="p-1 rounded-lg bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 shadow-lg dark:from-white/10 dark:to-white/5 dark:border-white/20">
+                  <BioAscendIcon size={28} variant="color" />
+                </div>
+                <span className="hidden sm:block font-heading text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  Bioascend
+                </span>
               </Link>
-            )
-          })}
-        </div>
+            </motion.div>
 
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Link
-            href="/profile"
-            className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 hover:glass-subtle hover:scale-105"
+            <div className="hidden md:flex items-center gap-1">
+              {navigation.map((item, index) => {
+                const Icon = item.icon
+                const isActive = pathname === item.href
+
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300",
+                        "hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 hover:shadow-lg",
+                        isActive
+                          ? "bg-gradient-to-r from-primary/20 to-accent/20 text-primary shadow-lg backdrop-blur-lg"
+                          : "text-muted-foreground hover:text-foreground",
+                      )}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{item.name}</span>
+                    </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 hover:shadow-lg"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Profile</span>
+                </Link>
+              </motion.div>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 rounded-xl hover:bg-white/10 hover:backdrop-blur-lg transition-all duration-300"
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </motion.button>
+            </div>
+          </nav>
+        </GlassCard>
+      </motion.div>
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-20 left-4 right-4 z-40 md:hidden"
           >
-            <User className="w-4 h-4" />
-            <span className="hidden sm:block">Profile</span>
-          </Link>
-        </div>
-      </nav>
-    </GlassCard>
+            <GlassCard variant="strong" className="p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
+              <div className="space-y-2">
+                {navigation.map((item, index) => {
+                  const Icon = item.icon
+                  const isActive = pathname === item.href
+
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={cn(
+                          "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full",
+                          "hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105",
+                          isActive
+                            ? "bg-gradient-to-r from-primary/20 to-accent/20 text-primary shadow-lg"
+                            : "text-muted-foreground hover:text-foreground",
+                        )}
+                      >
+                        <Icon className="w-5 h-5" />
+                        <span>{item.name}</span>
+                      </Link>
+                    </motion.div>
+                  )
+                })}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: navigation.length * 0.1 }}
+                >
+                  <Link
+                    href="/profile"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-muted-foreground hover:text-foreground"
+                  >
+                    <User className="w-5 h-5" />
+                    <span>Profile</span>
+                  </Link>
+                </motion.div>
+              </div>
+            </GlassCard>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

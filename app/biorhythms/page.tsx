@@ -229,15 +229,15 @@ export default function BiorhythmsPage() {
               </h3>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-3">
-                  <div className="w-4 h-0.5 bg-chart-1 rounded"></div>
+                  <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#E57373" }}></div>
                   <span>Physical (23 days)</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-4 h-0.5 bg-chart-2 rounded"></div>
+                  <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#64B5F6" }}></div>
                   <span>Emotional (28 days)</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-4 h-0.5 bg-chart-3 rounded"></div>
+                  <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#81C784" }}></div>
                   <span>Intellectual (33 days)</span>
                 </div>
               </div>

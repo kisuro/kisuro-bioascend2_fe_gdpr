@@ -125,9 +125,9 @@
 @layer utilities {
   /* Liquid Gradient */
   .liquid-gradient {
-    @apply bg-gradient-to-br from-primary/80 via-accent/60 to-primary/90;
-    background-size: 200% 200%;
-    animation: liquidFlow 4s ease-in-out infinite;
+    @apply bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95;
+    background-size: 300% 300%;
+    animation: liquidFlow 6s ease-in-out infinite;
   }
 
   /* Flowing animations */
@@ -136,47 +136,104 @@
     100% {
       background-position: 0% 50%;
     }
+    25% {
+      background-position: 100% 0%;
+    }
     50% {
-      background-position: 100% 50%;
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
     }
   }
 
   /* Floating animation */
   .float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
   }
 
   @keyframes float {
     0%,
     100% {
-      transform: translateY(0px);
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-8px) rotate(1deg);
     }
     50% {
-      transform: translateY(-10px);
+      transform: translateY(-15px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-8px) rotate(-1deg);
     }
   }
 
   /* Pulse glow effect */
   .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite alternate;
+    animation: pulseGlow 3s ease-in-out infinite alternate;
   }
 
   @keyframes pulseGlow {
     from {
-      box-shadow: 0 0 20px rgba(var(--primary), 0.3);
+      box-shadow: 0 0 20px rgba(var(--primary), 0.4), 0 0 40px rgba(var(--accent), 0.2);
     }
     to {
-      box-shadow: 0 0 30px rgba(var(--primary), 0.6);
+      box-shadow: 0 0 40px rgba(var(--primary), 0.8), 0 0 80px rgba(var(--accent), 0.4);
     }
   }
 
   /* Liquid text effect */
   .liquid-text {
-    background: linear-gradient(45deg, var(--primary), var(--accent), var(--primary));
-    background-size: 200% 200%;
+    background: linear-gradient(60deg, var(--primary), var(--accent), var(--primary), var(--accent));
+    background-size: 400% 400%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: liquidFlow 3s ease-in-out infinite;
+    animation: liquidFlow 4s ease-in-out infinite;
+  }
+
+  /* New micro-animations for enhanced interactivity */
+  .micro-bounce {
+    animation: microBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes microBounce {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  .gentle-scale {
+    animation: gentleScale 4s ease-in-out infinite;
+  }
+
+  @keyframes gentleScale {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+
+  /* Smooth entrance animations */
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

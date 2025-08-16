@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
   type ChartOptions,
+  type Plugin,
 } from "chart.js"
 import { Line } from "react-chartjs-2"
 import { Activity, Brain, Heart } from "lucide-react"
@@ -97,6 +98,32 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
   const targetDateIndex = useMemo(() => {
     return data.findIndex((d) => d.date === targetDate)
   }, [data, targetDate])
+
+  const targetDatePlugin: Plugin<"line"> = {
+    id: "targetDateLine",
+    afterDraw: (chart) => {
+      if (targetDateIndex >= 0) {
+        const ctx = chart.ctx
+        const xAxis = chart.scales.x
+        const yAxis = chart.scales.y
+
+        const x = xAxis.getPixelForValue(targetDateIndex)
+        const topY = yAxis.top
+        const bottomY = yAxis.bottom
+
+        ctx.save()
+        ctx.strokeStyle = "rgba(16, 185, 129, 0.8)"
+        ctx.lineWidth = 3
+        ctx.setLineDash([8, 4])
+        ctx.beginPath()
+        ctx.moveTo(x, topY)
+        ctx.lineTo(x, bottomY)
+        ctx.stroke()
+
+        ctx.restore()
+      }
+    },
+  }
 
   const options: ChartOptions<"line"> = {
     responsive: true,
@@ -248,7 +275,7 @@ export function BiorhythmChart({ data, targetDate, extrema }: BiorhythmChartProp
 
   return (
     <div className="h-96">
-      <Line data={chartData} options={options} />
+      <Line data={chartData} options={options} plugins={[targetDatePlugin]} />
     </div>
   )
 }

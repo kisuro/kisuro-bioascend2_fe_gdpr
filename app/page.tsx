@@ -43,25 +43,189 @@ const features = [
   },
 ]
 
+const BiorhythmBackground = ({ className = "" }: { className?: string }) => (
+  <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
+    {/* Physical biorhythm wave */}
+    <motion.svg
+      className="absolute top-20 left-0 w-full h-32 text-[#E57373]/8"
+      viewBox="0 0 800 100"
+      preserveAspectRatio="none"
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 3, delay: 0.5 }}
+    >
+      <motion.path
+        d="M0,50 Q200,20 400,50 Q600,80 800,50"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+        animate={{
+          d: [
+            "M0,50 Q200,20 400,50 Q600,80 800,50",
+            "M0,50 Q200,30 400,50 Q600,70 800,50",
+            "M0,50 Q200,20 400,50 Q600,80 800,50",
+          ],
+        }}
+        transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      />
+    </motion.svg>
+
+    {/* Emotional biorhythm wave */}
+    <motion.svg
+      className="absolute top-40 left-0 w-full h-32 text-[#64B5F6]/6"
+      viewBox="0 0 800 100"
+      preserveAspectRatio="none"
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 3, delay: 1 }}
+    >
+      <motion.path
+        d="M0,50 Q150,80 300,50 Q450,20 600,50 Q750,80 800,50"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+        animate={{
+          d: [
+            "M0,50 Q150,80 300,50 Q450,20 600,50 Q750,80 800,50",
+            "M0,50 Q150,70 300,50 Q450,30 600,50 Q750,70 800,50",
+            "M0,50 Q150,80 300,50 Q450,20 600,50 Q750,80 800,50",
+          ],
+        }}
+        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+      />
+    </motion.svg>
+
+    {/* Intellectual biorhythm wave */}
+    <motion.svg
+      className="absolute bottom-32 left-0 w-full h-32 text-[#81C784]/7"
+      viewBox="0 0 800 100"
+      preserveAspectRatio="none"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 3, delay: 1.5 }}
+    >
+      <motion.path
+        d="M0,50 Q100,30 200,50 Q300,70 400,50 Q500,30 600,50 Q700,70 800,50"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+        animate={{
+          d: [
+            "M0,50 Q100,30 200,50 Q300,70 400,50 Q500,30 600,50 Q700,70 800,50",
+            "M0,50 Q100,40 200,50 Q300,60 400,50 Q500,40 600,50 Q700,60 800,50",
+            "M0,50 Q100,30 200,50 Q300,70 400,50 Q500,30 600,50 Q700,70 800,50",
+          ],
+        }}
+        transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
+      />
+    </motion.svg>
+
+    {/* Bio-inspired hexagonal cell pattern */}
+    <motion.svg
+      className="absolute top-10 right-20 w-40 h-40 text-[#E57373]/4"
+      viewBox="0 0 100 100"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 4, delay: 2 }}
+    >
+      <motion.polygon
+        points="50,15 65,25 65,45 50,55 35,45 35,25"
+        stroke="currentColor"
+        strokeWidth="1"
+        fill="none"
+        animate={{ rotate: [0, 360] }}
+        transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+      />
+      <motion.polygon
+        points="50,25 60,32 60,42 50,48 40,42 40,32"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        fill="none"
+        animate={{ rotate: [360, 0] }}
+        transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+      />
+    </motion.svg>
+
+    {/* Neuron-like branching lines */}
+    <motion.svg
+      className="absolute bottom-20 left-10 w-32 h-32 text-[#64B5F6]/5"
+      viewBox="0 0 100 100"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 3, delay: 2.5 }}
+    >
+      <motion.path
+        d="M50,50 L30,30 M50,50 L70,30 M50,50 L30,70 M50,50 L70,70 M50,50 L50,20 M50,50 L50,80"
+        stroke="currentColor"
+        strokeWidth="1"
+        fill="none"
+        animate={{
+          pathLength: [0, 1, 0],
+          opacity: [0.3, 0.8, 0.3],
+        }}
+        transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      />
+      <motion.circle
+        cx="50"
+        cy="50"
+        r="3"
+        fill="currentColor"
+        animate={{
+          r: [3, 5, 3],
+          opacity: [0.5, 1, 0.5],
+        }}
+        transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      />
+    </motion.svg>
+  </div>
+)
+
 export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-background"></div>
+      <section className="relative overflow-hidden py-32 px-4">
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-[#E57373]/10 via-[#64B5F6]/8 to-[#81C784]/12"
+            animate={{
+              background: [
+                "linear-gradient(45deg, #E57373/10, #64B5F6/8, #81C784/12)",
+                "linear-gradient(90deg, #64B5F6/12, #81C784/10, #E57373/8)",
+                "linear-gradient(135deg, #81C784/10, #E57373/12, #64B5F6/8)",
+                "linear-gradient(45deg, #E57373/10, #64B5F6/8, #81C784/12)",
+              ],
+            }}
+            transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#64B5F6]/5 to-[#E57373]/8"
+            animate={{
+              background: [
+                "linear-gradient(225deg, transparent, #64B5F6/5, #E57373/8)",
+                "linear-gradient(270deg, transparent, #81C784/5, #64B5F6/8)",
+                "linear-gradient(315deg, transparent, #E57373/5, #81C784/8)",
+                "linear-gradient(225deg, transparent, #64B5F6/5, #E57373/8)",
+              ],
+            }}
+            transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+          />
+        </div>
+
+        <BiorhythmBackground />
 
         <div className="relative max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-center mb-20"
           >
             <motion.h1
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent font-heading"
-              initial={{ opacity: 0, y: 30 }}
+              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent font-heading"
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              transition={{ duration: 1.2, delay: 0.2 }}
             >
               Optimize Your
               <br />
@@ -71,24 +235,24 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p
-              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
+              className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
             >
               Unlock the science of biohacking with personalized insights, evidence-based supplements, and AI-powered
               recommendations for mental health and longevity.
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
             >
               <LiquidButton
                 size="lg"
-                className="bg-gradient-to-br from-primary/80 via-accent/60 to-primary/90 animate-pulse"
+                className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30"
                 asChild
               >
                 <Link href="/biorhythms">
@@ -104,28 +268,100 @@ export default function HomePage() {
                 </Link>
               </LiquidButton>
             </motion.div>
+
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1 }}
+            >
+              <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+                <div className="text-4xl font-bold text-primary mb-2">25+</div>
+                <div className="text-sm text-muted-foreground">Years Added to Lifespan</div>
+                <div className="text-xs text-muted-foreground/70 mt-1">with optimal biohacking</div>
+              </motion.div>
+              <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+                <div className="text-4xl font-bold text-accent mb-2">40%</div>
+                <div className="text-sm text-muted-foreground">Cognitive Enhancement</div>
+                <div className="text-xs text-muted-foreground/70 mt-1">through targeted supplementation</div>
+              </motion.div>
+              <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+                <div className="text-4xl font-bold text-primary mb-2">90%</div>
+                <div className="text-sm text-muted-foreground">Energy Optimization</div>
+                <div className="text-xs text-muted-foreground/70 mt-1">via biorhythm tracking</div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
+      <div className="relative py-12">
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          viewport={{ once: true }}
+        >
+          <svg className="w-64 h-16 text-[#64B5F6]/10" viewBox="0 0 200 50">
+            <motion.path
+              d="M0,25 Q50,5 100,25 T200,25"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="none"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              transition={{ duration: 2, delay: 0.5 }}
+              viewport={{ once: true }}
+            />
+          </svg>
+        </motion.div>
+      </div>
+
       {/* Features Section */}
-      <section id="features" className="py-20 px-4">
+      <section id="features" className="relative py-24 px-4">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.svg
+            className="absolute top-10 right-10 w-40 h-40 text-[#81C784]/8"
+            viewBox="0 0 100 100"
+            initial={{ opacity: 0, rotate: -45 }}
+            whileInView={{ opacity: 1, rotate: 0 }}
+            transition={{ duration: 3 }}
+            viewport={{ once: true }}
+          >
+            <motion.path
+              d="M10,50 Q30,10 50,50 Q70,90 90,50"
+              stroke="currentColor"
+              strokeWidth="3"
+              fill="none"
+              animate={{
+                d: [
+                  "M10,50 Q30,10 50,50 Q70,90 90,50",
+                  "M10,50 Q30,20 50,50 Q70,80 90,50",
+                  "M10,50 Q30,10 50,50 Q70,90 90,50",
+                ],
+              }}
+              transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            />
+          </motion.svg>
+        </div>
+
         <div className="max-w-7xl mx-auto">
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
+            <h2 className="text-4xl md:text-6xl font-bold mb-8 font-heading">
               Everything You Need to
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                 {" "}
                 Biohack
               </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Comprehensive tools and insights to optimize your health, performance, and longevity
             </p>
           </motion.div>
@@ -136,27 +372,32 @@ export default function HomePage() {
               return (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.6, delay: index * 0.15 }}
                   viewport={{ once: true }}
+                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
                 >
                   <GlassCard
-                    className="bg-white/10 backdrop-blur-md border border-white/20 dark:bg-white/5 dark:border-white/10 rounded-2xl p-8 h-full group transition-all duration-300 hover:bg-white/15 hover:backdrop-blur-lg hover:border-white/25 hover:shadow-xl dark:hover:bg-white/8 dark:hover:border-white/15 cursor-pointer"
+                    variant="strong"
+                    className="p-8 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-3xl"
                     hover
                   >
                     <Link href={feature.href} className="block">
-                      <div className="flex items-center mb-4">
-                        <div className="p-3 rounded-lg bg-white/20 backdrop-blur-lg border border-white/30 shadow-lg dark:bg-white/10 dark:border-white/20 mr-4">
-                          <Icon className={`h-6 w-6 ${feature.color}`} />
-                        </div>
-                        <h3 className="text-xl font-semibold font-heading">{feature.title}</h3>
+                      <div className="flex items-center mb-6">
+                        <motion.div
+                          className="p-4 rounded-2xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
+                          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                        >
+                          <Icon className={`h-7 w-7 ${feature.color}`} />
+                        </motion.div>
+                        <h3 className="text-2xl font-semibold font-heading">{feature.title}</h3>
                       </div>
-                      <p className="text-muted-foreground leading-relaxed mb-4">{feature.description}</p>
-                      <div className="flex items-center text-primary group-hover:translate-x-2 transition-transform duration-200">
+                      <p className="text-muted-foreground leading-relaxed mb-6 text-lg">{feature.description}</p>
+                      <motion.div className="flex items-center text-primary group-hover:translate-x-3 transition-transform duration-300">
                         <span className="text-sm font-medium">Learn more</span>
                         <ArrowRight className="ml-2 h-4 w-4" />
-                      </div>
+                      </motion.div>
                     </Link>
                   </GlassCard>
                 </motion.div>
@@ -166,26 +407,57 @@ export default function HomePage() {
         </div>
       </section>
 
+      <div className="relative py-16">
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2 }}
+          viewport={{ once: true }}
+        >
+          <svg className="w-80 h-20 text-[#E57373]/8" viewBox="0 0 300 60">
+            <motion.path
+              d="M0,30 Q75,10 150,30 Q225,50 300,30"
+              stroke="currentColor"
+              strokeWidth="3"
+              fill="none"
+              animate={{
+                d: [
+                  "M0,30 Q75,10 150,30 Q225,50 300,30",
+                  "M0,30 Q75,20 150,30 Q225,40 300,30",
+                  "M0,30 Q75,10 150,30 Q225,50 300,30",
+                ],
+              }}
+              transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            />
+          </svg>
+        </motion.div>
+      </div>
+
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-24 px-4">
+        <div className="max-w-5xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <GlassCard className="bg-white/20 backdrop-blur-lg border border-white/30 shadow-lg dark:bg-white/10 dark:border-white/20 p-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">Ready to Transform Your Health?</h2>
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <GlassCard
+              variant="strong"
+              className="p-16 rounded-3xl bg-gradient-to-br from-primary/5 via-accent/3 to-primary/8 shadow-2xl"
+              animate
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 font-heading">Ready to Transform Your Health?</h2>
+              <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
                 Join thousands of biohackers who are already optimizing their performance with science-backed insights
                 and personalized recommendations.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <LiquidButton
                   size="lg"
-                  className="bg-gradient-to-br from-primary/80 via-accent/60 to-primary/90"
+                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30"
                   asChild
                 >
                   <Link href="/biorhythms">
@@ -199,7 +471,7 @@ export default function HomePage() {
                 </LiquidButton>
               </div>
 
-              <div className="mt-8 text-sm text-muted-foreground">
+              <div className="mt-10 text-sm text-muted-foreground">
                 <p>No credit card required • Free biorhythms calculator • Premium features available</p>
               </div>
             </GlassCard>
@@ -208,12 +480,12 @@ export default function HomePage() {
       </section>
 
       {/* Medical Disclaimer */}
-      <section className="py-8 px-4 border-t border-border/50">
-        <div className="max-w-4xl mx-auto">
-          <GlassCard className="bg-white/5 backdrop-blur-sm border border-white/10 dark:bg-white/3 dark:border-white/5 p-6">
-            <div className="flex items-start gap-3">
-              <Shield className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-              <div className="text-sm text-muted-foreground">
+      <section className="py-12 px-4 border-t border-border/30">
+        <div className="max-w-5xl mx-auto">
+          <GlassCard variant="subtle" className="p-8 rounded-2xl">
+            <div className="flex items-start gap-4">
+              <Shield className="h-6 w-6 text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="text-sm text-muted-foreground leading-relaxed">
                 <strong className="text-foreground">Medical Disclaimer:</strong> This application is for educational and
                 informational purposes only. It is not intended to diagnose, treat, cure, or prevent any disease. Always
                 consult with a qualified healthcare professional before making any changes to your health regimen or
