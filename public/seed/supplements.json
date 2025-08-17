@@ -24,8 +24,6 @@
     "alternatives": ["rhodiola-rosea", "holy-basil"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 4.2,
-    "reviews_count": 1247,
     "images": [],
     "sku": null
   },
@@ -54,8 +52,6 @@
     "alternatives": ["ashwagandha", "ginseng"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 3.9,
-    "reviews_count": 892,
     "images": [],
     "sku": null
   },
@@ -84,8 +80,6 @@
     "alternatives": ["lions-mane-mushroom", "ginkgo-biloba"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 4.1,
-    "reviews_count": 756,
     "images": [],
     "sku": null
   },
@@ -114,8 +108,6 @@
     "alternatives": ["bacopa-monnieri", "ginkgo-biloba"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 4.3,
-    "reviews_count": 1089,
     "images": [],
     "sku": null
   },
@@ -144,8 +136,6 @@
     "alternatives": ["bacopa-monnieri", "gotu-kola"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 3.7,
-    "reviews_count": 634,
     "images": [],
     "sku": null
   },
@@ -174,8 +164,6 @@
     "alternatives": ["american-ginseng", "rhodiola-rosea"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": null,
-    "reviews_count": 0,
     "images": [],
     "sku": null
   },
@@ -204,8 +192,6 @@
     "alternatives": ["panax-ginseng", "astragalus-root"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": null,
-    "reviews_count": 0,
     "images": [],
     "sku": null
   },
@@ -234,8 +220,6 @@
     "alternatives": ["ginkgo-biloba", "bacopa-monnieri"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": null,
-    "reviews_count": 0,
     "images": [],
     "sku": null
   },
@@ -264,8 +248,6 @@
     "alternatives": ["ashwagandha", "magnesium-glycinate"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 4.4,
-    "reviews_count": 1523,
     "images": [],
     "sku": null
   },
@@ -294,8 +276,6 @@
     "alternatives": ["green-tea-extract", "yerba-mate"],
     "included_in_stacks": [],
     "sources": ["https://ods.od.nih.gov/", "https://examine.com/"],
-    "rating": 4.0,
-    "reviews_count": 2156,
     "images": [],
     "sku": null
   }
