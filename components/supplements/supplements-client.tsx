@@ -16,44 +16,18 @@ import { SupplementsBackground } from "@/components/ui/page-backgrounds"
 
 interface Supplement {
   id: string
-  slug: string
   name: string
-  category: string
-  goals: string[]
-  tags: string[]
-  description: string
-  benefits: string[]
-  dosage: string
-  dosage_range: {
-    min: number | null
-    max: number | null
-    unit: string | null
-    notes: string
-  }
-  forms: string[]
-  timing: string
-  cycle: string
-  bioavailability: string
-  half_life: string | null
-  interactions: {
-    synergizes_with: string[]
-    avoid_with: string[]
-  }
-  contraindications: string[]
-  side_effects: string[]
-  restrictions: string[]
-  alternatives: string[]
-  included_in_stacks: string[]
+  summary: string
   evidence_level: string
-  evidence_notes: string
-  sources: string[]
-  rating: {
-    avg: number | null
-    count: number
-  }
-  images: string[]
-  sku: string | null
+  goals: string[]
+  categories: string[]
+  timing: string
+  dosage: string
+  cycle: string
+  benefits: string[]
   popular_manufacturers?: string[]
+  rating: number | null
+  reviews_count: number
 }
 
 interface SupplementsClientProps {
@@ -222,13 +196,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       const matchesSearch =
         searchQuery === "" ||
         supplement.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        supplement.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        supplement.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
         supplement.goals.some((goal) => goal.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        supplement.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        supplement.benefits.some((benefit) => benefit.toLowerCase().includes(searchQuery.toLowerCase()))
 
       const matchesGoals = selectedGoals.length === 0 || selectedGoals.some((goal) => supplement.goals.includes(goal))
 
-      const matchesCategories = selectedCategories.length === 0 || selectedCategories.includes(supplement.category)
+      const matchesCategories =
+        selectedCategories.length === 0 ||
+        selectedCategories.some((category) => supplement.categories.includes(category))
 
       const matchesEvidenceLevel =
         selectedEvidenceLevels.length === 0 || selectedEvidenceLevels.includes(supplement.evidence_level)
@@ -273,7 +249,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const allCategories = useMemo(() => {
     const categories = new Set<string>()
     supplements.forEach((supplement) => {
-      categories.add(supplement.category)
+      supplement.categories.forEach((category) => categories.add(category))
     })
     return Array.from(categories).sort()
   }, [supplements])
@@ -299,7 +275,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const findRelevantSupplements = (craving: string): Supplement[] => {
     const cravingLower = craving.toLowerCase()
 
-    // Find direct matches from mapping
     let matchedMapping = null
     for (const [key, mapping] of Object.entries(CRAVING_TO_SUPPLEMENT_MAP)) {
       if (cravingLower.includes(key)) {
@@ -308,7 +283,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       }
     }
 
-    // If no direct match, use general stress/energy supplements
     if (!matchedMapping) {
       matchedMapping = {
         nutrients: ["B-Complex", "Magnesium", "Adaptogenic herbs"],
@@ -317,7 +291,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       }
     }
 
-    // Find supplements that match the goals or keywords
     const relevantSupplements = supplements.filter((supplement) => {
       const nameMatch = matchedMapping.keywords.some((keyword) => supplement.name.toLowerCase().includes(keyword))
       const goalMatch = supplement.goals.some((goal) => matchedMapping.goals.includes(goal))
@@ -328,7 +301,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       return nameMatch || goalMatch || benefitMatch
     })
 
-    // Return top 4 most relevant supplements
     return relevantSupplements.slice(0, 4)
   }
 
@@ -361,7 +333,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
         const cravingLower = foodCraving.toLowerCase()
         let nutrients = ["Magnesium", "Iron", "B-Complex"]
 
-        // Get nutrients from mapping if available
         for (const [key, mapping] of Object.entries(CRAVING_TO_SUPPLEMENT_MAP)) {
           if (cravingLower.includes(key)) {
             nutrients = mapping.nutrients
@@ -375,8 +346,8 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
           recommendations: relevantSupplements.map((supplement) => ({
             name: supplement.name,
             reason: `May help with ${supplement.goals.slice(0, 2).join(" and ")} related to your ${foodCraving} craving`,
-            supplement_id: supplement.slug,
-            supplement: supplement, // Include full supplement data
+            supplement_id: supplement.id,
+            supplement: supplement,
           })),
         }
       }
@@ -391,7 +362,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
         recommendations: relevantSupplements.slice(0, 2).map((supplement) => ({
           name: supplement.name,
           reason: `May help with ${supplement.goals[0]} related to your craving`,
-          supplement_id: supplement.slug,
+          supplement_id: supplement.id,
           supplement: supplement,
         })),
       })
@@ -409,7 +380,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       <SupplementsBackground />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -438,9 +408,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
               </TabsList>
             </div>
 
-            {/* Supplements Tab Content */}
             <TabsContent value="supplements">
-              {/* Search and Controls */}
               <motion.div
                 className="mb-8"
                 initial={{ opacity: 0, y: 20 }}
@@ -449,18 +417,16 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
               >
                 <GlassCard className="glass-strong p-6">
                   <div className="flex flex-col lg:flex-row gap-4">
-                    {/* Search */}
                     <div className="flex-1 relative">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
-                        placeholder="Search supplements, goals, or tags..."
+                        placeholder="Search supplements, goals, or benefits..."
                         value={searchQuery}
                         onChange={(e) => handleSearchChange(e.target.value)}
                         className="pl-10 glass-subtle"
                       />
                     </div>
 
-                    {/* Controls */}
                     <div className="flex gap-2">
                       <LiquidButton
                         variant={showFilters ? "default" : "outline"}
@@ -489,7 +455,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                     </div>
                   </div>
 
-                  {/* Active Filters */}
                   {(selectedGoals.length > 0 ||
                     selectedCategories.length > 0 ||
                     selectedEvidenceLevels.length > 0 ||
@@ -549,7 +514,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
               </motion.div>
 
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                {/* Filters Sidebar */}
                 {showFilters && (
                   <motion.div
                     className="lg:col-span-1"
@@ -574,7 +538,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                   </motion.div>
                 )}
 
-                {/* Supplements Grid/List */}
                 <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
                   <motion.div
                     className="mb-4 flex justify-between items-center"
@@ -639,7 +602,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
               </div>
             </TabsContent>
 
-            {/* Food Cravings Tab Content */}
             <TabsContent value="food-cravings">
               {!isPremium ? (
                 <motion.div
