@@ -10,24 +10,30 @@ interface SupplementFiltersProps {
   allGoals: string[]
   allCategories: string[]
   allEvidenceLevels: string[]
+  allManufacturers: string[]
   selectedGoals: string[]
   selectedCategories: string[]
   selectedEvidenceLevels: string[]
+  selectedManufacturers: string[]
   onGoalsChange: (goals: string[]) => void
   onCategoriesChange: (categories: string[]) => void
   onEvidenceLevelsChange: (levels: string[]) => void
+  onManufacturersChange: (manufacturers: string[]) => void
 }
 
 export function SupplementFilters({
   allGoals,
   allCategories,
   allEvidenceLevels,
+  allManufacturers,
   selectedGoals,
   selectedCategories,
   selectedEvidenceLevels,
+  selectedManufacturers,
   onGoalsChange,
   onCategoriesChange,
   onEvidenceLevelsChange,
+  onManufacturersChange,
 }: SupplementFiltersProps) {
   const handleGoalChange = (goal: string, checked: boolean) => {
     if (checked) {
@@ -53,10 +59,19 @@ export function SupplementFilters({
     }
   }
 
+  const handleManufacturerChange = (manufacturer: string, checked: boolean) => {
+    if (checked) {
+      onManufacturersChange([...selectedManufacturers, manufacturer])
+    } else {
+      onManufacturersChange(selectedManufacturers.filter((m) => m !== manufacturer))
+    }
+  }
+
   const clearAllFilters = () => {
     onGoalsChange([])
     onCategoriesChange([])
     onEvidenceLevelsChange([])
+    onManufacturersChange([])
   }
 
   return (
@@ -67,7 +82,10 @@ export function SupplementFilters({
             <Filter className="h-4 w-4 text-primary" />
             <h3 className="font-semibold">Filters</h3>
           </div>
-          {(selectedGoals.length > 0 || selectedCategories.length > 0 || selectedEvidenceLevels.length > 0) && (
+          {(selectedGoals.length > 0 ||
+            selectedCategories.length > 0 ||
+            selectedEvidenceLevels.length > 0 ||
+            selectedManufacturers.length > 0) && (
             <LiquidButton variant="ghost" size="sm" onClick={clearAllFilters}>
               <X className="h-3 w-3 mr-1" />
               Clear
@@ -112,7 +130,7 @@ export function SupplementFilters({
           </div>
         </div>
 
-        <div>
+        <div className="mb-6">
           <Label className="text-sm font-medium mb-3 block">Evidence Level</Label>
           <div className="space-y-2">
             {allEvidenceLevels.map((level) => (
@@ -124,6 +142,24 @@ export function SupplementFilters({
                 />
                 <Label htmlFor={`evidence-${level}`} className="text-sm cursor-pointer capitalize">
                   {level}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <Label className="text-sm font-medium mb-3 block">Manufacturers</Label>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
+            {allManufacturers.map((manufacturer) => (
+              <div key={manufacturer} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`manufacturer-${manufacturer}`}
+                  checked={selectedManufacturers.includes(manufacturer)}
+                  onCheckedChange={(checked) => handleManufacturerChange(manufacturer, checked as boolean)}
+                />
+                <Label htmlFor={`manufacturer-${manufacturer}`} className="text-sm cursor-pointer">
+                  {manufacturer}
                 </Label>
               </div>
             ))}

@@ -321,7 +321,7 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
             </motion.div>
 
             {/* Additional Info */}
-            {(supplement.bioavailability || supplement.half_life) && (
+            {(supplement.bioavailability || supplement.half_life || supplement.popular_manufacturers) && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -340,6 +340,18 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
                       <div>
                         <span className="font-medium">Half-life:</span>
                         <span className="text-muted-foreground ml-2">{supplement.half_life}</span>
+                      </div>
+                    )}
+                    {supplement.popular_manufacturers && supplement.popular_manufacturers.length > 0 && (
+                      <div>
+                        <span className="font-medium">Popular Manufacturers:</span>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {supplement.popular_manufacturers.map((manufacturer) => (
+                            <Badge key={manufacturer} variant="outline" className="glass-subtle text-xs">
+                              {manufacturer}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
