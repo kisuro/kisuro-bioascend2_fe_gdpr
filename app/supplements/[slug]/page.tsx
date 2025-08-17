@@ -14,7 +14,7 @@ function getSupplement(slug: string) {
     const filePath = path.join(process.cwd(), "public/seed/supplements.json")
     const fileContents = fs.readFileSync(filePath, "utf8")
     const supplements = JSON.parse(fileContents)
-    return supplements.find((s: any) => s.slug === slug)
+    return supplements.find((s: any) => s.id === slug)
   } catch (error) {
     console.error("Error loading supplement:", error)
     return null
