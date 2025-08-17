@@ -45,6 +45,65 @@ const features = [
 
 const BiorhythmBackground = ({ className = "" }: { className?: string }) => (
   <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
+    {/* Floating geometric mesh nodes */}
+    <motion.div
+      className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary/10 rounded-full"
+      animate={{
+        x: [0, 30, -20, 0],
+        y: [0, -25, 15, 0],
+        opacity: [0.1, 0.3, 0.1],
+      }}
+      transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+    />
+    <motion.div
+      className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-accent/8 rounded-full"
+      animate={{
+        x: [0, -40, 25, 0],
+        y: [0, 20, -30, 0],
+        opacity: [0.08, 0.25, 0.08],
+      }}
+      transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 3 }}
+    />
+    <motion.div
+      className="absolute bottom-1/3 left-1/2 w-1 h-1 bg-primary/12 rounded-full"
+      animate={{
+        x: [0, 35, -15, 0],
+        y: [0, -20, 25, 0],
+        opacity: [0.12, 0.28, 0.12],
+      }}
+      transition={{ duration: 18, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 6 }}
+    />
+
+    {/* Connecting lines between nodes */}
+    <motion.svg
+      className="absolute inset-0 w-full h-full text-primary/5"
+      viewBox="0 0 800 600"
+      preserveAspectRatio="none"
+    >
+      <motion.path
+        d="M200,150 Q400,100 600,200 Q500,300 300,250"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        fill="none"
+        animate={{
+          pathLength: [0, 1, 0],
+          opacity: [0, 0.1, 0],
+        }}
+        transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      />
+      <motion.path
+        d="M150,300 Q350,250 550,350 Q400,450 200,400"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        fill="none"
+        animate={{
+          pathLength: [0, 1, 0],
+          opacity: [0, 0.08, 0],
+        }}
+        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+      />
+    </motion.svg>
+
     {/* Physical biorhythm wave */}
     <motion.svg
       className="absolute top-20 left-0 w-full h-32 text-[#E57373]/8"
@@ -212,6 +271,15 @@ export default function HomePage() {
             }}
             transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 3 }}
           />
+          {/* Additional depth layer */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-radial from-transparent via-primary/3 to-transparent"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
         </div>
 
         <BiorhythmBackground />
@@ -225,22 +293,39 @@ export default function HomePage() {
           >
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent font-heading"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.1 }}
+              initial={{ opacity: 0, y: 60, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 1.4,
+                delay: 0.2,
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+              }}
             >
               Optimize Your
               <br />
-              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              <motion.span
+                className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.6 }}
+              >
                 Human Potential
-              </span>
+              </motion.span>
             </motion.h1>
 
             <motion.p
               className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{
+                duration: 1,
+                delay: 0.8,
+                type: "spring",
+                stiffness: 80,
+                damping: 12,
+              }}
             >
               Unlock the science of biohacking with personalized insights, evidence-based supplements, and AI-powered
               recommendations for mental health and longevity.
@@ -248,11 +333,24 @@ export default function HomePage() {
 
             <motion.div
               className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 1, delay: 1 }}
             >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.2 }}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 1.2,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                }}
+              >
                 <LiquidButton
                   size="lg"
                   className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300"
@@ -265,7 +363,20 @@ export default function HomePage() {
                 </LiquidButton>
               </motion.div>
 
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.2 }}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 1.4,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 15,
+                }}
+              >
                 <LiquidButton variant="outline" size="lg" asChild>
                   <Link href="#features">
                     <Play className="mr-2 h-5 w-5" />
@@ -277,61 +388,84 @@ export default function HomePage() {
 
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.7 }}
+              transition={{ duration: 1, delay: 1.6 }}
             >
-              <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                <div className="text-4xl font-bold text-primary mb-2">67%</div>
-                <div className="text-sm text-muted-foreground">of Americans identify as biohackers</div>
-                <div className="text-xs text-muted-foreground/70 mt-1">
-                  Majority see optimizing body & mind as healthy lifestyle
-                </div>
-                <div className="text-xs text-muted-foreground/50 mt-2 italic">
-                  <a
-                    href="https://sanctuarywellnessinstitute.com/blog/biohacking-statistics-trends/?utm_source=chatgpt.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Source: Sanctuary Wellness Institute (2025)
-                  </a>
-                </div>
-              </motion.div>
-              <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                <div className="text-4xl font-bold text-accent mb-2">Creatine</div>
-                <div className="text-sm text-muted-foreground">improves short-term memory & thinking</div>
-                <div className="text-xs text-muted-foreground/70 mt-1">
-                  Validated in Nutrition Reviews meta-analysis (2023)
-                </div>
-                <div className="text-xs text-muted-foreground/50 mt-2 italic">
-                  <a
-                    href="https://en.wikipedia.org/wiki/Creatine?utm_source=chatgpt.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Source: Nutrition Reviews (2023)
-                  </a>
-                </div>
-              </motion.div>
-              <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                <div className="text-4xl font-bold text-primary mb-2">30-40%</div>
-                <div className="text-sm text-muted-foreground">Fasting extends lifespan in animal studies</div>
-                <div className="text-xs text-muted-foreground/70 mt-1">
-                  Time-restricted feeding improved metabolism and longevity
-                </div>
-                <div className="text-xs text-muted-foreground/50 mt-2 italic">
-                  <a
-                    href="https://www.nejm.org/doi/full/10.1056/NEJMra1905136?utm_source=chatgpt.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Source: NEJM (2019)
-                  </a>
-                </div>
-              </motion.div>
+              {[0, 1, 2].map((index) => (
+                <motion.div
+                  key={index}
+                  className="text-center"
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 1.8 + index * 0.2,
+                    type: "spring",
+                    stiffness: 100,
+                  }}
+                >
+                  {index === 0 && (
+                    <>
+                      <div className="text-4xl font-bold text-primary mb-2">67%</div>
+                      <div className="text-sm text-muted-foreground">of Americans identify as biohackers</div>
+                      <div className="text-xs text-muted-foreground/70 mt-1">
+                        Majority see optimizing body & mind as healthy lifestyle
+                      </div>
+                      <div className="text-xs text-muted-foreground/50 mt-2 italic">
+                        <a
+                          href="https://sanctuarywellnessinstitute.com/blog/biohacking-statistics-trends/?utm_source=chatgpt.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-primary transition-colors"
+                        >
+                          Source: Sanctuary Wellness Institute (2025)
+                        </a>
+                      </div>
+                    </>
+                  )}
+                  {index === 1 && (
+                    <>
+                      <div className="text-4xl font-bold text-accent mb-2">Creatine</div>
+                      <div className="text-sm text-muted-foreground">improves short-term memory & thinking</div>
+                      <div className="text-xs text-muted-foreground/70 mt-1">
+                        Validated in Nutrition Reviews meta-analysis (2023)
+                      </div>
+                      <div className="text-xs text-muted-foreground/50 mt-2 italic">
+                        <a
+                          href="https://en.wikipedia.org/wiki/Creatine?utm_source=chatgpt.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-primary transition-colors"
+                        >
+                          Source: Nutrition Reviews (2023)
+                        </a>
+                      </div>
+                    </>
+                  )}
+                  {index === 2 && (
+                    <>
+                      <div className="text-4xl font-bold text-primary mb-2">30-40%</div>
+                      <div className="text-sm text-muted-foreground">Fasting extends lifespan in animal studies</div>
+                      <div className="text-xs text-muted-foreground/70 mt-1">
+                        Time-restricted feeding improved metabolism and longevity
+                      </div>
+                      <div className="text-xs text-muted-foreground/50 mt-2 italic">
+                        <a
+                          href="https://www.nejm.org/doi/full/10.1056/NEJMra1905136?utm_source=chatgpt.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-primary transition-colors"
+                        >
+                          Source: NEJM (2019)
+                        </a>
+                      </div>
+                    </>
+                  )}
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
         </div>
