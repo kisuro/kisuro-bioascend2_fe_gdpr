@@ -26,6 +26,7 @@ interface Supplement {
   cycle: string
   benefits: string[]
   popular_manufacturers?: string[]
+  popular_manufacturer?: string
   rating: number | null
   reviews_count: number
 }
@@ -211,8 +212,13 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
 
       const matchesManufacturers =
         selectedManufacturers.length === 0 ||
-        (supplement.popular_manufacturers &&
-          selectedManufacturers.some((manufacturer) => supplement.popular_manufacturers!.includes(manufacturer)))
+        (() => {
+          const manufacturerData = supplement.popular_manufacturers || (supplement as any).popular_manufacturer
+          if (!manufacturerData) return false
+
+          const manufacturerArray = Array.isArray(manufacturerData) ? manufacturerData : [manufacturerData]
+          return selectedManufacturers.some((manufacturer) => manufacturerArray.includes(manufacturer))
+        })()
 
       return matchesSearch && matchesGoals && matchesCategories && matchesEvidenceLevel && matchesManufacturers
     })
@@ -265,8 +271,14 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const allManufacturers = useMemo(() => {
     const manufacturers = new Set<string>()
     supplements.forEach((supplement) => {
-      if (supplement.popular_manufacturers) {
-        supplement.popular_manufacturers.forEach((manufacturer) => manufacturers.add(manufacturer))
+      // Handle both popular_manufacturer (singular) and popular_manufacturers (plural)
+      const manufacturerData = supplement.popular_manufacturers || (supplement as any).popular_manufacturer
+      if (manufacturerData) {
+        if (Array.isArray(manufacturerData)) {
+          manufacturerData.forEach((manufacturer) => manufacturers.add(manufacturer))
+        } else if (typeof manufacturerData === "string") {
+          manufacturers.add(manufacturerData)
+        }
       }
     })
     return Array.from(manufacturers).sort()

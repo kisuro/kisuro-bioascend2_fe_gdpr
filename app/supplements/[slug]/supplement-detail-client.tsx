@@ -20,6 +20,7 @@ interface SupplementDetailClientProps {
     cycle: string
     benefits: string[]
     popular_manufacturers?: string[]
+    popular_manufacturer?: string
     rating: number | null
     reviews_count: number
   }
@@ -203,24 +204,35 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
               </GlassCard>
             </motion.div>
 
-            {supplement.popular_manufacturers && supplement.popular_manufacturers.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <GlassCard className="glass-morph p-6">
-                  <h3 className="font-semibold mb-3">Popular Manufacturers</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {supplement.popular_manufacturers.map((manufacturer) => (
-                      <Badge key={manufacturer} variant="outline" className="glass-subtle text-xs">
-                        {manufacturer}
-                      </Badge>
-                    ))}
-                  </div>
-                </GlassCard>
-              </motion.div>
-            )}
+            {(() => {
+              const manufacturerData = supplement.popular_manufacturers || (supplement as any).popular_manufacturer
+              const manufacturers = manufacturerData
+                ? Array.isArray(manufacturerData)
+                  ? manufacturerData
+                  : [manufacturerData]
+                : []
+
+              return (
+                manufacturers.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                  >
+                    <GlassCard className="glass-morph p-6">
+                      <h3 className="font-semibold mb-3">Popular Manufacturers</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {manufacturers.map((manufacturer) => (
+                          <Badge key={manufacturer} variant="outline" className="glass-subtle text-xs">
+                            {manufacturer}
+                          </Badge>
+                        ))}
+                      </div>
+                    </GlassCard>
+                  </motion.div>
+                )
+              )
+            })()}
           </div>
         </div>
 
