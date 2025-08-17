@@ -14,7 +14,7 @@ function getSupplements() {
     const reviews = JSON.parse(reviewsData)
 
     return supplements.map((supplement: any) => {
-      const supplementReviews = reviews[supplement.id]?.items || []
+      const supplementReviews = reviews[supplement.slug]?.items || []
 
       // Convert reviews to the format expected by components
       const ratings = supplementReviews.map((review: any) => ({
