@@ -62,6 +62,44 @@ interface SupplementsClientProps {
 
 const ITEMS_PER_PAGE = 24
 
+const CRAVING_TO_SUPPLEMENT_MAP: Record<string, { nutrients: string[]; goals: string[]; keywords: string[] }> = {
+  chocolate: {
+    nutrients: ["Magnesium", "Iron", "Serotonin"],
+    goals: ["stress management", "calm", "energy"],
+    keywords: ["magnesium", "iron", "ashwagandha", "l-theanine"],
+  },
+  sugar: {
+    nutrients: ["Chromium", "B-Complex", "Protein"],
+    goals: ["energy", "focus", "wellbeing"],
+    keywords: ["ginseng", "rhodiola", "caffeine"],
+  },
+  salty: {
+    nutrients: ["Sodium", "Adrenal Support", "B-Complex"],
+    goals: ["stress management", "energy", "wellbeing"],
+    keywords: ["ashwagandha", "rhodiola", "ginseng"],
+  },
+  carbs: {
+    nutrients: ["Serotonin", "B-Complex", "Chromium"],
+    goals: ["calm", "stress management", "energy"],
+    keywords: ["l-theanine", "ashwagandha", "ginseng"],
+  },
+  coffee: {
+    nutrients: ["Adrenal Support", "B-Complex", "Magnesium"],
+    goals: ["energy", "focus", "stress management"],
+    keywords: ["rhodiola", "ashwagandha", "ginseng", "l-theanine"],
+  },
+  ice: {
+    nutrients: ["Iron", "B12", "Folate"],
+    goals: ["energy", "circulation", "wellbeing"],
+    keywords: ["iron", "ginkgo", "ginseng"],
+  },
+  fatty: {
+    nutrients: ["Omega-3", "Fat-soluble vitamins", "Essential fatty acids"],
+    goals: ["circulation", "focus", "wellbeing"],
+    keywords: ["ginkgo", "lion", "bacopa"],
+  },
+}
+
 export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -258,6 +296,42 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     return Array.from(manufacturers).sort()
   }, [supplements])
 
+  const findRelevantSupplements = (craving: string): Supplement[] => {
+    const cravingLower = craving.toLowerCase()
+
+    // Find direct matches from mapping
+    let matchedMapping = null
+    for (const [key, mapping] of Object.entries(CRAVING_TO_SUPPLEMENT_MAP)) {
+      if (cravingLower.includes(key)) {
+        matchedMapping = mapping
+        break
+      }
+    }
+
+    // If no direct match, use general stress/energy supplements
+    if (!matchedMapping) {
+      matchedMapping = {
+        nutrients: ["B-Complex", "Magnesium", "Adaptogenic herbs"],
+        goals: ["stress management", "energy", "wellbeing"],
+        keywords: ["ashwagandha", "rhodiola", "ginseng", "l-theanine"],
+      }
+    }
+
+    // Find supplements that match the goals or keywords
+    const relevantSupplements = supplements.filter((supplement) => {
+      const nameMatch = matchedMapping.keywords.some((keyword) => supplement.name.toLowerCase().includes(keyword))
+      const goalMatch = supplement.goals.some((goal) => matchedMapping.goals.includes(goal))
+      const benefitMatch = supplement.benefits.some((benefit) =>
+        matchedMapping.keywords.some((keyword) => benefit.toLowerCase().includes(keyword)),
+      )
+
+      return nameMatch || goalMatch || benefitMatch
+    })
+
+    // Return top 4 most relevant supplements
+    return relevantSupplements.slice(0, 4)
+  }
+
   const handleFoodCravingSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!foodCraving.trim()) return
@@ -265,6 +339,8 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     setIsLoadingCravings(true)
 
     try {
+      const relevantSupplements = findRelevantSupplements(foodCraving)
+
       let data = null
 
       try {
@@ -278,46 +354,46 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
           data = await response.json()
         }
       } catch (apiError) {
-        console.log("[v0] API endpoint not available, using mock data")
+        console.log("[v0] API endpoint not available, using supplement library data")
       }
 
       if (!data) {
+        const cravingLower = foodCraving.toLowerCase()
+        let nutrients = ["Magnesium", "Iron", "B-Complex"]
+
+        // Get nutrients from mapping if available
+        for (const [key, mapping] of Object.entries(CRAVING_TO_SUPPLEMENT_MAP)) {
+          if (cravingLower.includes(key)) {
+            nutrients = mapping.nutrients
+            break
+          }
+        }
+
         data = {
           food_name: foodCraving,
-          nutrients: ["Magnesium", "Iron", "Vitamin B12"],
-          recommendations: [
-            {
-              name: "Magnesium Glycinate",
-              reason: "Your craving may indicate magnesium deficiency",
-              supplement_id: "magnesium-glycinate",
-            },
-            {
-              name: "Iron Complex",
-              reason: "Common nutrient lacking in chocolate cravings",
-              supplement_id: "iron-complex",
-            },
-          ],
+          nutrients: nutrients,
+          recommendations: relevantSupplements.map((supplement) => ({
+            name: supplement.name,
+            reason: `May help with ${supplement.goals.slice(0, 2).join(" and ")} related to your ${foodCraving} craving`,
+            supplement_id: supplement.slug,
+            supplement: supplement, // Include full supplement data
+          })),
         }
       }
 
       setCravingResults(data)
     } catch (error) {
       console.error("Error fetching recommendations:", error)
+      const relevantSupplements = findRelevantSupplements(foodCraving)
       setCravingResults({
         food_name: foodCraving,
-        nutrients: ["Magnesium", "Iron", "Vitamin B12"],
-        recommendations: [
-          {
-            name: "Magnesium Glycinate",
-            reason: "Your craving may indicate magnesium deficiency",
-            supplement_id: "magnesium-glycinate",
-          },
-          {
-            name: "Iron Complex",
-            reason: "Common nutrient lacking in chocolate cravings",
-            supplement_id: "iron-complex",
-          },
-        ],
+        nutrients: ["Magnesium", "Iron", "B-Complex"],
+        recommendations: relevantSupplements.slice(0, 2).map((supplement) => ({
+          name: supplement.name,
+          reason: `May help with ${supplement.goals[0]} related to your craving`,
+          supplement_id: supplement.slug,
+          supplement: supplement,
+        })),
       })
     } finally {
       setIsLoadingCravings(false)
@@ -646,8 +722,38 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                           >
                             <GlassCard className="glass-subtle p-6">
-                              <h4 className="font-bold text-lg mb-2">{rec.name}</h4>
+                              <div className="flex justify-between items-start mb-3">
+                                <h4 className="font-bold text-lg">{rec.name}</h4>
+                                {rec.supplement_id && (
+                                  <LiquidButton
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => router.push(`/supplements/${rec.supplement_id}`)}
+                                    className="text-xs"
+                                  >
+                                    View Details
+                                  </LiquidButton>
+                                )}
+                              </div>
                               <p className="text-muted-foreground mb-4">{rec.reason}</p>
+
+                              {rec.supplement && (
+                                <div className="mb-4 space-y-2">
+                                  <div className="flex flex-wrap gap-1">
+                                    {rec.supplement.goals.slice(0, 3).map((goal: string) => (
+                                      <Badge key={goal} variant="outline" className="text-xs">
+                                        {goal}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                  {rec.supplement.dosage && (
+                                    <p className="text-sm text-muted-foreground">
+                                      <strong>Dosage:</strong> {rec.supplement.dosage}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+
                               <LiquidButton onClick={() => saveToJournal(rec.name)} size="sm" className="w-full">
                                 <Plus className="h-4 w-4 mr-2" />
                                 Save to Journal
