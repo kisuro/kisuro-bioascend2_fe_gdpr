@@ -243,7 +243,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 pb-8 px-4">
+      <section className="relative overflow-hidden py-24 pb-32 px-4">
         <div className="absolute inset-0">
           <motion.div
             className="absolute inset-0 bg-gradient-to-br from-[#E57373]/12 via-[#64B5F6]/10 to-[#81C784]/15"
@@ -282,7 +282,35 @@ export default function HomePage() {
           />
         </div>
 
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-black pointer-events-none" />
+
         <BiorhythmBackground />
+
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black/90 pointer-events-none">
+          {/* Fading biorhythm waves at bottom */}
+          <motion.svg
+            className="absolute bottom-0 left-0 w-full h-20 text-[#64B5F6]/3"
+            viewBox="0 0 800 50"
+            preserveAspectRatio="none"
+            style={{ opacity: 0.3 }}
+          >
+            <motion.path
+              d="M0,25 Q200,10 400,25 Q600,40 800,25"
+              stroke="currentColor"
+              strokeWidth="1"
+              fill="none"
+              animate={{
+                d: [
+                  "M0,25 Q200,10 400,25 Q600,40 800,25",
+                  "M0,25 Q200,15 400,25 Q600,35 800,25",
+                  "M0,25 Q200,10 400,25 Q600,40 800,25",
+                ],
+              }}
+              transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+            />
+          </motion.svg>
+        </div>
 
         <div className="relative max-w-7xl mx-auto">
           <motion.div
@@ -469,51 +497,23 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
         </div>
-      </section>
 
-      <div className="relative py-9">
-        {/* Wave-shaped SVG divider */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 2 }}
-          viewport={{ once: true }}
-        >
-          <svg className="w-full h-24 text-[#64B5F6]/10" viewBox="0 0 1200 100" preserveAspectRatio="none">
+        <div className="absolute bottom-0 left-0 right-0 overflow-hidden">
+          <svg className="relative block w-full h-20" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <motion.path
-              d="M0,50 Q300,20 600,50 Q900,80 1200,50"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
+              d="M0,0 C150,100 350,0 600,50 C850,100 1050,0 1200,50 L1200,120 L0,120 Z"
+              fill="currentColor"
+              className="text-black"
               initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 3, delay: 0.5 }}
-              viewport={{ once: true }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 2, delay: 0.5 }}
             />
           </svg>
-        </motion.div>
-
-        {/* Simple gradient transition overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a4d4d]/5 to-transparent" />
-
-        {/* Parallax background shapes */}
-        <motion.div
-          className="absolute top-0 left-1/4 w-32 h-32 opacity-5"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 0.05, y: 0 }}
-          transition={{ duration: 2 }}
-          viewport={{ once: true }}
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-[#81C784]">
-            <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="2" fill="none" />
-            <circle cx="50" cy="50" r="20" stroke="currentColor" strokeWidth="1" fill="none" />
-          </svg>
-        </motion.div>
-      </div>
+        </div>
+      </section>
 
       {/* Features Section */}
-      <section id="features" className="relative py-18 px-4">
+      <section id="features" className="relative py-18 px-4 bg-black">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.svg
             className="absolute top-10 right-10 w-40 h-40 text-[#81C784]/8"
@@ -602,7 +602,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4">
+      <section className="py-24 px-4 bg-black">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -647,7 +647,7 @@ export default function HomePage() {
       </section>
 
       {/* Medical Disclaimer */}
-      <section className="py-12 px-4 border-t border-border/30">
+      <section className="py-12 px-4 border-t border-border/30 bg-black">
         <div className="max-w-5xl mx-auto">
           <GlassCard variant="subtle" className="p-8 rounded-2xl">
             <div className="flex items-start gap-4">
