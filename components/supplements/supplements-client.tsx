@@ -29,6 +29,13 @@ interface Supplement {
   popular_manufacturer?: string
   rating: number | null
   reviews_count: number
+  ratings?: Array<{
+    userId: string
+    score: number
+    comment?: string
+    date: string
+    verified?: boolean
+  }>
 }
 
 interface SupplementsClientProps {
@@ -75,9 +82,21 @@ const CRAVING_TO_SUPPLEMENT_MAP: Record<string, { nutrients: string[]; goals: st
   },
 }
 
-export function SupplementsClient({ supplements }: SupplementsClientProps) {
+export function SupplementsClient({ supplements: initialSupplements }: SupplementsClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+
+  const supplements = useMemo(() => {
+    return initialSupplements.map((supplement) => {
+      if (supplement.ratings && supplement.ratings.length > 0) {
+        return supplement
+      }
+      return {
+        ...supplement,
+        ratings: [],
+      }
+    })
+  }, [initialSupplements])
 
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window !== "undefined") {
@@ -271,7 +290,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const allManufacturers = useMemo(() => {
     const manufacturers = new Set<string>()
     supplements.forEach((supplement) => {
-      // Handle both popular_manufacturer (singular) and popular_manufacturers (plural)
       const manufacturerData = supplement.popular_manufacturers || (supplement as any).popular_manufacturer
       if (manufacturerData) {
         if (Array.isArray(manufacturerData)) {
