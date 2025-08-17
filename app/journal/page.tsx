@@ -9,13 +9,16 @@ import { IntakeLogger } from "@/components/journal/intake-logger"
 import { ReminderManager } from "@/components/journal/reminder-manager"
 import { JournalHistory } from "@/components/journal/journal-history"
 import { BookOpen, Plus, Bell, History, Shield } from "lucide-react"
+import { JournalBackground } from "@/components/ui/page-backgrounds"
 
 export default function JournalPage() {
   const [activeTab, setActiveTab] = useState("overview")
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen py-8 px-4 relative">
+      <JournalBackground />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           className="text-center mb-12"

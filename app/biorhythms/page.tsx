@@ -7,12 +7,17 @@ import { Label } from "@/components/ui/label"
 import { BiorhythmChart } from "@/components/biorhythms/biorhythm-chart"
 import { BiorhythmSummary } from "@/components/biorhythms/biorhythm-summary"
 import { Calendar, TrendingUp } from "lucide-react"
+import { BiorhythmsBackground } from "@/components/ui/page-backgrounds"
 
 interface BiorhythmData {
   date: string
   physical: number
   emotional: number
   intellectual: number
+  intuitive?: number
+  spiritual?: number
+  aesthetic?: number
+  charismatic?: number
   daysSinceBirth: number
 }
 
@@ -27,21 +32,35 @@ interface BiorhythmExtrema {
   physical: ExtremaPoint[]
   emotional: ExtremaPoint[]
   intellectual: ExtremaPoint[]
+  intuitive?: ExtremaPoint[]
+  spiritual?: ExtremaPoint[]
+  aesthetic?: ExtremaPoint[]
+  charismatic?: ExtremaPoint[]
 }
 
 const CYCLES = {
   physical: 23,
   emotional: 28,
   intellectual: 33,
+  intuitive: 38,
+  spiritual: 53,
+  aesthetic: 43,
+  charismatic: 48,
 }
+
+type BiorhythmType = keyof typeof CYCLES
 
 function calculateBiorhythm(daysSinceBirth: number, cycle: number): number {
   return Math.sin((2 * Math.PI * daysSinceBirth) / cycle)
 }
 
-function findExtrema(data: BiorhythmData[], cycle: keyof typeof CYCLES): ExtremaPoint[] {
+function findExtrema(data: BiorhythmData[], cycle: BiorhythmType): ExtremaPoint[] {
   const extrema: ExtremaPoint[] = []
-  const values = data.map((d) => ({ date: d.date, value: d[cycle], daysSinceBirth: d.daysSinceBirth }))
+  const values = data.map((d) => ({
+    date: d.date,
+    value: d[cycle] || 0,
+    daysSinceBirth: d.daysSinceBirth,
+  }))
 
   for (let i = 1; i < values.length - 1; i++) {
     const prev = values[i - 1].value
@@ -83,6 +102,12 @@ export default function BiorhythmsPage() {
   const [dateOfBirth, setDateOfBirth] = useState("")
   const [targetDate, setTargetDate] = useState(new Date().toISOString().split("T")[0])
   const [range, setRange] = useState(7)
+  const [showAdditional, setShowAdditional] = useState({
+    intuitive: false,
+    spiritual: false,
+    aesthetic: false,
+    charismatic: false,
+  })
 
   const biorhythmData = useMemo(() => {
     if (!dateOfBirth) return []
@@ -97,34 +122,63 @@ export default function BiorhythmsPage() {
 
       const daysSinceBirth = Math.floor((currentDate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24))
 
-      data.push({
+      const dataPoint: BiorhythmData = {
         date: currentDate.toISOString().split("T")[0],
         physical: calculateBiorhythm(daysSinceBirth, CYCLES.physical),
         emotional: calculateBiorhythm(daysSinceBirth, CYCLES.emotional),
         intellectual: calculateBiorhythm(daysSinceBirth, CYCLES.intellectual),
         daysSinceBirth,
-      })
+      }
+
+      if (showAdditional.intuitive) {
+        dataPoint.intuitive = calculateBiorhythm(daysSinceBirth, CYCLES.intuitive)
+      }
+      if (showAdditional.spiritual) {
+        dataPoint.spiritual = calculateBiorhythm(daysSinceBirth, CYCLES.spiritual)
+      }
+      if (showAdditional.aesthetic) {
+        dataPoint.aesthetic = calculateBiorhythm(daysSinceBirth, CYCLES.aesthetic)
+      }
+      if (showAdditional.charismatic) {
+        dataPoint.charismatic = calculateBiorhythm(daysSinceBirth, CYCLES.charismatic)
+      }
+
+      data.push(dataPoint)
     }
 
     return data
-  }, [dateOfBirth, targetDate, range])
+  }, [dateOfBirth, targetDate, range, showAdditional])
 
   const extrema = useMemo(() => {
     if (biorhythmData.length === 0) return { physical: [], emotional: [], intellectual: [] }
 
-    return {
+    const result: BiorhythmExtrema = {
       physical: findExtrema(biorhythmData, "physical"),
       emotional: findExtrema(biorhythmData, "emotional"),
       intellectual: findExtrema(biorhythmData, "intellectual"),
     }
-  }, [biorhythmData])
+
+    if (showAdditional.intuitive) {
+      result.intuitive = findExtrema(biorhythmData, "intuitive")
+    }
+    if (showAdditional.spiritual) {
+      result.spiritual = findExtrema(biorhythmData, "spiritual")
+    }
+    if (showAdditional.aesthetic) {
+      result.aesthetic = findExtrema(biorhythmData, "aesthetic")
+    }
+    if (showAdditional.charismatic) {
+      result.charismatic = findExtrema(biorhythmData, "charismatic")
+    }
+
+    return result
+  }, [biorhythmData, showAdditional])
 
   const targetDayData = useMemo(() => {
     return biorhythmData.find((d) => d.date === targetDate)
   }, [biorhythmData, targetDate])
 
   const handleExport = () => {
-    // This would implement image export functionality
     console.log("Exporting biorhythm chart...")
   }
 
@@ -132,11 +186,19 @@ export default function BiorhythmsPage() {
     setDateOfBirth("")
     setTargetDate(new Date().toISOString().split("T")[0])
     setRange(7)
+    setShowAdditional({
+      intuitive: false,
+      spiritual: false,
+      aesthetic: false,
+      charismatic: false,
+    })
   }
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen py-8 px-4 relative">
+      <BiorhythmsBackground />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           className="text-center mb-12"
@@ -146,7 +208,7 @@ export default function BiorhythmsPage() {
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4 liquid-text font-heading">Biorhythm Calculator</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover your natural cycles and optimize your performance with scientific biorhythm analysis
+            Gain insights into your day with traditional biorhythm charts — a widely used personal rhythm tool.
           </p>
         </motion.div>
 
@@ -210,6 +272,48 @@ export default function BiorhythmsPage() {
                   </div>
                 </div>
 
+                <div>
+                  <Label className="text-sm font-medium mb-3 block">Additional Biorhythms</Label>
+                  <div className="space-y-3">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showAdditional.intuitive}
+                        onChange={(e) => setShowAdditional((prev) => ({ ...prev, intuitive: e.target.checked }))}
+                        className="rounded border-border bg-background"
+                      />
+                      <span className="text-sm">Intuitive (38 days)</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showAdditional.spiritual}
+                        onChange={(e) => setShowAdditional((prev) => ({ ...prev, spiritual: e.target.checked }))}
+                        className="rounded border-border bg-background"
+                      />
+                      <span className="text-sm">Spiritual (53 days)</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showAdditional.aesthetic}
+                        onChange={(e) => setShowAdditional((prev) => ({ ...prev, aesthetic: e.target.checked }))}
+                        className="rounded border-border bg-background"
+                      />
+                      <span className="text-sm">Aesthetic (43 days)</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showAdditional.charismatic}
+                        onChange={(e) => setShowAdditional((prev) => ({ ...prev, charismatic: e.target.checked }))}
+                        className="rounded border-border bg-background"
+                      />
+                      <span className="text-sm">Charismatic (48 days)</span>
+                    </label>
+                  </div>
+                </div>
+
                 <div className="flex gap-3">
                   <button
                     onClick={handleReset}
@@ -240,6 +344,30 @@ export default function BiorhythmsPage() {
                   <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#81C784" }}></div>
                   <span>Intellectual (33 days)</span>
                 </div>
+                {showAdditional.intuitive && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#FFB74D" }}></div>
+                    <span>Intuitive (38 days)</span>
+                  </div>
+                )}
+                {showAdditional.spiritual && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#BA68C8" }}></div>
+                    <span>Spiritual (53 days)</span>
+                  </div>
+                )}
+                {showAdditional.aesthetic && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#4DB6AC" }}></div>
+                    <span>Aesthetic (43 days)</span>
+                  </div>
+                )}
+                {showAdditional.charismatic && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-4 h-0.5 rounded" style={{ backgroundColor: "#F06292" }}></div>
+                    <span>Charismatic (48 days)</span>
+                  </div>
+                )}
               </div>
             </GlassCard>
           </motion.div>
@@ -253,7 +381,12 @@ export default function BiorhythmsPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <GlassCard className="glass-strong p-6">
-                <BiorhythmChart data={biorhythmData} targetDate={targetDate} extrema={extrema} />
+                <BiorhythmChart
+                  data={biorhythmData}
+                  targetDate={targetDate}
+                  extrema={extrema}
+                  showAdditional={showAdditional}
+                />
               </GlassCard>
             </motion.div>
 
@@ -264,7 +397,12 @@ export default function BiorhythmsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <BiorhythmSummary data={targetDayData} extrema={extrema} targetDate={targetDate} />
+                <BiorhythmSummary
+                  data={targetDayData}
+                  extrema={extrema}
+                  targetDate={targetDate}
+                  showAdditional={showAdditional}
+                />
               </motion.div>
             )}
           </div>

@@ -1,0 +1,4028 @@
+[
+  {
+    "id": "7cb48852-a16d-485c-94cc-c106118295a7",
+    "slug": "ashwagandha",
+    "name": "Ashwagandha",
+    "category": "adaptogen",
+    "goals": ["stress management", "sleep", "wellbeing"],
+    "tags": ["adaptogen", "stress-management", "sleep", "wellbeing"],
+    "description": "Ashwagandha is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [
+      "Supports stress resilience",
+      "May promote calm",
+      "May reduce time-to-sleep",
+      "Supports sleep quality"
+    ],
+    "dosage": "300–600 mg root extract daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "gummies"],
+    "timing": "morning",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": ["L-Theanine", "Magnesium Glycinate"],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/ashwagandha/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "382beb05-2d2d-454d-a7c7-a873ecc706d3",
+    "slug": "rhodiola-rosea",
+    "name": "Rhodiola rosea",
+    "category": "adaptogen",
+    "goals": ["fatigue", "stress resilience", "focus"],
+    "tags": ["adaptogen", "fatigue", "stress-resilience", "focus"],
+    "description": "Rhodiola rosea is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Helps with perceived fatigue", "Supports healthy stress response", "May support attention and focus"],
+    "dosage": "200–400 mg standardized extract daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "powder"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/rhodiola-rosea/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "9d285c84-510e-466e-b0f4-c60b3fad15e5",
+    "slug": "bacopa-monnieri",
+    "name": "Bacopa monnieri",
+    "category": "nootropic",
+    "goals": ["memory", "learning", "focus"],
+    "tags": ["nootropic", "memory", "learning", "focus"],
+    "description": "Bacopa monnieri is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [
+      "May support memory encoding and recall",
+      "May support cognitive performance",
+      "May support attention and focus"
+    ],
+    "dosage": "300 mg standardized extract daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/bacopa-monnieri/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "56aa0f14-880e-4110-9158-cd540755d61b",
+    "slug": "lion-s-mane-mushroom",
+    "name": "Lion's Mane Mushroom",
+    "category": "nootropic",
+    "goals": ["memory", "focus", "neuro support"],
+    "tags": ["nootropic", "memory", "focus", "neuro-support"],
+    "description": "Lion's Mane Mushroom is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [
+      "May support memory encoding and recall",
+      "May support attention and focus",
+      "Supports neuronal health"
+    ],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "gummies"],
+    "timing": "pre-workout",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/lion-s-mane-mushroom/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c3d2fe5c-29fc-44e4-8fba-b5f5d212f579",
+    "slug": "ginkgo-biloba",
+    "name": "Ginkgo biloba",
+    "category": "nootropic",
+    "goals": ["circulation", "memory", "focus"],
+    "tags": ["nootropic", "circulation", "memory", "focus"],
+    "description": "Ginkgo biloba is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [
+      "Healthy circulation support",
+      "May support memory encoding and recall",
+      "May support attention and focus"
+    ],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/ginkgo-biloba/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "1df36aca-8ac3-4d4b-a777-cf865941b397",
+    "slug": "panax-ginseng",
+    "name": "Panax ginseng",
+    "category": "adaptogen",
+    "goals": ["energy", "focus", "wellbeing"],
+    "tags": ["adaptogen", "energy", "focus", "wellbeing"],
+    "description": "Panax ginseng is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports energy metabolism", "May support attention and focus", "General wellness support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "gummies"],
+    "timing": "morning",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/panax-ginseng/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "44f594e2-56ca-4d5b-a141-58851c7f8b09",
+    "slug": "american-ginseng",
+    "name": "American ginseng",
+    "category": "adaptogen",
+    "goals": ["energy", "immunity", "focus"],
+    "tags": ["adaptogen", "energy", "immunity", "focus"],
+    "description": "American ginseng is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports energy metabolism", "Immune system support", "May support attention and focus"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "softgel"],
+    "timing": "between meals",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/american-ginseng/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "228ffbc2-87c3-4064-b211-c314f8797511",
+    "slug": "gotu-kola",
+    "name": "Gotu Kola",
+    "category": "nootropic",
+    "goals": ["circulation", "calm", "skin support"],
+    "tags": ["nootropic", "circulation", "calm", "skin-support"],
+    "description": "Gotu Kola is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Healthy circulation support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "tablet"],
+    "timing": "morning",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/gotu-kola/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "f7768939-0f39-406a-8692-656749ba4b44",
+    "slug": "l-theanine",
+    "name": "L-Theanine",
+    "category": "amino acid",
+    "goals": ["calm", "focus", "stress management"],
+    "tags": ["amino acid", "calm", "focus", "stress-management"],
+    "description": "L-Theanine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May support attention and focus", "Supports stress resilience", "May promote calm"],
+    "dosage": "100–200 mg as needed",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "liquid"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/l-theanine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "016d1e41-8cad-4c90-808e-aba40fbe99a3",
+    "slug": "caffeine-as-anhydrous-coffee",
+    "name": "Caffeine (as anhydrous/coffee)",
+    "category": "stimulant",
+    "goals": ["alertness", "focus", "performance"],
+    "tags": ["stimulant", "alertness", "focus", "performance"],
+    "description": "Caffeine (as anhydrous/coffee) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Promotes wakefulness", "May support attention and focus", "Supports exercise performance"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "tablet"],
+    "timing": "between meals",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/caffeine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "8d96f69d-aeff-4103-8043-2e6a195a5537",
+    "slug": "creatine-monohydrate",
+    "name": "Creatine monohydrate",
+    "category": "performance",
+    "goals": ["power", "cognition", "muscle"],
+    "tags": ["performance", "power", "cognition", "muscle"],
+    "description": "Creatine monohydrate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [
+      "Supports strength/power output",
+      "May support short-term memory and reasoning",
+      "Supports lean mass with training"
+    ],
+    "dosage": "3–5 g daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "liquid"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": ["Beta-alanine", "Electrolyte Mix (Na/K/Mg)"],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/creatine-monohydrate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "36f23255-650d-47d1-8579-29b712ef7f33",
+    "slug": "beta-alanine",
+    "name": "Beta-alanine",
+    "category": "performance",
+    "goals": ["endurance", "exercise capacity"],
+    "tags": ["performance", "endurance", "exercise-capacity"],
+    "description": "Beta-alanine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports endurance capacity"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "gummies"],
+    "timing": "between meals",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/beta-alanine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "1587901f-3883-42f0-9059-ad4ec4911675",
+    "slug": "l-citrulline",
+    "name": "L-Citrulline",
+    "category": "amino acid",
+    "goals": ["circulation", "endurance"],
+    "tags": ["amino acid", "circulation", "endurance"],
+    "description": "L-Citrulline is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Healthy circulation support", "Supports endurance capacity"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "powder"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/l-citrulline/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "5116d338-c302-4de3-bd06-852738f40bca",
+    "slug": "l-arginine",
+    "name": "L-Arginine",
+    "category": "amino acid",
+    "goals": ["circulation", "pump"],
+    "tags": ["amino acid", "circulation", "pump"],
+    "description": "L-Arginine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Healthy circulation support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "pre-workout",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/l-arginine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "33d7c349-9877-4240-874a-857124e2ac9e",
+    "slug": "betaine-tmg",
+    "name": "Betaine (TMG)",
+    "category": "methyl donor",
+    "goals": ["methylation", "performance"],
+    "tags": ["methyl donor", "methylation", "performance"],
+    "description": "Betaine (TMG) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports methylation pathways", "Supports exercise performance"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "powder"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/betaine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c16b6ea9-8b4e-4742-a783-bdb9aa37abac",
+    "slug": "taurine",
+    "name": "Taurine",
+    "category": "amino acid",
+    "goals": ["calm", "electrolyte balance", "heart support"],
+    "tags": ["amino acid", "calm", "electrolyte-balance", "heart-support"],
+    "description": "Taurine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports hydration and electrolyte balance", "Cardiovascular support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/taurine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "b6dc930b-ea1d-4be7-a972-3204de43bd2c",
+    "slug": "glycine",
+    "name": "Glycine",
+    "category": "amino acid",
+    "goals": ["sleep", "collagen", "methylation"],
+    "tags": ["amino acid", "sleep", "collagen", "methylation"],
+    "description": "Glycine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [
+      "May reduce time-to-sleep",
+      "Supports sleep quality",
+      "Structural protein support",
+      "Supports methylation pathways"
+    ],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "powder"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/glycine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "6efa2a61-b41a-4255-9343-1e9f298b8340",
+    "slug": "acetyl-l-carnitine-alcar",
+    "name": "Acetyl-L-Carnitine (ALCAR)",
+    "category": "nootropic",
+    "goals": ["energy", "focus"],
+    "tags": ["nootropic", "energy", "focus"],
+    "description": "Acetyl-L-Carnitine (ALCAR) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports energy metabolism", "May support attention and focus"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "capsule"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/acetyl-l-carnitine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "f3ae0cdd-48bb-4a8c-8e6e-546438ef6eeb",
+    "slug": "l-carnitine-l-tartrate",
+    "name": "L-Carnitine L-Tartrate",
+    "category": "performance",
+    "goals": ["recovery", "androgen support"],
+    "tags": ["performance", "recovery", "androgen-support"],
+    "description": "L-Carnitine L-Tartrate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Exercise recovery support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "gummies"],
+    "timing": "with food",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/l-carnitine-l-tartrate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "a87cf606-e8e6-4cd5-a9e6-b2aa36728ea8",
+    "slug": "alpha-gpc",
+    "name": "Alpha-GPC",
+    "category": "choline donor",
+    "goals": ["memory", "focus"],
+    "tags": ["choline donor", "memory", "focus"],
+    "description": "Alpha-GPC is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May support memory encoding and recall", "May support attention and focus"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "tablet"],
+    "timing": "evening",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/alpha-gpc/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "e19ffdf0-b645-4bf4-8cff-4d6f670e89b2",
+    "slug": "citicoline-cdp-choline",
+    "name": "Citicoline (CDP-Choline)",
+    "category": "choline donor",
+    "goals": ["memory", "focus"],
+    "tags": ["choline donor", "memory", "focus"],
+    "description": "Citicoline (CDP-Choline) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May support memory encoding and recall", "May support attention and focus"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "softgel"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/citicoline/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "f9f87b09-c0e1-4dc1-9c85-7981b24bfb71",
+    "slug": "phosphatidylserine",
+    "name": "Phosphatidylserine",
+    "category": "phospholipid",
+    "goals": ["memory", "stress"],
+    "tags": ["phospholipid", "memory", "stress"],
+    "description": "Phosphatidylserine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May support memory encoding and recall"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "gummies"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/phosphatidylserine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "26dfa308-6081-43ac-a17d-b44619466c8d",
+    "slug": "huperzine-a",
+    "name": "Huperzine A",
+    "category": "nootropic",
+    "goals": ["memory", "focus"],
+    "tags": ["nootropic", "memory", "focus"],
+    "description": "Huperzine A is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May support memory encoding and recall", "May support attention and focus"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "capsule"],
+    "timing": "with food",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/huperzine-a/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "ac038ecc-954b-4849-848c-e3d7e6ea52f8",
+    "slug": "omega-3-fish-oil-epa-dha",
+    "name": "Omega-3 Fish Oil (EPA/DHA)",
+    "category": "omega-3",
+    "goals": ["heart", "brain", "inflammation balance"],
+    "tags": ["omega-3", "heart", "brain", "inflammation-balance"],
+    "description": "Omega-3 Fish Oil (EPA/DHA) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Brain health support", "Inflammation balance support"],
+    "dosage": "1–2 g combined EPA+DHA daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "capsule"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": ["Krill Oil", "Vitamin D3"],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/omega-3-fish-oil/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c3e49852-251f-42d0-82e7-1eb25da703bb",
+    "slug": "algae-oil-dha",
+    "name": "Algae Oil (DHA)",
+    "category": "omega-3",
+    "goals": ["brain", "vegetarian option"],
+    "tags": ["omega-3", "brain", "vegetarian-option"],
+    "description": "Algae Oil (DHA) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Brain health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "tablet"],
+    "timing": "with food",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/algae-oil/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "82564dd1-5893-4a09-a1c8-04fada04b02a",
+    "slug": "krill-oil",
+    "name": "Krill Oil",
+    "category": "omega-3",
+    "goals": ["omega-3", "choline"],
+    "tags": ["omega-3", "omega-3", "choline"],
+    "description": "Krill Oil is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "tablet"],
+    "timing": "evening",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/krill-oil/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "90958519-c960-4b77-8142-9977ed6cdf86",
+    "slug": "vitamin-d3",
+    "name": "Vitamin D3",
+    "category": "vitamin",
+    "goals": ["bone", "immunity", "general health"],
+    "tags": ["vitamin", "bone", "immunity", "general-health"],
+    "description": "Vitamin D3 is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Bone health support", "Immune system support", "General health support"],
+    "dosage": "Per healthcare guidance based on labs",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/vitamin-d3/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c0e5e17d-dec5-4523-8047-7c92d5e6803d",
+    "slug": "vitamin-k2-mk-7",
+    "name": "Vitamin K2 (MK-7)",
+    "category": "vitamin",
+    "goals": ["bone", "calcium metabolism"],
+    "tags": ["vitamin", "bone", "calcium-metabolism"],
+    "description": "Vitamin K2 (MK-7) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Bone health support", "Calcium utilization support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "liquid"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/vitamin-k2/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "54bc85a0-705f-4611-a8a4-214f6fb61301",
+    "slug": "vitamin-a-retinol",
+    "name": "Vitamin A (Retinol)",
+    "category": "vitamin",
+    "goals": ["vision", "skin", "immunity"],
+    "tags": ["vitamin", "vision", "skin", "immunity"],
+    "description": "Vitamin A (Retinol) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Eye health support", "Skin health support", "Immune system support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "liquid"],
+    "timing": "evening",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/vitamin-a/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "a96e9f57-a858-4582-bb5b-ba1a72ddecc8",
+    "slug": "vitamin-c-ascorbic-acid",
+    "name": "Vitamin C (Ascorbic Acid)",
+    "category": "vitamin",
+    "goals": ["antioxidant", "immunity"],
+    "tags": ["vitamin", "antioxidant", "immunity"],
+    "description": "Vitamin C (Ascorbic Acid) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Immune system support"],
+    "dosage": "200–1000 mg daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "gummies"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/vitamin-c/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "a93d118f-277c-40c3-a4f4-312deca43719",
+    "slug": "vitamin-e-mixed-tocopherols",
+    "name": "Vitamin E (Mixed Tocopherols)",
+    "category": "vitamin",
+    "goals": ["antioxidant", "skin"],
+    "tags": ["vitamin", "antioxidant", "skin"],
+    "description": "Vitamin E (Mixed Tocopherols) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Skin health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/vitamin-e/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "9d332c15-07b6-43ae-a0bf-5a8033e684b7",
+    "slug": "thiamine-vitamin-b1",
+    "name": "Thiamine (Vitamin B1)",
+    "category": "vitamin",
+    "goals": ["energy metabolism", "nervous system"],
+    "tags": ["vitamin", "energy-metabolism", "nervous-system"],
+    "description": "Thiamine (Vitamin B1) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Nervous system support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "liquid"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/thiamine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "cf843f2b-eedd-4fad-903f-9f97b18e7dfa",
+    "slug": "riboflavin-vitamin-b2",
+    "name": "Riboflavin (Vitamin B2)",
+    "category": "vitamin",
+    "goals": ["energy metabolism"],
+    "tags": ["vitamin", "energy-metabolism"],
+    "description": "Riboflavin (Vitamin B2) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "softgel"],
+    "timing": "evening",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/riboflavin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "f645eb80-6abe-4477-9193-17c3856ab61b",
+    "slug": "niacin-vitamin-b3",
+    "name": "Niacin (Vitamin B3)",
+    "category": "vitamin",
+    "goals": ["energy metabolism", "lipids"],
+    "tags": ["vitamin", "energy-metabolism", "lipids"],
+    "description": "Niacin (Vitamin B3) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Lipid profile support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "softgel"],
+    "timing": "between meals",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/niacin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "6fc604a4-0841-4253-9cbc-bf18afb7f17c",
+    "slug": "pantothenic-acid-vitamin-b5",
+    "name": "Pantothenic Acid (Vitamin B5)",
+    "category": "vitamin",
+    "goals": ["energy metabolism", "adrenal support"],
+    "tags": ["vitamin", "energy-metabolism", "adrenal-support"],
+    "description": "Pantothenic Acid (Vitamin B5) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "gummies"],
+    "timing": "pre-workout",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/pantothenic-acid/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "86eb6d0e-c320-48c4-957c-8721ea0e7332",
+    "slug": "pyridoxine-vitamin-b6",
+    "name": "Pyridoxine (Vitamin B6)",
+    "category": "vitamin",
+    "goals": ["amino acid metabolism", "nervous system"],
+    "tags": ["vitamin", "amino-acid-metabolism", "nervous-system"],
+    "description": "Pyridoxine (Vitamin B6) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Nervous system support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "gummies"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/pyridoxine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c67e7a4d-4305-4950-8147-46638c0b9dee",
+    "slug": "biotin-vitamin-b7",
+    "name": "Biotin (Vitamin B7)",
+    "category": "vitamin",
+    "goals": ["hair", "skin", "nails"],
+    "tags": ["vitamin", "hair", "skin", "nails"],
+    "description": "Biotin (Vitamin B7) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Skin health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "softgel"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/biotin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "18882d75-9f92-4baf-a137-22c648bed2ab",
+    "slug": "folate-5-mthf",
+    "name": "Folate (5-MTHF)",
+    "category": "vitamin",
+    "goals": ["methylation", "pregnancy support"],
+    "tags": ["vitamin", "methylation", "pregnancy-support"],
+    "description": "Folate (5-MTHF) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports methylation pathways", "Prenatal support per clinician guidance"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "between meals",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/folate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "93b8aeb8-627d-4945-bf01-12f0e4870db9",
+    "slug": "vitamin-b12-methylcobalamin",
+    "name": "Vitamin B12 (Methylcobalamin)",
+    "category": "vitamin",
+    "goals": ["energy", "nervous system", "methylation"],
+    "tags": ["vitamin", "energy", "nervous-system", "methylation"],
+    "description": "Vitamin B12 (Methylcobalamin) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports energy metabolism", "Nervous system support", "Supports methylation pathways"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "softgel"],
+    "timing": "with food",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/vitamin-b12/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "36aafa51-5617-4030-af94-84f137cf6c10",
+    "slug": "calcium",
+    "name": "Calcium",
+    "category": "mineral",
+    "goals": ["bone", "muscle function"],
+    "tags": ["mineral", "bone", "muscle-function"],
+    "description": "Calcium is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Bone health support", "Muscle function support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "tablet"],
+    "timing": "with food",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/calcium/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "a941f916-f3bc-4f43-9d80-a480324dc2e8",
+    "slug": "magnesium-glycinate",
+    "name": "Magnesium Glycinate",
+    "category": "mineral",
+    "goals": ["sleep", "calm", "muscle"],
+    "tags": ["mineral", "sleep", "calm", "muscle"],
+    "description": "Magnesium Glycinate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May reduce time-to-sleep", "Supports sleep quality", "Supports lean mass with training"],
+    "dosage": "100–400 mg elemental Mg daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "liquid"],
+    "timing": "evening",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": ["Glycine", "Vitamin D3"],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/magnesium-glycinate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "7ddc5140-973b-4342-b0f2-9f0a17aebcfd",
+    "slug": "magnesium-citrate",
+    "name": "Magnesium Citrate",
+    "category": "mineral",
+    "goals": ["bowel regularity", "magnesium intake"],
+    "tags": ["mineral", "bowel-regularity", "magnesium-intake"],
+    "description": "Magnesium Citrate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["GI regularity support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "powder"],
+    "timing": "pre-workout",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/magnesium-citrate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "94d0f372-242e-4a58-9486-f7fa1a0de57b",
+    "slug": "magnesium-l-threonate",
+    "name": "Magnesium L-Threonate",
+    "category": "mineral",
+    "goals": ["cognitive support"],
+    "tags": ["mineral", "cognitive-support"],
+    "description": "Magnesium L-Threonate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "tablet"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/magnesium-l-threonate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "a525df5f-152c-463f-a01c-f6602ee9d05a",
+    "slug": "zinc-picolinate-citrate",
+    "name": "Zinc (Picolinate/Citrate)",
+    "category": "mineral",
+    "goals": ["immunity", "skin"],
+    "tags": ["mineral", "immunity", "skin"],
+    "description": "Zinc (Picolinate/Citrate) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Immune system support", "Skin health support"],
+    "dosage": "5–15 mg elemental zinc daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "between meals",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/zinc/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c041af85-029a-4d5e-9cc8-b1e7fd7a3306",
+    "slug": "iron-bisglycinate",
+    "name": "Iron (Bisglycinate)",
+    "category": "mineral",
+    "goals": ["hemoglobin", "energy"],
+    "tags": ["mineral", "hemoglobin", "energy"],
+    "description": "Iron (Bisglycinate) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports energy metabolism"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "gummies"],
+    "timing": "pre-workout",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/iron/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "cb3e2788-3ca6-4e76-b07e-f9eaa4bfd24e",
+    "slug": "selenium",
+    "name": "Selenium",
+    "category": "mineral",
+    "goals": ["antioxidant", "thyroid"],
+    "tags": ["mineral", "antioxidant", "thyroid"],
+    "description": "Selenium is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Thyroid health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "powder"],
+    "timing": "with food",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/selenium/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "cfb72a3b-a9f7-4693-a5e5-b8f39b11d0db",
+    "slug": "iodine-as-potassium-iodide",
+    "name": "Iodine (as Potassium Iodide)",
+    "category": "mineral",
+    "goals": ["thyroid"],
+    "tags": ["mineral", "thyroid"],
+    "description": "Iodine (as Potassium Iodide) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Thyroid health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "powder"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/iodine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "eec3e281-ec36-4b2b-bdc6-97252aa0a0da",
+    "slug": "potassium-as-citrate",
+    "name": "Potassium (as Citrate)",
+    "category": "mineral",
+    "goals": ["electrolyte", "blood pressure support"],
+    "tags": ["mineral", "electrolyte", "blood-pressure-support"],
+    "description": "Potassium (as Citrate) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Cardiovascular support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/potassium/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "5759d33b-1ae9-4740-8335-fbbe75fdd4f6",
+    "slug": "chromium-picolinate",
+    "name": "Chromium Picolinate",
+    "category": "mineral",
+    "goals": ["glucose metabolism"],
+    "tags": ["mineral", "glucose-metabolism"],
+    "description": "Chromium Picolinate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "tablet"],
+    "timing": "with food",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/chromium-picolinate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "441a97ee-0b63-4526-b97d-0a43c396f99c",
+    "slug": "manganese",
+    "name": "Manganese",
+    "category": "mineral",
+    "goals": ["enzyme cofactor"],
+    "tags": ["mineral", "enzyme-cofactor"],
+    "description": "Manganese is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "liquid"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/manganese/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "83d73d54-0d7f-4445-a8cf-4cfe79c89d03",
+    "slug": "molybdenum",
+    "name": "Molybdenum",
+    "category": "mineral",
+    "goals": ["enzyme cofactor"],
+    "tags": ["mineral", "enzyme-cofactor"],
+    "description": "Molybdenum is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "powder"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/molybdenum/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "44547830-8d32-42fe-a260-9fbf05314d9d",
+    "slug": "copper-bisglycinate",
+    "name": "Copper (Bisglycinate)",
+    "category": "mineral",
+    "goals": ["iron metabolism", "connective tissue"],
+    "tags": ["mineral", "iron-metabolism", "connective-tissue"],
+    "description": "Copper (Bisglycinate) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "liquid"],
+    "timing": "between meals",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/copper/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "d0e92936-cfbe-4fba-b487-5b93321a0026",
+    "slug": "boron",
+    "name": "Boron",
+    "category": "mineral",
+    "goals": ["bone", "hormonal balance"],
+    "tags": ["mineral", "bone", "hormonal-balance"],
+    "description": "Boron is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Bone health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "capsule"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/boron/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "188ad248-db10-4de2-a537-655e98bb3387",
+    "slug": "coenzyme-q10-ubiquinone-ubiquinol",
+    "name": "Coenzyme Q10 (Ubiquinone/Ubiquinol)",
+    "category": "antioxidant",
+    "goals": ["mitochondria", "heart"],
+    "tags": ["antioxidant", "mitochondria", "heart"],
+    "description": "Coenzyme Q10 (Ubiquinone/Ubiquinol) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "100–200 mg daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "between meals",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/coenzyme-q10/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "d51fd1e6-1618-4466-b0c8-ccbb76bef15a",
+    "slug": "alpha-lipoic-acid-ala",
+    "name": "Alpha-Lipoic Acid (ALA)",
+    "category": "antioxidant",
+    "goals": ["glucose", "antioxidant"],
+    "tags": ["antioxidant", "glucose", "antioxidant"],
+    "description": "Alpha-Lipoic Acid (ALA) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Glucose metabolism support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "gummies"],
+    "timing": "pre-workout",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/alpha-lipoic-acid/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "445fe123-8d58-43f3-a16c-825bdb752873",
+    "slug": "n-acetyl-cysteine-nac",
+    "name": "N-Acetyl Cysteine (NAC)",
+    "category": "amino acid",
+    "goals": ["antioxidant", "respiratory support"],
+    "tags": ["amino acid", "antioxidant", "respiratory-support"],
+    "description": "N-Acetyl Cysteine (NAC) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Respiratory health support"],
+    "dosage": "600–1200 mg daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "tablet"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/n-acetyl-cysteine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "9ea02b63-6e5e-42e9-ae2d-d2db06447df9",
+    "slug": "glutathione-reduced",
+    "name": "Glutathione (Reduced)",
+    "category": "antioxidant",
+    "goals": ["antioxidant", "detox support"],
+    "tags": ["antioxidant", "antioxidant", "detox-support"],
+    "description": "Glutathione (Reduced) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Detoxification support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "softgel"],
+    "timing": "with food",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/glutathione/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "72485c3c-facb-41e1-a7e6-77b79ad76560",
+    "slug": "resveratrol",
+    "name": "Resveratrol",
+    "category": "polyphenol",
+    "goals": ["antioxidant", "longevity interest"],
+    "tags": ["polyphenol", "antioxidant", "longevity-interest"],
+    "description": "Resveratrol is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "tablet"],
+    "timing": "with food",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/resveratrol/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "3391f465-5ad6-4f80-a495-7a6d5f832511",
+    "slug": "quercetin",
+    "name": "Quercetin",
+    "category": "flavonoid",
+    "goals": ["antioxidant", "sinus support"],
+    "tags": ["flavonoid", "antioxidant", "sinus-support"],
+    "description": "Quercetin is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "gummies"],
+    "timing": "with food",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/quercetin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "cee2dbc0-15b2-454b-9cca-90143a1f5838",
+    "slug": "curcumin-turmeric-extract",
+    "name": "Curcumin (Turmeric extract)",
+    "category": "polyphenol",
+    "goals": ["inflammation balance", "joints"],
+    "tags": ["polyphenol", "inflammation-balance", "joints"],
+    "description": "Curcumin (Turmeric extract) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Inflammation balance support", "Joint comfort support"],
+    "dosage": "500–1000 mg curcuminoids daily",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": ["Curcumin + Piperine (stack)", "Piperine"],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/curcumin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "40517387-7683-40f5-9104-6afb0124263a",
+    "slug": "boswellia-serrata",
+    "name": "Boswellia Serrata",
+    "category": "botanical",
+    "goals": ["joint comfort"],
+    "tags": ["botanical", "joint-comfort"],
+    "description": "Boswellia Serrata is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/boswellia-serrata/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "9365b1ab-9937-454e-969a-477aa904b470",
+    "slug": "ginger-extract",
+    "name": "Ginger extract",
+    "category": "botanical",
+    "goals": ["digestion", "nausea support"],
+    "tags": ["botanical", "digestion", "nausea-support"],
+    "description": "Ginger extract is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "powder"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/ginger-extract/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "df3f8aa5-bc77-4480-a8c2-4ca19295d87d",
+    "slug": "garlic-extract",
+    "name": "Garlic extract",
+    "category": "botanical",
+    "goals": ["cardiometabolic support"],
+    "tags": ["botanical", "cardiometabolic-support"],
+    "description": "Garlic extract is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "powder"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/garlic-extract/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "90c2e9c6-6122-42a2-880d-cf49cf78a814",
+    "slug": "green-tea-extract-egcg",
+    "name": "Green Tea Extract (EGCG)",
+    "category": "botanical",
+    "goals": ["antioxidant", "metabolic support"],
+    "tags": ["botanical", "antioxidant", "metabolic-support"],
+    "description": "Green Tea Extract (EGCG) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Metabolic support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "capsule"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/green-tea-extract/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "6109548b-aac1-479c-a9f3-0bb8c71c777a",
+    "slug": "berberine-hcl",
+    "name": "Berberine HCl",
+    "category": "botanical",
+    "goals": ["glucose", "lipids"],
+    "tags": ["botanical", "glucose", "lipids"],
+    "description": "Berberine HCl is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Glucose metabolism support", "Lipid profile support"],
+    "dosage": "500 mg, 2–3× daily with meals",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "capsule"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "moderate",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/berberine-hcl/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "a144769c-6880-4275-802a-ce92200b30bb",
+    "slug": "milk-thistle-silymarin",
+    "name": "Milk Thistle (Silymarin)",
+    "category": "botanical",
+    "goals": ["liver support"],
+    "tags": ["botanical", "liver-support"],
+    "description": "Milk Thistle (Silymarin) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Liver function support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "tablet"],
+    "timing": "morning",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/milk-thistle/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "2a18550d-f434-4c73-ad4c-caf089c26a51",
+    "slug": "artichoke-extract",
+    "name": "Artichoke extract",
+    "category": "botanical",
+    "goals": ["digestion", "lipids"],
+    "tags": ["botanical", "digestion", "lipids"],
+    "description": "Artichoke extract is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Lipid profile support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "gummies"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/artichoke-extract/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "f3ab6f09-3b91-444f-b986-f996cb1b0e34",
+    "slug": "pomegranate-extract",
+    "name": "Pomegranate extract",
+    "category": "botanical",
+    "goals": ["antioxidant"],
+    "tags": ["botanical", "antioxidant"],
+    "description": "Pomegranate extract is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "softgel"],
+    "timing": "pre-workout",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/pomegranate-extract/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "cde971c7-f719-4020-8c26-301bc80cad11",
+    "slug": "grape-seed-extract-opcs",
+    "name": "Grape Seed Extract (OPCs)",
+    "category": "botanical",
+    "goals": ["antioxidant", "circulation"],
+    "tags": ["botanical", "antioxidant", "circulation"],
+    "description": "Grape Seed Extract (OPCs) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Healthy circulation support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "softgel"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/grape-seed-extract/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "73a77e69-1150-4a26-9b5e-2eb9f7faa9eb",
+    "slug": "pycnogenol-french-maritime-pine-bark",
+    "name": "Pycnogenol (French Maritime Pine Bark)",
+    "category": "botanical",
+    "goals": ["circulation", "antioxidant"],
+    "tags": ["botanical", "circulation", "antioxidant"],
+    "description": "Pycnogenol (French Maritime Pine Bark) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Healthy circulation support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "capsule"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/pycnogenol/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "1eaaffc8-f5e5-4a05-847e-3d86b3534082",
+    "slug": "cordyceps",
+    "name": "Cordyceps",
+    "category": "mushroom",
+    "goals": ["endurance", "oxygen utilization"],
+    "tags": ["mushroom", "endurance", "oxygen-utilization"],
+    "description": "Cordyceps is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports endurance capacity", "Oxygen utilization support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "tablet"],
+    "timing": "pre-workout",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/cordyceps/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "02dd569c-ab5d-4711-96e1-0f1d3cbb3977",
+    "slug": "reishi",
+    "name": "Reishi",
+    "category": "mushroom",
+    "goals": ["calm", "immunity"],
+    "tags": ["mushroom", "calm", "immunity"],
+    "description": "Reishi is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Immune system support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "powder"],
+    "timing": "pre-workout",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/reishi/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c60086d5-f2db-462b-9839-c1c11f85c1e3",
+    "slug": "chaga",
+    "name": "Chaga",
+    "category": "mushroom",
+    "goals": ["antioxidant", "immunity"],
+    "tags": ["mushroom", "antioxidant", "immunity"],
+    "description": "Chaga is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Immune system support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "tablet"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/chaga/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "37aaccdf-9190-4684-bc01-1fe472d44dc9",
+    "slug": "shiitake",
+    "name": "Shiitake",
+    "category": "mushroom",
+    "goals": ["immunity", "general health"],
+    "tags": ["mushroom", "immunity", "general-health"],
+    "description": "Shiitake is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Immune system support", "General health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "tablet"],
+    "timing": "evening",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/shiitake/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "9bc1a779-4d77-4a65-9bb9-bf7e3ab41775",
+    "slug": "spirulina",
+    "name": "Spirulina",
+    "category": "algae",
+    "goals": ["micronutrients", "protein"],
+    "tags": ["algae", "micronutrients", "protein"],
+    "description": "Spirulina is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Micronutrient intake support", "Protein intake support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "powder"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/spirulina/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "6dc88492-92bd-4fe9-9bca-7df3817b351f",
+    "slug": "chlorella",
+    "name": "Chlorella",
+    "category": "algae",
+    "goals": ["chlorophyll", "micronutrients"],
+    "tags": ["algae", "chlorophyll", "micronutrients"],
+    "description": "Chlorella is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Micronutrient intake support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "capsule"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/chlorella/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c1668549-7802-4bcc-810e-d87363d4e084",
+    "slug": "collagen-peptides",
+    "name": "Collagen Peptides",
+    "category": "protein",
+    "goals": ["skin", "joints", "hair"],
+    "tags": ["protein", "skin", "joints", "hair"],
+    "description": "Collagen Peptides is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Skin health support", "Joint comfort support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "tablet"],
+    "timing": "with food",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/collagen-peptides/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "14aa7325-145c-4d83-aae0-a5032a7d3699",
+    "slug": "hyaluronic-acid",
+    "name": "Hyaluronic Acid",
+    "category": "compound",
+    "goals": ["skin hydration", "joints"],
+    "tags": ["compound", "skin-hydration", "joints"],
+    "description": "Hyaluronic Acid is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Joint comfort support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "liquid"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/hyaluronic-acid/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "0f719c42-2df0-46d2-ae89-0c296836abc3",
+    "slug": "glucosamine-sulfate",
+    "name": "Glucosamine Sulfate",
+    "category": "compound",
+    "goals": ["joint health"],
+    "tags": ["compound", "joint-health"],
+    "description": "Glucosamine Sulfate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "liquid"],
+    "timing": "between meals",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/glucosamine-sulfate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "5801bf28-2669-4afe-a4d5-a76c64e44673",
+    "slug": "chondroitin-sulfate",
+    "name": "Chondroitin Sulfate",
+    "category": "compound",
+    "goals": ["joint health"],
+    "tags": ["compound", "joint-health"],
+    "description": "Chondroitin Sulfate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "tablet"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/chondroitin-sulfate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c477b0c8-b000-455f-bfc8-c3e06ddecbc7",
+    "slug": "msm-methylsulfonylmethane",
+    "name": "MSM (Methylsulfonylmethane)",
+    "category": "compound",
+    "goals": ["joint comfort", "skin"],
+    "tags": ["compound", "joint-comfort", "skin"],
+    "description": "MSM (Methylsulfonylmethane) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Skin health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "tablet"],
+    "timing": "before bedtime",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/msm/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "5bb43ca8-4c29-45f3-a9a6-be50ba0255fa",
+    "slug": "probiotics-lactobacillus-bifidobacterium-blends",
+    "name": "Probiotics (Lactobacillus/Bifidobacterium blends)",
+    "category": "probiotic",
+    "goals": ["gut health", "immunity"],
+    "tags": ["probiotic", "gut-health", "immunity"],
+    "description": "Probiotics (Lactobacillus/Bifidobacterium blends) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Immune system support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "gummies"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "none reported"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/probiotics/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "e47877fa-dd43-4cbe-b783-05eb7a25d67e",
+    "slug": "prebiotic-fiber-inulin-fos",
+    "name": "Prebiotic Fiber (Inulin/FOS)",
+    "category": "prebiotic",
+    "goals": ["gut health"],
+    "tags": ["prebiotic", "gut-health"],
+    "description": "Prebiotic Fiber (Inulin/FOS) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": [],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "powder"],
+    "timing": "pre-workout",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/prebiotic-fiber/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "4a95a25f-712d-4f12-a012-d7d8d5666ce8",
+    "slug": "psyllium-husk",
+    "name": "Psyllium Husk",
+    "category": "fiber",
+    "goals": ["regularity", "lipids"],
+    "tags": ["fiber", "regularity", "lipids"],
+    "description": "Psyllium Husk is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Lipid profile support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "capsule"],
+    "timing": "pre-workout",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/psyllium-husk/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "5211da5f-4a48-4918-a8d6-ae67f5ec7719",
+    "slug": "electrolyte-mix-na-k-mg",
+    "name": "Electrolyte Mix (Na/K/Mg)",
+    "category": "electrolytes",
+    "goals": ["hydration", "performance"],
+    "tags": ["electrolytes", "hydration", "performance"],
+    "description": "Electrolyte Mix (Na/K/Mg) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Hydration support", "Supports exercise performance"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "powder"],
+    "timing": "between meals",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/electrolyte-mix/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "95448733-ad94-4042-91dc-0c9727e8265a",
+    "slug": "melatonin",
+    "name": "Melatonin",
+    "category": "hormone",
+    "goals": ["sleep onset"],
+    "tags": ["hormone", "sleep-onset"],
+    "description": "Melatonin is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Sleep onset support"],
+    "dosage": "0.3–3 mg before bedtime",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "liquid"],
+    "timing": "with food",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "strong",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/melatonin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "45cbb3e0-010e-46c3-aeb1-c613933dab55",
+    "slug": "5-htp",
+    "name": "5-HTP",
+    "category": "amino acid",
+    "goals": ["mood", "sleep"],
+    "tags": ["amino acid", "mood", "sleep"],
+    "description": "5-HTP is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Mood support", "May reduce time-to-sleep", "Supports sleep quality"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["tablet", "capsule"],
+    "timing": "with food",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/5-htp/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "64057eea-c57e-4c07-915b-08a708ba5b69",
+    "slug": "l-tryptophan",
+    "name": "L-Tryptophan",
+    "category": "amino acid",
+    "goals": ["sleep", "mood"],
+    "tags": ["amino acid", "sleep", "mood"],
+    "description": "L-Tryptophan is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May reduce time-to-sleep", "Supports sleep quality", "Mood support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "gummies"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/l-tryptophan/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "66c22af6-be39-4341-a7e3-ab784158d478",
+    "slug": "l-tyrosine",
+    "name": "L-Tyrosine",
+    "category": "amino acid",
+    "goals": ["focus", "stress resilience"],
+    "tags": ["amino acid", "focus", "stress-resilience"],
+    "description": "L-Tyrosine is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["May support attention and focus", "Supports healthy stress response"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "powder"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/l-tyrosine/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "36af0ea4-258e-4eae-8fab-61ca78c09ba5",
+    "slug": "myo-inositol",
+    "name": "Myo-Inositol",
+    "category": "carbocycle",
+    "goals": ["metabolic support", "mood"],
+    "tags": ["carbocycle", "metabolic-support", "mood"],
+    "description": "Myo-Inositol is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Metabolic support", "Mood support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["liquid", "softgel"],
+    "timing": "pre-workout",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/myo-inositol/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "c34de4c6-3ec7-46eb-98f7-46d9cb30d9db",
+    "slug": "d-chiro-inositol",
+    "name": "D-Chiro-Inositol",
+    "category": "carbocycle",
+    "goals": ["metabolic support"],
+    "tags": ["carbocycle", "metabolic-support"],
+    "description": "D-Chiro-Inositol is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Metabolic support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "softgel"],
+    "timing": "pre-workout",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/d-chiro-inositol/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "ece634ad-32a0-46e6-a266-3c99d685f1fc",
+    "slug": "dim-diindolylmethane",
+    "name": "DIM (Diindolylmethane)",
+    "category": "compound",
+    "goals": ["estrogen metabolism"],
+    "tags": ["compound", "estrogen-metabolism"],
+    "description": "DIM (Diindolylmethane) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Estrogen metabolism support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "softgel"],
+    "timing": "between meals",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/dim/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "5e0948fc-d35b-4664-8d95-f4ac3d12bd7d",
+    "slug": "calcium-d-glucarate",
+    "name": "Calcium D-Glucarate",
+    "category": "compound",
+    "goals": ["detox support"],
+    "tags": ["compound", "detox-support"],
+    "description": "Calcium D-Glucarate is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Detoxification support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "powder"],
+    "timing": "with food",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/calcium-d-glucarate/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "bb9a8613-4bf1-4d23-a3a6-7f7cd9dd2ffc",
+    "slug": "omega-7-palmitoleic-acid",
+    "name": "Omega-7 (Palmitoleic acid)",
+    "category": "fatty acid",
+    "goals": ["lipids", "metabolic support"],
+    "tags": ["fatty acid", "lipids", "metabolic-support"],
+    "description": "Omega-7 (Palmitoleic acid) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Lipid profile support", "Metabolic support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "gummies"],
+    "timing": "with food",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["none reported", "nausea"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/omega-7/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "f08b7d39-fb24-4e43-b57c-14bde88ad661",
+    "slug": "astaxanthin",
+    "name": "Astaxanthin",
+    "category": "carotenoid",
+    "goals": ["antioxidant", "skin"],
+    "tags": ["carotenoid", "antioxidant", "skin"],
+    "description": "Astaxanthin is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Skin health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["powder", "gummies"],
+    "timing": "before bedtime",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["headache", "GI discomfort"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/astaxanthin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "aa539cbd-742a-4c3e-b1d6-5ed458d740c8",
+    "slug": "lutein-zeaxanthin",
+    "name": "Lutein + Zeaxanthin",
+    "category": "carotenoid",
+    "goals": ["eye health"],
+    "tags": ["carotenoid", "eye-health"],
+    "description": "Lutein + Zeaxanthin is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Eye health support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "powder"],
+    "timing": "between meals",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["insomnia", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/lutein-zeaxanthin/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "03f6e626-4652-401a-90fb-bb279a124969",
+    "slug": "shilajit",
+    "name": "Shilajit",
+    "category": "mineral pitch",
+    "goals": ["vitality", "minerals"],
+    "tags": ["mineral pitch", "vitality", "minerals"],
+    "description": "Shilajit is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Vitality support", "Mineral intake support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["softgel", "liquid"],
+    "timing": "with food",
+    "cycle": "cyclic per practitioner guidance",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "insomnia"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/shilajit/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "bb448df4-5857-4048-80a9-416b70aa6876",
+    "slug": "maca-lepidium-meyenii",
+    "name": "Maca (Lepidium meyenii)",
+    "category": "botanical",
+    "goals": ["energy", "wellbeing"],
+    "tags": ["botanical", "energy", "wellbeing"],
+    "description": "Maca (Lepidium meyenii) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Supports energy metabolism", "General wellness support"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "powder"],
+    "timing": "before bedtime",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["GI discomfort", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/maca/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "36f28208-ed96-472d-bb68-fb14557752cb",
+    "slug": "tongkat-ali-eurycoma-longifolia",
+    "name": "Tongkat Ali (Eurycoma longifolia)",
+    "category": "botanical",
+    "goals": ["vitality", "stress resilience"],
+    "tags": ["botanical", "vitality", "stress-resilience"],
+    "description": "Tongkat Ali (Eurycoma longifolia) is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Vitality support", "Supports healthy stress response"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["gummies", "tablet"],
+    "timing": "evening",
+    "cycle": "continuous",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["nausea", "drowsiness"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/tongkat-ali/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  },
+  {
+    "id": "b0506a73-9b00-4e76-9c11-e22fe6e91ca2",
+    "slug": "tribulus-terrestris",
+    "name": "Tribulus terrestris",
+    "category": "botanical",
+    "goals": ["vitality", "performance"],
+    "tags": ["botanical", "vitality", "performance"],
+    "description": "Tribulus terrestris is commonly used in wellness routines. This summary is a placeholder to be replaced with authoritative references in the API phase.",
+    "benefits": ["Vitality support", "Supports exercise performance"],
+    "dosage": "As directed on product label; consult a healthcare professional",
+    "dosage_range": {
+      "min": null,
+      "max": null,
+      "unit": null,
+      "notes": "Ranges vary by product and individual; consult product label and a healthcare professional."
+    },
+    "forms": ["capsule", "gummies"],
+    "timing": "morning",
+    "cycle": "5 days on / 2 off",
+    "bioavailability": "varies by form",
+    "half_life": null,
+    "interactions": {
+      "synergizes_with": [],
+      "avoid_with": []
+    },
+    "contraindications": [],
+    "side_effects": ["drowsiness", "headache"],
+    "restrictions": [],
+    "alternatives": [],
+    "included_in_stacks": [],
+    "evidence_level": "emerging",
+    "evidence_notes": "High-level classification for UI only; not medical advice.",
+    "sources": ["https://ods.od.nih.gov/", "https://examine.com/supplements/tribulus-terrestris/"],
+    "rating": {
+      "avg": null,
+      "count": 0
+    },
+    "images": [],
+    "sku": null
+  }
+]

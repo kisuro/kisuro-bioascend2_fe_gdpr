@@ -107,19 +107,19 @@ export function AudioCategories({ onPlayTrack }: AudioCategoriesProps) {
     return (
       <div className="space-y-6">
         <GlassCard className="backdrop-blur-md bg-white/5 border border-white/10 p-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className={`p-3 rounded-lg ${category?.bgColor}`}>
+              <div className={`p-3 rounded-lg ${category?.bgColor} flex-shrink-0`}>
                 {category?.icon && <category.icon className={`h-6 w-6 ${category.color}`} />}
               </div>
-              <div>
-                <h2 className="text-3xl font-bold font-heading">{category?.name}</h2>
-                <p className="text-muted-foreground">{category?.description}</p>
+              <div className="min-w-0">
+                <h2 className="text-2xl sm:text-3xl font-bold font-heading truncate">{category?.name}</h2>
+                <p className="text-muted-foreground text-sm sm:text-base">{category?.description}</p>
               </div>
             </div>
             <button
               onClick={() => setSelectedCategory(null)}
-              className="px-4 py-2 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20 transition-colors"
+              className="px-4 py-2 rounded-lg backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20 transition-colors whitespace-nowrap self-start sm:self-auto"
             >
               Back to Categories
             </button>

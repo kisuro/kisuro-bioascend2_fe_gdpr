@@ -8,20 +8,26 @@ import { Filter, X } from "lucide-react"
 
 interface SupplementFiltersProps {
   allGoals: string[]
-  allTags: string[]
+  allCategories: string[]
+  allEvidenceLevels: string[]
   selectedGoals: string[]
-  selectedTags: string[]
+  selectedCategories: string[]
+  selectedEvidenceLevels: string[]
   onGoalsChange: (goals: string[]) => void
-  onTagsChange: (tags: string[]) => void
+  onCategoriesChange: (categories: string[]) => void
+  onEvidenceLevelsChange: (levels: string[]) => void
 }
 
 export function SupplementFilters({
   allGoals,
-  allTags,
+  allCategories,
+  allEvidenceLevels,
   selectedGoals,
-  selectedTags,
+  selectedCategories,
+  selectedEvidenceLevels,
   onGoalsChange,
-  onTagsChange,
+  onCategoriesChange,
+  onEvidenceLevelsChange,
 }: SupplementFiltersProps) {
   const handleGoalChange = (goal: string, checked: boolean) => {
     if (checked) {
@@ -31,17 +37,26 @@ export function SupplementFilters({
     }
   }
 
-  const handleTagChange = (tag: string, checked: boolean) => {
+  const handleCategoryChange = (category: string, checked: boolean) => {
     if (checked) {
-      onTagsChange([...selectedTags, tag])
+      onCategoriesChange([...selectedCategories, category])
     } else {
-      onTagsChange(selectedTags.filter((t) => t !== tag))
+      onCategoriesChange(selectedCategories.filter((c) => c !== category))
+    }
+  }
+
+  const handleEvidenceLevelChange = (level: string, checked: boolean) => {
+    if (checked) {
+      onEvidenceLevelsChange([...selectedEvidenceLevels, level])
+    } else {
+      onEvidenceLevelsChange(selectedEvidenceLevels.filter((l) => l !== level))
     }
   }
 
   const clearAllFilters = () => {
     onGoalsChange([])
-    onTagsChange([])
+    onCategoriesChange([])
+    onEvidenceLevelsChange([])
   }
 
   return (
@@ -52,7 +67,7 @@ export function SupplementFilters({
             <Filter className="h-4 w-4 text-primary" />
             <h3 className="font-semibold">Filters</h3>
           </div>
-          {(selectedGoals.length > 0 || selectedTags.length > 0) && (
+          {(selectedGoals.length > 0 || selectedCategories.length > 0 || selectedEvidenceLevels.length > 0) && (
             <LiquidButton variant="ghost" size="sm" onClick={clearAllFilters}>
               <X className="h-3 w-3 mr-1" />
               Clear
@@ -71,7 +86,7 @@ export function SupplementFilters({
                   checked={selectedGoals.includes(goal)}
                   onCheckedChange={(checked) => handleGoalChange(goal, checked as boolean)}
                 />
-                <Label htmlFor={`goal-${goal}`} className="text-sm cursor-pointer">
+                <Label htmlFor={`goal-${goal}`} className="text-sm cursor-pointer capitalize">
                   {goal}
                 </Label>
               </div>
@@ -79,19 +94,36 @@ export function SupplementFilters({
           </div>
         </div>
 
-        {/* Tags Filter */}
-        <div>
-          <Label className="text-sm font-medium mb-3 block">Tags</Label>
+        <div className="mb-6">
+          <Label className="text-sm font-medium mb-3 block">Categories</Label>
           <div className="space-y-2 max-h-48 overflow-y-auto">
-            {allTags.map((tag) => (
-              <div key={tag} className="flex items-center space-x-2">
+            {allCategories.map((category) => (
+              <div key={category} className="flex items-center space-x-2">
                 <Checkbox
-                  id={`tag-${tag}`}
-                  checked={selectedTags.includes(tag)}
-                  onCheckedChange={(checked) => handleTagChange(tag, checked as boolean)}
+                  id={`category-${category}`}
+                  checked={selectedCategories.includes(category)}
+                  onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
                 />
-                <Label htmlFor={`tag-${tag}`} className="text-sm cursor-pointer">
-                  {tag}
+                <Label htmlFor={`category-${category}`} className="text-sm cursor-pointer capitalize">
+                  {category}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <Label className="text-sm font-medium mb-3 block">Evidence Level</Label>
+          <div className="space-y-2">
+            {allEvidenceLevels.map((level) => (
+              <div key={level} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`evidence-${level}`}
+                  checked={selectedEvidenceLevels.includes(level)}
+                  onCheckedChange={(checked) => handleEvidenceLevelChange(level, checked as boolean)}
+                />
+                <Label htmlFor={`evidence-${level}`} className="text-sm cursor-pointer capitalize">
+                  {level}
                 </Label>
               </div>
             ))}

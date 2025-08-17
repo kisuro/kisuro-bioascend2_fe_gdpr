@@ -9,6 +9,7 @@ import { PlaylistManager } from "@/components/mind/playlist-manager"
 import { AudioCategories } from "@/components/mind/audio-categories"
 import { Brain, Music, Headphones, List, Crown } from "lucide-react"
 import type { AudioTrack } from "@/lib/data/audio"
+import { MindBackground } from "@/components/ui/page-backgrounds"
 
 export default function MindPage() {
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null)
@@ -29,8 +30,10 @@ export default function MindPage() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen py-8 px-4 relative">
+      <MindBackground />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           className="text-center mb-12"

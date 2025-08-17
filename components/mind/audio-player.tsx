@@ -40,11 +40,18 @@ export function AudioPlayer({ track, isPlaying, onPlay, onPause, compact = false
     if (!audio) return
 
     if (isPlaying) {
-      audio.play()
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.log("[v0] Audio play failed:", error)
+          // If autoplay is blocked, we should pause the player
+          onPause()
+        })
+      }
     } else {
       audio.pause()
     }
-  }, [isPlaying])
+  }, [isPlaying, onPause])
 
   useEffect(() => {
     const audio = audioRef.current

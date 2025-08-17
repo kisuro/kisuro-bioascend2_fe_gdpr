@@ -1,5 +1,7 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
+import type React from "react"
+
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
@@ -8,7 +10,8 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X } from "lucide-react"
+import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload } from "lucide-react"
+import { ProfileBackground } from "@/components/ui/page-backgrounds"
 
 // Mock user data
 const mockUser = {
@@ -35,32 +38,98 @@ const mockUser = {
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false)
   const [user, setUser] = useState(mockUser)
+  const [imageError, setImageError] = useState(false)
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    return () => {
+      // Cleanup any pending operations when component unmounts
+    }
+  }, [])
 
   const handleSave = () => {
     setIsEditing(false)
+    setAvatarPreview(null)
   }
 
   const handleCancel = () => {
     setUser(mockUser)
     setIsEditing(false)
+    setAvatarPreview(null)
+  }
+
+  const handleImageError = () => {
+    setImageError(true)
+  }
+
+  const handleImageLoad = () => {
+    setImageError(false)
+  }
+
+  const handleAvatarClick = () => {
+    if (isEditing && fileInputRef.current) {
+      fileInputRef.current.click()
+    }
+  }
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("Please select an image file")
+        return
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        alert("Image size should be less than 5MB")
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const result = e.target?.result as string
+        setAvatarPreview(result)
+        setUser({ ...user, avatar: result })
+      }
+      reader.readAsDataURL(file)
+    }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 pt-24">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 pt-24 relative">
+      <ProfileBackground />
+
+      <div className="max-w-4xl mx-auto space-y-6 relative z-10">
         {/* Header */}
         <GlassCard className="p-6">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex items-center gap-4 sm:gap-6 min-w-0 flex-1">
               <div className="relative flex-shrink-0">
-                <img
-                  src={user.avatar || "/placeholder.svg"}
-                  alt="Profile"
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-primary/20"
-                />
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full flex items-center justify-center">
-                  <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-primary-foreground" />
+                <div className={`relative ${isEditing ? "cursor-pointer group" : ""}`} onClick={handleAvatarClick}>
+                  <img
+                    src={avatarPreview || (imageError ? "/placeholder.svg" : user.avatar || "/placeholder.svg")}
+                    alt="Profile"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-primary/20"
+                    onError={handleImageError}
+                    onLoad={handleImageLoad}
+                  />
+                  {isEditing && (
+                    <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Camera className="w-6 h-6 text-white" />
+                    </div>
+                  )}
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full flex items-center justify-center">
+                    <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-primary-foreground" />
+                  </div>
                 </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="hidden"
+                />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
@@ -88,38 +157,6 @@ export default function ProfilePage() {
           </div>
         </GlassCard>
 
-        {/* Stats Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <GlassCard className="p-4 text-center">
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Activity className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold">{user.stats.supplementsTracked}</div>
-            <div className="text-sm text-muted-foreground">Supplements</div>
-          </GlassCard>
-          <GlassCard className="p-4 text-center">
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Calendar className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold">{user.stats.journalEntries}</div>
-            <div className="text-sm text-muted-foreground">Journal Entries</div>
-          </GlassCard>
-          <GlassCard className="p-4 text-center">
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Bell className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold">{user.stats.meditationMinutes}</div>
-            <div className="text-sm text-muted-foreground">Meditation Min</div>
-          </GlassCard>
-          <GlassCard className="p-4 text-center">
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Shield className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold">{user.stats.biorhythmChecks}</div>
-            <div className="text-sm text-muted-foreground">Biorhythm Checks</div>
-          </GlassCard>
-        </div>
-
         {/* Profile Tabs */}
         <GlassCard className="p-6">
           <Tabs defaultValue="profile" className="w-full">
@@ -130,6 +167,25 @@ export default function ProfilePage() {
             </TabsList>
 
             <TabsContent value="profile" className="space-y-6 mt-6">
+              {isEditing && (
+                <div className="space-y-2">
+                  <Label>Profile Picture</Label>
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <img
+                        src={avatarPreview || (imageError ? "/placeholder.svg" : user.avatar || "/placeholder.svg")}
+                        alt="Avatar preview"
+                        className="w-16 h-16 rounded-full object-cover border-2 border-primary/20"
+                      />
+                    </div>
+                    <LiquidButton variant="outline" onClick={handleAvatarClick} className="gap-2">
+                      <Upload className="w-4 h-4" />
+                      Change Avatar
+                    </LiquidButton>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Supported formats: JPG, PNG, GIF. Max size: 5MB</p>
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name</Label>
@@ -245,6 +301,38 @@ export default function ProfilePage() {
             </TabsContent>
           </Tabs>
         </GlassCard>
+
+        {/* Stats Overview */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <GlassCard className="p-4 text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Activity className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold">{user.stats.supplementsTracked}</div>
+            <div className="text-sm text-muted-foreground">Supplements</div>
+          </GlassCard>
+          <GlassCard className="p-4 text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Calendar className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold">{user.stats.journalEntries}</div>
+            <div className="text-sm text-muted-foreground">Journal Entries</div>
+          </GlassCard>
+          <GlassCard className="p-4 text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Bell className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold">{user.stats.meditationMinutes}</div>
+            <div className="text-sm text-muted-foreground">Meditation Min</div>
+          </GlassCard>
+          <GlassCard className="p-4 text-center">
+            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+              <Shield className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold">{user.stats.biorhythmChecks}</div>
+            <div className="text-sm text-muted-foreground">Biorhythm Checks</div>
+          </GlassCard>
+        </div>
       </div>
     </div>
   )

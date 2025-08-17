@@ -282,19 +282,55 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.7 }}
             >
               <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                <div className="text-4xl font-bold text-primary mb-2">25+</div>
-                <div className="text-sm text-muted-foreground">Years Added to Lifespan</div>
-                <div className="text-xs text-muted-foreground/70 mt-1">with optimal biohacking</div>
+                <div className="text-4xl font-bold text-primary mb-2">67%</div>
+                <div className="text-sm text-muted-foreground">of Americans identify as biohackers</div>
+                <div className="text-xs text-muted-foreground/70 mt-1">
+                  Majority see optimizing body & mind as healthy lifestyle
+                </div>
+                <div className="text-xs text-muted-foreground/50 mt-2 italic">
+                  <a
+                    href="https://sanctuarywellnessinstitute.com/blog/biohacking-statistics-trends/?utm_source=chatgpt.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Source: Sanctuary Wellness Institute (2025)
+                  </a>
+                </div>
               </motion.div>
               <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                <div className="text-4xl font-bold text-accent mb-2">40%</div>
-                <div className="text-sm text-muted-foreground">Cognitive Enhancement</div>
-                <div className="text-xs text-muted-foreground/70 mt-1">through targeted supplementation</div>
+                <div className="text-4xl font-bold text-accent mb-2">Creatine</div>
+                <div className="text-sm text-muted-foreground">improves short-term memory & thinking</div>
+                <div className="text-xs text-muted-foreground/70 mt-1">
+                  Validated in Nutrition Reviews meta-analysis (2023)
+                </div>
+                <div className="text-xs text-muted-foreground/50 mt-2 italic">
+                  <a
+                    href="https://en.wikipedia.org/wiki/Creatine?utm_source=chatgpt.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Source: Nutrition Reviews (2023)
+                  </a>
+                </div>
               </motion.div>
               <motion.div className="text-center" whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                <div className="text-4xl font-bold text-primary mb-2">90%</div>
-                <div className="text-sm text-muted-foreground">Energy Optimization</div>
-                <div className="text-xs text-muted-foreground/70 mt-1">via biorhythm tracking</div>
+                <div className="text-4xl font-bold text-primary mb-2">30-40%</div>
+                <div className="text-sm text-muted-foreground">Fasting extends lifespan in animal studies</div>
+                <div className="text-xs text-muted-foreground/70 mt-1">
+                  Time-restricted feeding improved metabolism and longevity
+                </div>
+                <div className="text-xs text-muted-foreground/50 mt-2 italic">
+                  <a
+                    href="https://www.nejm.org/doi/full/10.1056/NEJMra1905136?utm_source=chatgpt.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Source: NEJM (2019)
+                  </a>
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>

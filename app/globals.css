@@ -123,6 +123,87 @@
 }
 
 @layer utilities {
+  /* Z-Index Hierarchy */
+  .z-navigation {
+    z-index: 40;
+  }
+
+  .z-dropdown {
+    z-index: 50;
+  }
+
+  .z-modal {
+    z-index: 60;
+  }
+
+  .z-toast {
+    z-index: 70;
+  }
+
+  .z-tooltip {
+    z-index: 80;
+  }
+
+  /* Safe Area Support for iOS */
+  .safe-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .safe-top-modal {
+    padding-top: max(6rem, calc(env(safe-area-inset-top) + 5rem));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* Modal and Overlay Positioning */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    padding-top: max(6rem, calc(env(safe-area-inset-top) + 5rem));
+    padding-bottom: max(2rem, calc(env(safe-area-inset-bottom) + 1rem));
+  }
+
+  .modal-content {
+    position: relative;
+    width: 100%;
+    max-height: calc(100vh - max(8rem, calc(env(safe-area-inset-top) + 7rem)));
+    overflow-y: auto;
+  }
+
+  /* Dropdown and Popover Positioning */
+  .dropdown-content {
+    z-index: 50;
+    margin-top: 0.5rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+
+  /* Bottom action bar positioning to prevent content overlap */
+  .bottom-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 45;
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid hsl(var(--border) / 0.5);
+    padding: 1rem;
+    padding-bottom: max(1rem, calc(env(safe-area-inset-bottom) + 0.5rem));
+  }
+
+  /* Content padding to account for bottom action bar */
+  .content-with-bottom-bar {
+    padding-bottom: max(6rem, calc(env(safe-area-inset-bottom) + 5rem));
+  }
+
   /* Liquid Gradient */
   .liquid-gradient {
     @apply bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95;
@@ -175,10 +256,10 @@
 
   @keyframes pulseGlow {
     from {
-      box-shadow: 0 0 20px rgba(var(--primary), 0.4), 0 0 40px rgba(var(--accent), 0.2);
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 40px hsl(var(--accent) / 0.2);
     }
     to {
-      box-shadow: 0 0 40px rgba(var(--primary), 0.8), 0 0 80px rgba(var(--accent), 0.4);
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.8), 0 0 80px hsl(var(--accent) / 0.4);
     }
   }
 

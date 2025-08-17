@@ -27,7 +27,7 @@ export function Navigation() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 p-4"
+        className="fixed top-0 left-0 right-0 z-navigation safe-top p-4"
       >
         <GlassCard
           variant="strong"
@@ -107,7 +107,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-20 left-4 right-4 z-40 md:hidden"
+            className="fixed top-20 left-4 right-4 z-dropdown md:hidden"
           >
             <GlassCard variant="strong" className="p-4 rounded-2xl shadow-2xl backdrop-blur-xl">
               <div className="space-y-2">

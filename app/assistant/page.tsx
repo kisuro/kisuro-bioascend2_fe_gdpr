@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-
+import { AssistantBackground } from "@/components/ui/page-backgrounds"
 import { useState, useRef, useEffect } from "react"
 import { Send, Bot, User, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -82,8 +82,10 @@ export default function AssistantPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 relative">
+      <AssistantBackground />
+
+      <div className="container mx-auto px-4 py-8 max-w-4xl relative z-10">
         {/* Header */}
         <div className="glass-morph p-6 mb-6">
           <div className="flex items-center gap-3 mb-2">
