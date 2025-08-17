@@ -282,12 +282,12 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-black pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-background pointer-events-none" />
 
         <BiorhythmBackground />
 
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black/90 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-background/90 pointer-events-none">
           {/* Fading biorhythm waves at bottom */}
           <motion.svg
             className="absolute bottom-0 left-0 w-full h-20 text-[#64B5F6]/3"
@@ -503,7 +503,7 @@ export default function HomePage() {
             <motion.path
               d="M0,0 C150,100 350,0 600,50 C850,100 1050,0 1200,50 L1200,120 L0,120 Z"
               fill="currentColor"
-              className="text-black"
+              className="text-background"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{ duration: 2, delay: 0.5 }}
@@ -513,7 +513,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative py-18 px-4 bg-black">
+      <section id="features" className="relative py-18 px-4 bg-background">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.svg
             className="absolute top-10 right-10 w-40 h-40 text-[#81C784]/8"
@@ -602,7 +602,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 bg-black">
+      <section className="py-24 px-4 bg-background">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -647,7 +647,7 @@ export default function HomePage() {
       </section>
 
       {/* Medical Disclaimer */}
-      <section className="py-12 px-4 border-t border-border/30 bg-black">
+      <section className="py-12 px-4 border-t border-border/30 bg-background">
         <div className="max-w-5xl mx-auto">
           <GlassCard variant="subtle" className="p-8 rounded-2xl">
             <div className="flex items-start gap-4">
