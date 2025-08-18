@@ -4,7 +4,7 @@ import { useState } from "react"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
-import { Star, Zap, Eye, Clock } from "lucide-react"
+import { Star, Zap, Eye, Clock, Leaf, Brain, FlaskConical, Pill, Heart, Shield } from "lucide-react"
 
 interface Supplement {
   id: string
@@ -30,6 +30,30 @@ interface SupplementCardProps {
 export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+
+  const getCategoryIcon = (category: string) => {
+    const categoryLower = category.toLowerCase()
+    switch (categoryLower) {
+      case "adaptogen":
+        return <Shield className="h-3 w-3" />
+      case "nootropic":
+        return <Brain className="h-3 w-3" />
+      case "herb":
+        return <Leaf className="h-3 w-3" />
+      case "vitamin":
+        return <Pill className="h-3 w-3" />
+      case "mineral":
+        return <FlaskConical className="h-3 w-3" />
+      case "amino acid":
+        return <Heart className="h-3 w-3" />
+      case "extract":
+        return <Leaf className="h-3 w-3" />
+      case "mushroom":
+        return <Leaf className="h-3 w-3" />
+      default:
+        return <Zap className="h-3 w-3" />
+    }
+  }
 
   const getEvidenceColor = (level: string) => {
     switch (level.toLowerCase()) {
@@ -88,7 +112,8 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
                   <Clock className="h-3 w-3" />
                   <span className="capitalize">{supplement.timing}</span>
                 </div>
-                <Badge variant="secondary" className="text-xs capitalize">
+                <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1">
+                  {getCategoryIcon(supplement.categories[0])}
                   {supplement.categories[0]}
                 </Badge>
               </div>
@@ -168,7 +193,8 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
             <Clock className="h-3 w-3" />
             <span className="capitalize">{supplement.timing}</span>
           </div>
-          <Badge variant="secondary" className="text-xs capitalize">
+          <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1">
+            {getCategoryIcon(supplement.categories[0])}
             {supplement.categories[0]}
           </Badge>
         </div>
