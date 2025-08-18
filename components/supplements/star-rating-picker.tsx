@@ -34,7 +34,9 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
     onCancel()
   }
 
-  const handleRatingClick = (star: number) => {
+  const handleRatingClick = (star: number, event: React.MouseEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
     console.log("[v0] StarRatingPicker: Rating clicked:", star)
     setRating(star)
   }
@@ -48,10 +50,24 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
     }
   }
 
+  const handleInteractOutside = (event: Event) => {
+    // Prevent closing when clicking on the trigger or rating stars
+    const target = event.target as Element
+    if (target?.closest("[data-rating-trigger]") || target?.closest("[data-rating-star]")) {
+      event.preventDefault()
+    }
+  }
+
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
-      <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent className="w-64 p-4 glass-morph border-white/20" align="start">
+      <PopoverTrigger asChild data-rating-trigger>
+        {trigger}
+      </PopoverTrigger>
+      <PopoverContent
+        className="w-64 p-4 glass-morph border-white/20"
+        align="start"
+        onInteractOutside={handleInteractOutside}
+      >
         <div className="space-y-4">
           <h4 className="font-medium">Rate this supplement</h4>
 
@@ -60,9 +76,10 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
               <button
                 key={star}
                 className="p-1 transition-colors rounded hover:bg-white/10"
+                data-rating-star
                 onMouseEnter={() => setHoverRating(star)}
                 onMouseLeave={() => setHoverRating(0)}
-                onClick={() => handleRatingClick(star)}
+                onClick={(e) => handleRatingClick(star, e)}
               >
                 <Star
                   className={`h-6 w-6 ${
