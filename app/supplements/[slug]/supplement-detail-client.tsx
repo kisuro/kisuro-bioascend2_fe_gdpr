@@ -58,41 +58,59 @@ interface SupplementDetailClientProps {
 
 export function SupplementDetailClient({ supplement: initialSupplement }: SupplementDetailClientProps) {
   const [supplement, setSupplement] = useState(initialSupplement)
-  const [allReviews, setAllReviews] = useState<Review[]>(initialSupplement.reviews)
+  const [allReviews, setAllReviews] = useState<Review[]>([])
   const [showReviewModal, setShowReviewModal] = useState(false)
   const [showPremiumGate, setShowPremiumGate] = useState(false)
   const [userRating, setUserRating] = useState(0)
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true)
 
   const user = useUser()
   const { toast } = useToast()
 
   useEffect(() => {
-    const loadUserReviews = async () => {
+    const loadReviews = async () => {
       try {
-        const userReviews = await reviewsStore.list(supplement.id)
-        const mergedReviews = [...userReviews, ...initialSupplement.reviews].sort(
-          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-        )
+        setIsLoadingReviews(true)
+        const response = await fetch("/seed/reviews.json")
+        if (!response.ok) {
+          console.warn("Reviews file not found or invalid, continuing without reviews")
+          setAllReviews([])
+          return
+        }
 
-        setAllReviews(mergedReviews)
+        const reviewsData = await response.json()
+        const supplementReviews = reviewsData[supplement.id]
 
-        // Recalculate aggregate rating
-        if (mergedReviews.length > 0) {
-          const totalRating = mergedReviews.reduce((sum, review) => sum + review.rating, 0)
-          const avgRating = totalRating / mergedReviews.length
-          setSupplement((prev) => ({
-            ...prev,
-            rating: avgRating,
-            reviews_count: mergedReviews.length,
-          }))
+        if (supplementReviews && supplementReviews.items) {
+          // Sort newest first
+          const sortedReviews = supplementReviews.items.sort(
+            (a: Review, b: Review) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+          )
+          setAllReviews(sortedReviews)
+
+          // Update supplement with calculated rating
+          if (sortedReviews.length > 0) {
+            const totalRating = sortedReviews.reduce((sum: number, review: Review) => sum + review.rating, 0)
+            const avgRating = totalRating / sortedReviews.length
+            setSupplement((prev) => ({
+              ...prev,
+              rating: avgRating,
+              reviews_count: sortedReviews.length,
+            }))
+          }
+        } else {
+          setAllReviews([])
         }
       } catch (error) {
-        console.error("Error loading user reviews:", error)
+        console.warn("Error loading reviews:", error)
+        setAllReviews([])
+      } finally {
+        setIsLoadingReviews(false)
       }
     }
 
-    loadUserReviews()
-  }, [supplement.id, initialSupplement.reviews])
+    loadReviews()
+  }, [supplement.id])
 
   const hasRating = supplement.rating !== null && supplement.reviews_count > 0
 
@@ -100,9 +118,8 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
     console.log("[v0] Rating clicked, user status:", user.status)
     if (user.status !== "premium") {
       setShowPremiumGate(true)
-      return
     }
-    // Premium user can proceed with rating - the StarRatingPicker will handle the interaction
+    // For premium users, the StarRatingPicker will handle the popover
   }
 
   const handleAddReviewClick = () => {
@@ -262,49 +279,63 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                   {hasRating ? (
                     <div className="flex items-center gap-2 flex-wrap">
-                      <StarRatingPicker
-                        currentRating={userRating}
-                        onSubmit={handleRatingSubmit}
-                        onCancel={() => {}}
-                        trigger={
-                          <button
-                            className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors"
-                            onClick={handleRatingClick}
-                          >
-                            <div className="flex">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star
-                                  key={star}
-                                  className={`h-5 w-5 ${
-                                    star <= (supplement.rating || 0)
-                                      ? "fill-yellow-400 text-yellow-400"
-                                      : "text-muted-foreground"
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
-                            <span className="text-muted-foreground whitespace-nowrap">
-                              ({supplement.reviews_count} reviews)
-                            </span>
-                          </button>
-                        }
-                      />
-                    </div>
-                  ) : (
-                    <StarRatingPicker
-                      currentRating={userRating}
-                      onSubmit={handleRatingSubmit}
-                      onCancel={() => {}}
-                      trigger={
+                      {user.status === "premium" ? (
+                        <StarRatingPicker
+                          currentRating={userRating}
+                          onSubmit={handleRatingSubmit}
+                          onCancel={() => {}}
+                          trigger={
+                            <button className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors">
+                              <div className="flex">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <Star
+                                    key={star}
+                                    className={`h-5 w-5 ${
+                                      star <= (supplement.rating || 0)
+                                        ? "fill-yellow-400 text-yellow-400"
+                                        : "text-muted-foreground"
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                              <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
+                              <span className="text-muted-foreground whitespace-nowrap">
+                                ({supplement.reviews_count} reviews)
+                              </span>
+                            </button>
+                          }
+                        />
+                      ) : (
                         <button
-                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors"
                           onClick={handleRatingClick}
                         >
-                          No ratings yet - be the first!
+                          <div className="flex">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                className={`h-5 w-5 ${
+                                  star <= (supplement.rating || 0)
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-muted-foreground"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
+                          <span className="text-muted-foreground whitespace-nowrap">
+                            ({supplement.reviews_count} reviews)
+                          </span>
                         </button>
-                      }
-                    />
+                      )}
+                    </div>
+                  ) : (
+                    <button
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      onClick={handleRatingClick}
+                    >
+                      No ratings yet - be the first!
+                    </button>
                   )}
 
                   <div className="flex items-center gap-2 text-muted-foreground">
@@ -411,7 +442,11 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
                   </LiquidButton>
                 </div>
 
-                {allReviews.length > 0 ? (
+                {isLoadingReviews ? (
+                  <div className="text-center py-8">
+                    <div className="text-muted-foreground">Loading reviews...</div>
+                  </div>
+                ) : allReviews.length > 0 ? (
                   <div className="space-y-4">
                     {allReviews.map((review) => (
                       <div key={review.id} className="border-l-2 border-primary/20 pl-4 py-2">

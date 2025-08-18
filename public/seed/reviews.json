@@ -2,226 +2,31 @@
   "ashwagandha": {
     "items": [
       {
-        "id": "550e8400-e29b-41d4-a716-rev0001",
+        "id": "63ddd847-1708-4710-b166-e9ce035ca92c",
         "slug": "ashwagandha",
         "rating": 5,
-        "title": "Great for stress management",
-        "body": "Been using this for 3 months. Noticed better sleep quality and feel more balanced during stressful work periods. No side effects experienced.",
+        "title": "Noticeable support",
+        "body": "Used consistently for a few weeks. Subtle but noticeable support; no side effects.",
         "verified_purchase": true,
-        "created_at": "2024-01-15T10:30:00Z"
+        "created_at": "2025-08-18T18:00:00Z"
       },
       {
-        "id": "550e8400-e29b-41d4-a716-rev0002",
+        "id": "65b70e96-b42e-46a5-b902-2d690694ce42",
         "slug": "ashwagandha",
         "rating": 4,
-        "title": "Helpful for evening routine",
-        "body": "Takes about 2-3 weeks to notice effects. Helps me wind down in the evening. Mild stomach upset if taken without food.",
-        "verified_purchase": true,
-        "created_at": "2024-02-03T14:22:00Z"
+        "title": "Works as expected",
+        "body": "Quality seems good. Effects align with what I read. Will continue monitoring.",
+        "verified_purchase": false,
+        "created_at": "2025-08-15T18:00:00Z"
       },
       {
-        "id": "550e8400-e29b-41d4-a716-rev0003",
+        "id": "d90d2eaf-c333-4dce-9767-53fbea687bbc",
         "slug": "ashwagandha",
         "rating": 4,
-        "title": "Quality supplement",
-        "body": "Good quality extract. Packaging is professional. Effects are subtle but consistent. Would recommend starting with lower dose.",
-        "verified_purchase": false,
-        "created_at": "2024-02-18T09:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "rhodiola-rosea": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0004",
-        "slug": "rhodiola-rosea",
-        "rating": 4,
-        "title": "Good for morning energy",
-        "body": "Helps with mental clarity in the morning. Better than caffeine for sustained focus. Taste is quite bitter though.",
+        "title": "Helpful addition",
+        "body": "Added to my routine; mild benefits so far. Tolerated well.",
         "verified_purchase": true,
-        "created_at": "2024-01-22T08:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0005",
-        "slug": "rhodiola-rosea",
-        "rating": 3,
-        "title": "Mixed results",
-        "body": "Some days I feel more alert, other days no difference. Might work better with consistent timing. No negative effects.",
-        "verified_purchase": true,
-        "created_at": "2024-02-10T16:30:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "bacopa-monnieri": {
-    "items": [],
-    "next_cursor": null
-  },
-  "lions-mane": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0006",
-        "slug": "lions-mane",
-        "rating": 5,
-        "title": "Excellent cognitive support",
-        "body": "Been taking for 6 months. Noticeable improvement in focus and memory recall. Quality mushroom extract with good potency.",
-        "verified_purchase": true,
-        "created_at": "2024-01-08T11:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0007",
-        "slug": "lions-mane",
-        "rating": 4,
-        "title": "Good quality mushroom",
-        "body": "Dual extraction process is evident in quality. Takes time to see effects but worth the wait. No digestive issues.",
-        "verified_purchase": true,
-        "created_at": "2024-01-28T13:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0008",
-        "slug": "lions-mane",
-        "rating": 5,
-        "title": "Brain fog improvement",
-        "body": "Helps with afternoon brain fog. Mental clarity is much better. Combining with other nootropics works well.",
-        "verified_purchase": false,
-        "created_at": "2024-02-14T10:10:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0009",
-        "slug": "lions-mane",
-        "rating": 4,
-        "title": "Solid supplement",
-        "body": "Consistent quality batch to batch. Effects are gradual but noticeable. Good value for the price point.",
-        "verified_purchase": true,
-        "created_at": "2024-02-25T15:30:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "ginkgo-biloba": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0010",
-        "slug": "ginkgo-biloba",
-        "rating": 3,
-        "title": "Mild cognitive effects",
-        "body": "Some improvement in memory but not dramatic. Takes several weeks to notice any changes. No side effects experienced.",
-        "verified_purchase": true,
-        "created_at": "2024-01-12T09:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0011",
-        "slug": "ginkgo-biloba",
-        "rating": 4,
-        "title": "Good for circulation",
-        "body": "Noticed better circulation in hands and feet during cold weather. Cognitive effects are subtle but present.",
-        "verified_purchase": true,
-        "created_at": "2024-02-05T14:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "ginseng-panax": {
-    "items": [],
-    "next_cursor": null
-  },
-  "american-ginseng": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0012",
-        "slug": "american-ginseng",
-        "rating": 4,
-        "title": "Gentle energy boost",
-        "body": "More subtle than coffee but longer lasting. Good for afternoon energy without jitters. Quality seems consistent.",
-        "verified_purchase": true,
-        "created_at": "2024-01-20T12:00:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0013",
-        "slug": "american-ginseng",
-        "rating": 4,
-        "title": "Milder than Asian ginseng",
-        "body": "Less stimulating than Panax ginseng which I prefer. Helps with general wellness and energy levels.",
-        "verified_purchase": false,
-        "created_at": "2024-02-12T16:45:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "gotu-kola": {
-    "items": [],
-    "next_cursor": null
-  },
-  "l-theanine": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0014",
-        "slug": "l-theanine",
-        "rating": 5,
-        "title": "Perfect with coffee",
-        "body": "Eliminates coffee jitters completely. Calm focus without drowsiness. This combination is game-changing for productivity.",
-        "verified_purchase": true,
-        "created_at": "2024-01-05T08:15:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0015",
-        "slug": "l-theanine",
-        "rating": 5,
-        "title": "Excellent for anxiety",
-        "body": "Helps with social anxiety without making me sleepy. Effects are noticeable within 30 minutes. High quality amino acid.",
-        "verified_purchase": true,
-        "created_at": "2024-01-18T11:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0016",
-        "slug": "l-theanine",
-        "rating": 4,
-        "title": "Good relaxation support",
-        "body": "Subtle but effective for stress management. Works well for evening relaxation. No morning grogginess.",
-        "verified_purchase": true,
-        "created_at": "2024-02-08T19:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0017",
-        "slug": "l-theanine",
-        "rating": 5,
-        "title": "Clean ingredient profile",
-        "body": "Pure L-theanine with no fillers. Dissolves well and absorbs quickly. Consistent effects batch to batch.",
-        "verified_purchase": false,
-        "created_at": "2024-02-22T13:10:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "caffeine": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0018",
-        "slug": "caffeine",
-        "rating": 4,
-        "title": "Precise dosing",
-        "body": "Much better than coffee for controlling caffeine intake. 100mg gives clean energy without crash. Easy to dose accurately.",
-        "verified_purchase": true,
-        "created_at": "2024-01-10T07:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0019",
-        "slug": "caffeine",
-        "rating": 4,
-        "title": "Good pre-workout",
-        "body": "Works well for morning workouts. Kicks in faster than coffee. Combining with L-theanine reduces any jitters.",
-        "verified_purchase": true,
-        "created_at": "2024-01-25T06:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0020",
-        "slug": "caffeine",
-        "rating": 5,
-        "title": "Pure and effective",
-        "body": "No additives or fillers. Consistent potency. Much more economical than energy drinks. Easy to cycle on and off.",
-        "verified_purchase": true,
-        "created_at": "2024-02-15T09:00:00Z"
+        "created_at": "2025-08-12T18:00:00Z"
       }
     ],
     "next_cursor": null
@@ -229,703 +34,255 @@
   "magnesium-glycinate": {
     "items": [
       {
-        "id": "550e8400-e29b-41d4-a716-rev0021",
-        "slug": "magnesium-glycinate",
-        "rating": 5,
-        "title": "Best form of magnesium",
-        "body": "No digestive upset like other forms. Significantly improved sleep quality. Muscle cramps are completely gone.",
-        "verified_purchase": true,
-        "created_at": "2024-01-03T21:15:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0022",
-        "slug": "magnesium-glycinate",
-        "rating": 5,
-        "title": "Excellent for sleep",
-        "body": "Fall asleep faster and sleep deeper. Wake up refreshed. Chelated form is definitely superior for absorption.",
-        "verified_purchase": true,
-        "created_at": "2024-01-16T20:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0023",
+        "id": "8b335f35-3b70-42d5-a6ab-eaa5db490bca",
         "slug": "magnesium-glycinate",
         "rating": 4,
-        "title": "Gentle on stomach",
-        "body": "No laxative effect like magnesium oxide. Good for muscle recovery after workouts. Takes a few days to notice effects.",
+        "title": "Works as expected",
+        "body": "Quality seems good. Effects align with what I read. Will continue monitoring.",
+        "verified_purchase": true,
+        "created_at": "2025-08-11T18:00:00Z"
+      },
+      {
+        "id": "2fafc7e2-72f9-414e-809c-211ed174294f",
+        "slug": "magnesium-glycinate",
+        "rating": 4,
+        "title": "Helpful addition",
+        "body": "Added to my routine; mild benefits so far. Tolerated well.",
         "verified_purchase": false,
-        "created_at": "2024-02-01T18:45:00Z"
+        "created_at": "2025-08-08T18:00:00Z"
+      },
+      {
+        "id": "a2c4ffcc-766d-40db-a94d-008bd217c84d",
+        "slug": "magnesium-glycinate",
+        "rating": 5,
+        "title": "Good value",
+        "body": "Solid option. Easy to take, no issues. Results vary day to day.",
+        "verified_purchase": true,
+        "created_at": "2025-08-05T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "omega-3-fish-oil-epa-dha": {
+    "items": [
+      {
+        "id": "8aa51d07-764c-461a-bed7-12b02f294eee",
+        "slug": "omega-3-fish-oil-epa-dha",
+        "rating": 4,
+        "title": "Helpful addition",
+        "body": "Added to my routine; mild benefits so far. Tolerated well.",
+        "verified_purchase": true,
+        "created_at": "2025-08-04T18:00:00Z"
+      },
+      {
+        "id": "1bc8014e-54d8-49be-b183-a888c06f58a4",
+        "slug": "omega-3-fish-oil-epa-dha",
+        "rating": 5,
+        "title": "Good value",
+        "body": "Solid option. Easy to take, no issues. Results vary day to day.",
+        "verified_purchase": false,
+        "created_at": "2025-08-01T18:00:00Z"
+      },
+      {
+        "id": "e171cc48-5749-4d2f-be6b-0601de4cea94",
+        "slug": "omega-3-fish-oil-epa-dha",
+        "rating": 3,
+        "title": "Steady results",
+        "body": "Took daily with food. Gradual, steady effects after ~2–3 weeks.",
+        "verified_purchase": true,
+        "created_at": "2025-07-29T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "curcumin-turmeric-extract": {
+    "items": [
+      {
+        "id": "b760593b-99eb-4bc7-8b83-afd424c5f418",
+        "slug": "curcumin-turmeric-extract",
+        "rating": 5,
+        "title": "Good value",
+        "body": "Solid option. Easy to take, no issues. Results vary day to day.",
+        "verified_purchase": true,
+        "created_at": "2025-07-28T18:00:00Z"
+      },
+      {
+        "id": "89d25d2a-b539-4e4d-b182-6d7d4195fba6",
+        "slug": "curcumin-turmeric-extract",
+        "rating": 3,
+        "title": "Steady results",
+        "body": "Took daily with food. Gradual, steady effects after ~2–3 weeks.",
+        "verified_purchase": false,
+        "created_at": "2025-07-25T18:00:00Z"
+      },
+      {
+        "id": "7118dbb3-9013-4d74-802a-6394a0cf6616",
+        "slug": "curcumin-turmeric-extract",
+        "rating": 5,
+        "title": "Noticeable support",
+        "body": "Used consistently for a few weeks. Subtle but noticeable support; no side effects.",
+        "verified_purchase": true,
+        "created_at": "2025-07-22T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "creatine-monohydrate": {
+    "items": [
+      {
+        "id": "7e933942-276b-40c4-ac2d-7e5715d7de18",
+        "slug": "creatine-monohydrate",
+        "rating": 3,
+        "title": "Steady results",
+        "body": "Took daily with food. Gradual, steady effects after ~2–3 weeks.",
+        "verified_purchase": true,
+        "created_at": "2025-07-21T18:00:00Z"
+      },
+      {
+        "id": "9aff5ce4-a944-47ac-8a32-ac5b93159236",
+        "slug": "creatine-monohydrate",
+        "rating": 5,
+        "title": "Noticeable support",
+        "body": "Used consistently for a few weeks. Subtle but noticeable support; no side effects.",
+        "verified_purchase": false,
+        "created_at": "2025-07-18T18:00:00Z"
+      },
+      {
+        "id": "32e6262f-c875-4562-98ba-92157c00d015",
+        "slug": "creatine-monohydrate",
+        "rating": 4,
+        "title": "Works as expected",
+        "body": "Quality seems good. Effects align with what I read. Will continue monitoring.",
+        "verified_purchase": true,
+        "created_at": "2025-07-15T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "l-theanine": {
+    "items": [
+      {
+        "id": "1ae18768-bf2e-49d7-ae0c-e3d5ba2553d8",
+        "slug": "l-theanine",
+        "rating": 5,
+        "title": "Noticeable support",
+        "body": "Used consistently for a few weeks. Subtle but noticeable support; no side effects.",
+        "verified_purchase": true,
+        "created_at": "2025-07-14T18:00:00Z"
+      },
+      {
+        "id": "7652fa03-9212-472f-8933-680d628d957c",
+        "slug": "l-theanine",
+        "rating": 4,
+        "title": "Works as expected",
+        "body": "Quality seems good. Effects align with what I read. Will continue monitoring.",
+        "verified_purchase": false,
+        "created_at": "2025-07-11T18:00:00Z"
+      },
+      {
+        "id": "67c21553-5b11-41bc-b066-516689da1f0a",
+        "slug": "l-theanine",
+        "rating": 4,
+        "title": "Helpful addition",
+        "body": "Added to my routine; mild benefits so far. Tolerated well.",
+        "verified_purchase": true,
+        "created_at": "2025-07-08T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "berberine-hcl": {
+    "items": [
+      {
+        "id": "9fe6baee-6dee-4cdf-84d6-0d4d8a1a84bf",
+        "slug": "berberine-hcl",
+        "rating": 4,
+        "title": "Works as expected",
+        "body": "Quality seems good. Effects align with what I read. Will continue monitoring.",
+        "verified_purchase": true,
+        "created_at": "2025-07-07T18:00:00Z"
+      },
+      {
+        "id": "aefa3837-de59-4111-b36d-fbdbe0378cd4",
+        "slug": "berberine-hcl",
+        "rating": 4,
+        "title": "Helpful addition",
+        "body": "Added to my routine; mild benefits so far. Tolerated well.",
+        "verified_purchase": false,
+        "created_at": "2025-07-04T18:00:00Z"
+      },
+      {
+        "id": "721fda05-16df-403f-ab0f-49d81f4dfb91",
+        "slug": "berberine-hcl",
+        "rating": 5,
+        "title": "Good value",
+        "body": "Solid option. Easy to take, no issues. Results vary day to day.",
+        "verified_purchase": true,
+        "created_at": "2025-07-01T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "lions-mane-mushroom": {
+    "items": [
+      {
+        "id": "43927636-4aba-4adb-b320-0a4177088db6",
+        "slug": "lions-mane-mushroom",
+        "rating": 4,
+        "title": "Helpful addition",
+        "body": "Added to my routine; mild benefits so far. Tolerated well.",
+        "verified_purchase": true,
+        "created_at": "2025-06-30T18:00:00Z"
+      },
+      {
+        "id": "cf76e22a-e1bf-4fad-8fc3-f749536fb583",
+        "slug": "lions-mane-mushroom",
+        "rating": 5,
+        "title": "Good value",
+        "body": "Solid option. Easy to take, no issues. Results vary day to day.",
+        "verified_purchase": false,
+        "created_at": "2025-06-27T18:00:00Z"
+      },
+      {
+        "id": "551a4faf-28dc-4846-9d06-332b47451c94",
+        "slug": "lions-mane-mushroom",
+        "rating": 3,
+        "title": "Steady results",
+        "body": "Took daily with food. Gradual, steady effects after ~2–3 weeks.",
+        "verified_purchase": true,
+        "created_at": "2025-06-24T18:00:00Z"
       }
     ],
     "next_cursor": null
   },
   "vitamin-d3": {
-    "items": [],
-    "next_cursor": null
-  },
-  "omega-3-fish-oil": {
     "items": [
       {
-        "id": "550e8400-e29b-41d4-a716-rev0024",
-        "slug": "omega-3-fish-oil",
-        "rating": 4,
-        "title": "High quality fish oil",
-        "body": "Third-party tested for purity. No fishy aftertaste when taken with meals. Good EPA/DHA ratio.",
-        "verified_purchase": true,
-        "created_at": "2024-01-07T12:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0025",
-        "slug": "omega-3-fish-oil",
-        "rating": 4,
-        "title": "Good for joint comfort",
-        "body": "Noticed improvement in joint stiffness after 6 weeks. Triglyceride form seems to absorb well. Sustainable sourcing.",
-        "verified_purchase": true,
-        "created_at": "2024-01-30T15:10:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0026",
-        "slug": "omega-3-fish-oil",
+        "id": "d62aa7bb-95b8-437d-a435-468430acba12",
+        "slug": "vitamin-d3",
         "rating": 5,
-        "title": "Excellent purity",
-        "body": "Molecular distillation removes contaminants effectively. Capsules are easy to swallow. Consistent quality batch to batch.",
+        "title": "Good value",
+        "body": "Solid option. Easy to take, no issues. Results vary day to day.",
         "verified_purchase": true,
-        "created_at": "2024-02-20T11:40:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "coq10": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0027",
-        "slug": "coq10",
-        "rating": 4,
-        "title": "Good energy support",
-        "body": "Subtle but noticeable improvement in energy levels. Ubiquinol form seems to work better than ubiquinone. Take with fats for absorption.",
-        "verified_purchase": true,
-        "created_at": "2024-01-14T14:30:00Z"
+        "created_at": "2025-06-23T18:00:00Z"
       },
       {
-        "id": "550e8400-e29b-41d4-a716-rev0028",
-        "slug": "coq10",
-        "rating": 4,
-        "title": "Heart health support",
-        "body": "Taking for cardiovascular wellness. Quality seems good based on third-party testing. Effects are gradual but positive.",
-        "verified_purchase": false,
-        "created_at": "2024-02-06T16:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "probiotics": {
-    "items": [],
-    "next_cursor": null
-  },
-  "turmeric-curcumin": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0029",
-        "slug": "turmeric-curcumin",
-        "rating": 4,
-        "title": "Good for joint comfort",
-        "body": "Includes black pepper extract for absorption. Noticed less morning stiffness after 4 weeks. Quality curcumin extract.",
-        "verified_purchase": true,
-        "created_at": "2024-01-11T10:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0030",
-        "slug": "turmeric-curcumin",
-        "rating": 4,
-        "title": "High bioavailability",
-        "body": "Standardized to 95% curcuminoids. BioPerine addition helps absorption. Take with meals to avoid stomach upset.",
-        "verified_purchase": true,
-        "created_at": "2024-01-27T13:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0031",
-        "slug": "turmeric-curcumin",
-        "rating": 4,
-        "title": "Quality supplement",
-        "body": "Third-party tested for purity. Consistent potency. Good value compared to other brands. No artificial colors.",
-        "verified_purchase": true,
-        "created_at": "2024-02-11T17:30:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "green-tea-extract": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0032",
-        "slug": "green-tea-extract",
-        "rating": 4,
-        "title": "Good antioxidant support",
-        "body": "High EGCG content. Provides gentle energy without jitters. Take between meals to avoid iron absorption issues.",
-        "verified_purchase": true,
-        "created_at": "2024-01-09T09:15:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0033",
-        "slug": "green-tea-extract",
-        "rating": 4,
-        "title": "Standardized extract",
-        "body": "Consistent polyphenol content. Decaffeinated option available. Good for metabolic support when combined with exercise.",
-        "verified_purchase": false,
-        "created_at": "2024-02-04T14:50:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "spirulina": {
-    "items": [],
-    "next_cursor": null
-  },
-  "chlorella": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0034",
-        "slug": "chlorella",
+        "id": "347303db-4029-425e-9e93-38a608faa737",
+        "slug": "vitamin-d3",
         "rating": 3,
-        "title": "Nutrient dense but strong taste",
-        "body": "Very nutritious but taste takes getting used to. Broken cell wall version is easier to digest. Start with small doses.",
-        "verified_purchase": true,
-        "created_at": "2024-01-13T11:00:00Z"
+        "title": "Steady results",
+        "body": "Took daily with food. Gradual, steady effects after ~2–3 weeks.",
+        "verified_purchase": false,
+        "created_at": "2025-06-20T18:00:00Z"
       },
       {
-        "id": "550e8400-e29b-41d4-a716-rev0035",
-        "slug": "chlorella",
-        "rating": 4,
-        "title": "Good detox support",
-        "body": "Helps with natural detoxification. High chlorophyll content is evident. Tablets are more convenient than powder.",
-        "verified_purchase": true,
-        "created_at": "2024-02-07T15:25:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "maca-root": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0036",
-        "slug": "maca-root",
-        "rating": 4,
-        "title": "Good energy support",
-        "body": "Gelatinized form is easier on digestion. Provides sustained energy without stimulant effects. Earthy taste is pleasant.",
-        "verified_purchase": true,
-        "created_at": "2024-01-21T08:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0037",
-        "slug": "maca-root",
-        "rating": 4,
-        "title": "Quality Peruvian maca",
-        "body": "Authentic source from Peru. Good for morning energy routine. Effects build up over time with consistent use.",
-        "verified_purchase": true,
-        "created_at": "2024-02-13T12:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "holy-basil": {
-    "items": [],
-    "next_cursor": null
-  },
-  "reishi-mushroom": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0038",
-        "slug": "reishi-mushroom",
-        "rating": 4,
-        "title": "Great for sleep quality",
-        "body": "Helps with deep sleep and stress management. Dual extraction provides both water and alcohol soluble compounds. Quality mushroom.",
-        "verified_purchase": true,
-        "created_at": "2024-01-04T20:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0039",
-        "slug": "reishi-mushroom",
-        "rating": 4,
-        "title": "Immune support",
-        "body": "Taking for immune system wellness. Effects are subtle but consistent. Organic certification is a plus.",
-        "verified_purchase": true,
-        "created_at": "2024-01-19T16:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0040",
-        "slug": "reishi-mushroom",
+        "id": "60b257f2-347d-4005-a356-390471ef104a",
+        "slug": "vitamin-d3",
         "rating": 5,
-        "title": "Excellent adaptogen",
-        "body": "Helps manage daily stress effectively. Sleep quality improved significantly. Mushroom of immortality lives up to reputation.",
-        "verified_purchase": false,
-        "created_at": "2024-02-09T19:10:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "cordyceps": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0041",
-        "slug": "cordyceps",
-        "rating": 4,
-        "title": "Good for endurance",
-        "body": "Noticed improvement in workout endurance after 3 weeks. Cultivated variety works well. Take before exercise for best results.",
+        "title": "Noticeable support",
+        "body": "Used consistently for a few weeks. Subtle but noticeable support; no side effects.",
         "verified_purchase": true,
-        "created_at": "2024-01-17T07:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0042",
-        "slug": "cordyceps",
-        "rating": 4,
-        "title": "Energy without jitters",
-        "body": "Provides clean energy for workouts. Respiratory benefits are noticeable during cardio. Quality mushroom extract.",
-        "verified_purchase": true,
-        "created_at": "2024-02-16T06:45:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "elderberry": {
-    "items": [],
-    "next_cursor": null
-  },
-  "echinacea": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0043",
-        "slug": "echinacea",
-        "rating": 3,
-        "title": "Seasonal support",
-        "body": "Use during seasonal changes. Effects are mild but noticeable. Best used short-term as recommended.",
-        "verified_purchase": true,
-        "created_at": "2024-01-26T14:00:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0044",
-        "slug": "echinacea",
-        "rating": 4,
-        "title": "Quality herb",
-        "body": "Standardized extract with consistent potency. Traditional immune support herb. Liquid form absorbs quickly.",
-        "verified_purchase": false,
-        "created_at": "2024-02-17T11:30:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "astragalus": {
-    "items": [],
-    "next_cursor": null
-  },
-  "milk-thistle": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0045",
-        "slug": "milk-thistle",
-        "rating": 4,
-        "title": "Good liver support",
-        "body": "Standardized to 80% silymarin. Taking for liver wellness. Quality seems consistent batch to batch.",
-        "verified_purchase": true,
-        "created_at": "2024-01-06T13:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0046",
-        "slug": "milk-thistle",
-        "rating": 4,
-        "title": "Traditional herb",
-        "body": "Well-researched liver support herb. Third-party tested for purity. Take with meals for best absorption.",
-        "verified_purchase": true,
-        "created_at": "2024-01-29T17:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0047",
-        "slug": "milk-thistle",
-        "rating": 4,
-        "title": "Quality extract",
-        "body": "High silymarin content. Supports natural detoxification processes. No side effects experienced with regular use.",
-        "verified_purchase": true,
-        "created_at": "2024-02-19T10:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "dandelion-root": {
-    "items": [],
-    "next_cursor": null
-  },
-  "saw-palmetto": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0048",
-        "slug": "saw-palmetto",
-        "rating": 4,
-        "title": "Men's wellness support",
-        "body": "Taking for prostate health. Standardized fatty acid content. Effects are gradual but positive over 3 months.",
-        "verified_purchase": true,
-        "created_at": "2024-01-02T15:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0049",
-        "slug": "saw-palmetto",
-        "rating": 4,
-        "title": "Quality berry extract",
-        "body": "Supercritical CO2 extraction method. Good for urinary wellness. Take with meals to avoid stomach upset.",
-        "verified_purchase": true,
-        "created_at": "2024-01-31T12:45:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "cranberry-extract": {
-    "items": [],
-    "next_cursor": null
-  },
-  "valerian-root": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0050",
-        "slug": "valerian-root",
-        "rating": 3,
-        "title": "Helps with sleep",
-        "body": "Strong herbal smell but effective for sleep. Take 1 hour before bed. Effects vary from night to night.",
-        "verified_purchase": true,
-        "created_at": "2024-01-24T21:00:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0051",
-        "slug": "valerian-root",
-        "rating": 4,
-        "title": "Natural sleep aid",
-        "body": "Prefer this to synthetic sleep aids. Standardized valerenic acids. No morning grogginess when used properly.",
-        "verified_purchase": true,
-        "created_at": "2024-02-21T20:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "passionflower": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0052",
-        "slug": "passionflower",
-        "rating": 4,
-        "title": "Gentle relaxation",
-        "body": "Milder than valerian but still effective. Good for anxiety management. Pleasant floral taste in tea form.",
-        "verified_purchase": true,
-        "created_at": "2024-01-15T18:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0053",
-        "slug": "passionflower",
-        "rating": 4,
-        "title": "Good for stress",
-        "body": "Helps with daily stress without sedation. Standardized extract is consistent. Combines well with other calming herbs.",
-        "verified_purchase": false,
-        "created_at": "2024-02-23T16:45:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "lemon-balm": {
-    "items": [],
-    "next_cursor": null
-  },
-  "chamomile": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0054",
-        "slug": "chamomile",
-        "rating": 5,
-        "title": "Perfect bedtime tea",
-        "body": "Gentle and effective for evening relaxation. Apigenin content is standardized. No side effects, very gentle herb.",
-        "verified_purchase": true,
-        "created_at": "2024-01-08T21:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0055",
-        "slug": "chamomile",
-        "rating": 4,
-        "title": "Digestive comfort",
-        "body": "Good for both sleep and digestive wellness. Pleasant taste and aroma. Organic certification is appreciated.",
-        "verified_purchase": true,
-        "created_at": "2024-01-23T19:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0056",
-        "slug": "chamomile",
-        "rating": 4,
-        "title": "Reliable herb",
-        "body": "Consistent quality and effects. Safe for regular use. Combines well with other relaxing herbs in blends.",
-        "verified_purchase": true,
-        "created_at": "2024-02-14T20:20:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "ginger-root": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0057",
-        "slug": "ginger-root",
-        "rating": 5,
-        "title": "Excellent for nausea",
-        "body": "Works quickly for motion sickness and nausea. Standardized gingerol content. Much more convenient than fresh ginger.",
-        "verified_purchase": true,
-        "created_at": "2024-01-12T14:15:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0058",
-        "slug": "ginger-root",
-        "rating": 4,
-        "title": "Digestive support",
-        "body": "Helps with digestion and stomach comfort. Quality extract with good potency. Take with meals for best results.",
-        "verified_purchase": true,
-        "created_at": "2024-01-28T12:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0059",
-        "slug": "ginger-root",
-        "rating": 5,
-        "title": "High quality extract",
-        "body": "Supercritical extraction preserves active compounds. Effective for inflammation support. Consistent batch quality.",
-        "verified_purchase": true,
-        "created_at": "2024-02-10T15:45:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "peppermint-oil": {
-    "items": [],
-    "next_cursor": null
-  },
-  "garlic-extract": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0060",
-        "slug": "garlic-extract",
-        "rating": 3,
-        "title": "Odorless but effective",
-        "body": "Aged garlic extract reduces odor significantly. Good for cardiovascular support. Take with meals to avoid stomach upset.",
-        "verified_purchase": true,
-        "created_at": "2024-01-16T11:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0061",
-        "slug": "garlic-extract",
-        "rating": 4,
-        "title": "Quality supplement",
-        "body": "Standardized allicin content. Third-party tested for purity. Effects on circulation are gradual but noticeable.",
-        "verified_purchase": true,
-        "created_at": "2024-02-02T13:40:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "hawthorn-berry": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0062",
-        "slug": "hawthorn-berry",
-        "rating": 4,
-        "title": "Heart wellness support",
-        "body": "Traditional cardiovascular herb. Standardized oligomeric procyanidins. Effects are subtle but consistent over time.",
-        "verified_purchase": true,
-        "created_at": "2024-01-25T16:10:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0063",
-        "slug": "hawthorn-berry",
-        "rating": 4,
-        "title": "Quality berry extract",
-        "body": "European sourced hawthorn. Good for circulation support. Combines well with other cardiovascular supplements.",
-        "verified_purchase": false,
-        "created_at": "2024-02-18T14:25:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "grape-seed-extract": {
-    "items": [],
-    "next_cursor": null
-  },
-  "resveratrol": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0064",
-        "slug": "resveratrol",
-        "rating": 4,
-        "title": "Antioxidant support",
-        "body": "Trans-resveratrol form is well absorbed. Taking for longevity support. Quality seems consistent with third-party testing.",
-        "verified_purchase": true,
-        "created_at": "2024-01-11T10:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0065",
-        "slug": "resveratrol",
-        "rating": 4,
-        "title": "Good quality extract",
-        "body": "Japanese knotweed source provides high potency. Effects are long-term focused. Combines well with other antioxidants.",
-        "verified_purchase": true,
-        "created_at": "2024-01-27T15:50:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0066",
-        "slug": "resveratrol",
-        "rating": 4,
-        "title": "Longevity supplement",
-        "body": "Research-backed compound for healthy aging. Standardized to 98% trans-resveratrol. Take with fats for absorption.",
-        "verified_purchase": true,
-        "created_at": "2024-02-12T12:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "quercetin": {
-    "items": [],
-    "next_cursor": null
-  },
-  "bromelain": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0067",
-        "slug": "bromelain",
-        "rating": 4,
-        "title": "Good digestive enzyme",
-        "body": "Helps with protein digestion. Pineapple-derived enzyme is gentle on stomach. Take with meals for digestive support.",
-        "verified_purchase": true,
-        "created_at": "2024-01-14T13:25:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0068",
-        "slug": "bromelain",
-        "rating": 4,
-        "title": "Quality enzyme",
-        "body": "Standardized enzyme activity. Good for post-workout recovery when taken between meals. Consistent potency.",
-        "verified_purchase": false,
-        "created_at": "2024-02-05T17:40:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "digestive-enzymes": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0069",
-        "slug": "digestive-enzymes",
-        "rating": 4,
-        "title": "Complete enzyme blend",
-        "body": "Helps with all macronutrient digestion. Enteric coating protects enzymes. Noticeable improvement in digestive comfort.",
-        "verified_purchase": true,
-        "created_at": "2024-01-09T12:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0070",
-        "slug": "digestive-enzymes",
-        "rating": 4,
-        "title": "Effective formula",
-        "body": "Broad spectrum enzyme activity. Good for people with digestive sensitivities. Take right before meals for best results.",
-        "verified_purchase": true,
-        "created_at": "2024-01-22T18:20:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0071",
-        "slug": "digestive-enzymes",
-        "rating": 5,
-        "title": "Game changer for digestion",
-        "body": "Significantly improved digestive comfort after meals. High enzyme activity levels. Quality manufacturing standards.",
-        "verified_purchase": true,
-        "created_at": "2024-02-08T16:35:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "alpha-lipoic-acid": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0072",
-        "slug": "alpha-lipoic-acid",
-        "rating": 4,
-        "title": "Universal antioxidant",
-        "body": "Good for cellular energy support. R-form seems more effective. Take on empty stomach for best absorption.",
-        "verified_purchase": true,
-        "created_at": "2024-01-13T09:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0073",
-        "slug": "alpha-lipoic-acid",
-        "rating": 4,
-        "title": "Quality supplement",
-        "body": "Third-party tested for purity. Helps with glucose metabolism support. Consistent potency batch to batch.",
-        "verified_purchase": true,
-        "created_at": "2024-02-01T14:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "acetyl-l-carnitine": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0074",
-        "slug": "acetyl-l-carnitine",
-        "rating": 4,
-        "title": "Brain energy support",
-        "body": "Noticeable improvement in mental clarity. Crosses blood-brain barrier effectively. Take on empty stomach.",
-        "verified_purchase": true,
-        "created_at": "2024-01-18T11:45:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0075",
-        "slug": "acetyl-l-carnitine",
-        "rating": 3,
-        "title": "Subtle effects",
-        "body": "Effects are gradual and subtle. Good for cellular energy metabolism. Quality seems consistent.",
-        "verified_purchase": false,
-        "created_at": "2024-02-14T16:20:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "tyrosine": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0076",
-        "slug": "tyrosine",
-        "rating": 4,
-        "title": "Good for focus",
-        "body": "Helps with mental focus during stressful periods. Take on empty stomach for best results. No jitters like caffeine.",
-        "verified_purchase": true,
-        "created_at": "2024-01-07T08:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0077",
-        "slug": "tyrosine",
-        "rating": 4,
-        "title": "Stress support",
-        "body": "Supports neurotransmitter production. Good for high-stress situations. Effects are noticeable within an hour.",
-        "verified_purchase": true,
-        "created_at": "2024-01-29T12:15:00Z"
-      }
-    ],
-    "next_cursor": null
-  },
-  "taurine": {
-    "items": [
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0078",
-        "slug": "taurine",
-        "rating": 4,
-        "title": "Good for workouts",
-        "body": "Helps with exercise performance and recovery. Supports cellular hydration. No side effects experienced.",
-        "verified_purchase": true,
-        "created_at": "2024-01-11T17:30:00Z"
-      },
-      {
-        "id": "550e8400-e29b-41d4-a716-rev0079",
-        "slug": "taurine",
-        "rating": 4,
-        "title": "Heart health support",
-        "body": "Taking for cardiovascular wellness. Well absorbed and utilized. Combines well with magnesium.",
-        "verified_purchase": true,
-        "created_at": "2024-02-03T14:45:00Z"
+        "created_at": "2025-06-17T18:00:00Z"
       }
     ],
     "next_cursor": null
@@ -933,18 +290,53 @@
   "glycine": {
     "items": [
       {
-        "id": "550e8400-e29b-41d4-a716-rev0080",
+        "id": "65771814-5018-4e20-a7d7-5ad87a0ff76e",
         "slug": "glycine",
-        "rating": 5,
-        "title": "Excellent for sleep",
-        "body": "Significantly improved sleep quality. Fall asleep faster and wake up refreshed. No grogginess in morning.",
+        "rating": 3,
+        "title": "Steady results",
+        "body": "Took daily with food. Gradual, steady effects after ~2–3 weeks.",
         "verified_purchase": true,
-        "created_at": "2024-01-05T21:15:00Z"
+        "created_at": "2025-06-16T18:00:00Z"
       },
       {
-        "id": "550e8400-e29b-41d4-a716-rev0081",
+        "id": "b1b8172f-c8b3-4187-a29d-03564831a190",
+        "slug": "glycine",
+        "rating": 5,
+        "title": "Noticeable support",
+        "body": "Used consistently for a few weeks. Subtle but noticeable support; no side effects.",
+        "verified_purchase": false,
+        "created_at": "2025-06-13T18:00:00Z"
+      },
+      {
+        "id": "851fd556-a7b8-4a86-9d42-b5a28d390401",
         "slug": "glycine",
         "rating": 4,
-        "title": "Simple but effective",
-        "body": "Basic amino acid with good results. Helps with recovery and sleep. Powder form mixes well.",
-        "verified_purchase": true
+        "title": "Works as expected",
+        "body": "Quality seems good. Effects align with what I read. Will continue monitoring.",
+        "verified_purchase": true,
+        "created_at": "2025-06-10T18:00:00Z"
+      }
+    ],
+    "next_cursor": null
+  },
+  "rhodiola-rosea": {
+    "items": [],
+    "next_cursor": null
+  },
+  "bacopa-monnieri": {
+    "items": [],
+    "next_cursor": null
+  },
+  "vitamin-c-ascorbic-acid": {
+    "items": [],
+    "next_cursor": null
+  },
+  "zinc-picolinate-citrate": {
+    "items": [],
+    "next_cursor": null
+  },
+  "alpha-gpc": {
+    "items": [],
+    "next_cursor": null
+  }
+}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Star, X } from "lucide-react"
+import { Star } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Input } from "@/components/ui/input"
@@ -53,12 +53,7 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="glass-morph border-white/20 max-w-md mx-4">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            Add Review
-            <button onClick={handleClose} className="p-1 hover:bg-white/10 rounded transition-colors">
-              <X className="h-4 w-4" />
-            </button>
-          </DialogTitle>
+          <DialogTitle>Add Review</DialogTitle>
           <DialogDescription>
             Share your experience with this supplement to help others make informed decisions.
           </DialogDescription>
@@ -123,7 +118,6 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3 pt-2">
             <LiquidButton variant="outline" onClick={handleClose} className="flex-1" disabled={isSubmitting}>
               Cancel

@@ -1,6 +1,6 @@
 "use client"
 
-import { Crown, X } from "lucide-react"
+import { Crown } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { LiquidButton } from "@/components/ui/liquid-button"
 
@@ -14,12 +14,7 @@ export function PremiumGateModal({ isOpen, onClose }: PremiumGateModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="glass-morph border-white/20 max-w-sm mx-4">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            Premium Feature
-            <button onClick={onClose} className="p-1 hover:bg-white/10 rounded transition-colors">
-              <X className="h-4 w-4" />
-            </button>
-          </DialogTitle>
+          <DialogTitle>Premium Feature</DialogTitle>
           <DialogDescription>Upgrade to premium to submit reviews and ratings for supplements.</DialogDescription>
         </DialogHeader>
 
