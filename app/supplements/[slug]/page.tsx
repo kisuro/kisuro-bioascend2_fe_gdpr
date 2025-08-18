@@ -9,19 +9,15 @@ interface SupplementDetailPageProps {
   }
 }
 
-function getSupplement(slug: string) {
+async function getSupplement(slug: string) {
   try {
     const supplementsPath = path.join(process.cwd(), "public/seed/supplements.json")
     const reviewsPath = path.join(process.cwd(), "public/seed/reviews.json")
 
-    const supplementsData = JSON.parse(fs.readFileSync(supplementsPath, "utf8"))
-    let reviewsData = {}
-
-    try {
-      reviewsData = JSON.parse(fs.readFileSync(reviewsPath, "utf8"))
-    } catch (reviewsError) {
-      console.warn("Reviews file not found or invalid, continuing without reviews")
-    }
+    const [supplementsData, reviewsData] = await Promise.all([
+      fs.promises.readFile(supplementsPath, "utf8").then(JSON.parse),
+      fs.promises.readFile(reviewsPath, "utf8").then(JSON.parse).catch(() => ({}))
+    ])
 
     const supplement = supplementsData.find((s: any) => s.id === slug)
     if (!supplement) return null
@@ -71,8 +67,8 @@ function getSupplement(slug: string) {
   }
 }
 
-export default function SupplementDetailPage({ params }: SupplementDetailPageProps) {
-  const supplement = getSupplement(params.slug)
+export default async function SupplementDetailPage({ params }: SupplementDetailPageProps) {
+  const supplement = await getSupplement(params.slug)
 
   if (!supplement) {
     notFound()

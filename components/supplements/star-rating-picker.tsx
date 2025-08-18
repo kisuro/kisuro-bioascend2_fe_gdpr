@@ -65,28 +65,32 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
       </PopoverTrigger>
       <PopoverContent
         className="w-64 p-4 glass-morph border-white/20"
-        align="start"
+        align="center"
+        sideOffset={8}
         onInteractOutside={handleInteractOutside}
       >
         <div className="space-y-4">
-          <h4 className="font-medium">Rate this supplement</h4>
+          <h4 className="font-medium text-center">Rate this supplement</h4>
 
           <div className="flex items-center gap-1 justify-center">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
-                className="p-1 transition-colors rounded hover:bg-white/10"
+                className="p-1.5 transition-colors rounded-full hover:bg-white/10"
                 data-rating-star
                 onMouseEnter={() => setHoverRating(star)}
                 onMouseLeave={() => setHoverRating(0)}
                 onClick={(e) => handleRatingClick(star, e)}
+                type="button"
+                aria-label={`Rate ${star} stars`}
               >
                 <Star
-                  className={`h-6 w-6 ${
+                  className={`h-6 w-6 transition-colors ${
                     star <= (hoverRating || rating)
                       ? "fill-yellow-400 text-yellow-400"
                       : "text-muted-foreground hover:text-yellow-400"
                   }`}
+                  aria-hidden="true"
                 />
               </button>
             ))}
@@ -99,10 +103,14 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
           )}
 
           <div className="flex gap-2">
-            <LiquidButton variant="outline" size="sm" onClick={handleCancel} className="flex-1">
+            <LiquidButton variant="outline" className="flex-1" onClick={handleCancel}>
               Cancel
             </LiquidButton>
-            <LiquidButton size="sm" onClick={handleSubmit} disabled={rating === 0} className="flex-1">
+            <LiquidButton
+              className="flex-1"
+              onClick={handleSubmit}
+              disabled={rating === 0}
+            >
               Submit
             </LiquidButton>
           </div>

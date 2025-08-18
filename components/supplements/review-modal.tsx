@@ -71,17 +71,20 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
-                  className="p-1 transition-colors rounded hover:bg-white/10"
+                  className="p-1.5 transition-colors rounded-full hover:bg-white/10"
                   onMouseEnter={() => setHoverRating(star)}
                   onMouseLeave={() => setHoverRating(0)}
                   onClick={() => setRating(star)}
+                  type="button"
+                  aria-label={`Rate ${star} stars`}
                 >
                   <Star
-                    className={`h-6 w-6 ${
+                    className={`h-6 w-6 transition-colors ${
                       star <= (hoverRating || rating)
                         ? "fill-yellow-400 text-yellow-400"
                         : "text-muted-foreground hover:text-yellow-400"
                     }`}
+                    aria-hidden="true"
                   />
                 </button>
               ))}

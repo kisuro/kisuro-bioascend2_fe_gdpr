@@ -9,6 +9,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    optimizeServerReact: true,
+    optimizeCss: true,
+  },
 }
 
 export default nextConfig

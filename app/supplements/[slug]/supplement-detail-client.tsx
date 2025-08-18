@@ -124,19 +124,29 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
     }
   }
 
-  const handleAddReviewClick = () => {
-    console.log("[v0] Add review clicked, user status:", user.status)
-    if (user.status !== "premium") {
-      console.log("[v0] Setting showPremiumGate to true")
+  const handleRatingSubmit = (rating: number) => {
+    if (!user?.isPremium) {
       setShowPremiumGate(true)
       return
     }
-    console.log("[v0] opened: reviewModal")
+
+    setUserRating(rating)
+    toast({
+      title: "Rating submitted",
+      description: "Thank you for rating this supplement!",
+    })
+  }
+
+  const handleAddReviewClick = () => {
+    if (!user?.isPremium) {
+      setShowPremiumGate(true)
+      return
+    }
+
     setShowReviewModal(true)
   }
 
   const handlePremiumGateClose = () => {
-    console.log("[v0] PremiumGateModal close requested")
     setShowPremiumGate(false)
   }
 
@@ -145,46 +155,6 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
     setShowReviewModal(false)
   }
 
-  const handleRatingSubmit = async (rating: number) => {
-    console.log("[v0] Rating submitted:", rating)
-    try {
-      const result = await reviewsStore.submit(supplement.id, {
-        rating,
-        title: "",
-        body: "",
-        slug: supplement.id,
-        verified_purchase: false,
-      })
-
-      console.log("[v0] Rating submission result:", result)
-
-      // Update UI optimistically
-      setSupplement((prev) => ({
-        ...prev,
-        rating: result.rating,
-        reviews_count: result.reviews_count,
-      }))
-
-      // Reload reviews
-      const userReviews = await reviewsStore.list(supplement.id)
-      const mergedReviews = [...userReviews, ...initialSupplement.reviews].sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-      )
-      setAllReviews(mergedReviews)
-
-      toast({
-        title: "Thanks for your feedback!",
-        description: "Your rating has been submitted.",
-      })
-    } catch (error) {
-      console.error("[v0] Rating submission error:", error)
-      toast({
-        title: "Error",
-        description: "Failed to submit rating. Please try again.",
-        variant: "destructive",
-      })
-    }
-  }
 
   const handleReviewSubmit = async (data: { rating: number; title: string; body: string }) => {
     try {

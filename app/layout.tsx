@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      <head suppressHydrationWarning>
         <style>{`
 html {
   font-family: ${inter.style.fontFamily};
@@ -49,7 +49,7 @@ html {
 }
         `}</style>
       </head>
-      <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
         <ThemeProvider>
           <ErrorHandler />
           <div className="min-h-screen">

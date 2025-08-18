@@ -1,14 +1,8 @@
-"use client"
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { GlassCard } from "@/components/ui/glass-card"
-import { LiquidButton } from "@/components/ui/liquid-button"
-import { Badge } from "@/components/ui/badge"
-import { X, Star, User, Calendar, ThumbsUp } from "lucide-react"
-import type { Supplement } from "@/lib/data/supplements"
+            ))}
+          </div>
 
-interface SupplementReviewsModalProps {
-  supplement: Supplement
+      </DialogContent>
+    </Dialog>
   isOpen: boolean
   onClose: () => void
 }
@@ -58,152 +52,74 @@ export function SupplementReviewsModal({ supplement, isOpen, onClose }: Suppleme
   }
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="modal-overlay">
-          {/* Backdrop */}
-          <motion.div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-          />
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="glass-morph border-white/20 max-w-4xl mx-4">
+        <DialogHeader>
+          <DialogTitle>Reviews for {supplement.name}</DialogTitle>
+          <DialogDescription>
+            {supplement.ratings.length} reviews • {averageRating.toFixed(1)} average rating
+          </DialogDescription>
+        </DialogHeader>
 
-          {/* Modal */}
-          <motion.div
-            className="modal-content max-w-4xl"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <GlassCard className="glass-strong p-6 overflow-y-auto max-h-full">
-              {/* Header */}
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">{supplement.name} Reviews</h2>
-                  <div className="flex items-center gap-4">
+        <div className="space-y-6 mt-4">
+          {/* Rating Distribution */}
+          <div className="space-y-2">
+            {ratingDistribution.map(({ rating, count, percentage }) => (
+              <div key={rating} className="flex items-center gap-2">
+                <div className="w-12 text-sm text-muted-foreground">{rating} stars</div>
+                <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-yellow-400"
+                    style={{ width: `${percentage}%` }}
+                  />
+                </div>
+                <div className="w-12 text-sm text-right text-muted-foreground">{count}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Sort Controls */}
+          <div className="flex justify-end gap-2">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="bg-white/5 border border-white/10 rounded px-2 py-1 text-sm"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="highest">Highest Rated</option>
+              <option value="lowest">Lowest Rated</option>
+            </select>
+          </div>
+
+          {/* Reviews List */}
+          <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+            {sortedReviews.map((review) => (
+              <div key={review.id} className="border-l-2 border-primary/20 pl-4 py-2">
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                      <User className="h-3 w-3" />
+                    </div>
                     <div className="flex items-center gap-2">
-                      <div className="flex">{renderStars(Math.round(averageRating))}</div>
-                      <span className="text-xl font-semibold">{averageRating.toFixed(1)}</span>
-                      <span className="text-muted-foreground">({supplement.ratings.length} reviews)</span>
+                      {renderStars(review.score)}
+                      {review.verified && (
+                        <Badge variant="outline" className="text-xs">
+                          Verified
+                        </Badge>
+                      )}
                     </div>
                   </div>
-                </div>
-                <LiquidButton
-                  variant="ghost"
-                  size="sm"
-                  onClick={onClose}
-                  className="relative z-10 min-w-[2.5rem] min-h-[2.5rem] flex-shrink-0"
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close reviews dialog</span>
-                </LiquidButton>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Rating Distribution */}
-                <div className="lg:col-span-1">
-                  <GlassCard className="glass-subtle p-4">
-                    <h3 className="font-semibold mb-4">Rating Distribution</h3>
-                    <div className="space-y-2">
-                      {ratingDistribution.map(({ rating, count, percentage }) => (
-                        <div key={rating} className="flex items-center gap-2 text-sm">
-                          <span className="w-8 flex-shrink-0">{rating}</span>
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400 flex-shrink-0" />
-                          <div className="flex-1 bg-muted rounded-full h-2 min-w-0">
-                            <div
-                              className="bg-yellow-400 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${percentage}%` }}
-                            />
-                          </div>
-                          <span className="w-8 text-muted-foreground flex-shrink-0">{count}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </GlassCard>
-
-                  {/* Sort Controls */}
-                  <div className="mt-4">
-                    <label className="block text-sm font-medium mb-2">Sort by:</label>
-                    <select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value as any)}
-                      className="w-full p-2 rounded-lg glass-subtle border border-border/50 bg-background/50"
-                    >
-                      <option value="newest">Newest First</option>
-                      <option value="oldest">Oldest First</option>
-                      <option value="highest">Highest Rating</option>
-                      <option value="lowest">Lowest Rating</option>
-                    </select>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Calendar className="h-3 w-3" />
+                    <span>{formatDate(review.date)}</span>
                   </div>
                 </div>
-
-                {/* Reviews List */}
-                <div className="lg:col-span-2 space-y-4">
-                  {sortedReviews.map((review, index) => (
-                    <motion.div
-                      key={`${review.userId}-${review.date}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                    >
-                      <GlassCard className="glass-subtle p-4">
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
-                              <User className="h-4 w-4" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-medium">User {review.userId.slice(-3)}</span>
-                                <Badge variant="outline" className="text-xs">
-                                  Verified Purchase
-                                </Badge>
-                              </div>
-                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                <Calendar className="h-3 w-3 flex-shrink-0" />
-                                <span>{formatDate(review.date)}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-start sm:justify-end">
-                            {renderStars(review.score)}
-                          </div>
-                        </div>
-
-                        {review.comment && (
-                          <div className="mb-3">
-                            <p className="text-sm leading-relaxed">{review.comment}</p>
-                          </div>
-                        )}
-
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground">
-                          <div className="flex items-center gap-4">
-                            <button className="flex items-center gap-1 hover:text-foreground transition-colors">
-                              <ThumbsUp className="h-3 w-3 flex-shrink-0" />
-                              <span>Helpful ({Math.floor(Math.random() * 10) + 1})</span>
-                            </button>
-                          </div>
-                          <span className="text-right">
-                            Reviewed after {Math.floor(Math.random() * 90) + 30} days of use
-                          </span>
-                        </div>
-                      </GlassCard>
-                    </motion.div>
-                  ))}
-
-                  {supplement.ratings.length === 0 && (
-                    <div className="text-center py-8">
-                      <div className="text-4xl mb-4">📝</div>
-                      <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
-                      <p className="text-muted-foreground">Be the first to review this supplement!</p>
-                    </div>
-                  )}
-                </div>
+                {review.title && <h4 className="font-medium mb-1">{review.title}</h4>}
+                {review.comment && (
+                  <p className="text-sm text-muted-foreground leading-relaxed">{review.comment}</p>
+                )}
               </div>
-
               {/* Footer */}
               <div className="mt-6 pt-4 border-t border-border/50 flex justify-between items-center">
                 <p className="text-sm text-muted-foreground">
