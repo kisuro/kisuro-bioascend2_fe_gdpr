@@ -97,14 +97,16 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
   const hasRating = supplement.rating !== null && supplement.reviews_count > 0
 
   const handleRatingClick = () => {
+    console.log("[v0] Rating clicked, user status:", user.status)
     if (user.status !== "premium") {
       setShowPremiumGate(true)
       return
     }
-    // Premium user can proceed with rating
+    // Premium user can proceed with rating - the StarRatingPicker will handle the interaction
   }
 
   const handleAddReviewClick = () => {
+    console.log("[v0] Add review clicked, user status:", user.status)
     if (user.status !== "premium") {
       setShowPremiumGate(true)
       return
@@ -113,6 +115,7 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
   }
 
   const handleRatingSubmit = async (rating: number) => {
+    console.log("[v0] Rating submitted:", rating)
     try {
       const result = await reviewsStore.submit(supplement.id, {
         rating,
@@ -121,6 +124,8 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
         slug: supplement.id,
         verified_purchase: false,
       })
+
+      console.log("[v0] Rating submission result:", result)
 
       // Update UI optimistically
       setSupplement((prev) => ({
@@ -141,6 +146,7 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
         description: "Your rating has been submitted.",
       })
     } catch (error) {
+      console.error("[v0] Rating submission error:", error)
       toast({
         title: "Error",
         description: "Failed to submit rating. Please try again.",
@@ -156,6 +162,8 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
         slug: supplement.id,
         verified_purchase: false,
       })
+
+      console.log("[v0] Review submission result:", result)
 
       // Update UI optimistically
       setSupplement((prev) => ({
@@ -176,6 +184,7 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
         description: "Your review has been submitted.",
       })
     } catch (error) {
+      console.error("[v0] Review submission error:", error)
       toast({
         title: "Error",
         description: "Failed to submit review. Please try again.",

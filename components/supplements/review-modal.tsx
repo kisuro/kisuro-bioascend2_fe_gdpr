@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Star, X } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -59,6 +59,9 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
               <X className="h-4 w-4" />
             </button>
           </DialogTitle>
+          <DialogDescription>
+            Share your experience with this supplement to help others make informed decisions.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
