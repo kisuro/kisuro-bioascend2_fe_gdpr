@@ -1,0 +1,136 @@
+"use client"
+
+import { useState } from "react"
+import { Star, X } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { LiquidButton } from "@/components/ui/liquid-button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+
+interface ReviewModalProps {
+  isOpen: boolean
+  onClose: () => void
+  onSubmit: (data: { rating: number; title: string; body: string }) => void
+  initialRating?: number
+}
+
+export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: ReviewModalProps) {
+  const [rating, setRating] = useState(initialRating)
+  const [hoverRating, setHoverRating] = useState(0)
+  const [title, setTitle] = useState("")
+  const [body, setBody] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async () => {
+    if (rating === 0) return
+
+    setIsSubmitting(true)
+    try {
+      await onSubmit({ rating, title, body })
+      // Reset form
+      setRating(0)
+      setTitle("")
+      setBody("")
+      onClose()
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleClose = () => {
+    setRating(initialRating)
+    setTitle("")
+    setBody("")
+    onClose()
+  }
+
+  const titleError = title.length > 80
+  const bodyError = body.length > 600
+  const canSubmit = rating > 0 && !titleError && !bodyError
+
+  return (
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="glass-morph border-white/20 max-w-md mx-4">
+        <DialogHeader>
+          <DialogTitle className="flex items-center justify-between">
+            Add Review
+            <button onClick={handleClose} className="p-1 hover:bg-white/10 rounded transition-colors">
+              <X className="h-4 w-4" />
+            </button>
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          {/* Star Rating */}
+          <div className="space-y-2">
+            <Label>Rating *</Label>
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  className="p-1 transition-colors rounded hover:bg-white/10"
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  onClick={() => setRating(star)}
+                >
+                  <Star
+                    className={`h-6 w-6 ${
+                      star <= (hoverRating || rating)
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-muted-foreground hover:text-yellow-400"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="space-y-2">
+            <Label htmlFor="title">Title (optional)</Label>
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Brief summary of your experience"
+              className="glass-subtle border-white/20"
+              maxLength={80}
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>{titleError && "Title too long"}</span>
+              <span>{title.length}/80</span>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="space-y-2">
+            <Label htmlFor="body">Review (optional)</Label>
+            <Textarea
+              id="body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="Share your experience with this supplement. Keep it factual and helpful for others."
+              className="glass-subtle border-white/20 min-h-[100px]"
+              maxLength={600}
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>{bodyError && "Review too long"}</span>
+              <span>{body.length}/600</span>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-2">
+            <LiquidButton variant="outline" onClick={handleClose} className="flex-1" disabled={isSubmitting}>
+              Cancel
+            </LiquidButton>
+            <LiquidButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="flex-1">
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </LiquidButton>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}

@@ -1,9 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/hooks/use-toast"
 import {
   Star,
   Users,
@@ -19,6 +21,11 @@ import {
   User,
 } from "lucide-react"
 import Link from "next/link"
+import { useUser } from "@/lib/hooks/use-user"
+import { reviewsStore } from "@/lib/stores/reviews-store"
+import { StarRatingPicker } from "@/components/supplements/star-rating-picker"
+import { ReviewModal } from "@/components/supplements/review-modal"
+import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
 
 interface Review {
   id: string
@@ -49,8 +56,133 @@ interface SupplementDetailClientProps {
   }
 }
 
-export function SupplementDetailClient({ supplement }: SupplementDetailClientProps) {
+export function SupplementDetailClient({ supplement: initialSupplement }: SupplementDetailClientProps) {
+  const [supplement, setSupplement] = useState(initialSupplement)
+  const [allReviews, setAllReviews] = useState<Review[]>(initialSupplement.reviews)
+  const [showReviewModal, setShowReviewModal] = useState(false)
+  const [showPremiumGate, setShowPremiumGate] = useState(false)
+  const [userRating, setUserRating] = useState(0)
+
+  const user = useUser()
+  const { toast } = useToast()
+
+  useEffect(() => {
+    const loadUserReviews = async () => {
+      try {
+        const userReviews = await reviewsStore.list(supplement.id)
+        const mergedReviews = [...userReviews, ...initialSupplement.reviews].sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        )
+
+        setAllReviews(mergedReviews)
+
+        // Recalculate aggregate rating
+        if (mergedReviews.length > 0) {
+          const totalRating = mergedReviews.reduce((sum, review) => sum + review.rating, 0)
+          const avgRating = totalRating / mergedReviews.length
+          setSupplement((prev) => ({
+            ...prev,
+            rating: avgRating,
+            reviews_count: mergedReviews.length,
+          }))
+        }
+      } catch (error) {
+        console.error("Error loading user reviews:", error)
+      }
+    }
+
+    loadUserReviews()
+  }, [supplement.id, initialSupplement.reviews])
+
   const hasRating = supplement.rating !== null && supplement.reviews_count > 0
+
+  const handleRatingClick = () => {
+    if (user.status !== "premium") {
+      setShowPremiumGate(true)
+      return
+    }
+    // Premium user can proceed with rating
+  }
+
+  const handleAddReviewClick = () => {
+    if (user.status !== "premium") {
+      setShowPremiumGate(true)
+      return
+    }
+    setShowReviewModal(true)
+  }
+
+  const handleRatingSubmit = async (rating: number) => {
+    try {
+      const result = await reviewsStore.submit(supplement.id, {
+        rating,
+        title: "",
+        body: "",
+        slug: supplement.id,
+        verified_purchase: false,
+      })
+
+      // Update UI optimistically
+      setSupplement((prev) => ({
+        ...prev,
+        rating: result.rating,
+        reviews_count: result.reviews_count,
+      }))
+
+      // Reload reviews
+      const userReviews = await reviewsStore.list(supplement.id)
+      const mergedReviews = [...userReviews, ...initialSupplement.reviews].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+      setAllReviews(mergedReviews)
+
+      toast({
+        title: "Thanks for your feedback!",
+        description: "Your rating has been submitted.",
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit rating. Please try again.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleReviewSubmit = async (data: { rating: number; title: string; body: string }) => {
+    try {
+      const result = await reviewsStore.submit(supplement.id, {
+        ...data,
+        slug: supplement.id,
+        verified_purchase: false,
+      })
+
+      // Update UI optimistically
+      setSupplement((prev) => ({
+        ...prev,
+        rating: result.rating,
+        reviews_count: result.reviews_count,
+      }))
+
+      // Reload reviews
+      const userReviews = await reviewsStore.list(supplement.id)
+      const mergedReviews = [...userReviews, ...initialSupplement.reviews].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+      setAllReviews(mergedReviews)
+
+      toast({
+        title: "Thanks for your feedback!",
+        description: "Your review has been submitted.",
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit review. Please try again.",
+        variant: "destructive",
+      })
+    }
+  }
 
   const getEvidenceLevelColor = (level: string) => {
     switch (level.toLowerCase()) {
@@ -82,11 +214,6 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
       </div>
     )
   }
-
-  // Sort reviews by date (newest first)
-  const sortedReviews = [...supplement.reviews].sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-  )
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -126,25 +253,49 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                   {hasRating ? (
                     <div className="flex items-center gap-2 flex-wrap">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={`h-5 w-5 ${
-                              star <= (supplement.rating || 0)
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-muted-foreground"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
-                      <span className="text-muted-foreground whitespace-nowrap">
-                        ({supplement.reviews_count} reviews)
-                      </span>
+                      <StarRatingPicker
+                        currentRating={userRating}
+                        onSubmit={handleRatingSubmit}
+                        onCancel={() => {}}
+                        trigger={
+                          <button
+                            className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors"
+                            onClick={handleRatingClick}
+                          >
+                            <div className="flex">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  className={`h-5 w-5 ${
+                                    star <= (supplement.rating || 0)
+                                      ? "fill-yellow-400 text-yellow-400"
+                                      : "text-muted-foreground"
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
+                            <span className="text-muted-foreground whitespace-nowrap">
+                              ({supplement.reviews_count} reviews)
+                            </span>
+                          </button>
+                        }
+                      />
                     </div>
                   ) : (
-                    <div className="text-muted-foreground">No ratings yet</div>
+                    <StarRatingPicker
+                      currentRating={userRating}
+                      onSubmit={handleRatingSubmit}
+                      onCancel={() => {}}
+                      trigger={
+                        <button
+                          className="text-muted-foreground hover:text-foreground transition-colors"
+                          onClick={handleRatingClick}
+                        >
+                          No ratings yet - be the first!
+                        </button>
+                      }
+                    />
                   )}
 
                   <div className="flex items-center gap-2 text-muted-foreground">
@@ -235,19 +386,25 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               <GlassCard className="glass-morph p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <MessageSquare className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-semibold font-heading">Reviews</h2>
-                  {hasRating && (
-                    <Badge variant="outline" className="ml-auto">
-                      {supplement.reviews_count} reviews
-                    </Badge>
-                  )}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="h-5 w-5 text-primary" />
+                    <h2 className="text-xl font-semibold font-heading">Reviews</h2>
+                    {hasRating && (
+                      <Badge variant="outline" className="ml-2">
+                        {supplement.reviews_count} reviews
+                      </Badge>
+                    )}
+                  </div>
+                  <LiquidButton size="sm" onClick={handleAddReviewClick} className="flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Add Review
+                  </LiquidButton>
                 </div>
 
-                {sortedReviews.length > 0 ? (
+                {allReviews.length > 0 ? (
                   <div className="space-y-4">
-                    {sortedReviews.map((review) => (
+                    {allReviews.map((review) => (
                       <div key={review.id} className="border-l-2 border-primary/20 pl-4 py-2">
                         <div className="flex items-start justify-between gap-4 mb-2">
                           <div className="flex items-center gap-2">
@@ -268,8 +425,8 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
                             <span>{formatDate(review.created_at)}</span>
                           </div>
                         </div>
-                        <h4 className="font-medium mb-1">{review.title}</h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed">{review.body}</p>
+                        {review.title && <h4 className="font-medium mb-1">{review.title}</h4>}
+                        {review.body && <p className="text-sm text-muted-foreground leading-relaxed">{review.body}</p>}
                       </div>
                     ))}
                   </div>
@@ -327,6 +484,7 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
           </div>
         </div>
 
+        {/* Fixed bottom bar */}
         <motion.div
           className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50 p-4 z-40 safe-area-pb"
           initial={{ opacity: 0, y: 20 }}
@@ -349,6 +507,15 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
 
         <div className="h-24" />
       </div>
+
+      <ReviewModal
+        isOpen={showReviewModal}
+        onClose={() => setShowReviewModal(false)}
+        onSubmit={handleReviewSubmit}
+        initialRating={userRating}
+      />
+
+      <PremiumGateModal isOpen={showPremiumGate} onClose={() => setShowPremiumGate(false)} />
     </div>
   )
 }
