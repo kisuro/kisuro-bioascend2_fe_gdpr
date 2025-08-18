@@ -117,16 +117,21 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
   const handleRatingClick = () => {
     console.log("[v0] Rating clicked, user status:", user.status)
     if (user.status !== "premium") {
+      console.log("[v0] opened: premiumGate")
       setShowPremiumGate(true)
+    } else {
+      console.log("[v0] opened: ratingPicker")
     }
   }
 
   const handleAddReviewClick = () => {
     console.log("[v0] Add review clicked, user status:", user.status)
     if (user.status !== "premium") {
+      console.log("[v0] opened: premiumGate")
       setShowPremiumGate(true)
       return
     }
+    console.log("[v0] opened: reviewModal")
     setShowReviewModal(true)
   }
 

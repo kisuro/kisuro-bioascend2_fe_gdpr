@@ -10,9 +10,13 @@ interface PremiumGateModalProps {
 }
 
 export function PremiumGateModal({ isOpen, onClose }: PremiumGateModalProps) {
+  console.log("[v0] PremiumGateModal mounted, isOpen:", isOpen)
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="glass-morph border-white/20 max-w-sm mx-4">
+        {isOpen && console.log("[v0] PremiumGateModal DialogContent mounted")}
+
         <DialogHeader>
           <DialogTitle>Premium Feature</DialogTitle>
           <DialogDescription>Upgrade to premium to submit reviews and ratings for supplements.</DialogDescription>

@@ -22,6 +22,8 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
   const [body, setBody] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  console.log("[v0] ReviewModal mounted, isOpen:", isOpen)
+
   const handleSubmit = async () => {
     if (rating === 0) return
 
@@ -52,6 +54,8 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="glass-morph border-white/20 max-w-md mx-4">
+        {isOpen && console.log("[v0] ReviewModal DialogContent mounted")}
+
         <DialogHeader>
           <DialogTitle>Add Review</DialogTitle>
           <DialogDescription>
