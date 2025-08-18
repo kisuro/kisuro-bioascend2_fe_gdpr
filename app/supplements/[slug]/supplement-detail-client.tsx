@@ -4,8 +4,31 @@ import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
-import { Star, Users, Info, ArrowLeft, BookOpen, Zap, Shield, Plus, X } from "lucide-react"
+import {
+  Star,
+  Users,
+  Info,
+  ArrowLeft,
+  BookOpen,
+  Zap,
+  Shield,
+  Plus,
+  X,
+  MessageSquare,
+  Calendar,
+  User,
+} from "lucide-react"
 import Link from "next/link"
+
+interface Review {
+  id: string
+  slug: string
+  rating: number
+  title: string
+  body: string
+  verified_purchase: boolean
+  created_at: string
+}
 
 interface SupplementDetailClientProps {
   supplement: {
@@ -19,10 +42,10 @@ interface SupplementDetailClientProps {
     dosage: string
     cycle: string
     benefits: string[]
-    popular_manufacturers?: string[]
-    popular_manufacturer?: string
+    popular_manufacturer: string[]
     rating: number | null
     reviews_count: number
+    reviews: Review[]
   }
 }
 
@@ -41,6 +64,29 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
         return "bg-gray-500/20 text-gray-400 border-gray-500/30"
     }
   }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  }
+
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex items-center gap-0.5">
+        {Array.from({ length: 5 }, (_, i) => (
+          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+        ))}
+      </div>
+    )
+  }
+
+  // Sort reviews by date (newest first)
+  const sortedReviews = [...supplement.reviews].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  )
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -181,6 +227,61 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
                 </div>
               </GlassCard>
             </motion.div>
+
+            {/* Reviews Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <GlassCard className="glass-morph p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <MessageSquare className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold font-heading">Reviews</h2>
+                  {hasRating && (
+                    <Badge variant="outline" className="ml-auto">
+                      {supplement.reviews_count} reviews
+                    </Badge>
+                  )}
+                </div>
+
+                {sortedReviews.length > 0 ? (
+                  <div className="space-y-4">
+                    {sortedReviews.map((review) => (
+                      <div key={review.id} className="border-l-2 border-primary/20 pl-4 py-2">
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
+                              <User className="h-3 w-3" />
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {renderStars(review.rating)}
+                              {review.verified_purchase && (
+                                <Badge variant="outline" className="text-xs">
+                                  Verified
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Calendar className="h-3 w-3" />
+                            <span>{formatDate(review.created_at)}</span>
+                          </div>
+                        </div>
+                        <h4 className="font-medium mb-1">{review.title}</h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{review.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-4">📝</div>
+                    <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
+                    <p className="text-muted-foreground">Be the first to review this supplement!</p>
+                  </div>
+                )}
+              </GlassCard>
+            </motion.div>
           </div>
 
           {/* Sidebar */}
@@ -204,35 +305,25 @@ export function SupplementDetailClient({ supplement }: SupplementDetailClientPro
               </GlassCard>
             </motion.div>
 
-            {(() => {
-              const manufacturerData = supplement.popular_manufacturers || (supplement as any).popular_manufacturer
-              const manufacturers = manufacturerData
-                ? Array.isArray(manufacturerData)
-                  ? manufacturerData
-                  : [manufacturerData]
-                : []
-
-              return (
-                manufacturers.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                  >
-                    <GlassCard className="glass-morph p-6">
-                      <h3 className="font-semibold mb-3">Popular Manufacturers</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {manufacturers.map((manufacturer) => (
-                          <Badge key={manufacturer} variant="outline" className="glass-subtle text-xs">
-                            {manufacturer}
-                          </Badge>
-                        ))}
-                      </div>
-                    </GlassCard>
-                  </motion.div>
-                )
-              )
-            })()}
+            {/* Popular Manufacturers - only show if array is non-empty */}
+            {supplement.popular_manufacturer.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <GlassCard className="glass-morph p-6">
+                  <h3 className="font-semibold mb-3">Popular Manufacturers</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {supplement.popular_manufacturer.map((manufacturer) => (
+                      <Badge key={manufacturer} variant="outline" className="glass-subtle text-xs">
+                        {manufacturer}
+                      </Badge>
+                    ))}
+                  </div>
+                </GlassCard>
+              </motion.div>
+            )}
           </div>
         </div>
 
