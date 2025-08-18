@@ -117,7 +117,7 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
   const handleRatingClick = () => {
     console.log("[v0] Rating clicked, user status:", user.status)
     if (user.status !== "premium") {
-      console.log("[v0] opened: premiumGate")
+      console.log("[v0] Setting showPremiumGate to true")
       setShowPremiumGate(true)
     } else {
       console.log("[v0] opened: ratingPicker")
@@ -127,12 +127,22 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
   const handleAddReviewClick = () => {
     console.log("[v0] Add review clicked, user status:", user.status)
     if (user.status !== "premium") {
-      console.log("[v0] opened: premiumGate")
+      console.log("[v0] Setting showPremiumGate to true")
       setShowPremiumGate(true)
       return
     }
     console.log("[v0] opened: reviewModal")
     setShowReviewModal(true)
+  }
+
+  const handlePremiumGateClose = () => {
+    console.log("[v0] PremiumGateModal close requested")
+    setShowPremiumGate(false)
+  }
+
+  const handleReviewModalClose = () => {
+    console.log("[v0] ReviewModal close requested")
+    setShowReviewModal(false)
   }
 
   const handleRatingSubmit = async (rating: number) => {
@@ -312,7 +322,11 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
                       ) : (
                         <button
                           className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors"
-                          onClick={handleRatingClick}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            handleRatingClick()
+                          }}
                         >
                           <div className="flex">
                             {[1, 2, 3, 4, 5].map((star) => (
@@ -336,7 +350,11 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
                   ) : (
                     <button
                       className="text-muted-foreground hover:text-foreground transition-colors"
-                      onClick={handleRatingClick}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        handleRatingClick()
+                      }}
                     >
                       No ratings yet - be the first!
                     </button>
@@ -440,7 +458,15 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
                       </Badge>
                     )}
                   </div>
-                  <LiquidButton size="sm" onClick={handleAddReviewClick} className="flex items-center gap-2">
+                  <LiquidButton
+                    size="sm"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleAddReviewClick()
+                    }}
+                    className="flex items-center gap-2"
+                  >
                     <Plus className="h-4 w-4" />
                     Add Review
                   </LiquidButton>
@@ -558,12 +584,12 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
 
       <ReviewModal
         isOpen={showReviewModal}
-        onClose={() => setShowReviewModal(false)}
+        onClose={handleReviewModalClose}
         onSubmit={handleReviewSubmit}
         initialRating={userRating}
       />
 
-      <PremiumGateModal isOpen={showPremiumGate} onClose={() => setShowPremiumGate(false)} />
+      <PremiumGateModal isOpen={showPremiumGate} onClose={handlePremiumGateClose} />
     </div>
   )
 }
