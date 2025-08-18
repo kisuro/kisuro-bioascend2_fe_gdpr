@@ -4,7 +4,7 @@ import { useState } from "react"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
-import { Star, Zap, Eye, Clock, Leaf, Brain, FlaskConical, Pill, Heart, Shield } from "lucide-react"
+import { Star, Zap, Eye, Clock, Shield, Brain, Leaf, Pill, FlaskRoundIcon as Flask, Heart } from "lucide-react"
 
 interface Supplement {
   id: string
@@ -27,33 +27,24 @@ interface SupplementCardProps {
   viewMode: "grid" | "list"
 }
 
+const getCategoryIcon = (category: string) => {
+  const categoryLower = category.toLowerCase()
+
+  if (categoryLower.includes("adaptogen")) return Shield
+  if (categoryLower.includes("nootropic")) return Brain
+  if (categoryLower.includes("herb") || categoryLower.includes("extract") || categoryLower.includes("mushroom"))
+    return Leaf
+  if (categoryLower.includes("vitamin")) return Pill
+  if (categoryLower.includes("mineral")) return Flask
+  if (categoryLower.includes("amino")) return Heart
+
+  // Default icon for other categories
+  return Leaf
+}
+
 export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
-
-  const getCategoryIcon = (category: string) => {
-    const categoryLower = category.toLowerCase()
-    switch (categoryLower) {
-      case "adaptogen":
-        return <Shield className="h-3 w-3" />
-      case "nootropic":
-        return <Brain className="h-3 w-3" />
-      case "herb":
-        return <Leaf className="h-3 w-3" />
-      case "vitamin":
-        return <Pill className="h-3 w-3" />
-      case "mineral":
-        return <FlaskConical className="h-3 w-3" />
-      case "amino acid":
-        return <Heart className="h-3 w-3" />
-      case "extract":
-        return <Leaf className="h-3 w-3" />
-      case "mushroom":
-        return <Leaf className="h-3 w-3" />
-      default:
-        return <Zap className="h-3 w-3" />
-    }
-  }
 
   const getEvidenceColor = (level: string) => {
     switch (level.toLowerCase()) {
@@ -82,6 +73,8 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
       </div>
     )
   }
+
+  const CategoryIcon = getCategoryIcon(supplement.categories[0])
 
   if (viewMode === "list") {
     return (
@@ -113,7 +106,7 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
                   <span className="capitalize">{supplement.timing}</span>
                 </div>
                 <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1">
-                  {getCategoryIcon(supplement.categories[0])}
+                  <CategoryIcon className="h-3 w-3" />
                   {supplement.categories[0]}
                 </Badge>
               </div>
@@ -194,7 +187,7 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
             <span className="capitalize">{supplement.timing}</span>
           </div>
           <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1">
-            {getCategoryIcon(supplement.categories[0])}
+            <CategoryIcon className="h-3 w-3" />
             {supplement.categories[0]}
           </Badge>
         </div>
