@@ -119,7 +119,6 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
     if (user.status !== "premium") {
       setShowPremiumGate(true)
     }
-    // For premium users, the StarRatingPicker will handle the popover
   }
 
   const handleAddReviewClick = () => {
