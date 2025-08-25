@@ -1,160 +1,115 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
-import { GlassCard } from "@/components/ui/glass-card"
-import { LiquidButton } from "@/components/ui/liquid-button"
-import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/hooks/use-toast"
-import {
-  Star,
-  Users,
-  Info,
-  ArrowLeft,
-  BookOpen,
-  Zap,
-  Shield,
-  Plus,
-  X,
-  MessageSquare,
-  Calendar,
-  User,
-} from "lucide-react"
-import Link from "next/link"
-import { useUser } from "@/lib/hooks/use-user"
-import { reviewsStore } from "@/lib/stores/reviews-store"
-import { StarRatingPicker } from "@/components/supplements/star-rating-picker"
-import { ReviewModal } from "@/components/supplements/review-modal"
-import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
+import { useEffect, useMemo, useState } from "react";
+import { Star, Users, Calendar, User } from "lucide-react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/lib/hooks/use-user";
+import { StarRatingPicker } from "@/components/supplements/star-rating-picker";
+import { ReviewModal } from "@/components/supplements/review-modal";
+import { PremiumGateModal } from "@/components/supplements/premium-gate-modal";
+import { reviewsStore } from "@/lib/stores/reviews-store";
 
+// --- Types ---------------------------------------------------------------
 interface Review {
-  id: string
-  slug: string
-  rating: number
-  title: string
-  body: string
-  verified_purchase: boolean
-  created_at: string
+  id: string;
+  slug: string;
+  rating: number;
+  title: string;
+  body: string;
+  verified_purchase: boolean;
+  created_at: string;
 }
 
-interface SupplementDetailClientProps {
-  supplement: {
-    id: string
-    name: string
-    summary: string
-    evidence_level: string
-    goals: string[]
-    categories: string[]
-    timing: string
-    dosage: string
-    cycle: string
-    benefits: string[]
-    popular_manufacturer: string[]
-    rating: number | null
-    reviews_count: number
-    reviews: Review[]
-  }
+// `rating` может приходить числом или объектом {avg,count}
+export type RatingShape = number | { avg: number | null; count: number } | null;
+
+interface SupplementDTO {
+  id: string;
+  name: string;
+  summary?: string;
+  evidence_level?: string;
+  goals?: string[];
+  categories?: string[];
+  timing?: string;
+  dosage?: string;
+  cycle?: string;
+  benefits?: string[];
+  popular_manufacturer?: string[] | string;
+  rating: RatingShape;
+  reviews_count?: number;
+  reviews?: Review[];
 }
 
-export function SupplementDetailClient({ supplement: initialSupplement }: SupplementDetailClientProps) {
-  const [supplement, setSupplement] = useState(initialSupplement)
-  const [allReviews, setAllReviews] = useState<Review[]>([])
-  const [showReviewModal, setShowReviewModal] = useState(false)
-  const [showPremiumGate, setShowPremiumGate] = useState(false)
-  const [userRating, setUserRating] = useState(0)
-  const [isLoadingReviews, setIsLoadingReviews] = useState(true)
+interface Props { supplement: SupplementDTO }
 
-  const user = useUser()
-  const { toast } = useToast()
+// --- Helpers ------------------------------------------------------------
+function toArray<T>(v: T | T[] | undefined): T[] {
+  if (!v) return [];
+  return Array.isArray(v) ? v : [v];
+}
 
+function ratingAvg(r: RatingShape): number | null {
+  if (r == null) return null;
+  if (typeof r === "number") return r;
+  return r.avg ?? null;
+}
+
+// --- Component ----------------------------------------------------------
+export function SupplementDetailClient({ supplement: initial }: Props) {
+  // нормализуем вход
+  const normalized: SupplementDTO & { popular_manufacturer: string[]; goals: string[]; categories: string[]; benefits: string[]; reviews: Review[]; } = {
+    ...initial,
+    goals: toArray(initial.goals),
+    categories: toArray(initial.categories),
+    benefits: toArray(initial.benefits),
+    popular_manufacturer: toArray(initial.popular_manufacturer as any),
+    reviews: Array.isArray(initial.reviews) ? initial.reviews : [],
+  };
+
+  const [supplement, setSupplement] = useState(normalized);
+  const [allReviews, setAllReviews] = useState<Review[]>(normalized.reviews);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showPremiumGate, setShowPremiumGate] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(false);
+
+  const { toast } = useToast();
+  const user = useUser();
+
+  // если пропсы обновились – синхронизируем
   useEffect(() => {
-    const loadReviews = async () => {
-      try {
-        setIsLoadingReviews(true)
-        const response = await fetch("/seed/reviews.json")
-        if (!response.ok) {
-          console.warn("Reviews file not found or invalid, continuing without reviews")
-          setAllReviews([])
-          return
-        }
+    setSupplement(normalized);
+    setAllReviews(normalized.reviews);
+    setIsLoadingReviews(false);
+  }, [initial]);
 
-        const reviewsData = await response.json()
-        const supplementReviews = reviewsData[supplement.id]
-
-        if (supplementReviews && supplementReviews.items) {
-          // Sort newest first
-          const sortedReviews = supplementReviews.items.sort(
-            (a: Review, b: Review) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-          )
-          setAllReviews(sortedReviews)
-
-          // Update supplement with calculated rating
-          if (sortedReviews.length > 0) {
-            const totalRating = sortedReviews.reduce((sum: number, review: Review) => sum + review.rating, 0)
-            const avgRating = totalRating / sortedReviews.length
-            setSupplement((prev) => ({
-              ...prev,
-              rating: avgRating,
-              reviews_count: sortedReviews.length,
-            }))
-          }
-        } else {
-          setAllReviews([])
-        }
-      } catch (error) {
-        console.warn("Error loading reviews:", error)
-        setAllReviews([])
-      } finally {
-        setIsLoadingReviews(false)
-      }
+  const avg = useMemo(() => ratingAvg(supplement.rating), [supplement.rating]);
+  const cnt = useMemo(() => {
+    if (supplement.rating && typeof supplement.rating === "object" && "count" in supplement.rating) {
+      return supplement.rating.count ?? supplement.reviews_count ?? 0;
     }
+    return supplement.reviews_count ?? 0;
+  }, [supplement.rating, supplement.reviews_count]);
 
-    loadReviews()
-  }, [supplement.id])
+  const hasRating = avg != null && cnt > 0;
 
-  const hasRating = supplement.rating !== null && supplement.reviews_count > 0
+  const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
-  const handleRatingClick = () => {
-    console.log("[v0] Rating clicked, user status:", user.status)
-    if (user.status !== "premium") {
-      console.log("[v0] Setting showPremiumGate to true")
-      setShowPremiumGate(true)
-    } else {
-      console.log("[v0] opened: ratingPicker")
-    }
-  }
+  const renderStars = (value: number) => (
+    <div className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star key={i} className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`} />
+      ))}
+    </div>
+  );
 
-  const handleRatingSubmit = (rating: number) => {
-    if (!user?.isPremium) {
-      setShowPremiumGate(true)
-      return
-    }
-
-    setUserRating(rating)
-    toast({
-      title: "Rating submitted",
-      description: "Thank you for rating this supplement!",
-    })
-  }
-
+  // ------ Review actions ------------------------------------------------
   const handleAddReviewClick = () => {
-    if (!user?.isPremium) {
-      setShowPremiumGate(true)
-      return
-    }
-
-    setShowReviewModal(true)
-  }
-
-  const handlePremiumGateClose = () => {
-    setShowPremiumGate(false)
-  }
-
-  const handleReviewModalClose = () => {
-    console.log("[v0] ReviewModal close requested")
-    setShowReviewModal(false)
-  }
-
+    if (!user?.isPremium) return setShowPremiumGate(true);
+    setShowReviewModal(true);
+  };
 
   const handleReviewSubmit = async (data: { rating: number; title: string; body: string }) => {
     try {
@@ -162,404 +117,145 @@ export function SupplementDetailClient({ supplement: initialSupplement }: Supple
         ...data,
         slug: supplement.id,
         verified_purchase: false,
-      })
+      });
 
-      console.log("[v0] Review submission result:", result)
-
-      // Update UI optimistically
       setSupplement((prev) => ({
         ...prev,
         rating: result.rating,
         reviews_count: result.reviews_count,
-      }))
+      }));
 
-      // Reload reviews
-      const userReviews = await reviewsStore.list(supplement.id)
-      const mergedReviews = [...userReviews, ...initialSupplement.reviews].sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-      )
-      setAllReviews(mergedReviews)
-
-      toast({
-        title: "Thanks for your feedback!",
-        description: "Your review has been submitted.",
-      })
-    } catch (error) {
-      console.error("[v0] Review submission error:", error)
-      toast({
-        title: "Error",
-        description: "Failed to submit review. Please try again.",
-        variant: "destructive",
-      })
+      const userReviews = await reviewsStore.list(supplement.id);
+      const merged = [...userReviews, ...normalized.reviews].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      setAllReviews(merged);
+      toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." });
+    } catch (e) {
+      toast({ title: "Error", description: "Failed to submit review.", variant: "destructive" });
     }
-  }
-
-  const getEvidenceLevelColor = (level: string) => {
-    switch (level.toLowerCase()) {
-      case "strong":
-        return "bg-green-500/20 text-green-400 border-green-500/30"
-      case "moderate":
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
-      case "limited":
-        return "bg-orange-500/20 text-orange-400 border-orange-500/30"
-      default:
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30"
-    }
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  }
-
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex items-center gap-0.5">
-        {Array.from({ length: 5 }, (_, i) => (
-          <Star key={i} className={`h-4 w-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
-        ))}
-      </div>
-    )
-  }
+  };
 
   return (
     <div className="min-h-screen py-8 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Back Button */}
-        <motion.div
-          className="mb-6"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <LiquidButton variant="ghost" asChild>
-            <Link href="/supplements">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Supplements
-            </Link>
-          </LiquidButton>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Header */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <GlassCard className="glass-strong p-8">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {supplement.categories.map((category: string) => (
-                    <Badge key={category} variant="outline" className="glass-subtle">
-                      {category}
-                    </Badge>
-                  ))}
-                </div>
-
-                <h1 className="text-3xl md:text-4xl font-bold mb-4 font-heading">{supplement.name}</h1>
-                <p className="text-xl text-muted-foreground mb-6">{supplement.summary}</p>
-
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-                  {hasRating ? (
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {user.status === "premium" ? (
-                        <StarRatingPicker
-                          currentRating={userRating}
-                          onSubmit={handleRatingSubmit}
-                          onCancel={() => {}}
-                          trigger={
-                            <button className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors">
-                              <div className="flex">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <Star
-                                    key={star}
-                                    className={`h-5 w-5 ${
-                                      star <= (supplement.rating || 0)
-                                        ? "fill-yellow-400 text-yellow-400"
-                                        : "text-muted-foreground"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                              <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
-                              <span className="text-muted-foreground whitespace-nowrap">
-                                ({supplement.reviews_count} reviews)
-                              </span>
-                            </button>
-                          }
-                        />
-                      ) : (
-                        <button
-                          className="flex items-center gap-2 hover:bg-white/5 p-1 rounded transition-colors"
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            handleRatingClick()
-                          }}
-                        >
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                className={`h-5 w-5 ${
-                                  star <= (supplement.rating || 0)
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "text-muted-foreground"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <span className="font-semibold text-lg">{supplement.rating?.toFixed(1)}</span>
-                          <span className="text-muted-foreground whitespace-nowrap">
-                            ({supplement.reviews_count} reviews)
-                          </span>
-                        </button>
-                      )}
-                    </div>
-                  ) : (
-                    <button
-                      className="text-muted-foreground hover:text-foreground transition-colors"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        handleRatingClick()
-                      }}
-                    >
-                      No ratings yet - be the first!
-                    </button>
-                  )}
-
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Users className="h-4 w-4" />
-                    <span className="whitespace-nowrap">{supplement.reviews_count} users</span>
-                  </div>
-                </div>
-              </GlassCard>
-            </motion.div>
-
-            {/* Goals */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-            >
-              <GlassCard className="glass-morph p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Zap className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-semibold font-heading">Primary Goals</h2>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {supplement.goals.map((goal: string) => (
-                    <Badge key={goal} className="glass-subtle">
-                      {goal}
-                    </Badge>
-                  ))}
-                </div>
-              </GlassCard>
-            </motion.div>
-
-            {/* Benefits */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <GlassCard className="glass-morph p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-semibold font-heading">Benefits</h2>
-                </div>
-                <ul className="space-y-2">
-                  {supplement.benefits.map((benefit: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2 text-muted-foreground">
-                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </GlassCard>
-            </motion.div>
-
-            {/* Dosage & Timing */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <GlassCard className="glass-morph p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Info className="h-5 w-5 text-primary" />
-                  <h2 className="text-xl font-semibold font-heading">Dosage & Timing</h2>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="font-medium mb-2">Recommended Dosage</h3>
-                    <p className="text-muted-foreground">{supplement.dosage}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-2">Timing</h3>
-                    <p className="text-muted-foreground capitalize">{supplement.timing}</p>
-                  </div>
-                  {supplement.cycle && (
-                    <div>
-                      <h3 className="font-medium mb-2">Cycling</h3>
-                      <p className="text-muted-foreground">{supplement.cycle}</p>
-                    </div>
-                  )}
-                </div>
-              </GlassCard>
-            </motion.div>
-
-            {/* Reviews Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <GlassCard className="glass-morph p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="h-5 w-5 text-primary" />
-                    <h2 className="text-xl font-semibold font-heading">Reviews</h2>
-                    {hasRating && (
-                      <Badge variant="outline" className="ml-2">
-                        {supplement.reviews_count} reviews
-                      </Badge>
-                    )}
-                  </div>
-                  <LiquidButton
-                    size="sm"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      handleAddReviewClick()
-                    }}
-                    className="flex items-center gap-2"
-                  >
-                    <Plus className="h-4 w-4" />
-                    Add Review
-                  </LiquidButton>
-                </div>
-
-                {isLoadingReviews ? (
-                  <div className="text-center py-8">
-                    <div className="text-muted-foreground">Loading reviews...</div>
-                  </div>
-                ) : allReviews.length > 0 ? (
-                  <div className="space-y-4">
-                    {allReviews.map((review) => (
-                      <div key={review.id} className="border-l-2 border-primary/20 pl-4 py-2">
-                        <div className="flex items-start justify-between gap-4 mb-2">
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
-                              <User className="h-3 w-3" />
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {renderStars(review.rating)}
-                              {review.verified_purchase && (
-                                <Badge variant="outline" className="text-xs">
-                                  Verified
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Calendar className="h-3 w-3" />
-                            <span>{formatDate(review.created_at)}</span>
-                          </div>
-                        </div>
-                        {review.title && <h4 className="font-medium mb-1">{review.title}</h4>}
-                        {review.body && <p className="text-sm text-muted-foreground leading-relaxed">{review.body}</p>}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-4">📝</div>
-                    <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
-                    <p className="text-muted-foreground">Be the first to review this supplement!</p>
-                  </div>
-                )}
-              </GlassCard>
-            </motion.div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Evidence Level */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <GlassCard className="glass-morph p-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <Shield className="h-5 w-5 text-primary" />
-                  <h3 className="font-semibold">Evidence Level</h3>
-                </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge className={`border ${getEvidenceLevelColor(supplement.evidence_level)}`}>
-                    {supplement.evidence_level}
-                  </Badge>
-                </div>
-              </GlassCard>
-            </motion.div>
-
-            {/* Popular Manufacturers - only show if array is non-empty */}
-            {supplement.popular_manufacturer.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <GlassCard className="glass-morph p-6">
-                  <h3 className="font-semibold mb-3">Popular Manufacturers</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {supplement.popular_manufacturer.map((manufacturer) => (
-                      <Badge key={manufacturer} variant="outline" className="glass-subtle text-xs">
-                        {manufacturer}
-                      </Badge>
-                    ))}
-                  </div>
-                </GlassCard>
-              </motion.div>
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Header / rating row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <GlassCard className="col-span-2 flex items-center justify-between p-4">
+            {hasRating ? (
+              <div className="flex items-center gap-3">
+                {renderStars(Math.round(avg!))}
+                <span className="text-sm font-semibold">{avg!.toFixed(1)}</span>
+              </div>
+            ) : (
+              <div className="text-sm text-muted-foreground">No ratings yet – be the first!</div>
             )}
-          </div>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Users className="h-4 w-4" />
+              <span className="whitespace-nowrap">{cnt} users</span>
+            </div>
+          </GlassCard>
+          <GlassCard className="p-4">
+            <div className="text-sm font-medium mb-2">Evidence Level</div>
+            <div className="flex gap-2">
+              {supplement.evidence_level ? (
+                <Badge variant="outline">{supplement.evidence_level}</Badge>
+              ) : (
+                <span className="text-muted-foreground">—</span>
+              )}
+            </div>
+          </GlassCard>
         </div>
 
-        {/* Fixed bottom bar */}
-        <motion.div
-          className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50 p-4 z-40 safe-area-pb"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-        >
-          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row gap-3">
-            <LiquidButton variant="outline" className="flex-1 min-h-[44px]" asChild>
-              <Link href="/supplements">
-                <X className="h-4 w-4 mr-2" />
-                Close
-              </Link>
-            </LiquidButton>
-            <LiquidButton className="flex-1 liquid-gradient min-h-[44px]">
-              <Plus className="h-4 w-4 mr-2" />
-              Add to Journal
-            </LiquidButton>
+        {/* Primary Goals */}
+        <GlassCard className="p-4">
+          <div className="text-lg font-semibold mb-3">Primary Goals</div>
+          {supplement.goals.length ? (
+            <div className="flex flex-wrap gap-2">
+              {supplement.goals.map((g) => (
+                <Badge key={g} variant="secondary">{g}</Badge>
+              ))}
+            </div>
+          ) : (
+            <div className="text-muted-foreground">—</div>
+          )}
+        </GlassCard>
+
+        {/* Benefits */}
+        <GlassCard className="p-4">
+          <div className="text-lg font-semibold mb-3">Benefits</div>
+          {supplement.benefits.length ? (
+            <ul className="list-disc pl-5 space-y-1 text-sm">
+              {supplement.benefits.map((b, i) => (
+                <li key={`${b}-${i}`}>{b}</li>
+              ))}
+            </ul>
+          ) : (
+            <div className="text-muted-foreground">—</div>
+          )}
+        </GlassCard>
+
+        {/* Dosage & Timing */}
+        <GlassCard className="p-4">
+          <div className="text-lg font-semibold mb-3">Dosage &amp; Timing</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <div className="text-muted-foreground">Recommended Dosage</div>
+              <div>{supplement.dosage || "—"}</div>
+            </div>
+            <div>
+              <div className="text-muted-foreground">Timing</div>
+              <div>{supplement.timing || "—"}</div>
+            </div>
           </div>
-        </motion.div>
+        </GlassCard>
 
-        <div className="h-24" />
+        {/* Reviews */}
+        <GlassCard className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-lg font-semibold">Reviews</div>
+            <button className="text-sm underline" onClick={() => handleAddReviewClick()}>Add review</button>
+          </div>
+          {isLoadingReviews ? (
+            <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
+          ) : allReviews.length ? (
+            <div className="space-y-4">
+              {allReviews.map((rv) => (
+                <div key={rv.id} className="border-l-2 border-primary/20 pl-4 py-2">
+                  <div className="flex items-start justify-between gap-4 mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
+                        <User className="h-3 w-3" />
+                      </div>
+                      {renderStars(rv.rating)}
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3" />
+                      <span>{formatDate(rv.created_at)}</span>
+                    </div>
+                  </div>
+                  {rv.title && <h4 className="font-medium mb-1">{rv.title}</h4>}
+                  {rv.body && <p className="text-sm text-muted-foreground leading-relaxed">{rv.body}</p>}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <div className="text-4xl mb-4">📝</div>
+              <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
+              <p className="text-muted-foreground">Be the first to review this supplement!</p>
+            </div>
+          )}
+        </GlassCard>
+
+        <ReviewModal
+          isOpen={showReviewModal}
+          onClose={() => setShowReviewModal(false)}
+          onSubmit={handleReviewSubmit}
+          initialRating={userRating}
+        />
+        <PremiumGateModal isOpen={showPremiumGate} onClose={() => setShowPremiumGate(false)} />
       </div>
-
-      <ReviewModal
-        isOpen={showReviewModal}
-        onClose={handleReviewModalClose}
-        onSubmit={handleReviewSubmit}
-        initialRating={userRating}
-      />
-
-      <PremiumGateModal isOpen={showPremiumGate} onClose={handlePremiumGateClose} />
     </div>
-  )
+  );
 }

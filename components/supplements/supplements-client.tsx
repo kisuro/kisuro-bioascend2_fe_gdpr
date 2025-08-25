@@ -14,6 +14,20 @@ import { SupplementFilters } from "@/components/supplements/supplement-filters"
 import { Search, Filter, Grid, List, Lock, Sparkles, Plus } from "lucide-react"
 import { SupplementsBackground } from "@/components/ui/page-backgrounds"
 
+type Supplement = {
+  id: string
+  name: string
+  // ... остальное без изменений
+  popular_manufacturer?: string[] | string // не важно, мы ниже приведём
+  rating?: number | { avg: number | null; count: number } | null
+}
+
+type Props = {
+  items?: Supplement[]  // ⬅ стало необязательным
+  // другие пропсы — как у тебя
+}
+
+
 interface Supplement {
   id: string
   name: string
@@ -78,6 +92,7 @@ const CRAVING_TO_SUPPLEMENT_MAP: Record<string, { nutrients: string[]; goals: st
 export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const safeSupplements: Supplement[] = Array.isArray(supplements) ? supplements : []
 
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window !== "undefined") {
@@ -193,22 +208,25 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   )
 
   const filteredSupplements = useMemo(() => {
-    return supplements.filter((supplement) => {
+    return safeSupplements.filter((supplement) => {
       const matchesSearch =
         searchQuery === "" ||
-        supplement.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        supplement.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        supplement.goals.some((goal) => goal.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        supplement.benefits.some((benefit) => benefit.toLowerCase().includes(searchQuery.toLowerCase()))
+        (supplement.name ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (supplement.summary ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (supplement.goals ?? []).some((goal) => (goal ?? "").toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (supplement.benefits ?? []).some((benefit) => (benefit ?? "").toLowerCase().includes(searchQuery.toLowerCase()))
 
-      const matchesGoals = selectedGoals.length === 0 || selectedGoals.some((goal) => supplement.goals.includes(goal))
+      const matchesGoals =
+        selectedGoals.length === 0 ||
+        selectedGoals.some((goal) => (supplement.goals ?? []).includes(goal))
 
       const matchesCategories =
         selectedCategories.length === 0 ||
-        selectedCategories.some((category) => supplement.categories.includes(category))
+        selectedCategories.some((category) => (supplement.categories ?? []).includes(category))
 
       const matchesEvidenceLevel =
-        selectedEvidenceLevels.length === 0 || selectedEvidenceLevels.includes(supplement.evidence_level)
+        selectedEvidenceLevels.length === 0 ||
+        selectedEvidenceLevels.includes((supplement.evidence_level ?? ""))
 
       const matchesManufacturers =
         selectedManufacturers.length === 0 ||
@@ -222,7 +240,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
 
       return matchesSearch && matchesGoals && matchesCategories && matchesEvidenceLevel && matchesManufacturers
     })
-  }, [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, supplements])
+  }, [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, safeSupplements])
 
   const displayedSupplements = useMemo(() => {
     return filteredSupplements.slice(0, currentPage * ITEMS_PER_PAGE)
@@ -246,31 +264,31 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
 
   const allGoals = useMemo(() => {
     const goals = new Set<string>()
-    supplements.forEach((supplement) => {
-      supplement.goals.forEach((goal) => goals.add(goal))
+    safeSupplements.forEach((supplement) => {
+      (supplement.goals ?? []).forEach((goal) => goals.add(goal))
     })
     return Array.from(goals).sort()
-  }, [supplements])
+  }, [safeSupplements])
 
   const allCategories = useMemo(() => {
     const categories = new Set<string>()
-    supplements.forEach((supplement) => {
-      supplement.categories.forEach((category) => categories.add(category))
+    safeSupplements.forEach((supplement) => {
+      (supplement.categories ?? []).forEach((category) => categories.add(category))
     })
     return Array.from(categories).sort()
-  }, [supplements])
+  }, [safeSupplements])
 
   const allEvidenceLevels = useMemo(() => {
     const levels = new Set<string>()
-    supplements.forEach((supplement) => {
-      levels.add(supplement.evidence_level)
+    safeSupplements.forEach((supplement) => {
+      if (supplement.evidence_level) levels.add(supplement.evidence_level)
     })
     return Array.from(levels).sort()
-  }, [supplements])
+  }, [safeSupplements])
 
   const allManufacturers = useMemo(() => {
     const manufacturers = new Set<string>()
-    supplements.forEach((supplement) => {
+    safeSupplements.forEach((supplement) => {
       // Handle both popular_manufacturer (singular) and popular_manufacturers (plural)
       const manufacturerData = supplement.popular_manufacturers || (supplement as any).popular_manufacturer
       if (manufacturerData) {
@@ -282,7 +300,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       }
     })
     return Array.from(manufacturers).sort()
-  }, [supplements])
+  }, [safeSupplements])
 
   const findRelevantSupplements = (craving: string): Supplement[] => {
     const cravingLower = craving.toLowerCase()
@@ -303,11 +321,11 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       }
     }
 
-    const relevantSupplements = supplements.filter((supplement) => {
-      const nameMatch = matchedMapping.keywords.some((keyword) => supplement.name.toLowerCase().includes(keyword))
-      const goalMatch = supplement.goals.some((goal) => matchedMapping.goals.includes(goal))
-      const benefitMatch = supplement.benefits.some((benefit) =>
-        matchedMapping.keywords.some((keyword) => benefit.toLowerCase().includes(keyword)),
+    const relevantSupplements = safeSupplements.filter((supplement) => {
+      const nameMatch = matchedMapping.keywords.some((keyword) => (supplement.name ?? "").toLowerCase().includes(keyword))
+      const goalMatch = (supplement.goals ?? []).some((goal) => matchedMapping.goals.includes(goal))
+      const benefitMatch = (supplement.benefits ?? []).some((benefit) =>
+        matchedMapping.keywords.some((keyword) => (benefit ?? "").toLowerCase().includes(keyword)),
       )
 
       return nameMatch || goalMatch || benefitMatch

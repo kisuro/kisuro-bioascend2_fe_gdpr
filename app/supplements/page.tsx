@@ -1,73 +1,115 @@
-import { readFileSync } from "fs"
-import { join } from "path"
-import { SupplementsClient } from "@/components/supplements/supplements-client"
+// app/supplements/page.tsx
+import fs from "fs";
+import path from "path";
+import { Suspense } from "react";
+import { SupplementsClient } from "@/components/supplements/supplements-client";
 
-function getSupplements() {
-  try {
-    const supplementsPath = join(process.cwd(), "public", "seed", "supplements.json")
-    const reviewsPath = join(process.cwd(), "public", "seed", "reviews.json")
+const API = process.env.NEXT_PUBLIC_API_URL;
 
-    const supplementsData = JSON.parse(readFileSync(supplementsPath, "utf8"))
-    let reviewsData = {}
+type Rating =
+  | null
+  | {
+      avg: number | null;
+      count: number;
+    };
 
-    try {
-      reviewsData = JSON.parse(readFileSync(reviewsPath, "utf8"))
-    } catch (reviewsError) {
-      console.warn("Reviews file not found or invalid, continuing without reviews")
-    }
+export type SupplementItem = {
+  id: string;
+  name: string;
+  summary?: string;
+  dosage?: string;
+  evidence_level?: string;
+  categories?: string[];
+  goals?: string[];
+  timing?: string;
+  cycle?: string;
+  benefits?: string[];
+  popular_manufacturer?: string[];
+  rating: Rating;
+  reviews_count?: number;
+  [key: string]: any;
+};
 
-    // Normalize rating data contract and merge reviews
-    const normalizedSupplements = supplementsData.map((supplement: any) => {
-      // Normalize rating field
-      let rating = null
-      let reviews_count = 0
-
-      if (supplement.rating) {
-        if (typeof supplement.rating === "number") {
-          rating = supplement.rating
-        } else if (supplement.rating.avg !== null) {
-          rating = supplement.rating.avg
-        }
-
-        reviews_count = supplement.reviews_count || supplement.rating?.count || 0
-      }
-
-      // Get reviews for this supplement
-      const supplementReviews = (reviewsData as any)[supplement.slug]?.items || []
-
-      // Calculate rating from actual reviews if no rating exists
-      if (!rating && supplementReviews.length > 0) {
-        const totalRating = supplementReviews.reduce((sum: number, review: any) => sum + review.rating, 0)
-        rating = totalRating / supplementReviews.length
-        reviews_count = supplementReviews.length
-      }
-
-      // Ensure popular_manufacturer is an array
-      let popular_manufacturer = []
-      if (supplement.popular_manufacturer) {
-        popular_manufacturer = Array.isArray(supplement.popular_manufacturer)
-          ? supplement.popular_manufacturer
-          : [supplement.popular_manufacturer]
-      }
-
-      return {
-        ...supplement,
-        rating,
-        reviews_count,
-        popular_manufacturer,
-        reviews: supplementReviews,
-      }
-    })
-
-    return normalizedSupplements
-  } catch (error) {
-    console.error("Error loading supplements:", error)
-    return []
-  }
+function toArray<T>(x: T | T[] | undefined | null): T[] {
+  if (!x) return [];
+  return Array.isArray(x) ? x : [x];
 }
 
-export default function SupplementsPage() {
-  const supplements = getSupplements()
+function normalizeRating(raw: any, fallbackReviews?: any[]): Rating {
+  if (raw && typeof raw === "object" && ("avg" in raw || "count" in raw)) {
+    return { avg: raw.avg ?? null, count: raw.count ?? 0 };
+  }
+  if (typeof raw === "number") {
+    return { avg: raw, count: fallbackReviews?.length ?? 0 };
+  }
+  if (Array.isArray(fallbackReviews) && fallbackReviews.length > 0) {
+    const sum = fallbackReviews.reduce((a, r) => a + (r?.rating ?? 0), 0);
+    const avg = Math.round((sum / fallbackReviews.length) * 100) / 100;
+    return { avg, count: fallbackReviews.length };
+  }
+  return null;
+}
 
-  return <SupplementsClient supplements={supplements} />
+async function fetchFromAPI(): Promise<SupplementItem[]> {
+  const res = await fetch(`${API}/v1/supplements`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`API /v1/supplements failed: ${res.status}`);
+  const data = (await res.json()) as any[];
+
+  return data.map((s) => ({
+    ...s,
+    popular_manufacturer: toArray<string>(s.popular_manufacturer),
+    categories: toArray<string>(s.categories),
+    goals: toArray<string>(s.goals),
+    benefits: toArray<string>(s.benefits),
+    rating: normalizeRating(s.rating),
+  }));
+}
+
+async function fetchFromSeed(): Promise<SupplementItem[]> {
+  const supplementsPath = path.join(process.cwd(), "public/seed/supplements.json");
+  const reviewsPath = path.join(process.cwd(), "public/seed/reviews.json");
+
+  const [suppsRaw, reviewsRaw] = await Promise.all([
+    fs.promises.readFile(supplementsPath, "utf8").then(JSON.parse).catch(() => []),
+    fs.promises.readFile(reviewsPath, "utf8").then(JSON.parse).catch(() => ({})),
+  ]);
+
+  const reviewsBySlug = (reviewsRaw as any) ?? {};
+
+  return (suppsRaw as any[]).map((s) => {
+    const slug = s.id ?? s.slug;
+    const reviewsForSlug: any[] = reviewsBySlug?.[slug]?.items ?? [];
+    return {
+      ...s,
+      id: slug,
+      popular_manufacturer: toArray<string>(s.popular_manufacturer),
+      categories: toArray<string>(s.categories),
+      goals: toArray<string>(s.goals),
+      benefits: toArray<string>(s.benefits),
+      rating: normalizeRating(s.rating, reviewsForSlug),
+      reviews_count:
+        s.reviews_count ??
+        (s.rating && typeof s.rating === "object" ? s.rating.count : reviewsForSlug.length ?? 0),
+    };
+  });
+}
+
+export default async function SupplementsPage() {
+  let supplements: SupplementItem[] = [];
+  if (API) {
+    try {
+      supplements = await fetchFromAPI();
+    } catch {
+      supplements = await fetchFromSeed();
+    }
+  } else {
+    supplements = await fetchFromSeed();
+  }
+  if (!Array.isArray(supplements)) supplements = [];
+
+  return (
+    <Suspense fallback={<div className="p-6">Loading supplements…</div>}>
+      <SupplementsClient supplements={supplements} />
+    </Suspense>
+  );
 }

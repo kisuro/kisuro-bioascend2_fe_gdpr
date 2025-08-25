@@ -18,7 +18,7 @@ interface Supplement {
   cycle: string
   benefits: string[]
   popular_manufacturers?: string[]
-  rating: number | null
+  rating: number | { avg: number | null; count: number } | null
   reviews_count: number
 }
 
@@ -27,24 +27,27 @@ interface SupplementCardProps {
   viewMode: "grid" | "list"
 }
 
-const getCategoryIcon = (category: string) => {
-  const categoryLower = category.toLowerCase()
+type Rating = number | { avg: number | null; count: number } | null;
 
-  if (categoryLower.includes("adaptogen")) return Shield
-  if (categoryLower.includes("nootropic")) return Brain
-  if (categoryLower.includes("herb") || categoryLower.includes("extract") || categoryLower.includes("mushroom"))
-    return Leaf
-  if (categoryLower.includes("vitamin")) return Pill
-  if (categoryLower.includes("mineral")) return Flask
-  if (categoryLower.includes("amino")) return Heart
+function getRatingValue(r: Rating): number | null {
+  if (typeof r === "number") return r;
+  if (r && typeof r === "object") return r.avg ?? null;
+  return null;
+}
 
-  // Default icon for other categories
-  return Leaf
+function getRatingCount(r: Rating, fallback?: number): number {
+  if (typeof r === "number") return fallback ?? 0;
+  if (r && typeof r === "object") return r.count ?? (fallback ?? 0);
+  return fallback ?? 0;
 }
 
 export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+
+  const ratingValue = getRatingValue(supplement.rating as Rating);
+  const ratingCount = getRatingCount(supplement.rating as Rating, supplement.reviews_count);
+  const hasRating = ratingValue !== null && ratingCount > 0;
 
   const getEvidenceColor = (level: string) => {
     switch (level.toLowerCase()) {
@@ -64,8 +67,6 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
     return text.substring(0, maxLength).trim() + "..."
   }
 
-  const hasRating = supplement.rating !== null && supplement.reviews_count > 0
-
   const SupplementImage = () => {
     return (
       <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
@@ -74,7 +75,11 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
     )
   }
 
-  const CategoryIcon = getCategoryIcon(supplement.categories[0])
+  const firstCategory =
+    Array.isArray(supplement.categories) && supplement.categories.length > 0
+      ? supplement.categories[0]
+      : "other";
+  const CategoryIcon = getCategoryIcon(firstCategory);
 
   if (viewMode === "list") {
     return (
@@ -88,15 +93,15 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
               </div>
               <p className="text-muted-foreground mb-3 line-clamp-2">{truncateDescription(supplement.summary, 150)}</p>
               <div className="flex flex-wrap gap-1 mb-3">
-                {supplement.goals.slice(0, 3).map((goal) => (
+                {(supplement.goals ?? []).slice(0, 3).map((goal) => (
                   <Badge key={goal} variant="outline" className="text-xs glass-subtle">
                     <Zap className="h-3 w-3 mr-1" />
                     {goal}
                   </Badge>
                 ))}
-                {supplement.goals.length > 3 && (
+                {(supplement.goals?.length ?? 0) > 3 && (
                   <Badge variant="outline" className="text-xs glass-subtle">
-                    +{supplement.goals.length - 3} more
+                    +{(supplement.goals?.length ?? 0) - 3} more
                   </Badge>
                 )}
               </div>
@@ -107,7 +112,7 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
                 </div>
                 <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1">
                   <CategoryIcon className="h-3 w-3" />
-                  {supplement.categories[0]}
+                  {firstCategory}
                 </Badge>
               </div>
             </div>
@@ -119,8 +124,8 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
             {hasRating ? (
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                <span className="font-semibold">{supplement.rating?.toFixed(1)}</span>
-                <span className="text-sm text-muted-foreground hidden sm:inline">({supplement.reviews_count})</span>
+                <span className="font-semibold">{ratingValue!.toFixed(1)}</span>
+                <span className="text-sm text-muted-foreground hidden sm:inline">({ratingCount})</span>
               </div>
             ) : (
               <div className="text-sm text-muted-foreground">No ratings</div>
@@ -154,7 +159,7 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
         {hasRating ? (
           <div className="flex items-center gap-1">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-semibold">{supplement.rating?.toFixed(1)}</span>
+            <span className="text-sm font-semibold">{ratingValue!.toFixed(1)}</span>
           </div>
         ) : (
           <div className="text-xs text-muted-foreground">No ratings</div>
@@ -168,15 +173,15 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
 
       <div className="mt-auto space-y-3">
         <div className="flex flex-wrap gap-1">
-          {supplement.goals.slice(0, 2).map((goal) => (
+          {(supplement.goals ?? []).slice(0, 2).map((goal) => (
             <Badge key={goal} variant="outline" className="text-xs glass-subtle">
               <Zap className="h-3 w-3 mr-1" />
               {goal}
             </Badge>
           ))}
-          {supplement.goals.length > 2 && (
+          {(supplement.goals?.length ?? 0) > 2 && (
             <Badge variant="outline" className="text-xs glass-subtle">
-              +{supplement.goals.length - 2}
+              +{(supplement.goals?.length ?? 0) - 2}
             </Badge>
           )}
         </div>
@@ -188,7 +193,7 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
           </div>
           <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1">
             <CategoryIcon className="h-3 w-3" />
-            {supplement.categories[0]}
+            {firstCategory}
           </Badge>
         </div>
 
@@ -201,4 +206,19 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
       </div>
     </GlassCard>
   )
+}
+
+const getCategoryIcon = (category: string) => {
+  const categoryLower = category.toLowerCase()
+
+  if (categoryLower.includes("adaptogen")) return Shield
+  if (categoryLower.includes("nootropic")) return Brain
+  if (categoryLower.includes("herb") || categoryLower.includes("extract") || categoryLower.includes("mushroom"))
+    return Leaf
+  if (categoryLower.includes("vitamin")) return Pill
+  if (categoryLower.includes("mineral")) return Flask
+  if (categoryLower.includes("amino")) return Heart
+
+  // Default icon for other categories
+  return Leaf
 }
