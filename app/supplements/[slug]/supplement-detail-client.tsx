@@ -76,7 +76,17 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   const [isLoadingReviews, setIsLoadingReviews] = useState(false);
 
   const { toast } = useToast();
-  const user = useUser();
+const user = useUser()
+const isPremium = !!(user?.isPremium || user?.status === "premium")
+
+const handleRatingClick = () => {
+  if (!isPremium) {
+    setShowPremiumGate(true)
+    return
+  }
+  // (опционально) открыть пикер рейтинга, если он у тебя есть:
+  // setShowRatingPicker(true)
+}
 
   // если пропсы обновились – синхронизируем
   useEffect(() => {
@@ -143,12 +153,20 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <GlassCard className="col-span-2 flex items-center justify-between p-4">
             {hasRating ? (
-              <div className="flex items-center gap-3">
+              <div
+                className="flex items-center gap-3 cursor-pointer"
+                onClick={handleRatingClick}
+              >
                 {renderStars(Math.round(avg!))}
                 <span className="text-sm font-semibold">{avg!.toFixed(1)}</span>
               </div>
             ) : (
-              <div className="text-sm text-muted-foreground">No ratings yet – be the first!</div>
+              <div
+                className="text-sm text-muted-foreground cursor-pointer"
+                onClick={handleRatingClick}
+              >
+                No ratings yet – be the first!
+              </div>
             )}
             <div className="flex items-center gap-2 text-muted-foreground">
               <Users className="h-4 w-4" />
