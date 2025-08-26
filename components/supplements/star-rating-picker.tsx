@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Star } from "lucide-react"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -11,26 +11,65 @@ interface StarRatingPickerProps {
   onSubmit: (rating: number) => void
   onCancel: () => void
   trigger: React.ReactNode
+
+  /** Optional controlled open state (so parent can force-open the popover). */
+  open?: boolean
+  /** Optional controlled open change handler. */
+  onOpenChange?: (open: boolean) => void
 }
 
-export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigger }: StarRatingPickerProps) {
+export function StarRatingPicker({
+  currentRating = 0,
+  onSubmit,
+  onCancel,
+  trigger,
+  open,
+  onOpenChange,
+}: StarRatingPickerProps) {
   const [rating, setRating] = useState(currentRating)
   const [hoverRating, setHoverRating] = useState(0)
-  const [isOpen, setIsOpen] = useState(false)
 
-  const handleSubmit = () => {
+  // controlled / uncontrolled support
+  const isControlled = typeof open === "boolean"
+  const [internalOpen, setInternalOpen] = useState(false)
+  const isOpen = isControlled ? (open as boolean) : internalOpen
+
+  // keep local rating in sync when dialog re-opens or currentRating changes
+  useEffect(() => {
+    setRating(currentRating)
+  }, [currentRating, isOpen])
+
+  const setOpen = useMemo(() => {
+    return (next: boolean) => {
+      if (isControlled) {
+        onOpenChange?.(next)
+      } else {
+        setInternalOpen(next)
+      }
+      if (!next) {
+        // reset transient UI state when closing
+        setHoverRating(0)
+      }
+    }
+  }, [isControlled, onOpenChange])
+
+  const handleSubmit = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     console.log("[v0] StarRatingPicker: Submitting rating:", rating)
     if (rating > 0) {
       onSubmit(rating)
-      setIsOpen(false)
+      setOpen(false)
     }
   }
 
-  const handleCancel = () => {
+  const handleCancel = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    e?.stopPropagation();
     console.log("[v0] StarRatingPicker: Cancelling rating")
     setRating(currentRating)
     setHoverRating(0)
-    setIsOpen(false)
+    setOpen(false)
     onCancel()
   }
 
@@ -41,13 +80,9 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
     setRating(star)
   }
 
-  const handleOpenChange = (open: boolean) => {
-    console.log("[v0] StarRatingPicker: Open state changed:", open)
-    setIsOpen(open)
-    if (!open) {
-      // Reset hover state when closing
-      setHoverRating(0)
-    }
+  const handleOpenChange = (openNext: boolean) => {
+    console.log("[v0] StarRatingPicker: Open state changed:", openNext)
+    setOpen(openNext)
   }
 
   const handleInteractOutside = (event: Event) => {
@@ -61,6 +96,7 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild data-rating-trigger>
+        {/* The trigger must be a focusable/ref-forwarding element */}
         {trigger}
       </PopoverTrigger>
       <PopoverContent
@@ -68,6 +104,7 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
         align="center"
         sideOffset={8}
         onInteractOutside={handleInteractOutside}
+        onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <div className="space-y-4">
           <h4 className="font-medium text-center">Rate this supplement</h4>
@@ -103,13 +140,21 @@ export function StarRatingPicker({ currentRating = 0, onSubmit, onCancel, trigge
           )}
 
           <div className="flex gap-2">
-            <LiquidButton variant="outline" className="flex-1" onClick={handleCancel}>
+            <LiquidButton
+              variant="outline"
+              className="flex-1"
+              onClick={handleCancel}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+            >
               Cancel
             </LiquidButton>
             <LiquidButton
               className="flex-1"
               onClick={handleSubmit}
               disabled={rating === 0}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
             >
               Submit
             </LiquidButton>

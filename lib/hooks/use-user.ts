@@ -12,6 +12,9 @@ interface User {
 
 // Mock user hook for testing - replace with real auth integration later
 export function useUser(): User {
+      if (process.env.NEXT_PUBLIC_FORCE_PREMIUM === "true") {
+        return { id: "dev", isPremium: true, status: "premium" };
+      }
   const [user, setUser] = useState<User>({ status: "guest" })
 
   useEffect(() => {

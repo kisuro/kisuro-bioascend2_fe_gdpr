@@ -9,7 +9,9 @@ import { useUser } from "@/lib/hooks/use-user";
 import { StarRatingPicker } from "@/components/supplements/star-rating-picker";
 import { ReviewModal } from "@/components/supplements/review-modal";
 import { PremiumGateModal } from "@/components/supplements/premium-gate-modal";
-import { reviewsStore } from "@/lib/stores/reviews-store";
+
+const API = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+const TOKEN = process.env.NEXT_PUBLIC_PREMIUM_TOKEN || "";
 
 // --- Types ---------------------------------------------------------------
 interface Review {
@@ -59,7 +61,13 @@ function ratingAvg(r: RatingShape): number | null {
 // --- Component ----------------------------------------------------------
 export function SupplementDetailClient({ supplement: initial }: Props) {
   // нормализуем вход
-  const normalized: SupplementDTO & { popular_manufacturer: string[]; goals: string[]; categories: string[]; benefits: string[]; reviews: Review[]; } = {
+  const normalized: SupplementDTO & {
+    popular_manufacturer: string[];
+    goals: string[];
+    categories: string[];
+    benefits: string[];
+    reviews: Review[];
+  } = {
     ...initial,
     goals: toArray(initial.goals),
     categories: toArray(initial.categories),
@@ -74,26 +82,44 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   const [showPremiumGate, setShowPremiumGate] = useState(false);
   const [userRating, setUserRating] = useState(0);
   const [isLoadingReviews, setIsLoadingReviews] = useState(false);
+  const [showRatingPicker, setShowRatingPicker] = useState(false);
 
   const { toast } = useToast();
-const user = useUser()
-const isPremium = !!(user?.isPremium || user?.status === "premium")
+  const user = useUser();
+  const isPremium = !!(user?.isPremium || user?.status === "premium" || (TOKEN && TOKEN.length > 0));
 
-const handleRatingClick = () => {
-  if (!isPremium) {
-    setShowPremiumGate(true)
-    return
-  }
-  // (опционально) открыть пикер рейтинга, если он у тебя есть:
-  // setShowRatingPicker(true)
-}
+  // === КЛИК ПО ЗВЁЗДАМ ==================================================
+  const handleRatingClick = () => {
+    console.log('[UI] star click', { isPremium });
+    if (!isPremium) {
+      console.log('[UI] opening PremiumGateModal');
+      setShowPremiumGate(true);
+      return;
+    }
+    console.log('[UI] opening StarRatingPicker');
+    setShowRatingPicker(true);
+  };
 
   // если пропсы обновились – синхронизируем
   useEffect(() => {
     setSupplement(normalized);
-    setAllReviews(normalized.reviews);
+    // Не трогаем allReviews здесь, чтобы не затирать данные только что полученные с API
     setIsLoadingReviews(false);
-  }, [initial]);
+  }, [initial]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (showRatingPicker) {
+      console.log('[UI] StarRatingPicker isOpen -> true');
+    } else {
+      console.log('[UI] StarRatingPicker isOpen -> false');
+    }
+  }, [showRatingPicker]);
+
+  // always refresh from API on mount & when id changes
+  useEffect(() => {
+    refreshFromAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [supplement.id]);
 
   const avg = useMemo(() => ratingAvg(supplement.rating), [supplement.rating]);
   const cnt = useMemo(() => {
@@ -104,45 +130,173 @@ const handleRatingClick = () => {
   }, [supplement.rating, supplement.reviews_count]);
 
   const hasRating = avg != null && cnt > 0;
+  const currentDisplayRating = Math.max(0, Math.min(5, Math.round(avg ?? 0)));
 
-  const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  const formatDate = (d: string) =>
+    new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
   const renderStars = (value: number) => (
     <div className="flex items-center gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
-        <Star key={i} className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`} />
+        <Star
+          key={i}
+          className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`}
+        />
       ))}
     </div>
   );
 
+  // --- API helpers -------------------------------------------------------
+  const mapApiReviewToUI = (r: any): Review => ({
+    id: r.id,
+    slug: supplement.id,
+    rating: r.rating,
+    title: "", // у нас на бэке нет title — оставляем пустым
+    body: r.comment || "",
+    verified_purchase: false,
+    created_at: r.created_at,
+  });
+
+  const refreshFromAPI = async () => {
+    try {
+      setIsLoadingReviews(true);
+      const [aggRes, revRes] = await Promise.all([
+        fetch(`${API}/v1/ratings/${supplement.id}/aggregate`, {
+          headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
+          cache: "no-store",
+        }),
+        fetch(`${API}/v1/reviews/${supplement.id}`, {
+          cache: "no-store",
+          headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
+        }),
+      ]);
+
+      let nextCountFromAgg: number | undefined;
+      if (aggRes.ok) {
+        const agg = await aggRes.json();
+        const nextRating = agg?.rating ?? null;
+        nextCountFromAgg = (typeof nextRating === "object" && nextRating?.count) || undefined;
+        setSupplement((prev) => ({
+          ...prev,
+          rating: nextRating,
+          reviews_count: nextCountFromAgg ?? prev.reviews_count ?? 0,
+        }));
+      }
+
+      if (revRes.ok) {
+        const items = await revRes.json();
+        const mapped = Array.isArray(items) ? items.map(mapApiReviewToUI) : [];
+        setAllReviews(mapped);
+        // если агрегат ничего не вернул по count — подстрахуемся длиной отзывов
+        if (!(nextCountFromAgg ?? 0)) {
+          setSupplement((prev) => ({
+            ...prev,
+            reviews_count: mapped.length,
+            rating: typeof prev.rating === 'number' || prev.rating == null
+              ? prev.rating
+              : { ...prev.rating, count: mapped.length },
+          }));
+        }
+      }
+    } catch (e) {
+      // swallow errors
+    } finally {
+      setIsLoadingReviews(false);
+    }
+  };
+
   // ------ Review actions ------------------------------------------------
   const handleAddReviewClick = () => {
-    if (!user?.isPremium) return setShowPremiumGate(true);
+    console.log('[UI] add review click');
+    if (!isPremium) return setShowPremiumGate(true);
     setShowReviewModal(true);
   };
 
-  const handleReviewSubmit = async (data: { rating: number; title: string; body: string }) => {
+  const resolveUsername = () =>
+    user?.name ||
+    (user as any)?.username ||
+    (user as any)?.email?.split("@")?.[0] ||
+    "anonymous";
+
+  // Отправка полноценного отзыва (звёзды + текст)
+  const handleReviewSubmit = async (data: any) => {
     try {
-      const result = await reviewsStore.submit(supplement.id, {
-        ...data,
+      // поддерживаем разные поля из модалки: body/title/comment/text
+      const comment: string = (data?.body ?? data?.title ?? data?.comment ?? data?.text ?? "").toString();
+      const rating: number = Number(data?.rating ?? userRating ?? 0) || 0;
+      const username = resolveUsername();
+
+      const optimistic: Review = {
+        id: (globalThis as any).crypto?.randomUUID?.() || `${Date.now()}`,
         slug: supplement.id,
+        rating,
+        title: data?.title || "",
+        body: comment,
         verified_purchase: false,
+        created_at: new Date().toISOString(),
+      };
+
+      // оптимистично покажем отзыв
+      setAllReviews((prev) => [optimistic, ...prev]);
+
+      const payload = { user: username, rating, comment };
+      const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
+        },
+        body: JSON.stringify(payload),
       });
 
-      setSupplement((prev) => ({
-        ...prev,
-        rating: result.rating,
-        reviews_count: result.reviews_count,
-      }));
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        // откат оптимистичного элемента
+        setAllReviews((prev) => prev.filter((r) => r.id !== optimistic.id));
+        throw new Error(j?.detail || `HTTP ${res.status}`);
+      }
 
-      const userReviews = await reviewsStore.list(supplement.id);
-      const merged = [...userReviews, ...normalized.reviews].sort(
-        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
-      setAllReviews(merged);
+      await refreshFromAPI();
+      setUserRating(rating);
+      setShowReviewModal(false);
       toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." });
-    } catch (e) {
-      toast({ title: "Error", description: "Failed to submit review.", variant: "destructive" });
+    } catch (e: any) {
+      toast({
+        title: "Error",
+        description: e?.message || "Failed to submit review.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Быстрая отправка рейтинга (через звездочки)
+  const handleQuickRatingSubmit = async (rating: number) => {
+    try {
+      const payload = { user: resolveUsername(), rating, comment: "" };
+      const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j?.detail || `HTTP ${res.status}`);
+      }
+
+      await refreshFromAPI();
+      setUserRating(rating);
+      setShowRatingPicker(false);
+      toast({ title: "Thanks!", description: "Your rating has been saved." });
+    } catch (e: any) {
+      toast({
+        title: "Error",
+        description: e?.message || "Failed to submit rating.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -151,20 +305,29 @@ const handleRatingClick = () => {
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header / rating row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <GlassCard className="col-span-2 flex items-center justify-between p-4">
+          <GlassCard
+            className="col-span-2 flex items-center justify-between p-4 cursor-pointer"
+            onClick={handleRatingClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleRatingClick()}
+          >
             {hasRating ? (
-              <div
-                className="flex items-center gap-3 cursor-pointer"
-                onClick={handleRatingClick}
-              >
-                {renderStars(Math.round(avg!))}
-                <span className="text-sm font-semibold">{avg!.toFixed(1)}</span>
-              </div>
+              <StarRatingPicker
+                currentRating={currentDisplayRating}
+                onSubmit={handleQuickRatingSubmit}
+                onCancel={() => setShowRatingPicker(false)}
+                trigger={
+                  <div className="flex items-center gap-3">
+                    {renderStars(Math.round(avg!))}
+                    <span className="text-sm font-semibold">{avg!.toFixed(1)}</span>
+                  </div>
+                }
+                open={showRatingPicker}
+                onOpenChange={setShowRatingPicker}
+              />
             ) : (
-              <div
-                className="text-sm text-muted-foreground cursor-pointer"
-                onClick={handleRatingClick}
-              >
+              <div className="text-sm text-muted-foreground">
                 No ratings yet – be the first!
               </div>
             )}
@@ -232,7 +395,9 @@ const handleRatingClick = () => {
         <GlassCard className="p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="text-lg font-semibold">Reviews</div>
-            <button className="text-sm underline" onClick={() => handleAddReviewClick()}>Add review</button>
+            <button className="text-sm underline" onClick={handleAddReviewClick}>
+              Add review
+            </button>
           </div>
           {isLoadingReviews ? (
             <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
@@ -266,13 +431,23 @@ const handleRatingClick = () => {
           )}
         </GlassCard>
 
+        {/* Always mount modals so portals exist; control visibility via `open` */}
         <ReviewModal
+          open={showReviewModal}
           isOpen={showReviewModal}
+          onOpenChange={(v: boolean) => setShowReviewModal(!!v)}
           onClose={() => setShowReviewModal(false)}
           onSubmit={handleReviewSubmit}
           initialRating={userRating}
         />
-        <PremiumGateModal isOpen={showPremiumGate} onClose={() => setShowPremiumGate(false)} />
+
+        <PremiumGateModal
+          open={showPremiumGate}
+          isOpen={showPremiumGate}
+          onOpenChange={(v: boolean) => setShowPremiumGate(!!v)}
+          onClose={() => setShowPremiumGate(false)}
+        />
+
       </div>
     </div>
   );
