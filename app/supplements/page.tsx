@@ -1,5 +1,3 @@
-import path from "path"
-import fs from "fs/promises"
 import { Suspense } from "react"
 import { SupplementsClient } from "@/components/supplements/supplements-client"
 
@@ -63,6 +61,9 @@ async function fetchFromAPI(): Promise<SupplementItem[]> {
 }
 
 async function fetchFromSeed(): Promise<SupplementItem[]> {
+  const { default: fs } = await import("fs/promises")
+  const { default: path } = await import("path")
+
   const supplementsPath = path.join(process.cwd(), "public/seed/supplements.json")
   const reviewsPath = path.join(process.cwd(), "public/seed/reviews.json")
 
