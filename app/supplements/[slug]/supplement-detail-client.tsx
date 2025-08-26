@@ -1,73 +1,72 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
-import { Star, Users, Calendar, User } from "lucide-react"
-import { GlassCard } from "@/components/ui/glass-card"
-import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/hooks/use-toast"
-import { useUser } from "@/lib/hooks/use-user"
-import { StarRatingPicker } from "@/components/supplements/star-rating-picker"
-import { ReviewModal } from "@/components/supplements/review-modal"
-import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
+import { useEffect, useMemo, useState } from "react";
+import { Star, Users, Calendar, User } from "lucide-react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/lib/hooks/use-user";
+import { StarRatingPicker } from "@/components/supplements/star-rating-picker";
+import { ReviewModal } from "@/components/supplements/review-modal";
+import { PremiumGateModal } from "@/components/supplements/premium-gate-modal";
 
-const API = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "")
+const API = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+const TOKEN = process.env.NEXT_PUBLIC_PREMIUM_TOKEN || "";
 
 // --- Types ---------------------------------------------------------------
 interface Review {
-  id: string
-  slug: string
-  rating: number
-  title: string
-  body: string
-  verified_purchase: boolean
-  created_at: string
+  id: string;
+  slug: string;
+  rating: number;
+  title: string;
+  body: string;
+  verified_purchase: boolean;
+  created_at: string;
 }
 
 // `rating` может приходить числом или объектом {avg,count}
-export type RatingShape = number | { avg: number | null; count: number } | null
+export type RatingShape = number | { avg: number | null; count: number } | null;
 
 interface SupplementDTO {
-  id: string
-  name: string
-  summary?: string
-  evidence_level?: string
-  goals?: string[]
-  categories?: string[]
-  timing?: string
-  dosage?: string
-  cycle?: string
-  benefits?: string[]
-  popular_manufacturer?: string[] | string
-  rating: RatingShape
-  reviews_count?: number
-  reviews?: Review[]
+  id: string;
+  name: string;
+  summary?: string;
+  evidence_level?: string;
+  goals?: string[];
+  categories?: string[];
+  timing?: string;
+  dosage?: string;
+  cycle?: string;
+  benefits?: string[];
+  popular_manufacturer?: string[] | string;
+  rating: RatingShape;
+  reviews_count?: number;
+  reviews?: Review[];
 }
 
-interface Props {
-  supplement: SupplementDTO
-}
+interface Props { supplement: SupplementDTO }
 
 // --- Helpers ------------------------------------------------------------
 function toArray<T>(v: T | T[] | undefined): T[] {
-  if (!v) return []
-  return Array.isArray(v) ? v : [v]
+  if (!v) return [];
+  return Array.isArray(v) ? v : [v];
 }
 
 function ratingAvg(r: RatingShape): number | null {
-  if (r == null) return null
-  if (typeof r === "number") return r
-  return r.avg ?? null
+  if (r == null) return null;
+  if (typeof r === "number") return r;
+  return r.avg ?? null;
 }
 
 // --- Component ----------------------------------------------------------
 export function SupplementDetailClient({ supplement: initial }: Props) {
   // нормализуем вход
   const normalized: SupplementDTO & {
-    popular_manufacturer: string[]
-    goals: string[]
-    categories: string[]
-    benefits: string[]
-    reviews: Review[]
+    popular_manufacturer: string[];
+    goals: string[];
+    categories: string[];
+    benefits: string[];
+    reviews: Review[];
   } = {
     ...initial,
     goals: toArray(initial.goals),
@@ -75,74 +74,77 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
     benefits: toArray(initial.benefits),
     popular_manufacturer: toArray(initial.popular_manufacturer as any),
     reviews: Array.isArray(initial.reviews) ? initial.reviews : [],
-  }
+  };
 
-  const [supplement, setSupplement] = useState(normalized)
-  const [allReviews, setAllReviews] = useState<Review[]>(normalized.reviews)
-  const [showReviewModal, setShowReviewModal] = useState(false)
-  const [showPremiumGate, setShowPremiumGate] = useState(false)
-  const [userRating, setUserRating] = useState(0)
-  const [isLoadingReviews, setIsLoadingReviews] = useState(false)
-  const [showRatingPicker, setShowRatingPicker] = useState(false)
+  const [supplement, setSupplement] = useState(normalized);
+  const [allReviews, setAllReviews] = useState<Review[]>(normalized.reviews);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showPremiumGate, setShowPremiumGate] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(false);
+  const [showRatingPicker, setShowRatingPicker] = useState(false);
 
-  const { toast } = useToast()
-  const user = useUser()
-  const isPremium = !!(user?.isPremium || user?.status === "premium")
+  const { toast } = useToast();
+  const user = useUser();
+  const isPremium = !!(user?.isPremium || user?.status === "premium" || (TOKEN && TOKEN.length > 0));
 
   // === КЛИК ПО ЗВЁЗДАМ ==================================================
   const handleRatingClick = () => {
-    console.log("[UI] star click", { isPremium })
+    console.log('[UI] star click', { isPremium });
     if (!isPremium) {
-      console.log("[UI] opening PremiumGateModal")
-      setShowPremiumGate(true)
-      return
+      console.log('[UI] opening PremiumGateModal');
+      setShowPremiumGate(true);
+      return;
     }
-    console.log("[UI] opening StarRatingPicker")
-    setShowRatingPicker(true)
-  }
+    console.log('[UI] opening StarRatingPicker');
+    setShowRatingPicker(true);
+  };
 
   // если пропсы обновились – синхронизируем
   useEffect(() => {
-    setSupplement(normalized)
+    setSupplement(normalized);
     // Не трогаем allReviews здесь, чтобы не затирать данные только что полученные с API
-    setIsLoadingReviews(false)
-  }, [initial]) // eslint-disable-line react-hooks/exhaustive-deps
+    setIsLoadingReviews(false);
+  }, [initial]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (showRatingPicker) {
-      console.log("[UI] StarRatingPicker isOpen -> true")
+      console.log('[UI] StarRatingPicker isOpen -> true');
     } else {
-      console.log("[UI] StarRatingPicker isOpen -> false")
+      console.log('[UI] StarRatingPicker isOpen -> false');
     }
-  }, [showRatingPicker])
+  }, [showRatingPicker]);
 
   // always refresh from API on mount & when id changes
   useEffect(() => {
-    refreshFromAPI()
+    refreshFromAPI();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supplement.id])
+  }, [supplement.id]);
 
-  const avg = useMemo(() => ratingAvg(supplement.rating), [supplement.rating])
+  const avg = useMemo(() => ratingAvg(supplement.rating), [supplement.rating]);
   const cnt = useMemo(() => {
     if (supplement.rating && typeof supplement.rating === "object" && "count" in supplement.rating) {
-      return supplement.rating.count ?? supplement.reviews_count ?? 0
+      return supplement.rating.count ?? supplement.reviews_count ?? 0;
     }
-    return supplement.reviews_count ?? 0
-  }, [supplement.rating, supplement.reviews_count])
+    return supplement.reviews_count ?? 0;
+  }, [supplement.rating, supplement.reviews_count]);
 
-  const hasRating = avg != null && cnt > 0
-  const currentDisplayRating = Math.max(0, Math.min(5, Math.round(avg ?? 0)))
+  const hasRating = avg != null && cnt > 0;
+  const currentDisplayRating = Math.max(0, Math.min(5, Math.round(avg ?? 0)));
 
   const formatDate = (d: string) =>
-    new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+    new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 
   const renderStars = (value: number) => (
     <div className="flex items-center gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
-        <Star key={i} className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`} />
+        <Star
+          key={i}
+          className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`}
+        />
       ))}
     </div>
-  )
+  );
 
   // --- API helpers -------------------------------------------------------
   const mapApiReviewToUI = (r: any): Review => ({
@@ -153,72 +155,76 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
     body: r.comment || "",
     verified_purchase: false,
     created_at: r.created_at,
-  })
+  });
 
   const refreshFromAPI = async () => {
     try {
-      setIsLoadingReviews(true)
+      setIsLoadingReviews(true);
       const [aggRes, revRes] = await Promise.all([
         fetch(`${API}/v1/ratings/${supplement.id}/aggregate`, {
+          headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
           cache: "no-store",
         }),
         fetch(`${API}/v1/reviews/${supplement.id}`, {
           cache: "no-store",
+          headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
         }),
-      ])
+      ]);
 
-      let nextCountFromAgg: number | undefined
+      let nextCountFromAgg: number | undefined;
       if (aggRes.ok) {
-        const agg = await aggRes.json()
-        const nextRating = agg?.rating ?? null
-        nextCountFromAgg = (typeof nextRating === "object" && nextRating?.count) || undefined
+        const agg = await aggRes.json();
+        const nextRating = agg?.rating ?? null;
+        nextCountFromAgg = (typeof nextRating === "object" && nextRating?.count) || undefined;
         setSupplement((prev) => ({
           ...prev,
           rating: nextRating,
           reviews_count: nextCountFromAgg ?? prev.reviews_count ?? 0,
-        }))
+        }));
       }
 
       if (revRes.ok) {
-        const items = await revRes.json()
-        const mapped = Array.isArray(items) ? items.map(mapApiReviewToUI) : []
-        setAllReviews(mapped)
+        const items = await revRes.json();
+        const mapped = Array.isArray(items) ? items.map(mapApiReviewToUI) : [];
+        setAllReviews(mapped);
         // если агрегат ничего не вернул по count — подстрахуемся длиной отзывов
         if (!(nextCountFromAgg ?? 0)) {
           setSupplement((prev) => ({
             ...prev,
             reviews_count: mapped.length,
-            rating:
-              typeof prev.rating === "number" || prev.rating == null
-                ? prev.rating
-                : { ...prev.rating, count: mapped.length },
-          }))
+            rating: typeof prev.rating === 'number' || prev.rating == null
+              ? prev.rating
+              : { ...prev.rating, count: mapped.length },
+          }));
         }
       }
     } catch (e) {
       // swallow errors
     } finally {
-      setIsLoadingReviews(false)
+      setIsLoadingReviews(false);
     }
-  }
+  };
 
   // ------ Review actions ------------------------------------------------
   const handleAddReviewClick = () => {
-    console.log("[UI] add review click")
-    if (!isPremium) return setShowPremiumGate(true)
-    setShowReviewModal(true)
-  }
+    console.log('[UI] add review click');
+    if (!isPremium) return setShowPremiumGate(true);
+    setShowReviewModal(true);
+  };
 
   const resolveUsername = () =>
-    user?.name || (user as any)?.username || (user as any)?.email?.split("@")?.[0] || "anonymous"
+    user?.name ||
+    (user as any)?.username ||
+    (user as any)?.email?.split("@")?.[0] ||
+    "anonymous";
 
   // Отправка полноценного отзыва (звёзды + текст)
   const handleReviewSubmit = async (data: any) => {
     try {
       // поддерживаем разные поля из модалки: body/title/comment/text
-      const comment: string = (data?.body ?? data?.title ?? data?.comment ?? data?.text ?? "").toString()
-      const rating: number = Number(data?.rating ?? userRating ?? 0) || 0
-      const username = resolveUsername()
+      const comment: string = (data?.body ?? data?.title ?? data?.comment ?? data?.text ?? "").toString();
+      const rating: number = Number(data?.rating ?? userRating ?? 0) || 0;
+      const username = resolveUsername();
 
       const optimistic: Review = {
         id: (globalThis as any).crypto?.randomUUID?.() || `${Date.now()}`,
@@ -228,68 +234,71 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
         body: comment,
         verified_purchase: false,
         created_at: new Date().toISOString(),
-      }
+      };
 
       // оптимистично покажем отзыв
-      setAllReviews((prev) => [optimistic, ...prev])
+      setAllReviews((prev) => [optimistic, ...prev]);
 
-      const payload = { user: username, rating, comment }
+      const payload = { user: username, rating, comment };
       const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
         },
         body: JSON.stringify(payload),
-      })
+      });
 
       if (!res.ok) {
-        const j = await res.json().catch(() => ({}))
+        const j = await res.json().catch(() => ({}));
         // откат оптимистичного элемента
-        setAllReviews((prev) => prev.filter((r) => r.id !== optimistic.id))
-        throw new Error(j?.detail || `HTTP ${res.status}`)
+        setAllReviews((prev) => prev.filter((r) => r.id !== optimistic.id));
+        throw new Error(j?.detail || `HTTP ${res.status}`);
       }
 
-      await refreshFromAPI()
-      setUserRating(rating)
-      setShowReviewModal(false)
-      toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." })
+      await refreshFromAPI();
+      setUserRating(rating);
+      setShowReviewModal(false);
+      toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." });
     } catch (e: any) {
       toast({
         title: "Error",
         description: e?.message || "Failed to submit review.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
+  // Быстрая отправка рейтинга (через звездочки)
   const handleQuickRatingSubmit = async (rating: number) => {
     try {
-      const payload = { user: resolveUsername(), rating, comment: "" }
+      const payload = { user: resolveUsername(), rating, comment: "" };
       const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
         },
         body: JSON.stringify(payload),
-      })
+      });
 
       if (!res.ok) {
-        const j = await res.json().catch(() => ({}))
-        throw new Error(j?.detail || `HTTP ${res.status}`)
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j?.detail || `HTTP ${res.status}`);
       }
 
-      await refreshFromAPI()
-      setUserRating(rating)
-      setShowRatingPicker(false)
-      toast({ title: "Thanks!", description: "Your rating has been saved." })
+      await refreshFromAPI();
+      setUserRating(rating);
+      setShowRatingPicker(false);
+      toast({ title: "Thanks!", description: "Your rating has been saved." });
     } catch (e: any) {
       toast({
         title: "Error",
         description: e?.message || "Failed to submit rating.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -318,7 +327,9 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                 onOpenChange={setShowRatingPicker}
               />
             ) : (
-              <div className="text-sm text-muted-foreground">No ratings yet – be the first!</div>
+              <div className="text-sm text-muted-foreground">
+                No ratings yet – be the first!
+              </div>
             )}
             <div className="flex items-center gap-2 text-muted-foreground">
               <Users className="h-4 w-4" />
@@ -343,9 +354,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
           {supplement.goals.length ? (
             <div className="flex flex-wrap gap-2">
               {supplement.goals.map((g) => (
-                <Badge key={g} variant="secondary">
-                  {g}
-                </Badge>
+                <Badge key={g} variant="secondary">{g}</Badge>
               ))}
             </div>
           ) : (
@@ -438,7 +447,8 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
           onOpenChange={(v: boolean) => setShowPremiumGate(!!v)}
           onClose={() => setShowPremiumGate(false)}
         />
+
       </div>
     </div>
-  )
+  );
 }
