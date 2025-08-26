@@ -61,40 +61,38 @@ async function fetchFromAPI(): Promise<SupplementItem[]> {
 }
 
 async function fetchFromSeed(): Promise<SupplementItem[]> {
-  const { default: fs } = await import("fs/promises")
-  const { default: path } = await import("path")
+  try {
+    const [suppsRes, reviewsRes] = await Promise.all([
+      fetch("/seed/supplements.json", { cache: "no-store" }),
+      fetch("/seed/reviews.json", { cache: "no-store" }),
+    ])
 
-  const supplementsPath = path.join(process.cwd(), "public/seed/supplements.json")
-  const reviewsPath = path.join(process.cwd(), "public/seed/reviews.json")
+    const [suppsRaw, reviewsRaw] = await Promise.all([
+      suppsRes.ok ? suppsRes.json() : [],
+      reviewsRes.ok ? reviewsRes.json() : {},
+    ])
 
-  const [suppsRaw, reviewsRaw] = await Promise.all([
-    fs
-      .readFile(supplementsPath, "utf8")
-      .then(JSON.parse)
-      .catch(() => []),
-    fs
-      .readFile(reviewsPath, "utf8")
-      .then(JSON.parse)
-      .catch(() => ({})),
-  ])
+    const reviewsBySlug = reviewsRaw ?? {}
 
-  const reviewsBySlug = (reviewsRaw as any) ?? {}
-
-  return (suppsRaw as any[]).map((s) => {
-    const slug = s.id ?? s.slug
-    const reviewsForSlug: any[] = reviewsBySlug?.[slug]?.items ?? []
-    return {
-      ...s,
-      id: slug,
-      popular_manufacturer: toArray<string>(s.popular_manufacturer),
-      categories: toArray<string>(s.categories),
-      goals: toArray<string>(s.goals),
-      benefits: toArray<string>(s.benefits),
-      rating: normalizeRating(s.rating, reviewsForSlug),
-      reviews_count:
-        s.reviews_count ?? (s.rating && typeof s.rating === "object" ? s.rating.count : (reviewsForSlug.length ?? 0)),
-    }
-  })
+    return (suppsRaw as any[]).map((s) => {
+      const slug = s.id ?? s.slug
+      const reviewsForSlug: any[] = reviewsBySlug?.[slug]?.items ?? []
+      return {
+        ...s,
+        id: slug,
+        popular_manufacturer: toArray<string>(s.popular_manufacturer),
+        categories: toArray<string>(s.categories),
+        goals: toArray<string>(s.goals),
+        benefits: toArray<string>(s.benefits),
+        rating: normalizeRating(s.rating, reviewsForSlug),
+        reviews_count:
+          s.reviews_count ?? (s.rating && typeof s.rating === "object" ? s.rating.count : (reviewsForSlug.length ?? 0)),
+      }
+    })
+  } catch (error) {
+    console.error("Error loading seed data:", error)
+    return []
+  }
 }
 
 export default async function SupplementsPage() {
