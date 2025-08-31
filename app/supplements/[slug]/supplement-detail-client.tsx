@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react";
-import { Star, Users, Calendar, User } from "lucide-react";
+import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -9,6 +9,8 @@ import { useUser } from "@/lib/hooks/use-user";
 import { StarRatingPicker } from "@/components/supplements/star-rating-picker";
 import { ReviewModal } from "@/components/supplements/review-modal";
 import { PremiumGateModal } from "@/components/supplements/premium-gate-modal";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const API = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
 const TOKEN = process.env.NEXT_PUBLIC_PREMIUM_TOKEN || "";
@@ -42,9 +44,9 @@ interface SupplementDTO {
   rating: RatingShape;
   reviews_count?: number;
   reviews?: Review[];
+  // allow extra fields like meta
+  [key: string]: any;
 }
-
-interface Props { supplement: SupplementDTO }
 
 // --- Helpers ------------------------------------------------------------
 function toArray<T>(v: T | T[] | undefined): T[] {
@@ -52,10 +54,44 @@ function toArray<T>(v: T | T[] | undefined): T[] {
   return Array.isArray(v) ? v : [v];
 }
 
+function toStringArray(v: any): string[] {
+  if (!v) return [];
+  if (Array.isArray(v)) return v.map((x) => String(x)).filter(Boolean);
+  const s = String(v);
+  return s.includes(',') ? s.split(',').map((x) => x.trim()).filter(Boolean) : (s ? [s.trim()] : []);
+}
+
+function uniq<T>(arr: T[]): T[] { return Array.from(new Set(arr)); }
+
+function normalizeManufacturers(src: any): string[] {
+  const candidates = [
+    src?.popular_manufacturer,
+    src?.popular_manufacturers,
+    src?.popularManufacturers,
+    src?.manufacturers,
+    src?.manufacturer,
+    src?.brands,
+    src?.brand,
+    src?.meta?.popular_manufacturer,
+    src?.meta?.popular_manufacturers,
+    src?.meta?.manufacturers,
+    src?.meta?.brands,
+  ];
+  return uniq(candidates.flatMap((c) => toStringArray(c))).filter(Boolean);
+}
+
 function ratingAvg(r: RatingShape): number | null {
   if (r == null) return null;
   if (typeof r === "number") return r;
   return r.avg ?? null;
+}
+
+function evidenceBadgeClasses(level?: string): string {
+  const l = (level || '').toLowerCase();
+  if (l.includes('strong')) return 'border bg-green-500/20 text-green-400 border-green-500/30';
+  if (l.includes('moderate')) return 'border bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+  if (l.includes('limited') || l.includes('weak')) return 'border bg-orange-500/20 text-orange-400 border-orange-500/30';
+  return 'border bg-slate-500/20 text-slate-300 border-slate-500/30';
 }
 
 // --- Component ----------------------------------------------------------
@@ -72,7 +108,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
     goals: toArray(initial.goals),
     categories: toArray(initial.categories),
     benefits: toArray(initial.benefits),
-    popular_manufacturer: toArray(initial.popular_manufacturer as any),
+    popular_manufacturer: normalizeManufacturers(initial),
     reviews: Array.isArray(initial.reviews) ? initial.reviews : [],
   };
 
@@ -87,6 +123,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   const { toast } = useToast();
   const user = useUser();
   const isPremium = !!(user?.isPremium || user?.status === "premium" || (TOKEN && TOKEN.length > 0));
+  const router = useRouter();
 
   // === КЛИК ПО ЗВЁЗДАМ ==================================================
   const handleRatingClick = () => {
@@ -103,7 +140,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   // если пропсы обновились – синхронизируем
   useEffect(() => {
     setSupplement(normalized);
-    // Не трогаем allReviews здесь, чтобы не затирать данные только что полученные с API
+    // Не трогаем allReviews здесь, чтобы не затирать данные толь��о что полученные с API
     setIsLoadingReviews(false);
   }, [initial]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -251,7 +288,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
 
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
-        // откат оптимистичного элемента
+        // откат оп��имистичного элемента
         setAllReviews((prev) => prev.filter((r) => r.id !== optimistic.id));
         throw new Error(j?.detail || `HTTP ${res.status}`);
       }
@@ -302,134 +339,246 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
 
   return (
     <div className="min-h-screen py-8 px-4">
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header / rating row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <GlassCard
-            className="col-span-2 flex items-center justify-between p-4 cursor-pointer"
-            onClick={handleRatingClick}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleRatingClick()}
-          >
-            {hasRating ? (
-              <StarRatingPicker
-                currentRating={currentDisplayRating}
-                onSubmit={handleQuickRatingSubmit}
-                onCancel={() => setShowRatingPicker(false)}
-                trigger={
-                  <div className="flex items-center gap-3">
-                    {renderStars(Math.round(avg!))}
-                    <span className="text-sm font-semibold">{avg!.toFixed(1)}</span>
-                  </div>
-                }
-                open={showRatingPicker}
-                onOpenChange={setShowRatingPicker}
-              />
-            ) : (
-              <div className="text-sm text-muted-foreground">
-                No ratings yet – be the first!
-              </div>
-            )}
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Users className="h-4 w-4" />
-              <span className="whitespace-nowrap">{cnt} users</span>
-            </div>
-          </GlassCard>
-          <GlassCard className="p-4">
-            <div className="text-sm font-medium mb-2">Evidence Level</div>
-            <div className="flex gap-2">
-              {supplement.evidence_level ? (
-                <Badge variant="outline">{supplement.evidence_level}</Badge>
-              ) : (
-                <span className="text-muted-foreground">—</span>
-              )}
-            </div>
-          </GlassCard>
-        </div>
-
-        {/* Primary Goals */}
-        <GlassCard className="p-4">
-          <div className="text-lg font-semibold mb-3">Primary Goals</div>
-          {supplement.goals.length ? (
-            <div className="flex flex-wrap gap-2">
-              {supplement.goals.map((g) => (
-                <Badge key={g} variant="secondary">{g}</Badge>
-              ))}
-            </div>
-          ) : (
-            <div className="text-muted-foreground">—</div>
-          )}
-        </GlassCard>
-
-        {/* Benefits */}
-        <GlassCard className="p-4">
-          <div className="text-lg font-semibold mb-3">Benefits</div>
-          {supplement.benefits.length ? (
-            <ul className="list-disc pl-5 space-y-1 text-sm">
-              {supplement.benefits.map((b, i) => (
-                <li key={`${b}-${i}`}>{b}</li>
-              ))}
-            </ul>
-          ) : (
-            <div className="text-muted-foreground">—</div>
-          )}
-        </GlassCard>
-
-        {/* Dosage & Timing */}
-        <GlassCard className="p-4">
-          <div className="text-lg font-semibold mb-3">Dosage &amp; Timing</div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <div className="text-muted-foreground">Recommended Dosage</div>
-              <div>{supplement.dosage || "—"}</div>
-            </div>
-            <div>
-              <div className="text-muted-foreground">Timing</div>
-              <div>{supplement.timing || "—"}</div>
-            </div>
-          </div>
-        </GlassCard>
-
-        {/* Reviews */}
-        <GlassCard className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="text-lg font-semibold">Reviews</div>
-            <button className="text-sm underline" onClick={handleAddReviewClick}>
-              Add review
-            </button>
-          </div>
-          {isLoadingReviews ? (
-            <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
-          ) : allReviews.length ? (
-            <div className="space-y-4">
-              {allReviews.map((rv) => (
-                <div key={rv.id} className="border-l-2 border-primary/20 pl-4 py-2">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
-                        <User className="h-3 w-3" />
-                      </div>
-                      {renderStars(rv.rating)}
-                    </div>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Calendar className="h-3 w-3" />
-                      <span>{formatDate(rv.created_at)}</span>
-                    </div>
-                  </div>
-                  {rv.title && <h4 className="font-medium mb-1">{rv.title}</h4>}
-                  {rv.body && <p className="text-sm text-muted-foreground leading-relaxed">{rv.body}</p>}
+      <div className="max-w-6xl mx-auto">
+        {/* Layout: left (content) + right (sidebar) to restore previous visuals */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* LEFT COLUMN (spans 2) */}
+          <div className="md:col-span-2 space-y-6">
+            {/* Main Header Block with Description */}
+            <GlassCard className="p-8">
+              {/* Categories/Tags */}
+              {supplement.categories.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {supplement.categories.map((category) => (
+                    <Badge key={category} variant="outline" className="glass-subtle">
+                      {category}
+                    </Badge>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <div className="text-4xl mb-4">📝</div>
-              <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
-              <p className="text-muted-foreground">Be the first to review this supplement!</p>
-            </div>
-          )}
-        </GlassCard>
+              )}
+
+              {/* Title */}
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
+                {supplement.name}
+              </h1>
+
+              {/* Description */}
+              {supplement.summary && (
+                <p className="text-xl text-muted-foreground mb-6">
+                  {supplement.summary}
+                </p>
+              )}
+
+              {/* Rating and User Count */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                {/* Interactive Rating Block with Premium Logic */}
+                <div
+                  className="flex items-center gap-2 flex-wrap cursor-pointer"
+                  onClick={handleRatingClick}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleRatingClick()}
+                >
+                  {hasRating ? (
+                    <StarRatingPicker
+                      currentRating={currentDisplayRating}
+                      onSubmit={handleQuickRatingSubmit}
+                      onCancel={() => setShowRatingPicker(false)}
+                      trigger={
+                        <div className="flex items-center gap-2">
+                          <div className="flex">
+                            {Array.from({ length: 5 }, (_, i) => (
+                              <Star
+                                key={i}
+                                className={`h-5 w-5 ${
+                                  i < currentDisplayRating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-muted-foreground"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span className="font-semibold text-lg">{avg!.toFixed(1)}</span>
+                          <span className="text-muted-foreground whitespace-nowrap">
+                            ({cnt} reviews)
+                          </span>
+                        </div>
+                      }
+                      open={showRatingPicker}
+                      onOpenChange={setShowRatingPicker}
+                    />
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="flex">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <Star
+                            key={i}
+                            className="h-5 w-5 text-muted-foreground"
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm text-muted-foreground">
+                        No ratings yet – be the first!
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Users className="h-4 w-4" />
+                  <span className="whitespace-nowrap">{cnt} users</span>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Primary Goals - visual parity with previous */}
+            <GlassCard className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold font-heading">Primary Goals</h2>
+              </div>
+              {supplement.goals.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {supplement.goals.map((g) => (
+                    <span
+                      key={g}
+                      data-slot="badge"
+                      className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-primary text-primary-foreground hover:bg-primary/90 glass-subtle"
+                    >
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-muted-foreground">—</div>
+              )}
+            </GlassCard>
+
+            {/* Benefits - visual parity */}
+            <GlassCard className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <BookOpen className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold font-heading">Benefits</h2>
+              </div>
+              {supplement.benefits.length ? (
+                <ul className="space-y-2">
+                  {supplement.benefits.map((b, i) => (
+                    <li key={`${b}-${i}`} className="flex items-start gap-2 text-muted-foreground">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-muted-foreground">—</div>
+              )}
+            </GlassCard>
+
+            {/* Dosage & Timing - visual parity */}
+            <GlassCard className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Info className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold font-heading">Dosage &amp; Timing</h2>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-medium mb-2">Recommended Dosage</h3>
+                  <p className="text-muted-foreground">{supplement.dosage || '—'}</p>
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Timing</h3>
+                  <p className="text-muted-foreground capitalize">{supplement.timing || '—'}</p>
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Cycling</h3>
+                  <p className="text-muted-foreground">{supplement.cycle || '—'}</p>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Reviews */}
+            <GlassCard className="p-6">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-lg font-semibold">Reviews</div>
+                <button className="text-sm underline" onClick={handleAddReviewClick}>
+                  Add review
+                </button>
+              </div>
+              {isLoadingReviews ? (
+                <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
+              ) : allReviews.length ? (
+                <div className="space-y-4">
+                  {allReviews.map((rv) => (
+                    <div key={rv.id} className="border-l-2 border-primary/20 pl-4 py-2">
+                      <div className="flex items-start justify-between gap-4 mb-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
+                            <User className="h-3 w-3" />
+                          </div>
+                          {renderStars(rv.rating)}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Calendar className="h-3 w-3" />
+                          <span>{formatDate(rv.created_at)}</span>
+                        </div>
+                      </div>
+                      {rv.title && <h4 className="font-medium mb-1">{rv.title}</h4>}
+                      {rv.body && <p className="text-sm text-muted-foreground leading-relaxed">{rv.body}</p>}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="text-4xl mb-4">📝</div>
+                  <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
+                  <p className="text-muted-foreground">Be the first to review this supplement!</p>
+                </div>
+              )}
+            </GlassCard>
+          </div>
+
+          {/* RIGHT COLUMN (sidebar) */}
+          <div className="md:col-span-1 space-y-6">
+            {/* Evidence Level */}
+            <GlassCard className="p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Shield className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Evidence Level</h3>
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                {supplement.evidence_level ? (
+                  <span
+                    data-slot="badge"
+                    className={`inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden hover:bg-primary/90 ${evidenceBadgeClasses(supplement.evidence_level)}`}
+                  >
+                    {supplement.evidence_level}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
+              </div>
+            </GlassCard>
+
+            {/* Popular Manufacturers (under evidence) */}
+            <GlassCard className="p-6">
+              <h3 className="font-semibold mb-3">Popular Manufacturers</h3>
+              {supplement.popular_manufacturer.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {supplement.popular_manufacturer.map((manufacturer: string) => (
+                    <span
+                      key={manufacturer}
+                      data-slot="badge"
+                      className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground hover:bg-accent hover:text-accent-foreground glass-subtle text-xs"
+                    >
+                      {manufacturer}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-muted-foreground text-sm">—</div>
+              )}
+            </GlassCard>
+          </div>
+        </div>
 
         {/* Always mount modals so portals exist; control visibility via `open` */}
         <ReviewModal
@@ -447,7 +596,27 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
           onOpenChange={(v: boolean) => setShowPremiumGate(!!v)}
           onClose={() => setShowPremiumGate(false)}
         />
+      </div>
 
+      {/* Floating action bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50 p-4 z-40 safe-area-pb">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row gap-3">
+          <Link
+            href="/supplements"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transform-gpu border-2 border-primary/60 bg-white/8 backdrop-blur-md hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 hover:backdrop-blur-lg hover:border-primary/80 hover:scale-105 hover:shadow-xl active:scale-95 shadow-lg h-11 px-6 py-2.5 flex-1 min-h-[44px]"
+          >
+            <X className="h-4 w-4 mr-2" />
+            Close
+          </Link>
+          <button
+            type="button"
+            onClick={() => router.push(`/journal?add=${encodeURIComponent(supplement.id)}`)}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transform-gpu bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 text-primary-foreground hover:scale-105 hover:shadow-2xl hover:shadow-primary/25 active:scale-95 backdrop-blur-lg border border-white/20 shadow-xl h-11 px-6 py-2.5 flex-1 liquid-gradient min-h-[44px]"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add to Journal
+          </button>
+        </div>
       </div>
     </div>
   );
