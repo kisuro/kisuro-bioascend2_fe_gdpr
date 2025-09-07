@@ -11,8 +11,10 @@ import { ReviewModal } from "@/components/supplements/review-modal";
 import { PremiumGateModal } from "@/components/supplements/premium-gate-modal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { SupplementInteractions } from "@/components/supplements/supplement-interactions";
 
-const API = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
+// Ensure API/TOKEN are defined for client runtime
+const API = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 const TOKEN = process.env.NEXT_PUBLIC_PREMIUM_TOKEN || "";
 
 // --- Types ---------------------------------------------------------------
@@ -28,6 +30,12 @@ interface Review {
 
 // `rating` может приходить числом или объектом {avg,count}
 export type RatingShape = number | { avg: number | null; count: number } | null;
+
+// Define Props for the component
+type Props = {
+  supplement: any;
+  reviews?: Review[];
+};
 
 interface SupplementDTO {
   id: string;
@@ -490,10 +498,13 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                 </div>
                 <div>
                   <h3 className="font-medium mb-2">Cycling</h3>
-                  <p className="text-muted-foreground">{supplement.cycle || '—'}</p>
+                  <p className="text-muted-foreground">{supplement.cycling || '—'}</p>
                 </div>
               </div>
             </GlassCard>
+
+            {/* Interactions */}
+            <SupplementInteractions supplement={{ interactions: supplement.interactions || { synergy: [], caution: [], avoid: [] } }} />
 
             {/* Reviews */}
             <GlassCard className="p-6">
@@ -573,6 +584,34 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                     </span>
                   ))}
                 </div>
+              ) : (
+                <div className="text-muted-foreground text-sm">—</div>
+              )}
+            </GlassCard>
+
+            {/* Contraindications */}
+            <GlassCard className="p-6">
+              <h3 className="font-semibold mb-3">Contraindications</h3>
+              {Array.isArray((supplement as any).contraindications) && (supplement as any).contraindications.length > 0 ? (
+                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                  {(supplement as any).contraindications.map((c: string, i: number) => (
+                    <li key={`${c}-${i}`}>{c}</li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-muted-foreground text-sm">—</div>
+              )}
+            </GlassCard>
+
+            {/* Side Effects */}
+            <GlassCard className="p-6">
+              <h3 className="font-semibold mb-3">Potential Side Effects</h3>
+              {Array.isArray((supplement as any).side_effects) && (supplement as any).side_effects.length > 0 ? (
+                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                  {(supplement as any).side_effects.map((sfx: string, i: number) => (
+                    <li key={`${sfx}-${i}`}>{sfx}</li>
+                  ))}
+                </ul>
               ) : (
                 <div className="text-muted-foreground text-sm">—</div>
               )}

@@ -30,6 +30,25 @@ function toArray<T>(x: T | T[] | undefined | null): T[] {
   return Array.isArray(x) ? x : [x]
 }
 
+function uniq<T>(arr: T[]): T[] {
+  return Array.from(new Set(arr))
+}
+
+function normalizeManufacturers(src: any): string[] {
+  const candidates = [
+    src?.popular_manufacturer,
+    src?.popular_manufacturers,
+    src?.popularManufacturers,
+    src?.manufacturer,
+    src?.manufacturers,
+    src?.brands,
+    src?.brand,
+    src?.meta?.popular_manufacturer,
+    src?.meta?.popular_manufacturers,
+  ]
+  return uniq(candidates.flatMap((c) => (Array.isArray(c) ? c : c ? [c] : []))).filter(Boolean)
+}
+
 function normalizeRating(raw: any, fallbackReviews?: any[]): Rating {
   if (raw && typeof raw === "object" && ("avg" in raw || "count" in raw)) {
     return { avg: raw.avg ?? null, count: raw.count ?? 0 }
@@ -45,6 +64,41 @@ function normalizeRating(raw: any, fallbackReviews?: any[]): Rating {
   return null
 }
 
+function pickDosageString(s: any): string | undefined {
+  // Priority: explicit dosage string -> meta.recommended_dosage -> meta.dosage
+  const direct = typeof s?.dosage === "string" && s.dosage.trim() ? s.dosage.trim() : undefined
+  if (direct) return direct
+  const meta = s?.meta || {}
+  const metaRecommended = typeof meta?.recommended_dosage === "string" && meta.recommended_dosage.trim()
+    ? meta.recommended_dosage.trim()
+    : undefined
+  if (metaRecommended) return metaRecommended
+  const metaDosage = typeof meta?.dosage === "string" && meta.dosage.trim() ? meta.dosage.trim() : undefined
+  if (metaDosage) return metaDosage
+
+  // Try reconstructing from min/max/unit/notes
+  const min = meta?.dosage_min ?? meta?.min_dosage ?? meta?.minimum
+  const max = meta?.dosage_max ?? meta?.max_dosage ?? meta?.maximum
+  const unit = meta?.dosage_unit ?? meta?.unit
+  const per = meta?.dosage_per ?? meta?.per // e.g., "day"
+  const notes = meta?.dosage_notes ?? meta?.notes
+
+  const hasMin = typeof min === "number" || (typeof min === "string" && min.trim())
+  const hasMax = typeof max === "number" || (typeof max === "string" && max.trim())
+  const minStr = typeof min === "number" ? String(min) : (min || "")
+  const maxStr = typeof max === "number" ? String(max) : (max || "")
+
+  if (hasMin || hasMax) {
+    const range = hasMin && hasMax ? `${minStr}–${maxStr}` : hasMin ? `${minStr}` : `${maxStr}`
+    const unitPart = unit ? ` ${unit}` : ""
+    const perPart = per ? `/${per}` : ""
+    const notePart = notes ? ` (${notes})` : ""
+    return `${range}${unitPart}${perPart}${notePart}`.trim()
+  }
+
+  return undefined
+}
+
 async function fetchFromAPI(): Promise<SupplementItem[]> {
   const res = await fetch(`${API}/v1/supplements`, { cache: "no-store" })
   if (!res.ok) throw new Error(`API /v1/supplements failed: ${res.status}`)
@@ -52,10 +106,12 @@ async function fetchFromAPI(): Promise<SupplementItem[]> {
 
   return data.map((s) => ({
     ...s,
-    popular_manufacturer: toArray<string>(s.popular_manufacturer),
-    categories: toArray<string>(s.categories),
-    goals: toArray<string>(s.goals),
-    benefits: toArray<string>(s.benefits),
+    dosage: pickDosageString(s),
+    timing: s.timing || s?.meta?.timing,
+    popular_manufacturer: normalizeManufacturers(s),
+    categories: toArray<string>(s.categories || s?.meta?.categories),
+    goals: toArray<string>(s.goals || s?.meta?.primary_goals),
+    benefits: toArray<string>(s.benefits || s?.meta?.benefits),
     rating: normalizeRating(s.rating),
   }))
 }
@@ -80,10 +136,12 @@ async function fetchFromSeed(): Promise<SupplementItem[]> {
       return {
         ...s,
         id: slug,
-        popular_manufacturer: toArray<string>(s.popular_manufacturer),
-        categories: toArray<string>(s.categories),
-        goals: toArray<string>(s.goals),
-        benefits: toArray<string>(s.benefits),
+        dosage: pickDosageString(s),
+        timing: s.timing || s?.meta?.timing,
+        popular_manufacturer: normalizeManufacturers(s),
+        categories: toArray<string>(s.categories || s?.meta?.categories),
+        goals: toArray<string>(s.goals || s?.meta?.primary_goals),
+        benefits: toArray<string>(s.benefits || s?.meta?.benefits),
         rating: normalizeRating(s.rating, reviewsForSlug),
         reviews_count:
           s.reviews_count ?? (s.rating && typeof s.rating === "object" ? s.rating.count : (reviewsForSlug.length ?? 0)),

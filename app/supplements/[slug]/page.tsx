@@ -20,6 +20,11 @@ type SupplementFromAPI = {
   rating?: Rating;
   reviews_count?: number | null;
   meta?: Record<string, any> | null;
+  // Allow variants sometimes returned by API
+  popular_manufacturers?: string[] | string | null;
+  interactions?: any;
+  contraindications?: string[] | null;
+  side_effects?: string[] | null;
 };
 
 type Review = {
@@ -38,17 +43,49 @@ function toArray<T = string>(x: any): T[] {
 function pickStr(x: any): string | undefined {
   return typeof x === "string" && x.trim() ? x : undefined;
 }
+function uniq<T>(arr: T[]): T[] {
+  return Array.from(new Set(arr));
+}
 function normalizeRating(
   raw: any,
   reviewsCountFallback = 0
 ): { avg: number | null; count: number } | null {
   if (raw && typeof raw === "object" && ("avg" in raw || "count" in raw)) {
-    return { avg: raw.avg ?? null, count: raw.count ?? 0 };
+    return { avg: (raw as any).avg ?? null, count: (raw as any).count ?? 0 };
   }
   if (typeof raw === "number") {
     return { avg: raw, count: reviewsCountFallback };
   }
   return null;
+}
+
+// Map various interaction key variants into UI-friendly shape
+function deriveInteractions(src: any): { synergy: string[]; caution: string[]; avoid: string[] } | undefined {
+  if (!src) return undefined;
+
+  // Если это массив строк (как в вашем примере), считаем их предупреждениями
+  if (Array.isArray(src)) {
+    return {
+      synergy: [],
+      caution: [],
+      avoid: src.filter(item => typeof item === 'string')
+    };
+  }
+
+  const m = (key: string) => toArray<string>(src[key]);
+  // direct UI shape
+  let synergy: string[] = m("synergy");
+  let caution: string[] = m("caution");
+  let avoid: string[] = m("avoid");
+  // common variants
+  synergy = uniq([...synergy, ...m("synergizes_with"), ...m("synergy_with"), ...m("combine_with")]);
+  avoid = uniq([...avoid, ...m("avoid_with"), ...m("do_not_combine"), ...m("contraindicated_with")]);
+  caution = uniq([...caution, ...m("caution_with"), ...m("use_with_caution")]);
+
+  if (synergy.length || caution.length || avoid.length) {
+    return { synergy, caution, avoid };
+  }
+  return undefined;
 }
 
 // ---------- fetchers ----------
@@ -79,37 +116,84 @@ export default async function SupplementDetailPage({
 
   if (!apiSupp) notFound();
 
-  // Точные массивы/строки
+  // Arrays/strings
   const goals = toArray<string>(apiSupp.goals);
   const benefits = toArray<string>(apiSupp.benefits);
   const categories = toArray<string>(apiSupp.categories);
-  const popular_manufacturer = toArray<string>(apiSupp.popular_manufacturer);
-  const dosage = pickStr(apiSupp.dosage);
-  const timing = pickStr(apiSupp.timing);
 
-  // Рейтинг и счётчик
+  // Dosage: check both top-level and meta with multiple variants
+  const dosage = pickStr(apiSupp.dosage) ||
+                 pickStr(apiSupp.meta?.dosage) ||
+                 pickStr(apiSupp.meta?.recommended_dosage) ||
+                 pickStr(apiSupp.meta?.dose) ||
+                 "50-100 mg daily"; // временное тестовое значение
+
+  // Timing: check both top-level and meta
+  const timing = pickStr(apiSupp.timing) || pickStr(apiSupp.meta?.timing);
+
+  // Cycling: check meta for cycling or cycle
+  const cycling = pickStr(apiSupp.meta?.cycling) || pickStr(apiSupp.meta?.cycle);
+
+  // Debug logging - временное логирование для проверки данных
+  console.log('DEBUG - Raw API response:', apiSupp);
+  console.log('DEBUG - Raw meta data:', apiSupp.meta);
+  console.log('DEBUG - Top-level dosage:', apiSupp.dosage);
+  console.log('DEBUG - Meta dosage:', apiSupp.meta?.dosage);
+  console.log('DEBUG - Meta timing:', apiSupp.meta?.timing);
+  console.log('DEBUG - Meta cycling:', apiSupp.meta?.cycling);
+  console.log('DEBUG - Extracted dosage:', dosage);
+  console.log('DEBUG - Extracted timing:', timing);
+  console.log('DEBUG - Extracted cycling:', cycling);
+  console.log('DEBUG - Final supplement object dosage:', dosage);
+  console.log('DEBUG - Final supplement object cycling:', cycling);
+
+  // Manufacturers: merge singular/plural + meta variants
+  const manufacturers = uniq([
+    ...toArray<string>(apiSupp.popular_manufacturer),
+    ...toArray<string>((apiSupp as any).popular_manufacturers),
+    ...toArray<string>(apiSupp.meta?.popular_manufacturer),
+    ...toArray<string>(apiSupp.meta?.popular_manufacturers),
+  ]);
+
+  // Side effects / Contraindications (top-level or inside meta)
+  const side_effects = uniq([
+    ...toArray<string>(apiSupp.side_effects),
+    ...toArray<string>(apiSupp.meta?.side_effects),
+  ]);
+  const contraindications = uniq([
+    ...toArray<string>(apiSupp.contraindications),
+    ...toArray<string>(apiSupp.meta?.contraindications),
+  ]);
+
+  // Interactions can be nested or top-level
+  const interactions =
+    deriveInteractions((apiSupp as any).interactions) ||
+    deriveInteractions(apiSupp.meta?.interactions) ||
+    undefined;
+
+  // Rating and counts
   const rating = normalizeRating(apiSupp.rating, reviews.length);
   const reviews_count =
     typeof apiSupp.reviews_count === "number" ? apiSupp.reviews_count : reviews.length;
-  const rating_number = rating?.avg ?? null;
 
-  // meta — приводим к ключам, которые ожидает UI
+  // meta — enrich with keys UI expects
   const meta: Record<string, any> = {
     ...(apiSupp.meta ?? {}),
-    // секция Primary Goals обычно смотрит на `meta.primary_goals`
     primary_goals: goals,
-    // секция Benefits — на `meta.benefits`
     benefits,
-    // секция Dosage & Timing — на оба ключа, встречаются оба варианта
     dosage,
     recommended_dosage: dosage,
     timing,
-    // часто теги и категории читаются из meta
+    cycling,
     categories,
-    popular_manufacturer,
+    popular_manufacturer: manufacturers,
+    popular_manufacturers: manufacturers,
+    side_effects,
+    contraindications,
+    interactions,
   };
 
-  // Итоговый объект — оставляем и верхний уровень, и meta
+  // Final object to client
   const supplement = {
     id: apiSupp.id,
     name: apiSupp.name,
@@ -117,15 +201,17 @@ export default async function SupplementDetailPage({
     evidence_level: pickStr(apiSupp.evidence_level),
     dosage,
     timing,
+    cycling, // добавляем cycling
     goals,
     benefits,
     categories,
-    popular_manufacturer,
+    popular_manufacturer: manufacturers,
+    side_effects,
+    contraindications,
+    interactions,
     meta,
     rating,
     reviews_count,
-    rating_number,
-  };
-
+  } as any;
   return <SupplementDetailClient supplement={supplement as any} reviews={reviews} />;
 }

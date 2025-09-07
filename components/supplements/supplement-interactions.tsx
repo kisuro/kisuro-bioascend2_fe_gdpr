@@ -1,84 +1,81 @@
-"use client"
-import { GlassCard } from "@/components/ui/glass-card"
-import { Badge } from "@/components/ui/badge"
-import { AlertTriangle, Info, Zap, CheckCircle } from "lucide-react"
+"use client";
 
-interface SupplementInteractionsProps {
-  supplement: {
-    interactions?: {
-      synergy: string[]
-      caution: string[]
-      avoid: string[]
-    }
-  }
+import { AlertTriangle, CheckCircle, Info } from "lucide-react";
+import { GlassCard } from "@/components/ui/glass-card";
+
+interface InteractionData {
+  synergy: string[];
+  caution: string[];
+  avoid: string[];
 }
 
-export function SupplementInteractions({ supplement }: SupplementInteractionsProps) {
-  const interactions = supplement.interactions || { synergy: [], caution: [], avoid: [] }
+interface Props {
+  supplement: {
+    interactions?: InteractionData;
+  };
+}
+
+export function SupplementInteractions({ supplement }: Props) {
+  const interactions = supplement.interactions;
+
+  // Если нет взаимодействий, не отображаем компонент
+  if (!interactions || (!interactions.synergy?.length && !interactions.caution?.length && !interactions.avoid?.length)) {
+    return null;
+  }
 
   return (
-    <GlassCard className="backdrop-blur-md bg-white/10 border border-white/20 p-6">
+    <GlassCard className="p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Zap className="h-5 w-5 text-primary" />
+        <AlertTriangle className="h-5 w-5 text-primary" />
         <h2 className="text-xl font-semibold font-heading">Interactions</h2>
       </div>
 
-      <div className="space-y-6">
-        {interactions.synergy.length > 0 && (
+      <div className="space-y-4">
+        {/* Positive Synergies */}
+        {interactions.synergy?.length > 0 && (
           <div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2">
               <CheckCircle className="h-4 w-4 text-green-500" />
-              <h3 className="font-medium">Synergistic Supplements</h3>
+              <h3 className="font-medium text-green-400">Works Well With</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {interactions.synergy.map((item, index) => (
-                <Badge key={index} variant="secondary" className="backdrop-blur-md bg-green-500/20 text-green-300">
-                  {item}
-                </Badge>
+            <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 ml-6">
+              {interactions.synergy.map((item, i) => (
+                <li key={`synergy-${i}`}>{item}</li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
 
-        {interactions.caution.length > 0 && (
+        {/* Cautions */}
+        {interactions.caution?.length > 0 && (
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <AlertTriangle className="h-4 w-4 text-orange-500" />
-              <h3 className="font-medium">Use with Caution</h3>
+            <div className="flex items-center gap-2 mb-2">
+              <Info className="h-4 w-4 text-yellow-500" />
+              <h3 className="font-medium text-yellow-400">Use With Caution</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {interactions.caution.map((item, index) => (
-                <Badge key={index} variant="secondary" className="backdrop-blur-md bg-orange-500/20 text-orange-300">
-                  {item}
-                </Badge>
+            <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 ml-6">
+              {interactions.caution.map((item, i) => (
+                <li key={`caution-${i}`}>{item}</li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
 
-        {interactions.avoid.length > 0 && (
+        {/* Avoid */}
+        {interactions.avoid?.length > 0 && (
           <div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="h-4 w-4 text-red-500" />
-              <h3 className="font-medium">Avoid Combining With</h3>
+              <h3 className="font-medium text-red-400">Avoid Combining With</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {interactions.avoid.map((item, index) => (
-                <Badge key={index} variant="destructive" className="backdrop-blur-md bg-red-500/20">
-                  {item}
-                </Badge>
+            <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 ml-6">
+              {interactions.avoid.map((item, i) => (
+                <li key={`avoid-${i}`}>{item}</li>
               ))}
-            </div>
-          </div>
-        )}
-
-        {interactions.synergy.length === 0 && interactions.caution.length === 0 && interactions.avoid.length === 0 && (
-          <div className="text-center py-4 text-muted-foreground">
-            <Info className="h-8 w-8 mx-auto mb-2 opacity-50" />
-            <p>No known interactions reported</p>
+            </ul>
           </div>
         )}
       </div>
     </GlassCard>
-  )
+  );
 }
