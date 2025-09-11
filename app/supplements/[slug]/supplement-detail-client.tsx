@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react";
-import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus } from "lucide-react";
+import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus, ExternalLink } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -18,6 +18,17 @@ const API = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace
 const TOKEN = process.env.NEXT_PUBLIC_PREMIUM_TOKEN || "";
 
 // --- Types ---------------------------------------------------------------
+interface SupplementLink {
+  rel?: string[];
+  url: string;
+  kind?: string;
+  lang?: string;
+  name?: string;
+  notes?: string;
+  vendor?: string;
+  region?: string[];
+}
+
 interface Review {
   id: string;
   slug: string;
@@ -578,7 +589,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                     <span
                       key={manufacturer}
                       data-slot="badge"
-                      className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground hover:bg-accent hover:text-accent-foreground glass-subtle text-xs"
+                      className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-primary text-primary-foreground hover:bg-primary/90 glass-subtle"
                     >
                       {manufacturer}
                     </span>
@@ -589,13 +600,66 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
               )}
             </GlassCard>
 
+            {/* Useful Links */}
+            {Array.isArray((supplement as any).meta?.links) && (supplement as any).meta.links.length > 0 && (
+              <GlassCard className="p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <ExternalLink className="h-5 w-5 text-primary" />
+                  <h3 className="font-semibold">Useful Links</h3>
+                </div>
+                <div className="space-y-3">
+                  {(supplement as any).meta.links.map((link: SupplementLink, index: number) => (
+                    <div key={index} className="border-l-2 border-primary/20 pl-3">
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                      >
+                        <span>{link.name || link.vendor || 'Link'}</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                      {link.notes && (
+                        <p className="text-xs text-muted-foreground mt-1">{link.notes}</p>
+                      )}
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {link.kind && (
+                          <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-slate-500/20 text-slate-300 border border-slate-500/30">
+                            {link.kind}
+                          </span>
+                        )}
+                        {link.vendor && link.vendor !== link.name && (
+                          <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                            {link.vendor}
+                          </span>
+                        )}
+                        {link.region && link.region.length > 0 && (
+                          <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-green-500/20 text-green-300 border border-green-500/30">
+                            {link.region.join(', ')}
+                          </span>
+                        )}
+                        {link.rel && link.rel.includes('sponsored') && (
+                          <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
+                            sponsored
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </GlassCard>
+            )}
+
             {/* Contraindications */}
             <GlassCard className="p-6">
               <h3 className="font-semibold mb-3">Contraindications</h3>
               {Array.isArray((supplement as any).contraindications) && (supplement as any).contraindications.length > 0 ? (
-                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                <ul className="space-y-2">
                   {(supplement as any).contraindications.map((c: string, i: number) => (
-                    <li key={`${c}-${i}`}>{c}</li>
+                    <li key={`${c}-${i}`} className="flex items-start gap-2 text-muted-foreground">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                      <span>{c}</span>
+                    </li>
                   ))}
                 </ul>
               ) : (
@@ -607,9 +671,12 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
             <GlassCard className="p-6">
               <h3 className="font-semibold mb-3">Potential Side Effects</h3>
               {Array.isArray((supplement as any).side_effects) && (supplement as any).side_effects.length > 0 ? (
-                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                <ul className="space-y-2">
                   {(supplement as any).side_effects.map((sfx: string, i: number) => (
-                    <li key={`${sfx}-${i}`}>{sfx}</li>
+                    <li key={`${sfx}-${i}`} className="flex items-start gap-2 text-muted-foreground">
+                      <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                      <span>{sfx}</span>
+                    </li>
                   ))}
                 </ul>
               ) : (
