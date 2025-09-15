@@ -13,7 +13,8 @@ export function ThemeToggle() {
         <LiquidButton variant="ghost" size="icon" className="glass">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
+          <span className="sr-only text-slate-900 dark:text-white">Toggle theme</span>{" "}
+          {/* added high contrast colors to screen reader text */}
         </LiquidButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="glass-strong">

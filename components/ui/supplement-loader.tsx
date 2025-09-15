@@ -19,14 +19,16 @@ export function SupplementLoader({ isVisible, message = "Loading supplements..."
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className="flex flex-col items-center space-y-8"
+        className="flex flex-col items-center space-y-4" // reduced space-y from 8 to 4
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        {/* DNA Helix Animation */}
-        <div className="relative w-24 h-24">
+        {/* DNA Helix Animation - Compact */}
+        <div className="relative w-16 h-16">
+          {" "}
+          {/* reduced from w-24 h-24 to w-16 h-16 */}
           <motion.div
             className="absolute inset-0"
             animate={{ rotateY: 360 }}
@@ -36,7 +38,7 @@ export function SupplementLoader({ isVisible, message = "Loading supplements..."
             <div className="relative w-full h-full">
               {/* Left Strand */}
               <motion.div
-                className="absolute left-2 top-0 w-1 h-full bg-gradient-to-b from-primary via-accent to-primary rounded-full"
+                className="absolute left-1 top-0 w-0.5 h-full bg-gradient-to-b from-primary via-accent to-primary rounded-full" // reduced left-2 to left-1 and w-1 to w-0.5
                 animate={{
                   scaleY: [1, 1.1, 1],
                   opacity: [0.6, 1, 0.6],
@@ -45,7 +47,7 @@ export function SupplementLoader({ isVisible, message = "Loading supplements..."
               />
               {/* Right Strand */}
               <motion.div
-                className="absolute right-2 top-0 w-1 h-full bg-gradient-to-b from-accent via-primary to-accent rounded-full"
+                className="absolute right-1 top-0 w-0.5 h-full bg-gradient-to-b from-accent via-primary to-accent rounded-full" // reduced right-2 to right-1 and w-1 to w-0.5
                 animate={{
                   scaleY: [1, 1.1, 1],
                   opacity: [0.6, 1, 0.6],
@@ -53,116 +55,98 @@ export function SupplementLoader({ isVisible, message = "Loading supplements..."
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.5 }}
               />
 
-              {/* DNA Base Pairs */}
-              {[...Array(6)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute left-2 right-2 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full"
-                  style={{ top: `${15 + i * 12}%` }}
-                  animate={{
-                    rotateZ: [0, 180, 360],
-                    opacity: [0.4, 0.8, 0.4],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                    delay: i * 0.2,
-                  }}
-                />
-              ))}
+              {/* DNA Base Pairs - Reduced count */}
+              {[...Array(4)].map(
+                (
+                  _,
+                  i, // reduced from 6 to 4 base pairs
+                ) => (
+                  <motion.div
+                    key={i}
+                    className="absolute left-1 right-1 h-0.5 bg-gradient-to-r from-primary to-accent rounded-full" // reduced left-2 right-2 to left-1 right-1
+                    style={{ top: `${20 + i * 15}%` }} // adjusted spacing
+                    animate={{
+                      rotateZ: [0, 180, 360],
+                      opacity: [0.4, 0.8, 0.4],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                      delay: i * 0.2,
+                    }}
+                  />
+                ),
+              )}
             </div>
           </motion.div>
         </div>
 
-        {/* Molecular Orbit Animation */}
-        <div className="relative w-32 h-32">
+        {/* Molecular Orbit Animation - Compact */}
+        <div className="relative w-20 h-20">
+          {" "}
+          {/* reduced from w-32 h-32 to w-20 h-20 */}
           {/* Central Molecule */}
           <motion.div
-            className="absolute top-1/2 left-1/2 w-4 h-4 -mt-2 -ml-2 bg-primary rounded-full shadow-lg"
+            className="absolute top-1/2 left-1/2 w-3 h-3 -mt-1.5 -ml-1.5 bg-primary rounded-full shadow-lg" // reduced from w-4 h-4 to w-3 h-3
             animate={{
               scale: [1, 1.2, 1],
               boxShadow: [
-                "0 0 10px rgba(var(--primary), 0.4)",
-                "0 0 20px rgba(var(--primary), 0.8)",
-                "0 0 10px rgba(var(--primary), 0.4)",
+                "0 0 8px rgba(var(--primary), 0.4)", // reduced shadow size
+                "0 0 16px rgba(var(--primary), 0.8)",
+                "0 0 8px rgba(var(--primary), 0.4)",
               ],
             }}
             transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
           />
-
-          {/* Orbiting Atoms */}
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute top-1/2 left-1/2 w-2 h-2 -mt-1 -ml-1"
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 3 + i,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-                delay: i * 0.5,
-              }}
-            >
+          {/* Orbiting Atoms - Reduced count */}
+          {[...Array(2)].map(
+            (
+              _,
+              i, // reduced from 3 to 2 orbiting atoms
+            ) => (
               <motion.div
-                className={`w-2 h-2 rounded-full ${i === 0 ? "bg-accent" : i === 1 ? "bg-primary" : "bg-chart-3"}`}
-                style={{
-                  transformOrigin: `${16 + i * 8}px center`,
-                  transform: `translateX(${16 + i * 8}px)`,
-                }}
-                animate={{
-                  scale: [0.8, 1.2, 0.8],
-                  opacity: [0.6, 1, 0.6],
-                }}
+                key={i}
+                className="absolute top-1/2 left-1/2 w-1.5 h-1.5 -mt-0.5 -ml-0.5" // reduced size
+                animate={{ rotate: 360 }}
                 transition={{
-                  duration: 1.5,
+                  duration: 3 + i,
                   repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                  delay: i * 0.3,
+                  ease: "linear",
+                  delay: i * 0.5,
                 }}
-              />
-            </motion.div>
-          ))}
+              >
+                <motion.div
+                  className={`w-1.5 h-1.5 rounded-full ${i === 0 ? "bg-accent" : "bg-primary"}`} // reduced size and simplified colors
+                  style={{
+                    transformOrigin: `${12 + i * 6}px center`, // reduced orbit radius
+                    transform: `translateX(${12 + i * 6}px)`,
+                  }}
+                  animate={{
+                    scale: [0.8, 1.2, 0.8],
+                    opacity: [0.6, 1, 0.6],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut",
+                    delay: i * 0.3,
+                  }}
+                />
+              </motion.div>
+            ),
+          )}
         </div>
 
-        {/* Vitamin Capsules Animation */}
-        <div className="relative w-40 h-8 flex items-center justify-center space-x-2">
-          {[...Array(4)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="relative"
-              animate={{
-                y: [0, -8, 0],
-                rotateZ: [0, 180, 360],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: i * 0.2,
-              }}
-            >
-              {/* Capsule */}
-              <div className="w-6 h-3 rounded-full bg-gradient-to-r from-primary to-accent opacity-80 shadow-sm" />
-              {/* Capsule Highlight */}
-              <motion.div
-                className="absolute top-0 left-1 w-1 h-1 bg-white/60 rounded-full"
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-              />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Loading Text */}
+        {/* Loading Text - Compact */}
         <motion.div
-          className="text-center space-y-2"
+          className="text-center space-y-1" // reduced space-y from 2 to 1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <motion.h3
-            className="text-lg font-semibold text-foreground"
+            className="text-sm font-medium text-foreground" // reduced from text-lg to text-sm and font-semibold to font-medium
             animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
           >
@@ -174,7 +158,7 @@ export function SupplementLoader({ isVisible, message = "Loading supplements..."
             {[...Array(3)].map((_, i) => (
               <motion.div
                 key={i}
-                className="w-2 h-2 bg-primary rounded-full"
+                className="w-1.5 h-1.5 bg-primary rounded-full" // reduced from w-2 h-2 to w-1.5 h-1.5
                 animate={{
                   scale: [0.8, 1.2, 0.8],
                   opacity: [0.5, 1, 0.5],
@@ -190,29 +174,34 @@ export function SupplementLoader({ isVisible, message = "Loading supplements..."
           </div>
         </motion.div>
 
-        {/* Hexagonal Pattern Background */}
+        {/* Hexagonal Pattern Background - Simplified */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
-          {[...Array(12)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-8 h-8 border border-primary/20 transform rotate-45"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                rotate: [45, 225, 405],
-                opacity: [0.1, 0.3, 0.1],
-                scale: [0.8, 1.1, 0.8],
-              }}
-              transition={{
-                duration: 4 + Math.random() * 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
+          {[...Array(6)].map(
+            (
+              _,
+              i, // reduced from 12 to 6 hexagons
+            ) => (
+              <motion.div
+                key={i}
+                className="absolute w-6 h-6 border border-primary/15 transform rotate-45" // reduced from w-8 h-8 and lower opacity
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  rotate: [45, 225, 405],
+                  opacity: [0.05, 0.2, 0.05], // reduced opacity range
+                  scale: [0.8, 1.1, 0.8],
+                }}
+                transition={{
+                  duration: 4 + Math.random() * 2,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                  delay: Math.random() * 2,
+                }}
+              />
+            ),
+          )}
         </div>
       </motion.div>
     </motion.div>

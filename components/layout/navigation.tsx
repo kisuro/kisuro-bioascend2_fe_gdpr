@@ -64,7 +64,7 @@ export function Navigation() {
                         "hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 hover:shadow-lg",
                         isActive
                           ? "bg-gradient-to-r from-primary/20 to-accent/20 text-primary shadow-lg backdrop-blur-lg"
-                          : "text-muted-foreground hover:text-foreground",
+                          : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white", // using solid high-contrast colors instead of semi-transparent
                       )}
                     >
                       <Icon className="w-4 h-4" />
@@ -80,7 +80,7 @@ export function Navigation() {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden md:block">
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 hover:shadow-lg"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 hover:shadow-lg text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white" // using solid high-contrast colors instead of semi-transparent
                 >
                   <User className="w-4 h-4" />
                   <span>Profile</span>
@@ -130,7 +130,7 @@ export function Navigation() {
                           "hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105",
                           isActive
                             ? "bg-gradient-to-r from-primary/20 to-accent/20 text-primary shadow-lg"
-                            : "text-muted-foreground hover:text-foreground",
+                            : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white", // using solid high-contrast colors instead of semi-transparent
                         )}
                       >
                         <Icon className="w-5 h-5" />
@@ -147,7 +147,7 @@ export function Navigation() {
                   <Link
                     href="/profile"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-muted-foreground hover:text-foreground"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white" // using solid high-contrast colors instead of semi-transparent
                   >
                     <User className="w-5 h-5" />
                     <span>Profile</span>
