@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload } from "lucide-react"
 import { ProfileBackground } from "@/components/ui/page-backgrounds"
+import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 // Mock user data
 const mockUser = {
@@ -40,12 +41,14 @@ export default function ProfilePage() {
   const [user, setUser] = useState(mockUser)
   const [imageError, setImageError] = useState(false)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true) // added loading state
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    return () => {
-      // Cleanup any pending operations when component unmounts
-    }
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1400)
+    return () => clearTimeout(timer)
   }, [])
 
   const handleSave = () => {
@@ -94,6 +97,10 @@ export default function ProfilePage() {
       }
       reader.readAsDataURL(file)
     }
+  }
+
+  if (isLoading) {
+    return <SupplementLoader />
   }
 
   return (

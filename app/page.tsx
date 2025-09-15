@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, Play } from "lucide-react"
+import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 const features = [
   {
@@ -129,13 +130,18 @@ const BiorhythmBackground = () => {
 
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(true) // added loading state
 
   React.useEffect(() => {
     setIsClient(true)
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
+    return () => clearTimeout(timer)
   }, [])
 
-  if (!isClient) {
-    return null // Return null on server-side to prevent hydration issues
+  if (!isClient || isLoading) {
+    return <SupplementLoader /> // show loader during initial load
   }
 
   return (

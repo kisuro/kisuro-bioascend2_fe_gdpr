@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import { Send, Bot, User, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 interface Message {
   id: string
@@ -36,6 +37,7 @@ export default function AssistantPage() {
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState("")
   const [isTyping, setIsTyping] = useState(false)
+  const [isLoading, setIsLoading] = useState(true) // added loading state
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -45,6 +47,13 @@ export default function AssistantPage() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleSend = async () => {
     if (!input.trim()) return
@@ -79,6 +88,10 @@ export default function AssistantPage() {
       e.preventDefault()
       handleSend()
     }
+  }
+
+  if (isLoading) {
+    return <SupplementLoader />
   }
 
   return (

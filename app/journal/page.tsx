@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,9 +10,22 @@ import { ReminderManager } from "@/components/journal/reminder-manager"
 import { JournalHistory } from "@/components/journal/journal-history"
 import { BookOpen, Plus, Bell, History, Shield } from "lucide-react"
 import { JournalBackground } from "@/components/ui/page-backgrounds"
+import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 export default function JournalPage() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [isLoading, setIsLoading] = useState(true) // added loading state
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1100)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (isLoading) {
+    return <SupplementLoader />
+  }
 
   return (
     <div className="min-h-screen py-8 px-4 relative">

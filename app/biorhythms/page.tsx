@@ -1,5 +1,5 @@
 "use client"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { Input } from "@/components/ui/input"
@@ -8,6 +8,7 @@ import { BiorhythmChart } from "@/components/biorhythms/biorhythm-chart"
 import { BiorhythmSummary } from "@/components/biorhythms/biorhythm-summary"
 import { Calendar, TrendingUp } from "lucide-react"
 import { BiorhythmsBackground } from "@/components/ui/page-backgrounds"
+import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 interface BiorhythmData {
   date: string
@@ -102,12 +103,20 @@ export default function BiorhythmsPage() {
   const [dateOfBirth, setDateOfBirth] = useState("")
   const [targetDate, setTargetDate] = useState(new Date().toISOString().split("T")[0])
   const [range, setRange] = useState(7)
+  const [isLoading, setIsLoading] = useState(true) // added loading state
   const [showAdditional, setShowAdditional] = useState({
     intuitive: false,
     spiritual: false,
     aesthetic: false,
     charismatic: false,
   })
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1200)
+    return () => clearTimeout(timer)
+  }, [])
 
   const biorhythmData = useMemo(() => {
     if (!dateOfBirth) return []
@@ -192,6 +201,10 @@ export default function BiorhythmsPage() {
       aesthetic: false,
       charismatic: false,
     })
+  }
+
+  if (isLoading) {
+    return <SupplementLoader /> // show loader during initial load
   }
 
   return (

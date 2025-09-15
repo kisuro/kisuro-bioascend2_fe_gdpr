@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,11 +10,20 @@ import { AudioCategories } from "@/components/mind/audio-categories"
 import { Brain, Music, Headphones, List, Crown } from "lucide-react"
 import type { AudioTrack } from "@/lib/data/audio"
 import { MindBackground } from "@/components/ui/page-backgrounds"
+import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 export default function MindPage() {
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [activeTab, setActiveTab] = useState("library")
+  const [isLoading, setIsLoading] = useState(true) // added loading state
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1300)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handlePlayTrack = (track: AudioTrack) => {
     setCurrentTrack(track)
@@ -27,6 +36,10 @@ export default function MindPage() {
 
   const handleResumeTrack = () => {
     setIsPlaying(true)
+  }
+
+  if (isLoading) {
+    return <SupplementLoader />
   }
 
   return (
