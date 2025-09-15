@@ -40,7 +40,7 @@ export function Navigation() {
                   <BioAscendIcon size={28} variant="color" />
                 </div>
                 <span className="hidden sm:block font-heading text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Bioascend
+                  BioAionics
                 </span>
               </Link>
             </motion.div>

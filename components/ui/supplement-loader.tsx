@@ -26,7 +26,7 @@ export function SupplementLoader({ isVisible, message = "Loading..." }: Suppleme
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         <div className="relative">
-          {/* Animated BioAscend Logo */}
+          {/* Animated BioAionics Logo */}
           <motion.svg
             width="48"
             height="48"

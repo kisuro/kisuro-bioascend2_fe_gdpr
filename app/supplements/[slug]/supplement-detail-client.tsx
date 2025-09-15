@@ -35,6 +35,7 @@ interface Review {
   body: string
   verified_purchase: boolean
   created_at: string
+  user?: string
 }
 
 // `rating` может приходить числом или объектом {avg,count}
@@ -148,7 +149,8 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
 
   const { toast } = useToast()
   const user = useUser()
-  const isPremium = !!(user?.isPremium || user?.status === "premium")
+  const isAuthLoading = (user as any)?.isLoading
+  const isPremium = !!(user?.status === "premium")
   const router = useRouter()
 
   const handleGoalClick = (goal: string) => {
@@ -157,7 +159,8 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
 
   // === КЛИК ПО ЗВЁЗДАМ ==================================================
   const handleRatingClick = () => {
-    console.log("[UI] star click", { isPremium })
+    console.log("[UI] star click", { isPremium, isAuthLoading })
+    if (isAuthLoading) return
     if (!isPremium) {
       console.log("[UI] opening PremiumGateModal")
       setShowPremiumGate(true)
@@ -211,15 +214,16 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   )
 
   // --- API helpers -------------------------------------------------------
-  const mapApiReviewToUI = (r: any): Review => ({
-    id: r.id,
-    slug: supplement.id,
-    rating: r.rating,
-    title: "", // у нас на бэке нет title — оставляем пустым
-    body: r.comment || "",
-    verified_purchase: false,
-    created_at: r.created_at,
-  })
+const mapApiReviewToUI = (r: any): Review => ({
+  id: r.id,
+  slug: supplement.id,
+  rating: r.rating,
+  title: "", // у нас на бэке нет title — оставляем пустым
+  body: r.comment || "",
+  verified_purchase: false,
+  created_at: r.created_at,
+  user: r.user,
+})
 
   const refreshFromAPI = async () => {
     try {
@@ -271,6 +275,7 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   // ------ Review actions ------------------------------------------------
   const handleAddReviewClick = () => {
     console.log("[UI] add review click")
+    if (isAuthLoading) return
     if (!isPremium) return setShowPremiumGate(true)
     setShowReviewModal(true)
   }
@@ -294,17 +299,24 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
         body: comment,
         verified_purchase: false,
         created_at: new Date().toISOString(),
+        user: username,
       }
 
       // оптимистично покажем отзыв
       setAllReviews((prev) => [optimistic, ...prev])
 
+      const existing = allReviews.find((r) => r.user === username)
       const payload = { user: username, rating, comment }
-      const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
-        method: "POST",
+      const url = existing
+        ? `${API}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
+        : `${API}/v1/reviews/${supplement.id}`
+      const method = existing ? "PATCH" : "POST"
+      const res = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(payload),
       })
 
@@ -331,12 +343,19 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   // Быстрая отправка рейтинга (через звездочки)
   const handleQuickRatingSubmit = async (rating: number) => {
     try {
-      const payload = { user: resolveUsername(), rating, comment: "" }
-      const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
-        method: "POST",
+      const username = resolveUsername()
+      const existing = allReviews.find((r) => r.user === username)
+      const payload = { user: username, rating, comment: "" }
+      const url = existing
+        ? `${API}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
+        : `${API}/v1/reviews/${supplement.id}`
+      const method = existing ? "PATCH" : "POST"
+      const res = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(payload),
       })
 
@@ -394,39 +413,41 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                   tabIndex={0}
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleRatingClick()}
                 >
-                  {hasRating ? (
+                  {(
                     <StarRatingPicker
-                      currentRating={currentDisplayRating}
+                      currentRating={hasRating ? currentDisplayRating : 0}
                       onSubmit={handleQuickRatingSubmit}
                       onCancel={() => setShowRatingPicker(false)}
                       trigger={
-                        <div className="flex items-center gap-2">
-                          <div className="flex">
-                            {Array.from({ length: 5 }, (_, i) => (
-                              <Star
-                                key={i}
-                                className={`h-5 w-5 ${
-                                  i < currentDisplayRating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
-                                }`}
-                              />
-                            ))}
+                        hasRating ? (
+                          <div className="flex items-center gap-2">
+                            <div className="flex">
+                              {Array.from({ length: 5 }, (_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`h-5 w-5 ${
+                                    i < currentDisplayRating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="font-semibold text-lg">{avg!.toFixed(1)}</span>
+                            <span className="text-muted-foreground whitespace-nowrap">({cnt} reviews)</span>
                           </div>
-                          <span className="font-semibold text-lg">{avg!.toFixed(1)}</span>
-                          <span className="text-muted-foreground whitespace-nowrap">({cnt} reviews)</span>
-                        </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <div className="flex">
+                              {Array.from({ length: 5 }, (_, i) => (
+                                <Star key={i} className="h-5 w-5 text-muted-foreground" />
+                              ))}
+                            </div>
+                            <span className="text-sm text-muted-foreground">No ratings yet – be the first!</span>
+                          </div>
+                        )
                       }
                       open={showRatingPicker}
                       onOpenChange={setShowRatingPicker}
                     />
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <div className="flex">
-                        {Array.from({ length: 5 }, (_, i) => (
-                          <Star key={i} className="h-5 w-5 text-muted-foreground" />
-                        ))}
-                      </div>
-                      <span className="text-sm text-muted-foreground">No ratings yet – be the first!</span>
-                    </div>
                   )}
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground">
@@ -511,9 +532,15 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
             <GlassCard className="p-6">
               <div className="flex items-center justify-between mb-3">
                 <div className="text-lg font-semibold">Reviews</div>
-                <button className="text-sm underline" onClick={handleAddReviewClick}>
-                  Add review
-                </button>
+                {(() => {
+                  const username = resolveUsername()
+                  const mine = allReviews.find((r) => r.user === username)
+                  return (
+                    <button className="text-sm underline" onClick={handleAddReviewClick}>
+                      {mine ? "Edit your review" : "Add review"}
+                    </button>
+                  )
+                })()}
               </div>
               {isLoadingReviews ? (
                 <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
@@ -676,14 +703,23 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
         </div>
 
         {/* Always mount modals so portals exist; control visibility via `open` */}
-        <ReviewModal
-          open={showReviewModal}
-          isOpen={showReviewModal}
-          onOpenChange={(v: boolean) => setShowReviewModal(!!v)}
-          onClose={() => setShowReviewModal(false)}
-          onSubmit={handleReviewSubmit}
-          initialRating={userRating}
-        />
+        {(() => {
+          const username = resolveUsername()
+          const mine = allReviews.find((r) => r.user === username)
+          return (
+            <ReviewModal
+              open={showReviewModal}
+              isOpen={showReviewModal}
+              onOpenChange={(v: boolean) => setShowReviewModal(!!v)}
+              onClose={() => setShowReviewModal(false)}
+              onSubmit={handleReviewSubmit}
+              initialRating={mine ? mine.rating : userRating}
+              initialTitle={mine?.title || ""}
+              initialBody={mine?.body || ""}
+              mode={mine ? "edit" : "add"}
+            />
+          )
+        })()}
 
         <PremiumGateModal
           open={showPremiumGate}

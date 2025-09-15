@@ -1,5 +1,6 @@
 "use client"
 import { useState, useMemo, useCallback, useEffect } from "react"
+import { useUser } from "@/lib/hooks/use-user"
 import { useRouter, useSearchParams } from "next/navigation"
 import type React from "react"
 
@@ -81,6 +82,7 @@ const CRAVING_TO_SUPPLEMENT_MAP: Record<string, { nutrients: string[]; goals: st
 export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const authUser = useUser()
   const safeSupplements: Supplement[] = Array.isArray(supplements) ? supplements : []
 
   const [currentPage, setCurrentPage] = useState(() => {
@@ -133,6 +135,10 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const [isLoadingCravings, setIsLoadingCravings] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
   const [isInitialLoading, setIsInitialLoading] = useState(true)
+
+  useEffect(() => {
+    setIsPremium(authUser.status === "premium")
+  }, [authUser.status])
 
   const updateURL = useCallback(
     (

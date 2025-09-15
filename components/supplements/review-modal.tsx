@@ -13,13 +13,16 @@ interface ReviewModalProps {
   onClose: () => void
   onSubmit: (data: { rating: number; title: string; body: string }) => void
   initialRating?: number
+  initialTitle?: string
+  initialBody?: string
+  mode?: "add" | "edit"
 }
 
-export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: ReviewModalProps) {
+export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, initialTitle = "", initialBody = "", mode = "add" }: ReviewModalProps) {
   const [rating, setRating] = useState(initialRating)
   const [hoverRating, setHoverRating] = useState(0)
-  const [title, setTitle] = useState("")
-  const [body, setBody] = useState("")
+  const [title, setTitle] = useState(initialTitle)
+  const [body, setBody] = useState(initialBody)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   console.log("[v0] ReviewModal mounted, isOpen:", isOpen)
@@ -42,8 +45,8 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
 
   const handleClose = () => {
     setRating(initialRating)
-    setTitle("")
-    setBody("")
+    setTitle(initialTitle)
+    setBody(initialBody)
     onClose()
   }
 
@@ -57,7 +60,7 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0 }: Re
         {isOpen && console.log("[v0] ReviewModal DialogContent mounted")}
 
         <DialogHeader>
-          <DialogTitle>Add Review</DialogTitle>
+          <DialogTitle>{mode === "edit" ? "Edit Review" : "Add Review"}</DialogTitle>
           <DialogDescription>
             Share your experience with this supplement to help others make informed decisions.
           </DialogDescription>

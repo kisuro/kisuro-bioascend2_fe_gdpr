@@ -19,7 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: "Bioascend - Biohacking, Mental Health & Longevity",
+  title: "BioAionics - Biohacking, Mental Health & Longevity",
   description: "Modern web app for biohacking, mental health optimization, and longevity tracking",
   generator: "v0.app",
   icons: {

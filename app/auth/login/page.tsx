@@ -1,0 +1,57 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { GlassCard } from "@/components/ui/glass-card"
+import { loginUser } from "@/lib/hooks/use-user"
+import Link from "next/link"
+
+export default function LoginPage() {
+  const router = useRouter()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    setIsLoading(true)
+    try {
+      await loginUser(email, password)
+      router.replace("/profile")
+    } catch (err: any) {
+      setError(err?.message || "Login failed")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <GlassCard className="w-full max-w-md p-6">
+        <h1 className="text-2xl font-bold mb-4">Log in</h1>
+        <form onSubmit={onSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm mb-1">Email</label>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Password</label>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" required />
+          </div>
+          {error && <div className="text-sm text-red-500">{error}</div>}
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading ? "Signing in..." : "Log In"}
+          </Button>
+        </form>
+        <div className="flex items-center justify-between mt-4 text-sm">
+          <Link className="underline" href="/auth/register">Create account</Link>
+          <Link className="underline" href="/auth/forgot-password">Forgot password?</Link>
+        </div>
+      </GlassCard>
+    </div>
+  )
+}
