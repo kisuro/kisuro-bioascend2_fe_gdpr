@@ -26,5 +26,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Virtual env
+.venv/
+venv/
+env/
+
+
 # IDE files
-/.idea/
+.idea/
+.vscode/
+
+# Alembic cache
+alembic/__pycache__/
+
+# OS junk
+.DS_Store
+Thumbs.db
