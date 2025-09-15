@@ -317,4 +317,76 @@
       transform: translateY(0);
     }
   }
+
+  /* Supplement-themed animations */
+  /* DNA Helix Animation */
+  .dna-helix {
+    animation: dnaRotate 12s linear infinite;
+  }
+
+  @keyframes dnaRotate {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  /* Molecular Orbit Animation */
+  .molecular-orbit {
+    animation: molecularOrbit 8s ease-in-out infinite;
+  }
+
+  @keyframes molecularOrbit {
+    0%,
+    100% {
+      transform: rotate(0deg) translateX(30px) rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg) translateX(30px) rotate(-180deg);
+    }
+  }
+
+  /* Vitamin Particle Float */
+  .vitamin-float {
+    animation: vitaminFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes vitaminFloat {
+    0%,
+    100% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px) rotate(90deg);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-10px) translateX(-5px) rotate(180deg);
+      opacity: 0.8;
+    }
+    75% {
+      transform: translateY(-25px) translateX(15px) rotate(270deg);
+      opacity: 0.5;
+    }
+  }
+
+  /* Health Pulse Animation */
+  .health-pulse {
+    animation: healthPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes healthPulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.4;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.7;
+    }
+  }
 }

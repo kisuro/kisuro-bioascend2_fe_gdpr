@@ -45,38 +45,38 @@ Added a space-efficient collapsible alphanumeric filter to the supplements page 
 
 ### Default Collapsed State
 
-```
+\`\`\`
 [🔍 Use alphabet filter ⌄]
-```
+\`\`\`
 
 ### Active Filter Collapsed State
 
-```
+\`\`\`
 [🔍 Filtered by: A ⌄] [Clear] [Show All]
-```
+\`\`\`
 
 ### Expanded State
 
-```
+\`\`\`
 [🔍 Filtered by: A ⌃]
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 [All] [0][1][2]...[9] | [A][B][C]...[Z]
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 Showing supplements starting with "A"
-```
+\`\`\`
 
 ## Technical Implementation
 
 ### State Management
 
-```typescript
+\`\`\`typescript
 const [isExpanded, setIsExpanded] = useState(false);
 const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-```
+\`\`\`
 
 ### Smooth Animations
 
-```typescript
+\`\`\`typescript
 <AnimatePresence>
   {isExpanded && (
     <motion.div
@@ -85,15 +85,15 @@ const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
       exit={{ height: 0, opacity: 0 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
-```
+\`\`\`
 
 ### Smart Text Display
 
-```typescript
+\`\`\`typescript
 {
   selectedLetter ? `Filtered by: ${selectedLetter}` : "Use alphabet filter";
 }
-```
+\`\`\`
 
 ## Design Options
 
