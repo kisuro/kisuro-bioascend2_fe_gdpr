@@ -491,12 +491,17 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // If we have supplements data, hide loading immediately
+    if (safeSupplements.length > 0) {
       setIsInitialLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [])
+    } else {
+      // If no data, show a brief loading then hide (fallback for edge cases)
+      const timer = setTimeout(() => {
+        setIsInitialLoading(false)
+      }, 300) // Much shorter delay
+      return () => clearTimeout(timer)
+    }
+  }, [safeSupplements.length]) // Depend on data availability
 
   return (
     <>

@@ -151,6 +151,10 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   const isPremium = !!(user?.isPremium || user?.status === "premium")
   const router = useRouter()
 
+  const handleGoalClick = (goal: string) => {
+    router.push(`/supplements?goals=${encodeURIComponent(goal)}`)
+  }
+
   // === КЛИК ПО ЗВЁЗДАМ ==================================================
   const handleRatingClick = () => {
     console.log("[UI] star click", { isPremium })
@@ -444,7 +448,8 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                     <span
                       key={g}
                       data-slot="badge"
-                      className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-primary text-primary-foreground hover:bg-primary/90 glass-subtle"
+                      className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-primary text-primary-foreground hover:bg-primary/90 glass-subtle cursor-pointer"
+                      onClick={() => handleGoalClick(g)}
                     >
                       {g}
                     </span>

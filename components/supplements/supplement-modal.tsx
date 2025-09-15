@@ -1,5 +1,6 @@
 "use client"
 import { motion, AnimatePresence } from "framer-motion"
+import { useRouter } from "next/navigation"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
@@ -84,6 +85,13 @@ const getEvidenceIcon = (level: string) => {
 }
 
 export function SupplementModal({ supplement, isOpen, onClose }: SupplementModalProps) {
+  const router = useRouter()
+
+  const handleGoalClick = (goal: string) => {
+    onClose() // Close the modal first
+    router.push(`/supplements?goals=${encodeURIComponent(goal)}`)
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -138,7 +146,12 @@ export function SupplementModal({ supplement, isOpen, onClose }: SupplementModal
                     <h3 className="text-lg font-semibold mb-3">Goals</h3>
                     <div className="flex flex-wrap gap-2">
                       {supplement.goals.map((goal) => (
-                        <Badge key={goal} variant="secondary">
+                        <Badge 
+                          key={goal} 
+                          variant="secondary"
+                          onClick={() => handleGoalClick(goal)}
+                          className="cursor-pointer hover:bg-secondary/80 transition-colors"
+                        >
                           {goal}
                         </Badge>
                       ))}

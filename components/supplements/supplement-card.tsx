@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
@@ -44,10 +45,15 @@ function getRatingCount(r: Rating, fallback?: number): number {
 export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const router = useRouter()
 
   const ratingValue = getRatingValue(supplement.rating as Rating);
   const ratingCount = getRatingCount(supplement.rating as Rating, supplement.reviews_count);
   const hasRating = ratingValue !== null && ratingCount > 0;
+
+  const handleGoalClick = (goal: string) => {
+    router.push(`/supplements?goals=${encodeURIComponent(goal)}`)
+  }
 
   const getEvidenceColor = (level: string) => {
     switch (level.toLowerCase()) {
@@ -94,7 +100,12 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
               <p className="text-muted-foreground mb-3 line-clamp-2">{truncateDescription(supplement.summary, 150)}</p>
               <div className="flex flex-wrap gap-1 mb-3">
                 {(supplement.goals ?? []).slice(0, 3).map((goal) => (
-                  <Badge key={goal} variant="outline" className="text-xs glass-subtle">
+                  <Badge 
+                    key={goal} 
+                    variant="outline" 
+                    className="text-xs glass-subtle hover:glass-strong cursor-pointer transition-all duration-200"
+                    onClick={() => handleGoalClick(goal)}
+                  >
                     <Zap className="h-3 w-3 mr-1" />
                     {goal}
                   </Badge>
@@ -174,7 +185,12 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
       <div className="mt-auto space-y-3">
         <div className="flex flex-wrap gap-1">
           {(supplement.goals ?? []).slice(0, 2).map((goal) => (
-            <Badge key={goal} variant="outline" className="text-xs glass-subtle">
+            <Badge 
+              key={goal} 
+              variant="outline" 
+              className="text-xs glass-subtle hover:glass-strong cursor-pointer transition-all duration-200"
+              onClick={() => handleGoalClick(goal)}
+            >
               <Zap className="h-3 w-3 mr-1" />
               {goal}
             </Badge>
