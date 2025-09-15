@@ -11,38 +11,26 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { SupplementCard } from "@/components/supplements/supplement-card"
 import { SupplementFilters } from "@/components/supplements/supplement-filters"
+import { AlphabetFilter } from "@/components/supplements/alphabet-filter"
 import { Search, Filter, Grid, List, Lock, Sparkles, Plus } from "lucide-react"
 import { SupplementsBackground } from "@/components/ui/page-backgrounds"
-
-type Supplement = {
-  id: string
-  name: string
-  // ... остальное без изменений
-  popular_manufacturer?: string[] | string // не важно, мы ниже приведём
-  rating?: number | { avg: number | null; count: number } | null
-}
-
-type Props = {
-  items?: Supplement[]  // ⬅ стало необязательным
-  // другие пропсы — как у тебя
-}
-
 
 interface Supplement {
   id: string
   name: string
-  summary: string
-  evidence_level: string
-  goals: string[]
-  categories: string[]
-  timing: string
-  dosage: string
-  cycle: string
-  benefits: string[]
+  summary?: string
+  evidence_level?: string
+  goals?: string[]
+  categories?: string[]
+  timing?: string
+  dosage?: string
+  cycle?: string
+  benefits?: string[]
   popular_manufacturers?: string[]
-  popular_manufacturer?: string
-  rating: number | null
-  reviews_count: number
+  popular_manufacturer?: string | string[]
+  rating?: number | { avg: number | null; count: number } | null
+  reviews_count?: number
+  [key: string]: any
 }
 
 interface SupplementsClientProps {
@@ -130,6 +118,12 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     }
     return []
   })
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return searchParams.get("letter") || null
+    }
+    return null
+  })
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [showFilters, setShowFilters] = useState(false)
 
@@ -146,6 +140,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       categories: string[],
       evidence: string[],
       manufacturers: string[],
+      letter: string | null,
     ) => {
       const params = new URLSearchParams()
 
@@ -155,6 +150,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       if (categories.length > 0) params.set("categories", categories.join(","))
       if (evidence.length > 0) params.set("evidence", evidence.join(","))
       if (manufacturers.length > 0) params.set("manufacturers", manufacturers.join(","))
+      if (letter) params.set("letter", letter)
 
       const url = params.toString() ? `/supplements?${params.toString()}` : "/supplements"
       router.replace(url, { scroll: false })
@@ -166,45 +162,54 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     (value: string) => {
       setSearchQuery(value)
       setCurrentPage(1)
-      updateURL(1, value, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers)
+      updateURL(1, value, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
     },
-    [selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, updateURL],
+    [selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter, updateURL],
   )
 
   const handleGoalsChange = useCallback(
     (goals: string[]) => {
       setSelectedGoals(goals)
       setCurrentPage(1)
-      updateURL(1, searchQuery, goals, selectedCategories, selectedEvidenceLevels, selectedManufacturers)
+      updateURL(1, searchQuery, goals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
     },
-    [searchQuery, selectedCategories, selectedEvidenceLevels, selectedManufacturers, updateURL],
+    [searchQuery, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter, updateURL],
   )
 
   const handleCategoriesChange = useCallback(
     (categories: string[]) => {
       setSelectedCategories(categories)
       setCurrentPage(1)
-      updateURL(1, searchQuery, selectedGoals, categories, selectedEvidenceLevels, selectedManufacturers)
+      updateURL(1, searchQuery, selectedGoals, categories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
     },
-    [searchQuery, selectedGoals, selectedEvidenceLevels, selectedManufacturers, updateURL],
+    [searchQuery, selectedGoals, selectedEvidenceLevels, selectedManufacturers, selectedLetter, updateURL],
   )
 
   const handleEvidenceLevelsChange = useCallback(
     (evidence: string[]) => {
       setSelectedEvidenceLevels(evidence)
       setCurrentPage(1)
-      updateURL(1, searchQuery, selectedGoals, selectedCategories, evidence, selectedManufacturers)
+      updateURL(1, searchQuery, selectedGoals, selectedCategories, evidence, selectedManufacturers, selectedLetter)
     },
-    [searchQuery, selectedGoals, selectedCategories, selectedManufacturers, updateURL],
+    [searchQuery, selectedGoals, selectedCategories, selectedManufacturers, selectedLetter, updateURL],
   )
 
   const handleManufacturersChange = useCallback(
     (manufacturers: string[]) => {
       setSelectedManufacturers(manufacturers)
       setCurrentPage(1)
-      updateURL(1, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, manufacturers)
+      updateURL(1, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, manufacturers, selectedLetter)
     },
-    [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, updateURL],
+    [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedLetter, updateURL],
+  )
+
+  const handleLetterChange = useCallback(
+    (letter: string | null) => {
+      setSelectedLetter(letter)
+      setCurrentPage(1)
+      updateURL(1, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, letter)
+    },
+    [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, updateURL],
   )
 
   const filteredSupplements = useMemo(() => {
@@ -238,9 +243,13 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
           return selectedManufacturers.some((manufacturer) => manufacturerArray.includes(manufacturer))
         })()
 
-      return matchesSearch && matchesGoals && matchesCategories && matchesEvidenceLevel && matchesManufacturers
+      const matchesLetter =
+        selectedLetter === null ||
+        (supplement.name ?? "").toUpperCase().startsWith(selectedLetter)
+
+      return matchesSearch && matchesGoals && matchesCategories && matchesEvidenceLevel && matchesManufacturers && matchesLetter
     })
-  }, [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, safeSupplements])
+  }, [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter, safeSupplements])
 
   const displayedSupplements = useMemo(() => {
     return filteredSupplements.slice(0, currentPage * ITEMS_PER_PAGE)
@@ -251,7 +260,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const handleLoadMore = useCallback(() => {
     const newPage = currentPage + 1
     setCurrentPage(newPage)
-    updateURL(newPage, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers)
+    updateURL(newPage, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
   }, [
     currentPage,
     searchQuery,
@@ -259,6 +268,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     selectedCategories,
     selectedEvidenceLevels,
     selectedManufacturers,
+    selectedLetter,
     updateURL,
   ])
 
@@ -300,6 +310,18 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       }
     })
     return Array.from(manufacturers).sort()
+  }, [safeSupplements])
+
+  const availableLetters = useMemo(() => {
+    const letters = new Set<string>()
+    safeSupplements.forEach((supplement) => {
+      const firstChar = (supplement.name ?? "").charAt(0).toUpperCase()
+      // Include numbers (0-9) and letters (A-Z)
+      if ((firstChar >= '0' && firstChar <= '9') || (firstChar >= 'A' && firstChar <= 'Z')) {
+        letters.add(firstChar)
+      }
+    })
+    return letters
   }, [safeSupplements])
 
   const findRelevantSupplements = (craving: string): Supplement[] => {
@@ -375,7 +397,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
           nutrients: nutrients,
           recommendations: relevantSupplements.map((supplement) => ({
             name: supplement.name,
-            reason: `May help with ${supplement.goals.slice(0, 2).join(" and ")} related to your ${foodCraving} craving`,
+            reason: `May help with ${(supplement.goals ?? []).slice(0, 2).join(" and ")} related to your ${foodCraving} craving`,
             supplement_id: supplement.id,
             supplement: supplement,
           })),
@@ -391,7 +413,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
         nutrients: ["Magnesium", "Iron", "B-Complex"],
         recommendations: relevantSupplements.slice(0, 2).map((supplement) => ({
           name: supplement.name,
-          reason: `May help with ${supplement.goals[0]} related to your craving`,
+          reason: `May help with ${(supplement.goals ?? [])[0]} related to your craving`,
           supplement_id: supplement.id,
           supplement: supplement,
         })),
@@ -488,8 +510,20 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                   {(selectedGoals.length > 0 ||
                     selectedCategories.length > 0 ||
                     selectedEvidenceLevels.length > 0 ||
-                    selectedManufacturers.length > 0) && (
+                    selectedManufacturers.length > 0 ||
+                    selectedLetter !== null) && (
                     <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
+                      {selectedLetter && (
+                        <Badge variant="secondary" className="glass-subtle">
+                          Starting with: {selectedLetter}
+                          <button
+                            onClick={() => handleLetterChange(null)}
+                            className="ml-2 hover:text-destructive"
+                          >
+                            ×
+                          </button>
+                        </Badge>
+                      )}
                       {selectedGoals.map((goal) => (
                         <Badge key={goal} variant="secondary" className="glass-subtle">
                           Goal: {goal}
@@ -542,6 +576,12 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                   )}
                 </GlassCard>
               </motion.div>
+
+              <AlphabetFilter
+                selectedLetter={selectedLetter}
+                onLetterSelect={handleLetterChange}
+                availableLetters={availableLetters}
+              />
 
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 {showFilters && (
@@ -596,7 +636,22 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.05 }}
                       >
-                        <SupplementCard supplement={supplement} viewMode={viewMode} />
+                        <SupplementCard 
+                          supplement={{
+                            ...supplement,
+                            summary: supplement.summary ?? '',
+                            evidence_level: supplement.evidence_level ?? '',
+                            goals: supplement.goals ?? [],
+                            categories: supplement.categories ?? [],
+                            timing: supplement.timing ?? '',
+                            dosage: supplement.dosage ?? '',
+                            cycle: supplement.cycle ?? '',
+                            benefits: supplement.benefits ?? [],
+                            reviews_count: supplement.reviews_count ?? 0,
+                            rating: supplement.rating ?? null
+                          }}
+                          viewMode={viewMode} 
+                        />
                       </motion.div>
                     ))}
                   </motion.div>
