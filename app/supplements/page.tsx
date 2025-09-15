@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import { SupplementsClient } from "@/components/supplements/supplements-client"
+import { SupplementLoader } from "@/components/ui/supplement-loader"
 
 const API = process.env.NEXT_PUBLIC_API_URL
 
@@ -69,9 +70,10 @@ function pickDosageString(s: any): string | undefined {
   const direct = typeof s?.dosage === "string" && s.dosage.trim() ? s.dosage.trim() : undefined
   if (direct) return direct
   const meta = s?.meta || {}
-  const metaRecommended = typeof meta?.recommended_dosage === "string" && meta.recommended_dosage.trim()
-    ? meta.recommended_dosage.trim()
-    : undefined
+  const metaRecommended =
+    typeof meta?.recommended_dosage === "string" && meta.recommended_dosage.trim()
+      ? meta.recommended_dosage.trim()
+      : undefined
   if (metaRecommended) return metaRecommended
   const metaDosage = typeof meta?.dosage === "string" && meta.dosage.trim() ? meta.dosage.trim() : undefined
   if (metaDosage) return metaDosage
@@ -85,8 +87,8 @@ function pickDosageString(s: any): string | undefined {
 
   const hasMin = typeof min === "number" || (typeof min === "string" && min.trim())
   const hasMax = typeof max === "number" || (typeof max === "string" && max.trim())
-  const minStr = typeof min === "number" ? String(min) : (min || "")
-  const maxStr = typeof max === "number" ? String(max) : (max || "")
+  const minStr = typeof min === "number" ? String(min) : min || ""
+  const maxStr = typeof max === "number" ? String(max) : max || ""
 
   if (hasMin || hasMax) {
     const range = hasMin && hasMax ? `${minStr}–${maxStr}` : hasMin ? `${minStr}` : `${maxStr}`
@@ -167,7 +169,7 @@ export default async function SupplementsPage() {
   if (!Array.isArray(supplements)) supplements = []
 
   return (
-    <Suspense fallback={<div className="p-6">Loading supplements…</div>}>
+    <Suspense fallback={<SupplementLoader isVisible={true} message="Loading supplements..." />}>
       <SupplementsClient supplements={supplements} />
     </Suspense>
   )

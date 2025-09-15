@@ -1,5 +1,5 @@
 "use client"
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import type React from "react"
 
@@ -12,6 +12,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { SupplementCard } from "@/components/supplements/supplement-card"
 import { SupplementFilters } from "@/components/supplements/supplement-filters"
 import { AlphabetFilter } from "@/components/supplements/alphabet-filter"
+import { SupplementLoader } from "@/components/ui/supplement-loader"
 import { Search, Filter, Grid, List, Lock, Sparkles, Plus } from "lucide-react"
 import { SupplementsBackground } from "@/components/ui/page-backgrounds"
 
@@ -131,6 +132,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const [cravingResults, setCravingResults] = useState<any>(null)
   const [isLoadingCravings, setIsLoadingCravings] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
 
   const updateURL = useCallback(
     (
@@ -162,7 +164,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     (value: string) => {
       setSearchQuery(value)
       setCurrentPage(1)
-      updateURL(1, value, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
+      updateURL(
+        1,
+        value,
+        selectedGoals,
+        selectedCategories,
+        selectedEvidenceLevels,
+        selectedManufacturers,
+        selectedLetter,
+      )
     },
     [selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter, updateURL],
   )
@@ -171,7 +181,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     (goals: string[]) => {
       setSelectedGoals(goals)
       setCurrentPage(1)
-      updateURL(1, searchQuery, goals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
+      updateURL(
+        1,
+        searchQuery,
+        goals,
+        selectedCategories,
+        selectedEvidenceLevels,
+        selectedManufacturers,
+        selectedLetter,
+      )
     },
     [searchQuery, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter, updateURL],
   )
@@ -180,7 +198,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     (categories: string[]) => {
       setSelectedCategories(categories)
       setCurrentPage(1)
-      updateURL(1, searchQuery, selectedGoals, categories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
+      updateURL(
+        1,
+        searchQuery,
+        selectedGoals,
+        categories,
+        selectedEvidenceLevels,
+        selectedManufacturers,
+        selectedLetter,
+      )
     },
     [searchQuery, selectedGoals, selectedEvidenceLevels, selectedManufacturers, selectedLetter, updateURL],
   )
@@ -198,7 +224,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     (manufacturers: string[]) => {
       setSelectedManufacturers(manufacturers)
       setCurrentPage(1)
-      updateURL(1, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, manufacturers, selectedLetter)
+      updateURL(
+        1,
+        searchQuery,
+        selectedGoals,
+        selectedCategories,
+        selectedEvidenceLevels,
+        manufacturers,
+        selectedLetter,
+      )
     },
     [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedLetter, updateURL],
   )
@@ -207,7 +241,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     (letter: string | null) => {
       setSelectedLetter(letter)
       setCurrentPage(1)
-      updateURL(1, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, letter)
+      updateURL(
+        1,
+        searchQuery,
+        selectedGoals,
+        selectedCategories,
+        selectedEvidenceLevels,
+        selectedManufacturers,
+        letter,
+      )
     },
     [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, updateURL],
   )
@@ -222,16 +264,14 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
         (supplement.benefits ?? []).some((benefit) => (benefit ?? "").toLowerCase().includes(searchQuery.toLowerCase()))
 
       const matchesGoals =
-        selectedGoals.length === 0 ||
-        selectedGoals.some((goal) => (supplement.goals ?? []).includes(goal))
+        selectedGoals.length === 0 || selectedGoals.some((goal) => (supplement.goals ?? []).includes(goal))
 
       const matchesCategories =
         selectedCategories.length === 0 ||
         selectedCategories.some((category) => (supplement.categories ?? []).includes(category))
 
       const matchesEvidenceLevel =
-        selectedEvidenceLevels.length === 0 ||
-        selectedEvidenceLevels.includes((supplement.evidence_level ?? ""))
+        selectedEvidenceLevels.length === 0 || selectedEvidenceLevels.includes(supplement.evidence_level ?? "")
 
       const matchesManufacturers =
         selectedManufacturers.length === 0 ||
@@ -243,13 +283,26 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
           return selectedManufacturers.some((manufacturer) => manufacturerArray.includes(manufacturer))
         })()
 
-      const matchesLetter =
-        selectedLetter === null ||
-        (supplement.name ?? "").toUpperCase().startsWith(selectedLetter)
+      const matchesLetter = selectedLetter === null || (supplement.name ?? "").toUpperCase().startsWith(selectedLetter)
 
-      return matchesSearch && matchesGoals && matchesCategories && matchesEvidenceLevel && matchesManufacturers && matchesLetter
+      return (
+        matchesSearch &&
+        matchesGoals &&
+        matchesCategories &&
+        matchesEvidenceLevel &&
+        matchesManufacturers &&
+        matchesLetter
+      )
     })
-  }, [searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter, safeSupplements])
+  }, [
+    searchQuery,
+    selectedGoals,
+    selectedCategories,
+    selectedEvidenceLevels,
+    selectedManufacturers,
+    selectedLetter,
+    safeSupplements,
+  ])
 
   const displayedSupplements = useMemo(() => {
     return filteredSupplements.slice(0, currentPage * ITEMS_PER_PAGE)
@@ -260,7 +313,15 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const handleLoadMore = useCallback(() => {
     const newPage = currentPage + 1
     setCurrentPage(newPage)
-    updateURL(newPage, searchQuery, selectedGoals, selectedCategories, selectedEvidenceLevels, selectedManufacturers, selectedLetter)
+    updateURL(
+      newPage,
+      searchQuery,
+      selectedGoals,
+      selectedCategories,
+      selectedEvidenceLevels,
+      selectedManufacturers,
+      selectedLetter,
+    )
   }, [
     currentPage,
     searchQuery,
@@ -275,7 +336,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const allGoals = useMemo(() => {
     const goals = new Set<string>()
     safeSupplements.forEach((supplement) => {
-      (supplement.goals ?? []).forEach((goal) => goals.add(goal))
+      ;(supplement.goals ?? []).forEach((goal) => goals.add(goal))
     })
     return Array.from(goals).sort()
   }, [safeSupplements])
@@ -283,7 +344,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const allCategories = useMemo(() => {
     const categories = new Set<string>()
     safeSupplements.forEach((supplement) => {
-      (supplement.categories ?? []).forEach((category) => categories.add(category))
+      ;(supplement.categories ?? []).forEach((category) => categories.add(category))
     })
     return Array.from(categories).sort()
   }, [safeSupplements])
@@ -317,7 +378,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     safeSupplements.forEach((supplement) => {
       const firstChar = (supplement.name ?? "").charAt(0).toUpperCase()
       // Include numbers (0-9) and letters (A-Z)
-      if ((firstChar >= '0' && firstChar <= '9') || (firstChar >= 'A' && firstChar <= 'Z')) {
+      if ((firstChar >= "0" && firstChar <= "9") || (firstChar >= "A" && firstChar <= "Z")) {
         letters.add(firstChar)
       }
     })
@@ -344,7 +405,9 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     }
 
     const relevantSupplements = safeSupplements.filter((supplement) => {
-      const nameMatch = matchedMapping.keywords.some((keyword) => (supplement.name ?? "").toLowerCase().includes(keyword))
+      const nameMatch = matchedMapping.keywords.some((keyword) =>
+        (supplement.name ?? "").toLowerCase().includes(keyword),
+      )
       const goalMatch = (supplement.goals ?? []).some((goal) => matchedMapping.goals.includes(goal))
       const benefitMatch = (supplement.benefits ?? []).some((benefit) =>
         matchedMapping.keywords.some((keyword) => (benefit ?? "").toLowerCase().includes(keyword)),
@@ -427,396 +490,441 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     alert(`${supplementName} saved to journal!`)
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false)
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <div className="min-h-screen py-8 px-4 relative">
-      <SupplementsBackground />
+    <>
+      <SupplementLoader isVisible={isInitialLoading} message="Loading supplements database..." />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 liquid-text font-heading">Supplements & Nutrition</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover evidence-based supplements and get personalized recommendations for your food cravings
-          </p>
-        </motion.div>
+      <div className="min-h-screen py-8 px-4 relative">
+        <SupplementsBackground />
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-        >
-          <Tabs defaultValue="supplements" className="w-full">
-            <div className="flex justify-center mb-8">
-              <TabsList className="glass-strong">
-                <TabsTrigger value="supplements">Supplements</TabsTrigger>
-                <TabsTrigger value="food-cravings" className="flex items-center gap-2">
-                  Food Cravings
-                  {!isPremium && <Lock className="h-3 w-3" />}
-                </TabsTrigger>
-              </TabsList>
-            </div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 liquid-text font-heading">Supplements & Nutrition</h1>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Discover evidence-based supplements and get personalized recommendations for your food cravings
+            </p>
+          </motion.div>
 
-            <TabsContent value="supplements">
-              <motion.div
-                className="mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <GlassCard className="glass-strong p-6">
-                  <div className="flex flex-col lg:flex-row gap-4">
-                    <div className="flex-1 relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        placeholder="Search supplements, goals, or benefits..."
-                        value={searchQuery}
-                        onChange={(e) => handleSearchChange(e.target.value)}
-                        className="pl-10 glass-subtle"
-                      />
-                    </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+          >
+            <Tabs defaultValue="supplements" className="w-full">
+              <div className="flex justify-center mb-8">
+                <TabsList className="glass-strong">
+                  <TabsTrigger value="supplements">Supplements</TabsTrigger>
+                  <TabsTrigger value="food-cravings" className="flex items-center gap-2">
+                    Food Cravings
+                    {!isPremium && <Lock className="h-3 w-3" />}
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-                    <div className="flex gap-2">
-                      <LiquidButton
-                        variant={showFilters ? "default" : "outline"}
-                        onClick={() => setShowFilters(!showFilters)}
-                      >
-                        <Filter className="h-4 w-4 mr-2" />
-                        Filters
-                      </LiquidButton>
+              <TabsContent value="supplements">
+                <motion.div
+                  className="mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  <GlassCard className="glass-strong p-6">
+                    <div className="flex flex-col lg:flex-row gap-4">
+                      <div className="flex-1 relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Search supplements, goals, or benefits..."
+                          value={searchQuery}
+                          onChange={(e) => handleSearchChange(e.target.value)}
+                          className="pl-10 glass-subtle"
+                        />
+                      </div>
 
-                      <div className="flex rounded-lg glass-subtle p-1">
+                      <div className="flex gap-2">
                         <LiquidButton
-                          variant={viewMode === "grid" ? "default" : "ghost"}
-                          size="sm"
-                          onClick={() => setViewMode("grid")}
+                          variant={showFilters ? "default" : "outline"}
+                          onClick={() => setShowFilters(!showFilters)}
                         >
-                          <Grid className="h-4 w-4" />
+                          <Filter className="h-4 w-4 mr-2" />
+                          Filters
                         </LiquidButton>
-                        <LiquidButton
-                          variant={viewMode === "list" ? "default" : "ghost"}
-                          size="sm"
-                          onClick={() => setViewMode("list")}
-                        >
-                          <List className="h-4 w-4" />
-                        </LiquidButton>
+
+                        <div className="flex rounded-lg glass-subtle p-1">
+                          <LiquidButton
+                            variant={viewMode === "grid" ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => setViewMode("grid")}
+                          >
+                            <Grid className="h-4 w-4" />
+                          </LiquidButton>
+                          <LiquidButton
+                            variant={viewMode === "list" ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => setViewMode("list")}
+                          >
+                            <List className="h-4 w-4" />
+                          </LiquidButton>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {(selectedGoals.length > 0 ||
-                    selectedCategories.length > 0 ||
-                    selectedEvidenceLevels.length > 0 ||
-                    selectedManufacturers.length > 0 ||
-                    selectedLetter !== null) && (
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
-                      {selectedLetter && (
-                        <Badge variant="secondary" className="glass-subtle">
-                          Starting with: {selectedLetter}
-                          <button
-                            onClick={() => handleLetterChange(null)}
-                            className="ml-2 hover:text-destructive"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      )}
-                      {selectedGoals.map((goal) => (
-                        <Badge key={goal} variant="secondary" className="glass-subtle">
-                          Goal: {goal}
-                          <button
-                            onClick={() => handleGoalsChange(selectedGoals.filter((g) => g !== goal))}
-                            className="ml-2 hover:text-destructive"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      ))}
-                      {selectedCategories.map((category) => (
-                        <Badge key={category} variant="outline" className="glass-subtle">
-                          Category: {category}
-                          <button
-                            onClick={() => handleCategoriesChange(selectedCategories.filter((c) => c !== category))}
-                            className="ml-2 hover:text-destructive"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      ))}
-                      {selectedEvidenceLevels.map((level) => (
-                        <Badge key={level} variant="outline" className="glass-subtle">
-                          Evidence: {level}
-                          <button
-                            onClick={() =>
-                              handleEvidenceLevelsChange(selectedEvidenceLevels.filter((l) => l !== level))
-                            }
-                            className="ml-2 hover:text-destructive"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      ))}
-                      {selectedManufacturers.map((manufacturer) => (
-                        <Badge key={manufacturer} variant="outline" className="glass-subtle">
-                          Manufacturer: {manufacturer}
-                          <button
-                            onClick={() =>
-                              handleManufacturersChange(selectedManufacturers.filter((m) => m !== manufacturer))
-                            }
-                            className="ml-2 hover:text-destructive"
-                          >
-                            ×
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-                </GlassCard>
-              </motion.div>
+                    {(selectedGoals.length > 0 ||
+                      selectedCategories.length > 0 ||
+                      selectedEvidenceLevels.length > 0 ||
+                      selectedManufacturers.length > 0 ||
+                      selectedLetter !== null) && (
+                      <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/50">
+                        {selectedLetter && (
+                          <Badge variant="secondary" className="glass-subtle">
+                            Starting with: {selectedLetter}
+                            <button onClick={() => handleLetterChange(null)} className="ml-2 hover:text-destructive">
+                              ×
+                            </button>
+                          </Badge>
+                        )}
+                        {selectedGoals.map((goal) => (
+                          <Badge key={goal} variant="secondary" className="glass-subtle">
+                            Goal: {goal}
+                            <button
+                              onClick={() => handleGoalsChange(selectedGoals.filter((g) => g !== goal))}
+                              className="ml-2 hover:text-destructive"
+                            >
+                              ×
+                            </button>
+                          </Badge>
+                        ))}
+                        {selectedCategories.map((category) => (
+                          <Badge key={category} variant="outline" className="glass-subtle">
+                            Category: {category}
+                            <button
+                              onClick={() => handleCategoriesChange(selectedCategories.filter((c) => c !== category))}
+                              className="ml-2 hover:text-destructive"
+                            >
+                              ×
+                            </button>
+                          </Badge>
+                        ))}
+                        {selectedEvidenceLevels.map((level) => (
+                          <Badge key={level} variant="outline" className="glass-subtle">
+                            Evidence: {level}
+                            <button
+                              onClick={() =>
+                                handleEvidenceLevelsChange(selectedEvidenceLevels.filter((l) => l !== level))
+                              }
+                              className="ml-2 hover:text-destructive"
+                            >
+                              ×
+                            </button>
+                          </Badge>
+                        ))}
+                        {selectedManufacturers.map((manufacturer) => (
+                          <Badge key={manufacturer} variant="outline" className="glass-subtle">
+                            Manufacturer: {manufacturer}
+                            <button
+                              onClick={() =>
+                                handleManufacturersChange(selectedManufacturers.filter((m) => m !== manufacturer))
+                              }
+                              className="ml-2 hover:text-destructive"
+                            >
+                              ×
+                            </button>
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </GlassCard>
+                </motion.div>
 
-              <AlphabetFilter
-                selectedLetter={selectedLetter}
-                onLetterSelect={handleLetterChange}
-                availableLetters={availableLetters}
-              />
+                <AlphabetFilter
+                  selectedLetter={selectedLetter}
+                  onLetterSelect={handleLetterChange}
+                  availableLetters={availableLetters}
+                />
 
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                {showFilters && (
-                  <motion.div
-                    className="lg:col-span-1"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <SupplementFilters
-                      allGoals={allGoals}
-                      allCategories={allCategories}
-                      allEvidenceLevels={allEvidenceLevels}
-                      allManufacturers={allManufacturers}
-                      selectedGoals={selectedGoals}
-                      selectedCategories={selectedCategories}
-                      selectedEvidenceLevels={selectedEvidenceLevels}
-                      selectedManufacturers={selectedManufacturers}
-                      onGoalsChange={handleGoalsChange}
-                      onCategoriesChange={handleCategoriesChange}
-                      onEvidenceLevelsChange={handleEvidenceLevelsChange}
-                      onManufacturersChange={handleManufacturersChange}
-                    />
-                  </motion.div>
-                )}
-
-                <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
-                  <motion.div
-                    className="mb-4 flex justify-between items-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  >
-                    <p className="text-muted-foreground">
-                      Showing {displayedSupplements.length} of {filteredSupplements.length} supplement
-                      {filteredSupplements.length !== 1 ? "s" : ""}
-                    </p>
-                  </motion.div>
-
-                  <motion.div
-                    className={
-                      viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"
-                    }
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                  >
-                    {displayedSupplements.map((supplement, index) => (
-                      <motion.div
-                        key={supplement.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.05 }}
-                      >
-                        <SupplementCard 
-                          supplement={{
-                            ...supplement,
-                            summary: supplement.summary ?? '',
-                            evidence_level: supplement.evidence_level ?? '',
-                            goals: supplement.goals ?? [],
-                            categories: supplement.categories ?? [],
-                            timing: supplement.timing ?? '',
-                            dosage: supplement.dosage ?? '',
-                            cycle: supplement.cycle ?? '',
-                            benefits: supplement.benefits ?? [],
-                            reviews_count: supplement.reviews_count ?? 0,
-                            rating: supplement.rating ?? null
-                          }}
-                          viewMode={viewMode} 
-                        />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-
-                  {hasMoreItems && (
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                  {showFilters && (
                     <motion.div
-                      className="flex justify-center mt-8"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      className="lg:col-span-1"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <LiquidButton onClick={handleLoadMore} size="lg" className="px-8">
-                        Load More ({filteredSupplements.length - displayedSupplements.length} remaining)
-                      </LiquidButton>
+                      <SupplementFilters
+                        allGoals={allGoals}
+                        allCategories={allCategories}
+                        allEvidenceLevels={allEvidenceLevels}
+                        allManufacturers={allManufacturers}
+                        selectedGoals={selectedGoals}
+                        selectedCategories={selectedCategories}
+                        selectedEvidenceLevels={selectedEvidenceLevels}
+                        selectedManufacturers={selectedManufacturers}
+                        onGoalsChange={handleGoalsChange}
+                        onCategoriesChange={handleCategoriesChange}
+                        onEvidenceLevelsChange={handleEvidenceLevelsChange}
+                        onManufacturersChange={handleManufacturersChange}
+                      />
                     </motion.div>
                   )}
 
-                  {filteredSupplements.length === 0 && (
+                  <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
                     <motion.div
-                      className="text-center py-12"
+                      className="mb-4 flex justify-between items-center"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                      <p className="text-muted-foreground">
+                        Showing {displayedSupplements.length} of {filteredSupplements.length} supplement
+                        {filteredSupplements.length !== 1 ? "s" : ""}
+                      </p>
+                    </motion.div>
+
+                    <motion.div
+                      className={
+                        viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"
+                      }
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.5, delay: 0.4 }}
                     >
-                      <GlassCard className="glass-subtle p-8">
-                        <div className="text-4xl mb-4">🔍</div>
-                        <h3 className="text-xl font-semibold mb-2">No supplements found</h3>
-                        <p className="text-muted-foreground">Try adjusting your search criteria or filters</p>
-                      </GlassCard>
+                      {displayedSupplements.map((supplement, index) => (
+                        <motion.div
+                          key={supplement.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, delay: index * 0.05 }}
+                        >
+                          <SupplementCard
+                            supplement={{
+                              ...supplement,
+                              summary: supplement.summary ?? "",
+                              evidence_level: supplement.evidence_level ?? "",
+                              goals: supplement.goals ?? [],
+                              categories: supplement.categories ?? [],
+                              timing: supplement.timing ?? "",
+                              dosage: supplement.dosage ?? "",
+                              cycle: supplement.cycle ?? "",
+                              benefits: supplement.benefits ?? [],
+                              reviews_count: supplement.reviews_count ?? 0,
+                              rating: supplement.rating ?? null,
+                            }}
+                            viewMode={viewMode}
+                          />
+                        </motion.div>
+                      ))}
                     </motion.div>
-                  )}
+
+                    {hasMoreItems && (
+                      <motion.div
+                        className="flex justify-center mt-8"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <LiquidButton onClick={handleLoadMore} size="lg" className="px-8">
+                          Load More ({filteredSupplements.length - displayedSupplements.length} remaining)
+                        </LiquidButton>
+                      </motion.div>
+                    )}
+
+                    {filteredSupplements.length === 0 && (
+                      <motion.div
+                        className="text-center py-12"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                      >
+                        <GlassCard className="glass-subtle p-8">
+                          <div className="text-4xl mb-4">🔍</div>
+                          <h3 className="text-xl font-semibold mb-2">No supplements found</h3>
+                          <p className="text-muted-foreground">Try adjusting your search criteria or filters</p>
+                        </GlassCard>
+                      </motion.div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </TabsContent>
+              </TabsContent>
 
-            <TabsContent value="food-cravings">
-              {!isPremium ? (
-                <motion.div
-                  className="flex items-center justify-center min-h-[60vh]"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <GlassCard className="glass-strong p-12 text-center max-w-md">
-                    <div className="mb-6">
-                      <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center">
-                        <Lock className="h-10 w-10 text-amber-400" />
-                      </div>
-                      <h3 className="text-2xl font-bold mb-2">Premium Feature</h3>
-                      <p className="text-muted-foreground">This feature is available for Premium subscribers only.</p>
-                    </div>
-                    <LiquidButton onClick={() => setIsPremium(true)} className="w-full">
-                      <Sparkles className="h-4 w-4 mr-2" />
-                      Upgrade to Premium
-                    </LiquidButton>
-                  </GlassCard>
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <GlassCard className="glass-strong p-6 mb-8">
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                      <Sparkles className="h-6 w-6 text-amber-400" />
-                      Food Cravings Analysis
-                    </h2>
-                    <p className="text-muted-foreground mb-6">
-                      Tell us what you're craving and get personalized supplement recommendations based on potential
-                      nutrient deficiencies.
-                    </p>
-
-                    <form onSubmit={handleFoodCravingSubmit} className="flex gap-4">
-                      <div className="flex-1">
-                        <Input
-                          placeholder="What food are you craving?"
-                          value={foodCraving}
-                          onChange={(e) => setFoodCraving(e.target.value)}
-                          className="glass-subtle"
-                        />
-                      </div>
-                      <LiquidButton type="submit" disabled={isLoadingCravings || !foodCraving.trim()}>
-                        {isLoadingCravings ? "Analyzing..." : "Analyze"}
-                      </LiquidButton>
-                    </form>
-                  </GlassCard>
-
-                  {cravingResults && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <GlassCard className="glass-strong p-6 mb-6">
-                        <h3 className="text-xl font-bold mb-4">Analysis for "{cravingResults.food_name}"</h3>
-                        <div className="mb-4">
-                          <h4 className="font-semibold mb-2">Key Nutrients:</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {cravingResults.nutrients.map((nutrient: string) => (
-                              <Badge key={nutrient} variant="secondary" className="glass-subtle">
-                                {nutrient}
-                              </Badge>
-                            ))}
-                          </div>
+              <TabsContent value="food-cravings">
+                {!isPremium ? (
+                  <motion.div
+                    className="flex items-center justify-center min-h-[60vh]"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <GlassCard className="glass-strong p-12 text-center max-w-md">
+                      <div className="mb-6">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center">
+                          <Lock className="h-10 w-10 text-amber-400" />
                         </div>
-                      </GlassCard>
+                        <h3 className="text-2xl font-bold mb-2">Premium Feature</h3>
+                        <p className="text-muted-foreground">This feature is available for Premium subscribers only.</p>
+                      </div>
+                      <LiquidButton onClick={() => setIsPremium(true)} className="w-full">
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        Upgrade to Premium
+                      </LiquidButton>
+                    </GlassCard>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <GlassCard className="glass-strong p-6 mb-8">
+                      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                        <Sparkles className="h-6 w-6 text-amber-400" />
+                        Food Cravings Analysis
+                      </h2>
+                      <p className="text-muted-foreground mb-6">
+                        Tell us what you're craving and get personalized supplement recommendations based on potential
+                        nutrient deficiencies.
+                      </p>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {cravingResults.recommendations.map((rec: any, index: number) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                          >
-                            <GlassCard className="glass-subtle p-6">
-                              <div className="flex justify-between items-start mb-3">
-                                <h4 className="font-bold text-lg">{rec.name}</h4>
-                                {rec.supplement_id && (
-                                  <LiquidButton
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => router.push(`/supplements/${rec.supplement_id}`)}
-                                    className="text-xs"
-                                  >
-                                    View Details
-                                  </LiquidButton>
-                                )}
-                              </div>
-                              <p className="text-muted-foreground mb-4">{rec.reason}</p>
+                      <form onSubmit={handleFoodCravingSubmit} className="flex gap-4">
+                        <div className="flex-1">
+                          <Input
+                            placeholder="What food are you craving?"
+                            value={foodCraving}
+                            onChange={(e) => setFoodCraving(e.target.value)}
+                            className="glass-subtle"
+                          />
+                        </div>
+                        <LiquidButton type="submit" disabled={isLoadingCravings || !foodCraving.trim()}>
+                          {isLoadingCravings ? "Analyzing nutrients..." : "Analyze"}
+                        </LiquidButton>
+                      </form>
+                    </GlassCard>
 
-                              {rec.supplement && (
-                                <div className="mb-4 space-y-2">
-                                  <div className="flex flex-wrap gap-1">
-                                    {rec.supplement.goals.slice(0, 3).map((goal: string) => (
-                                      <Badge key={goal} variant="outline" className="text-xs">
-                                        {goal}
-                                      </Badge>
-                                    ))}
-                                  </div>
-                                  {rec.supplement.dosage && (
-                                    <p className="text-sm text-muted-foreground">
-                                      <strong>Dosage:</strong> {rec.supplement.dosage}
-                                    </p>
+                    {isLoadingCravings && (
+                      <motion.div
+                        className="mt-8"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <GlassCard className="glass-subtle p-8 text-center">
+                          <div className="flex flex-col items-center space-y-4">
+                            <div className="relative w-12 h-12">
+                              <motion.div
+                                className="absolute inset-0"
+                                animate={{ rotateY: 360 }}
+                                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                              >
+                                <div className="relative w-full h-full">
+                                  <div className="absolute left-1 top-0 w-0.5 h-full bg-gradient-to-b from-primary to-accent rounded-full" />
+                                  <div className="absolute right-1 top-0 w-0.5 h-full bg-gradient-to-b from-accent to-primary rounded-full" />
+                                  {[...Array(4)].map((_, i) => (
+                                    <motion.div
+                                      key={i}
+                                      className="absolute left-1 right-1 h-px bg-gradient-to-r from-primary to-accent"
+                                      style={{ top: `${20 + i * 15}%` }}
+                                      animate={{ rotateZ: [0, 180, 360] }}
+                                      transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, delay: i * 0.1 }}
+                                    />
+                                  ))}
+                                </div>
+                              </motion.div>
+                            </div>
+                            <p className="text-muted-foreground">Analyzing your craving for nutrient patterns...</p>
+                          </div>
+                        </GlassCard>
+                      </motion.div>
+                    )}
+
+                    {cravingResults && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <GlassCard className="glass-strong p-6 mb-6">
+                          <h3 className="text-xl font-bold mb-4">Analysis for "{cravingResults.food_name}"</h3>
+                          <div className="mb-4">
+                            <h4 className="font-semibold mb-2">Key Nutrients:</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {cravingResults.nutrients.map((nutrient: string) => (
+                                <Badge key={nutrient} variant="secondary" className="glass-subtle">
+                                  {nutrient}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </GlassCard>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {cravingResults.recommendations.map((rec: any, index: number) => (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: index * 0.1 }}
+                            >
+                              <GlassCard className="glass-subtle p-6">
+                                <div className="flex justify-between items-start mb-3">
+                                  <h4 className="font-bold text-lg">{rec.name}</h4>
+                                  {rec.supplement_id && (
+                                    <LiquidButton
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => router.push(`/supplements/${rec.supplement_id}`)}
+                                      className="text-xs"
+                                    >
+                                      View Details
+                                    </LiquidButton>
                                   )}
                                 </div>
-                              )}
+                                <p className="text-muted-foreground mb-4">{rec.reason}</p>
 
-                              <LiquidButton onClick={() => saveToJournal(rec.name)} size="sm" className="w-full">
-                                <Plus className="h-4 w-4 mr-2" />
-                                Save to Journal
-                              </LiquidButton>
-                            </GlassCard>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </motion.div>
-              )}
-            </TabsContent>
-          </Tabs>
-        </motion.div>
+                                {rec.supplement && (
+                                  <div className="mb-4 space-y-2">
+                                    <div className="flex flex-wrap gap-1">
+                                      {rec.supplement.goals.slice(0, 3).map((goal: string) => (
+                                        <Badge key={goal} variant="outline" className="text-xs">
+                                          {goal}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                    {rec.supplement.dosage && (
+                                      <p className="text-sm text-muted-foreground">
+                                        <strong>Dosage:</strong> {rec.supplement.dosage}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+
+                                <LiquidButton onClick={() => saveToJournal(rec.name)} size="sm" className="w-full">
+                                  <Plus className="h-4 w-4 mr-2" />
+                                  Save to Journal
+                                </LiquidButton>
+                              </GlassCard>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                )}
+              </TabsContent>
+            </Tabs>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

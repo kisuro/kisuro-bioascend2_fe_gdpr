@@ -1,86 +1,93 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react";
-import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus, ExternalLink } from "lucide-react";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
-import { useUser } from "@/lib/hooks/use-user";
-import { StarRatingPicker } from "@/components/supplements/star-rating-picker";
-import { ReviewModal } from "@/components/supplements/review-modal";
-import { PremiumGateModal } from "@/components/supplements/premium-gate-modal";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { SupplementInteractions } from "@/components/supplements/supplement-interactions";
+import { useEffect, useMemo, useState } from "react"
+import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus, ExternalLink } from "lucide-react"
+import { GlassCard } from "@/components/ui/glass-card"
+import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/hooks/use-toast"
+import { useUser } from "@/lib/hooks/use-user"
+import { StarRatingPicker } from "@/components/supplements/star-rating-picker"
+import { ReviewModal } from "@/components/supplements/review-modal"
+import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { SupplementInteractions } from "@/components/supplements/supplement-interactions"
 
-// Ensure API/TOKEN are defined for client runtime
-const API = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
-const TOKEN = process.env.NEXT_PUBLIC_PREMIUM_TOKEN || "";
+const API = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "")
 
 // --- Types ---------------------------------------------------------------
 interface SupplementLink {
-  rel?: string[];
-  url: string;
-  kind?: string;
-  lang?: string;
-  name?: string;
-  notes?: string;
-  vendor?: string;
-  region?: string[];
+  rel?: string[]
+  url: string
+  kind?: string
+  lang?: string
+  name?: string
+  notes?: string
+  vendor?: string
+  region?: string[]
 }
 
 interface Review {
-  id: string;
-  slug: string;
-  rating: number;
-  title: string;
-  body: string;
-  verified_purchase: boolean;
-  created_at: string;
+  id: string
+  slug: string
+  rating: number
+  title: string
+  body: string
+  verified_purchase: boolean
+  created_at: string
 }
 
 // `rating` может приходить числом или объектом {avg,count}
-export type RatingShape = number | { avg: number | null; count: number } | null;
+export type RatingShape = number | { avg: number | null; count: number } | null
 
 // Define Props for the component
 type Props = {
-  supplement: any;
-  reviews?: Review[];
-};
+  supplement: any
+  reviews?: Review[]
+}
 
 interface SupplementDTO {
-  id: string;
-  name: string;
-  summary?: string;
-  evidence_level?: string;
-  goals?: string[];
-  categories?: string[];
-  timing?: string;
-  dosage?: string;
-  cycle?: string;
-  benefits?: string[];
-  popular_manufacturer?: string[] | string;
-  rating: RatingShape;
-  reviews_count?: number;
-  reviews?: Review[];
+  id: string
+  name: string
+  summary?: string
+  evidence_level?: string
+  goals?: string[]
+  categories?: string[]
+  timing?: string
+  dosage?: string
+  cycle?: string
+  benefits?: string[]
+  popular_manufacturer?: string[] | string
+  rating: RatingShape
+  reviews_count?: number
+  reviews?: Review[]
   // allow extra fields like meta
-  [key: string]: any;
+  [key: string]: any
 }
 
 // --- Helpers ------------------------------------------------------------
 function toArray<T>(v: T | T[] | undefined): T[] {
-  if (!v) return [];
-  return Array.isArray(v) ? v : [v];
+  if (!v) return []
+  return Array.isArray(v) ? v : [v]
 }
 
 function toStringArray(v: any): string[] {
-  if (!v) return [];
-  if (Array.isArray(v)) return v.map((x) => String(x)).filter(Boolean);
-  const s = String(v);
-  return s.includes(',') ? s.split(',').map((x) => x.trim()).filter(Boolean) : (s ? [s.trim()] : []);
+  if (!v) return []
+  if (Array.isArray(v)) return v.map((x) => String(x)).filter(Boolean)
+  const s = String(v)
+  return s.includes(",")
+    ? s
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean)
+    : s
+      ? [s.trim()]
+      : []
 }
 
-function uniq<T>(arr: T[]): T[] { return Array.from(new Set(arr)); }
+function uniq<T>(arr: T[]): T[] {
+  return Array.from(new Set(arr))
+}
 
 function normalizeManufacturers(src: any): string[] {
   const candidates = [
@@ -95,33 +102,33 @@ function normalizeManufacturers(src: any): string[] {
     src?.meta?.popular_manufacturers,
     src?.meta?.manufacturers,
     src?.meta?.brands,
-  ];
-  return uniq(candidates.flatMap((c) => toStringArray(c))).filter(Boolean);
+  ]
+  return uniq(candidates.flatMap((c) => toStringArray(c))).filter(Boolean)
 }
 
 function ratingAvg(r: RatingShape): number | null {
-  if (r == null) return null;
-  if (typeof r === "number") return r;
-  return r.avg ?? null;
+  if (r == null) return null
+  if (typeof r === "number") return r
+  return r.avg ?? null
 }
 
 function evidenceBadgeClasses(level?: string): string {
-  const l = (level || '').toLowerCase();
-  if (l.includes('strong')) return 'border bg-green-500/20 text-green-400 border-green-500/30';
-  if (l.includes('moderate')) return 'border bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-  if (l.includes('limited') || l.includes('weak')) return 'border bg-orange-500/20 text-orange-400 border-orange-500/30';
-  return 'border bg-slate-500/20 text-slate-300 border-slate-500/30';
+  const l = (level || "").toLowerCase()
+  if (l.includes("strong")) return "border bg-green-500/20 text-green-400 border-green-500/30"
+  if (l.includes("moderate")) return "border bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+  if (l.includes("limited") || l.includes("weak")) return "border bg-orange-500/20 text-orange-400 border-orange-500/30"
+  return "border bg-slate-500/20 text-slate-300 border-slate-500/30"
 }
 
 // --- Component ----------------------------------------------------------
 export function SupplementDetailClient({ supplement: initial }: Props) {
   // нормализуем вход
   const normalized: SupplementDTO & {
-    popular_manufacturer: string[];
-    goals: string[];
-    categories: string[];
-    benefits: string[];
-    reviews: Review[];
+    popular_manufacturer: string[]
+    goals: string[]
+    categories: string[]
+    benefits: string[]
+    reviews: Review[]
   } = {
     ...initial,
     goals: toArray(initial.goals),
@@ -129,78 +136,75 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
     benefits: toArray(initial.benefits),
     popular_manufacturer: normalizeManufacturers(initial),
     reviews: Array.isArray(initial.reviews) ? initial.reviews : [],
-  };
+  }
 
-  const [supplement, setSupplement] = useState(normalized);
-  const [allReviews, setAllReviews] = useState<Review[]>(normalized.reviews);
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [showPremiumGate, setShowPremiumGate] = useState(false);
-  const [userRating, setUserRating] = useState(0);
-  const [isLoadingReviews, setIsLoadingReviews] = useState(false);
-  const [showRatingPicker, setShowRatingPicker] = useState(false);
+  const [supplement, setSupplement] = useState(normalized)
+  const [allReviews, setAllReviews] = useState<Review[]>(normalized.reviews)
+  const [showReviewModal, setShowReviewModal] = useState(false)
+  const [showPremiumGate, setShowPremiumGate] = useState(false)
+  const [userRating, setUserRating] = useState(0)
+  const [isLoadingReviews, setIsLoadingReviews] = useState(false)
+  const [showRatingPicker, setShowRatingPicker] = useState(false)
 
-  const { toast } = useToast();
-  const user = useUser();
-  const isPremium = !!(user?.isPremium || user?.status === "premium" || (TOKEN && TOKEN.length > 0));
-  const router = useRouter();
+  const { toast } = useToast()
+  const user = useUser()
+  const isPremium = !!(user?.isPremium || user?.status === "premium")
+  const router = useRouter()
 
   // === КЛИК ПО ЗВЁЗДАМ ==================================================
   const handleRatingClick = () => {
-    console.log('[UI] star click', { isPremium });
+    console.log("[UI] star click", { isPremium })
     if (!isPremium) {
-      console.log('[UI] opening PremiumGateModal');
-      setShowPremiumGate(true);
-      return;
+      console.log("[UI] opening PremiumGateModal")
+      setShowPremiumGate(true)
+      return
     }
-    console.log('[UI] opening StarRatingPicker');
-    setShowRatingPicker(true);
-  };
+    console.log("[UI] opening StarRatingPicker")
+    setShowRatingPicker(true)
+  }
 
   // если пропсы обновились – синхронизируем
   useEffect(() => {
-    setSupplement(normalized);
-    // Не трогаем allReviews здесь, чтобы не затирать данные толь��о что полученные с API
-    setIsLoadingReviews(false);
-  }, [initial]); // eslint-disable-line react-hooks/exhaustive-deps
+    setSupplement(normalized)
+    // Не трогаем allReviews здесь, чтобы не затирать данные только что полученные с API
+    setIsLoadingReviews(false)
+  }, [initial]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (showRatingPicker) {
-      console.log('[UI] StarRatingPicker isOpen -> true');
+      console.log("[UI] StarRatingPicker isOpen -> true")
     } else {
-      console.log('[UI] StarRatingPicker isOpen -> false');
+      console.log("[UI] StarRatingPicker isOpen -> false")
     }
-  }, [showRatingPicker]);
+  }, [showRatingPicker])
 
   // always refresh from API on mount & when id changes
   useEffect(() => {
-    refreshFromAPI();
+    refreshFromAPI()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [supplement.id]);
+  }, [supplement.id])
 
-  const avg = useMemo(() => ratingAvg(supplement.rating), [supplement.rating]);
+  const avg = useMemo(() => ratingAvg(supplement.rating), [supplement.rating])
   const cnt = useMemo(() => {
     if (supplement.rating && typeof supplement.rating === "object" && "count" in supplement.rating) {
-      return supplement.rating.count ?? supplement.reviews_count ?? 0;
+      return supplement.rating.count ?? supplement.reviews_count ?? 0
     }
-    return supplement.reviews_count ?? 0;
-  }, [supplement.rating, supplement.reviews_count]);
+    return supplement.reviews_count ?? 0
+  }, [supplement.rating, supplement.reviews_count])
 
-  const hasRating = avg != null && cnt > 0;
-  const currentDisplayRating = Math.max(0, Math.min(5, Math.round(avg ?? 0)));
+  const hasRating = avg != null && cnt > 0
+  const currentDisplayRating = Math.max(0, Math.min(5, Math.round(avg ?? 0)))
 
   const formatDate = (d: string) =>
-    new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
 
   const renderStars = (value: number) => (
     <div className="flex items-center gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
-        <Star
-          key={i}
-          className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`}
-        />
+        <Star key={i} className={`h-4 w-4 ${i < value ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`} />
       ))}
     </div>
-  );
+  )
 
   // --- API helpers -------------------------------------------------------
   const mapApiReviewToUI = (r: any): Review => ({
@@ -211,76 +215,72 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
     body: r.comment || "",
     verified_purchase: false,
     created_at: r.created_at,
-  });
+  })
 
   const refreshFromAPI = async () => {
     try {
-      setIsLoadingReviews(true);
+      setIsLoadingReviews(true)
       const [aggRes, revRes] = await Promise.all([
         fetch(`${API}/v1/ratings/${supplement.id}/aggregate`, {
-          headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
           cache: "no-store",
         }),
         fetch(`${API}/v1/reviews/${supplement.id}`, {
           cache: "no-store",
-          headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
         }),
-      ]);
+      ])
 
-      let nextCountFromAgg: number | undefined;
+      let nextCountFromAgg: number | undefined
       if (aggRes.ok) {
-        const agg = await aggRes.json();
-        const nextRating = agg?.rating ?? null;
-        nextCountFromAgg = (typeof nextRating === "object" && nextRating?.count) || undefined;
+        const agg = await aggRes.json()
+        const nextRating = agg?.rating ?? null
+        nextCountFromAgg = (typeof nextRating === "object" && nextRating?.count) || undefined
         setSupplement((prev) => ({
           ...prev,
           rating: nextRating,
           reviews_count: nextCountFromAgg ?? prev.reviews_count ?? 0,
-        }));
+        }))
       }
 
       if (revRes.ok) {
-        const items = await revRes.json();
-        const mapped = Array.isArray(items) ? items.map(mapApiReviewToUI) : [];
-        setAllReviews(mapped);
+        const items = await revRes.json()
+        const mapped = Array.isArray(items) ? items.map(mapApiReviewToUI) : []
+        setAllReviews(mapped)
         // если агрегат ничего не вернул по count — подстрахуемся длиной отзывов
         if (!(nextCountFromAgg ?? 0)) {
           setSupplement((prev) => ({
             ...prev,
             reviews_count: mapped.length,
-            rating: typeof prev.rating === 'number' || prev.rating == null
-              ? prev.rating
-              : { ...prev.rating, count: mapped.length },
-          }));
+            rating:
+              typeof prev.rating === "number" || prev.rating == null
+                ? prev.rating
+                : { ...prev.rating, count: mapped.length },
+          }))
         }
       }
     } catch (e) {
       // swallow errors
     } finally {
-      setIsLoadingReviews(false);
+      setIsLoadingReviews(false)
     }
-  };
+  }
 
   // ------ Review actions ------------------------------------------------
   const handleAddReviewClick = () => {
-    console.log('[UI] add review click');
-    if (!isPremium) return setShowPremiumGate(true);
-    setShowReviewModal(true);
-  };
+    console.log("[UI] add review click")
+    if (!isPremium) return setShowPremiumGate(true)
+    setShowReviewModal(true)
+  }
 
   const resolveUsername = () =>
-    user?.name ||
-    (user as any)?.username ||
-    (user as any)?.email?.split("@")?.[0] ||
-    "anonymous";
+    user?.name || (user as any)?.username || (user as any)?.email?.split("@")?.[0] || "anonymous"
 
   // Отправка полноценного отзыва (звёзды + текст)
   const handleReviewSubmit = async (data: any) => {
     try {
       // поддерживаем разные поля из модалки: body/title/comment/text
-      const comment: string = (data?.body ?? data?.title ?? data?.comment ?? data?.text ?? "").toString();
-      const rating: number = Number(data?.rating ?? userRating ?? 0) || 0;
-      const username = resolveUsername();
+      const comment: string = (data?.body ?? data?.title ?? data?.comment ?? data?.text ?? "").toString()
+      const rating: number = Number(data?.rating ?? userRating ?? 0) || 0
+      const username = resolveUsername()
 
       const optimistic: Review = {
         id: (globalThis as any).crypto?.randomUUID?.() || `${Date.now()}`,
@@ -290,71 +290,69 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
         body: comment,
         verified_purchase: false,
         created_at: new Date().toISOString(),
-      };
+      }
 
       // оптимистично покажем отзыв
-      setAllReviews((prev) => [optimistic, ...prev]);
+      setAllReviews((prev) => [optimistic, ...prev])
 
-      const payload = { user: username, rating, comment };
+      const payload = { user: username, rating, comment }
       const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
         },
         body: JSON.stringify(payload),
-      });
+      })
 
       if (!res.ok) {
-        const j = await res.json().catch(() => ({}));
-        // откат оп��имистичного элемента
-        setAllReviews((prev) => prev.filter((r) => r.id !== optimistic.id));
-        throw new Error(j?.detail || `HTTP ${res.status}`);
+        const j = await res.json().catch(() => ({}))
+        // откат оптимистичного элемента
+        setAllReviews((prev) => prev.filter((r) => r.id !== optimistic.id))
+        throw new Error(j?.detail || `HTTP ${res.status}`)
       }
 
-      await refreshFromAPI();
-      setUserRating(rating);
-      setShowReviewModal(false);
-      toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." });
+      await refreshFromAPI()
+      setUserRating(rating)
+      setShowReviewModal(false)
+      toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." })
     } catch (e: any) {
       toast({
         title: "Error",
         description: e?.message || "Failed to submit review.",
         variant: "destructive",
-      });
+      })
     }
-  };
+  }
 
   // Быстрая отправка рейтинга (через звездочки)
   const handleQuickRatingSubmit = async (rating: number) => {
     try {
-      const payload = { user: resolveUsername(), rating, comment: "" };
+      const payload = { user: resolveUsername(), rating, comment: "" }
       const res = await fetch(`${API}/v1/reviews/${supplement.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
         },
         body: JSON.stringify(payload),
-      });
+      })
 
       if (!res.ok) {
-        const j = await res.json().catch(() => ({}));
-        throw new Error(j?.detail || `HTTP ${res.status}`);
+        const j = await res.json().catch(() => ({}))
+        throw new Error(j?.detail || `HTTP ${res.status}`)
       }
 
-      await refreshFromAPI();
-      setUserRating(rating);
-      setShowRatingPicker(false);
-      toast({ title: "Thanks!", description: "Your rating has been saved." });
+      await refreshFromAPI()
+      setUserRating(rating)
+      setShowRatingPicker(false)
+      toast({ title: "Thanks!", description: "Your rating has been saved." })
     } catch (e: any) {
       toast({
         title: "Error",
         description: e?.message || "Failed to submit rating.",
         variant: "destructive",
-      });
+      })
     }
-  };
+  }
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -377,16 +375,10 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
               )}
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
-                {supplement.name}
-              </h1>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 font-heading">{supplement.name}</h1>
 
               {/* Description */}
-              {supplement.summary && (
-                <p className="text-xl text-muted-foreground mb-6">
-                  {supplement.summary}
-                </p>
-              )}
+              {supplement.summary && <p className="text-xl text-muted-foreground mb-6">{supplement.summary}</p>}
 
               {/* Rating and User Count */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
@@ -410,17 +402,13 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                               <Star
                                 key={i}
                                 className={`h-5 w-5 ${
-                                  i < currentDisplayRating
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "text-muted-foreground"
+                                  i < currentDisplayRating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
                                 }`}
                               />
                             ))}
                           </div>
                           <span className="font-semibold text-lg">{avg!.toFixed(1)}</span>
-                          <span className="text-muted-foreground whitespace-nowrap">
-                            ({cnt} reviews)
-                          </span>
+                          <span className="text-muted-foreground whitespace-nowrap">({cnt} reviews)</span>
                         </div>
                       }
                       open={showRatingPicker}
@@ -430,15 +418,10 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                     <div className="flex items-center gap-2">
                       <div className="flex">
                         {Array.from({ length: 5 }, (_, i) => (
-                          <Star
-                            key={i}
-                            className="h-5 w-5 text-muted-foreground"
-                          />
+                          <Star key={i} className="h-5 w-5 text-muted-foreground" />
                         ))}
                       </div>
-                      <span className="text-sm text-muted-foreground">
-                        No ratings yet – be the first!
-                      </span>
+                      <span className="text-sm text-muted-foreground">No ratings yet – be the first!</span>
                     </div>
                   )}
                 </div>
@@ -501,21 +484,23 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-medium mb-2">Recommended Dosage</h3>
-                  <p className="text-muted-foreground">{supplement.dosage || '—'}</p>
+                  <p className="text-muted-foreground">{supplement.dosage || "—"}</p>
                 </div>
                 <div>
                   <h3 className="font-medium mb-2">Timing</h3>
-                  <p className="text-muted-foreground capitalize">{supplement.timing || '—'}</p>
+                  <p className="text-muted-foreground capitalize">{supplement.timing || "—"}</p>
                 </div>
                 <div>
                   <h3 className="font-medium mb-2">Cycling</h3>
-                  <p className="text-muted-foreground">{supplement.cycling || '—'}</p>
+                  <p className="text-muted-foreground">{supplement.cycling || "—"}</p>
                 </div>
               </div>
             </GlassCard>
 
             {/* Interactions */}
-            <SupplementInteractions supplement={{ interactions: supplement.interactions || { synergy: [], caution: [], avoid: [] } }} />
+            <SupplementInteractions
+              supplement={{ interactions: supplement.interactions || { synergy: [], caution: [], avoid: [] } }}
+            />
 
             {/* Reviews */}
             <GlassCard className="p-6">
@@ -616,12 +601,10 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                       >
-                        <span>{link.name || link.vendor || 'Link'}</span>
+                        <span>{link.name || link.vendor || "Link"}</span>
                         <ExternalLink className="h-3 w-3" />
                       </a>
-                      {link.notes && (
-                        <p className="text-xs text-muted-foreground mt-1">{link.notes}</p>
-                      )}
+                      {link.notes && <p className="text-xs text-muted-foreground mt-1">{link.notes}</p>}
                       <div className="flex flex-wrap gap-1 mt-1">
                         {link.kind && (
                           <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-slate-500/20 text-slate-300 border border-slate-500/30">
@@ -635,10 +618,10 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
                         )}
                         {link.region && link.region.length > 0 && (
                           <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-green-500/20 text-green-300 border border-green-500/30">
-                            {link.region.join(', ')}
+                            {link.region.join(", ")}
                           </span>
                         )}
-                        {link.rel && link.rel.includes('sponsored') && (
+                        {link.rel && link.rel.includes("sponsored") && (
                           <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
                             sponsored
                           </span>
@@ -653,7 +636,8 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
             {/* Contraindications */}
             <GlassCard className="p-6">
               <h3 className="font-semibold mb-3">Contraindications</h3>
-              {Array.isArray((supplement as any).contraindications) && (supplement as any).contraindications.length > 0 ? (
+              {Array.isArray((supplement as any).contraindications) &&
+              (supplement as any).contraindications.length > 0 ? (
                 <ul className="space-y-2">
                   {(supplement as any).contraindications.map((c: string, i: number) => (
                     <li key={`${c}-${i}`} className="flex items-start gap-2 text-muted-foreground">
@@ -725,5 +709,5 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
