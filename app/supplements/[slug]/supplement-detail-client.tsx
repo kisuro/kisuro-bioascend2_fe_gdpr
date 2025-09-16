@@ -286,10 +286,12 @@ const mapApiReviewToUI = (r: any): Review => ({
   // Отправка полноценного отзыва (звёзды + текст)
   const handleReviewSubmit = async (data: any) => {
     try {
-      // поддерживаем разные поля из модалки: body/title/comment/text
-      const comment: string = (data?.body ?? data?.title ?? data?.comment ?? data?.text ?? "").toString()
+      // Extract comment from body field (primary) or title as fallback
+      const comment: string = (data?.body ?? data?.title ?? "").toString().trim()
       const rating: number = Number(data?.rating ?? userRating ?? 0) || 0
       const username = resolveUsername()
+
+      console.log("[DEBUG] Review submission data:", { rating, comment, username }) // Debug logging
 
       const optimistic: Review = {
         id: (globalThis as any).crypto?.randomUUID?.() || `${Date.now()}`,
@@ -307,10 +309,16 @@ const mapApiReviewToUI = (r: any): Review => ({
 
       const existing = allReviews.find((r) => r.user === username)
       const payload = { user: username, rating, comment }
+      
+      console.log("[DEBUG] API payload:", payload) // Debug logging
+      
       const url = existing
         ? `${API}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
         : `${API}/v1/reviews/${supplement.id}`
       const method = existing ? "PATCH" : "POST"
+      
+      console.log("[DEBUG] Request:", { method, url }) // Debug logging
+      
       const res = await fetch(url, {
         method,
         headers: {
