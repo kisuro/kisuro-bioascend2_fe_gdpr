@@ -49,20 +49,20 @@ export default function RegisterPage() {
       <GlassCard className="w-full max-w-md p-6">
         <h1 className="text-2xl font-bold mb-4">Create your account</h1>
         <form onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm mb-1">Name</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Name</label>
             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
           </div>
-          <div>
-            <label className="block text-sm mb-1">Email</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Email</label>
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
           </div>
-          <div>
-            <label className="block text-sm mb-1">Password</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Password</label>
             <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Minimum 8 characters" required />
           </div>
-          <div>
-            <label className="block text-sm mb-1">Confirm Password</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Confirm Password</label>
             <Input 
               type="password" 
               value={confirmPassword} 

@@ -34,12 +34,12 @@ export default function LoginPage() {
       <GlassCard className="w-full max-w-md p-6">
         <h1 className="text-2xl font-bold mb-4">Log in</h1>
         <form onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm mb-1">Email</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Email</label>
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
           </div>
-          <div>
-            <label className="block text-sm mb-1">Password</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Password</label>
             <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" required />
           </div>
           {error && <div className="text-sm text-red-500">{error}</div>}

@@ -29,8 +29,8 @@ export default function ForgotPasswordPage() {
       <GlassCard className="w-full max-w-md p-6 space-y-4">
         <h1 className="text-2xl font-bold">Forgot password</h1>
         <form onSubmit={onSubmit} className="space-y-3">
-          <div>
-            <label className="block text-sm mb-1">Email</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Email</label>
             <Input value={email} onChange={(e) => setEmail(e.target.value)} required type="email" />
           </div>
 

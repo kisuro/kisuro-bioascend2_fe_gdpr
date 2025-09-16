@@ -68,12 +68,12 @@ export default function ResetPasswordPage() {
       <GlassCard className="w-full max-w-md p-6 space-y-4">
         <h1 className="text-2xl font-bold">Set new password</h1>
         <form onSubmit={onSubmit} className="space-y-3">
-          <div>
-            <label className="block text-sm mb-1">New password</label>
+          <div className="space-y-2">
+            <label className="block text-sm">New password</label>
             <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
-          <div>
-            <label className="block text-sm mb-1">Confirm password</label>
+          <div className="space-y-2">
+            <label className="block text-sm">Confirm password</label>
             <Input 
               type="password" 
               value={confirmPassword} 

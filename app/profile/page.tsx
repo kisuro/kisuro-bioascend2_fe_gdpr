@@ -175,11 +175,11 @@ export default function ProfilePage() {
           <GlassCard className="p-6">
             <h1 className="text-2xl font-bold mb-4">Log in to your account</h1>
             <form onSubmit={onLoginSubmit} className="space-y-4">
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="login_email">Email</Label>
                 <Input id="login_email" type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label htmlFor="login_password">Password</Label>
                 <Input id="login_password" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
               </div>
