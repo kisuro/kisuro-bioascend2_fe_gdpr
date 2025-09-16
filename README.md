@@ -16,20 +16,23 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 ## ✨ Features
 
 ### 🧬 Biorhythm Calculator
+
 - **Personal Rhythm Analysis**: Calculate physical, emotional, intellectual, and spiritual cycles
-- **Extended Biorhythms**: Additional cycles including intuitive, aesthetic, and charismatic patterns  
+- **Extended Biorhythms**: Additional cycles including intuitive, aesthetic, and charismatic patterns
 - **Interactive Visualizations**: Beautiful charts with extrema points and trend analysis
 - **Date Range Selection**: Flexible time range analysis (7-30 days)
 - **Real-time Calculations**: Instant updates with smooth animations
 
 ### 💊 Comprehensive Supplement Database
+
 - **Detailed Supplement Profiles**: Evidence-based information with dosage, timing, and cycling data
 - **Advanced Search & Filtering**: Filter by categories, goals, evidence levels, and manufacturers
 - **User Reviews & Ratings**: Community-driven supplement feedback system
 - **Smart Recommendations**: AI-powered supplement suggestions based on goals
 - **Rating Aggregation**: Comprehensive rating statistics and trends
 
-### 📖 Personal Journal System  
+### 📖 Personal Journal System
+
 - **Supplement Intake Tracking**: Log daily supplement consumption with dosages and timing
 - **Progress Monitoring**: Visual analytics of supplement effectiveness over time
 - **Smart Reminders**: Customizable notification system for supplement schedules
@@ -37,6 +40,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Export Capabilities**: Data export for external analysis
 
 ### 🧠 Mind Enhancement Hub
+
 - **Meditation Library**: Curated collection of guided meditations and soundscapes
 - **Audio Categories**: Brainwave entrainment, nature sounds, mantras, and focus music
 - **Custom Playlists**: Personal meditation and focus session management
@@ -44,6 +48,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Binaural Beats**: Specialized audio for cognitive enhancement
 
 ### 👤 User Profile & Authentication
+
 - **Secure Authentication**: JWT-based auth with email verification
 - **Profile Management**: Avatar uploads (Supabase storage), bio, and preference settings
 - **Statistics Dashboard**: Track supplements, journal entries, meditation, and biorhythm checks
@@ -51,6 +56,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Data Privacy**: GDPR-compliant user data management
 
 ### 🤖 AI Assistant (Coming Soon)
+
 - **Personalized Insights**: AI-powered health and supplement recommendations
 - **Natural Language Interface**: Chat-based interaction for health queries
 - **Biorhythm Analysis**: AI interpretation of biorhythm patterns
@@ -59,11 +65,13 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 ## 🏗 Tech Stack
 
 ### Core Framework
+
 - **Next.js 15.2** - React framework with App Router and Server Components
-- **React 19** - Latest React with concurrent features and RSC support  
+- **React 19** - Latest React with concurrent features and RSC support
 - **TypeScript 5** - Type-safe development with strict type checking
 
 ### Styling & UI
+
 - **Tailwind CSS 4.1** - Utility-first CSS framework with custom design system
 - **Framer Motion** - Advanced animations and micro-interactions
 - **Radix UI** - Accessible, unstyled component primitives
@@ -71,23 +79,27 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Lucide React** - Beautiful icon library with consistent styling
 
 ### State Management & Data
+
 - **React Hook Form** - Performant forms with validation
-- **Zod** - Schema validation for type-safe data handling  
+- **Zod** - Schema validation for type-safe data handling
 - **Custom Hooks** - Reusable state management for user auth and data
 - **Local Storage** - Client-side data persistence for user preferences
 
 ### Visualization & Charts
+
 - **Chart.js & React-Chartjs-2** - Interactive biorhythm charts and analytics
-- **Recharts** - Responsive charts for supplement analytics  
+- **Recharts** - Responsive charts for supplement analytics
 - **Custom D3 Visualizations** - Advanced data visualization components
 
 ### Development & Build
+
 - **PNPM** - Fast, disk space efficient package manager
 - **ESLint & Prettier** - Code quality and formatting
 - **PostCSS** - Advanced CSS processing with plugins
 - **Geist Font** - Modern typography from Vercel
 
-### Deployment & Integration  
+### Deployment & Integration
+
 - **Vercel** - Serverless deployment with automatic CI/CD
 - **Backend Integration** - REST API integration with FastAPI backend
 - **Supabase Storage** - File uploads and avatar management
@@ -102,7 +114,7 @@ app/
  ├─ globals.css             # Global styles and CSS variables
  ├─ auth/                   # Authentication pages
  │   ├─ login/page.tsx      # User login with form validation
- │   ├─ register/page.tsx   # User registration 
+ │   ├─ register/page.tsx   # User registration
  │   ├─ verify-email/       # Email verification flow
  │   ├─ forgot-password/    # Password reset request
  │   └─ reset-password/     # Password reset completion
@@ -123,7 +135,7 @@ components/
  │   ├─ supplement-loader.tsx # Loading animations
  │   ├─ theme-provider.tsx  # Dark/light theme management
  │   └─ page-backgrounds.tsx # Animated background components
- ├─ layout/                 # Layout and navigation components  
+ ├─ layout/                 # Layout and navigation components
  │   └─ navigation.tsx      # Main navigation with mobile support
  ├─ biorhythms/            # Biorhythm-specific components
  │   ├─ biorhythm-chart.tsx # Interactive biorhythm visualization
@@ -169,35 +181,39 @@ public/
 ### Installation
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/kisuro/bioascend2_fe.git
    cd bioascend2_fe
    ```
 
 2. **Install dependencies**:
+
    ```bash
    pnpm install
    ```
 
 3. **Environment setup**:
    Create `.env.local` file in the root:
+
    ```env
    # API Configuration
    NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
    # Production: https://your-render-app.onrender.com
-   
-   # Feature Flags  
+
+   # Feature Flags
    NEXT_PUBLIC_ENABLE_AI_ASSISTANT=false
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
-   
+
    # Analytics (optional)
    NEXT_PUBLIC_GA_ID=your_google_analytics_id
-   
+
    # Environment
    NODE_ENV=development
    ```
 
 4. **Start the development server**:
+
    ```bash
    pnpm dev
    ```
@@ -215,6 +231,7 @@ public/
 Ensure the BioAscend backend is running:
 
 **Local Development**:
+
 ```bash
 # In the backend directory
 uvicorn app.main:app --reload --port 8000
@@ -225,17 +242,20 @@ uvicorn app.main:app --reload --port 8000
 ## 🎨 Design System
 
 ### Glass Morphism Components
+
 - **GlassCard**: Multi-variant glass effect containers
-- **LiquidButton**: Animated buttons with liquid hover effects  
+- **LiquidButton**: Animated buttons with liquid hover effects
 - **GradientBackgrounds**: Dynamic animated backgrounds for each page
 
 ### Theme System
+
 - **Dark/Light Mode**: Automatic system preference detection
 - **Custom Color Palette**: Carefully crafted for accessibility and beauty
 - **Responsive Design**: Mobile-first approach with fluid layouts
 - **Typography**: Geist font family with optimized loading
 
 ### Animation Philosophy
+
 - **Framer Motion**: Smooth page transitions and micro-interactions
 - **Loading States**: Custom loaders with biorhythm-inspired animations
 - **Progressive Enhancement**: Graceful degradation for performance
@@ -243,6 +263,7 @@ uvicorn app.main:app --reload --port 8000
 ## 🔗 API Integration
 
 ### Authentication
+
 ```typescript
 // User registration
 POST /v1/auth/register
@@ -255,7 +276,7 @@ POST /v1/auth/register
 // User login (sets JWT cookie)
 POST /v1/auth/login
 {
-  "email": "user@example.com", 
+  "email": "user@example.com",
   "password": "securePassword"
 }
 
@@ -265,6 +286,7 @@ GET /v1/auth/me
 ```
 
 ### Supplements
+
 ```typescript
 // Get supplements with filtering
 GET /v1/supplements?page=1&q=ashwagandha&goals=focus,energy
@@ -282,13 +304,15 @@ POST /v1/reviews/{supplement_id}
 ```
 
 ### Error Handling
+
 - **Custom Error Boundaries**: Graceful error handling with user-friendly messages
-- **API Error Mapping**: Consistent error presentation across the application  
+- **API Error Mapping**: Consistent error presentation across the application
 - **Offline Support**: Basic offline functionality with local storage fallback
 
 ## 📱 Features in Detail
 
 ### Biorhythm Calculator
+
 - **7 Different Cycles**: Physical (23d), Emotional (28d), Intellectual (33d), Intuitive (38d), Spiritual (53d), Aesthetic (43d), Charismatic (48d)
 - **Interactive Charts**: Zoom, pan, and hover for detailed cycle information
 - **Extrema Detection**: Automatic identification of peaks and troughs
@@ -296,13 +320,15 @@ POST /v1/reviews/{supplement_id}
 - **Export Functionality**: Download biorhythm data as CSV or PNG
 
 ### Supplement Database
+
 - **Comprehensive Filtering**: Categories, goals, evidence levels, manufacturers
 - **Advanced Search**: Full-text search across names, benefits, and descriptions
-- **Rating System**: 5-star rating with detailed statistics  
+- **Rating System**: 5-star rating with detailed statistics
 - **Review Management**: CRUD operations for authenticated users
 - **Recommendation Engine**: Smart suggestions based on user goals and history
 
 ### Personal Journal
+
 - **Intake Tracking**: Log supplement consumption with precise dosages and timing
 - **Progress Analytics**: Visual charts showing supplement effectiveness over time
 - **Smart Reminders**: Customizable notifications for supplement schedules
@@ -310,6 +336,7 @@ POST /v1/reviews/{supplement_id}
 - **Historical Insights**: Pattern recognition and trend analysis
 
 ### Mind Enhancement
+
 - **Audio Library**: 20+ high-quality meditation and focus tracks
 - **Categories**: Meditation, brainwave entrainment, nature sounds, mantras
 - **Custom Playlists**: Create and manage personal audio collections
@@ -324,7 +351,7 @@ The application is optimized for Vercel deployment:
 
 1. **Connect Repository**: Link your GitHub repository to Vercel
 2. **Environment Variables**: Configure production environment variables in Vercel dashboard
-3. **Build Settings**: 
+3. **Build Settings**:
    - Build Command: `pnpm build`
    - Output Directory: `.next`
    - Install Command: `pnpm install`
@@ -355,18 +382,21 @@ NODE_ENV=production
 ## 🧪 Development
 
 ### Code Quality
+
 - **TypeScript Strict Mode**: Comprehensive type checking
 - **ESLint Configuration**: Custom rules for Next.js and React best practices
 - **Prettier Integration**: Consistent code formatting
 - **Husky Hooks**: Pre-commit quality checks (if configured)
 
-### Performance Optimization  
+### Performance Optimization
+
 - **Image Optimization**: Next.js automatic image optimization
 - **Code Splitting**: Automatic route-based code splitting
 - **Bundle Analysis**: Built-in bundle analyzer for optimization insights
 - **Lazy Loading**: Efficient component and route loading
 
 ### Testing (Future Implementation)
+
 - **Jest + Testing Library**: Component and integration testing
 - **Cypress**: End-to-end testing for critical user flows
 - **Visual Regression**: Automated UI consistency testing
@@ -374,7 +404,8 @@ NODE_ENV=production
 ## 📋 Roadmap
 
 ### Completed ✅
-- [x] Core biorhythm calculator with 7 cycles  
+
+- [x] Core biorhythm calculator with 7 cycles
 - [x] Comprehensive supplement database with reviews
 - [x] Personal journal with intake tracking
 - [x] User authentication and profile management
@@ -384,12 +415,14 @@ NODE_ENV=production
 - [x] Production deployment on Vercel
 
 ### In Progress 🚧
+
 - [ ] AI-powered health assistant
 - [ ] Advanced analytics dashboard
 - [ ] Mobile app development (React Native)
 - [ ] Supplement recommendation engine refinement
 
 ### Future Features 🔮
+
 - [ ] Social features and community integration
 - [ ] Wearable device integrations (Apple Health, Google Fit)
 - [ ] Advanced biomarker tracking
@@ -404,13 +437,14 @@ NODE_ENV=production
 We welcome contributions! Please follow these steps:
 
 1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`  
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
 3. **Follow code standards**: Use TypeScript, ESLint, and Prettier
 4. **Write meaningful commits**: Follow conventional commit format
 5. **Test thoroughly**: Ensure all features work as expected
 6. **Submit a pull request**: Include detailed description of changes
 
 ### Development Guidelines
+
 - **Component Structure**: Follow the established component patterns
 - **TypeScript**: Always use proper typing, avoid `any`
 - **Accessibility**: Ensure all components are accessible (WCAG 2.1)
@@ -430,8 +464,9 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 ---
 
 **Project Links**:
+
 - **Frontend Repository**: [bioascend2_fe](https://github.com/kisuro/bioascend2_fe)
-- **Backend Repository**: [bioascend2_be](https://github.com/kisuro/bioascend2_be)  
+- **Backend Repository**: [bioascend2_be](https://github.com/kisuro/bioascend2_be)
 - **Live Application**: [BioAscend Platform](https://vercel.com/kisuros-projects/v0-bioascend)
 - **Backend API**: [API Documentation](https://your-backend.onrender.com/docs)
 
