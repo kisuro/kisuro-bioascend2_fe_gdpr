@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload, Trash2 } from "lucide-react"
 import { ProfileBackground } from "@/components/ui/page-backgrounds"
 import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
-import { useUser, logoutUser, updateProfile, loginUser, requestEmailVerification, deleteAccount } from "@/lib/hooks/use-user"
+import { useUser, logoutUser, updateProfile, loginUser, requestEmailVerification, deleteAccount, buildAuthHeaders } from "@/lib/hooks/use-user"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 // Mock user data
@@ -124,6 +124,7 @@ export default function ProfilePage() {
       const res = await fetch((process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1") + "/auth/avatar", {
         method: "POST",
         credentials: "include",
+        headers: buildAuthHeaders(),
         body: form,
       })
       if (!res.ok) throw new Error("Failed to upload avatar")

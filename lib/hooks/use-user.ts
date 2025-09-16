@@ -18,6 +18,44 @@ interface User {
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1"
+const TOKEN_STORAGE_KEY = "bioascend_access_token"
+
+const readToken = () => {
+  if (typeof window === "undefined") return null
+  return window.localStorage.getItem(TOKEN_STORAGE_KEY)
+}
+
+const storeToken = (token: string | null | undefined) => {
+  if (typeof window === "undefined") return
+  if (token) {
+    window.localStorage.setItem(TOKEN_STORAGE_KEY, token)
+  }
+}
+
+const clearToken = () => {
+  if (typeof window === "undefined") return
+  window.localStorage.removeItem(TOKEN_STORAGE_KEY)
+}
+
+export const buildAuthHeaders = (base: HeadersInit = {}) => {
+  const headers: Record<string, string> = {}
+  if (base instanceof Headers) {
+    base.forEach((value, key) => {
+      headers[key] = value
+    })
+  } else if (Array.isArray(base)) {
+    base.forEach(([key, value]) => {
+      headers[key] = value
+    })
+  } else {
+    Object.assign(headers, base)
+  }
+  const storedToken = readToken()
+  if (storedToken && !headers["Authorization"]) {
+    headers["Authorization"] = `Bearer ${storedToken}`
+  }
+  return headers
+}
 
 // Basic user hook backed by backend auth cookie
 export function useUser(): User {
@@ -31,7 +69,7 @@ export function useUser(): User {
     let cancelled = false
     async function loadMe() {
       try {
-        const res = await fetch(`${API_BASE}/auth/me`, { credentials: "include" })
+        const res = await fetch(`${API_BASE}/auth/me`, { credentials: "include", headers: buildAuthHeaders() })
         if (res.ok) {
           const data = await res.json()
           if (!cancelled) {
@@ -62,7 +100,9 @@ export async function registerUser(email: string, password: string, name?: strin
     body: JSON.stringify({ email, password, name }),
   })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Registration failed")
-  return res.json()
+  const data = await res.json()
+  storeToken(res.headers.get("X-Access-Token"))
+  return data
 }
 
 export async function loginUser(email: string, password: string) {
@@ -73,26 +113,37 @@ export async function loginUser(email: string, password: string) {
     body: JSON.stringify({ email, password }),
   })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Login failed")
-  return res.json()
+  const data = await res.json()
+  storeToken(res.headers.get("X-Access-Token"))
+  return data
 }
 
 export async function logoutUser() {
-  await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include" })
+  await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include", headers: buildAuthHeaders() })
+  clearToken()
 }
 
 export async function updateProfile(payload: { name?: string; email?: string; avatar_url?: string }) {
+  const headers = buildAuthHeaders({ "Content-Type": "application/json" })
   const res = await fetch(`${API_BASE}/auth/profile`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers,
     credentials: "include",
     body: JSON.stringify(payload),
   })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Update failed")
-  return res.json()
+  const data = await res.json()
+  const token = res.headers.get("X-Access-Token")
+  if (token) storeToken(token)
+  return data
 }
 
 export async function requestEmailVerification() {
-  const res = await fetch(`${API_BASE}/auth/request-email-verification`, { method: "POST", credentials: "include" })
+  const res = await fetch(`${API_BASE}/auth/request-email-verification`, {
+    method: "POST",
+    credentials: "include",
+    headers: buildAuthHeaders(),
+  })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Request failed")
   return res.json()
 }
@@ -101,7 +152,9 @@ export async function deleteAccount() {
   const res = await fetch(`${API_BASE}/auth/account`, {
     method: "DELETE",
     credentials: "include",
+    headers: buildAuthHeaders(),
   })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Delete failed")
+  clearToken()
   return res.json()
 }
