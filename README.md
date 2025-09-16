@@ -107,7 +107,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 app/
  ├─ layout.tsx              # Root layout with navigation and providers
  ├─ page.tsx                # Homepage with feature showcase
@@ -168,7 +168,7 @@ lib/
 public/
  ├─ seed/                  # Seed data for development
  └─ [media files]          # Images, icons, and audio files
-```
+\`\`\`
 
 ## 🚀 Getting Started
 
@@ -182,21 +182,21 @@ public/
 
 1. **Clone the repository**:
 
-   ```bash
+   \`\`\`bash
    git clone https://github.com/kisuro/bioascend2_fe.git
    cd bioascend2_fe
-   ```
+   \`\`\`
 
 2. **Install dependencies**:
 
-   ```bash
+   \`\`\`bash
    pnpm install
-   ```
+   \`\`\`
 
 3. **Environment setup**:
    Create `.env.local` file in the root:
 
-   ```env
+   \`\`\`env
    # API Configuration
    NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
    # Production: https://your-render-app.onrender.com
@@ -210,21 +210,21 @@ public/
 
    # Environment
    NODE_ENV=development
-   ```
+   \`\`\`
 
 4. **Start the development server**:
 
-   ```bash
+   \`\`\`bash
    pnpm dev
-   ```
+   \`\`\`
 
    The application will be available at `http://localhost:3000`
 
 5. **Build for production**:
-   ```bash
+   \`\`\`bash
    pnpm build
    pnpm start
-   ```
+   \`\`\`
 
 ### Backend Integration
 
@@ -232,10 +232,10 @@ Ensure the BioAscend backend is running:
 
 **Local Development**:
 
-```bash
+\`\`\`bash
 # In the backend directory
 uvicorn app.main:app --reload --port 8000
-```
+\`\`\`
 
 **Production**: Backend automatically deployed on Render with Supabase PostgreSQL
 
@@ -264,7 +264,7 @@ uvicorn app.main:app --reload --port 8000
 
 ### Authentication
 
-```typescript
+\`\`\`typescript
 // User registration
 POST /v1/auth/register
 {
@@ -283,11 +283,11 @@ POST /v1/auth/login
 // Get user profile
 GET /v1/auth/me
 // Returns: UserOut with profile data
-```
+\`\`\`
 
 ### Supplements
 
-```typescript
+\`\`\`typescript
 // Get supplements with filtering
 GET /v1/supplements?page=1&q=ashwagandha&goals=focus,energy
 
@@ -301,7 +301,7 @@ POST /v1/reviews/{supplement_id}
   "rating": 5,
   "comment": "Great supplement!"
 }
-```
+\`\`\`
 
 ### Error Handling
 
@@ -359,7 +359,7 @@ The application is optimized for Vercel deployment:
 
 ### Manual Deployment
 
-```bash
+\`\`\`bash
 # Build the application
 pnpm build
 
@@ -367,17 +367,17 @@ pnpm build
 pnpm export
 
 # Deploy to your preferred hosting platform
-```
+\`\`\`
 
 ### Environment Variables for Production
 
-```env
+\`\`\`env
 NEXT_PUBLIC_API_BASE_URL=https://your-backend.onrender.com
 NEXT_PUBLIC_ENABLE_AI_ASSISTANT=true
 NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
 NEXT_PUBLIC_GA_ID=your_production_ga_id
 NODE_ENV=production
-```
+\`\`\`
 
 ## 🧪 Development
 
