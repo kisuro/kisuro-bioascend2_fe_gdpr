@@ -105,8 +105,16 @@ export function AudioTrackCard({ track, onPlay, isCurrentTrack, viewMode }: Audi
             </div>
           </div>
           {track.isPremium && !track.hasAccess && (
-            <div className="absolute inset-0 rounded-lg bg-black/50 flex items-center justify-center">
-              <Lock className="h-8 w-8 text-white" />
+            <div className="absolute inset-0 rounded-lg backdrop-blur-md bg-black/30 border border-white/20 flex flex-col items-center justify-center space-y-2">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400/30 to-orange-500/30 backdrop-blur-sm border border-yellow-400/40 shadow-lg"></div>
+                <div className="relative w-12 h-12 flex items-center justify-center">
+                  <Crown className="h-6 w-6 text-yellow-400 drop-shadow-lg" />
+                </div>
+              </div>
+              <span className="text-xs font-medium text-white/90 bg-black/20 px-2 py-1 rounded-full backdrop-blur-sm">
+                Premium
+              </span>
             </div>
           )}
         </div>
