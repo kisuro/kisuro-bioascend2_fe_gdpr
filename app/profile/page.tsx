@@ -252,7 +252,7 @@ export default function ProfilePage() {
                 {isEditing ? "Cancel" : "Edit Profile"}
               </LiquidButton>
               {authUser.status !== "guest" && (
-                <LiquidButton variant="outline" onClick={async () => { await logoutUser(); window.location.href = "/" }} className="gap-2 w-full sm:w-auto">
+                <LiquidButton variant="outline" onClick={async () => { await logoutUser(); window.location.href = "/auth/login" }} className="gap-2 w-full sm:w-auto">
                   Logout
                 </LiquidButton>
               )}

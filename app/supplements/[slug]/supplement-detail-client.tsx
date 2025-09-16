@@ -378,7 +378,7 @@ const mapApiReviewToUI = (r: any): Review => ({
   }
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen px-4 pt-8 pb-36 sm:pb-40">
       <div className="max-w-6xl mx-auto">
         {/* Layout: left (content) + right (sidebar) to restore previous visuals */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

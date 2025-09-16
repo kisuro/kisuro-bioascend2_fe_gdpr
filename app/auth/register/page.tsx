@@ -12,6 +12,7 @@ export default function RegisterPage() {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [name, setName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -19,6 +20,19 @@ export default function RegisterPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+    
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match")
+      return
+    }
+    
+    // Validate password strength
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long")
+      return
+    }
+    
     setIsLoading(true)
     try {
       await registerUser(email, password, name)
@@ -46,6 +60,26 @@ export default function RegisterPage() {
           <div>
             <label className="block text-sm mb-1">Password</label>
             <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Minimum 8 characters" required />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Confirm Password</label>
+            <Input 
+              type="password" 
+              value={confirmPassword} 
+              onChange={(e) => {
+                setConfirmPassword(e.target.value)
+                // Clear error when user starts typing
+                if (error === "Passwords do not match") {
+                  setError(null)
+                }
+              }} 
+              placeholder="Confirm your password" 
+              required 
+              className={confirmPassword && password && password !== confirmPassword ? "border-red-500" : ""}
+            />
+            {confirmPassword && password && password !== confirmPassword && (
+              <div className="text-xs text-red-500 mt-1">Passwords do not match</div>
+            )}
           </div>
           {error && <div className="text-sm text-red-500">{error}</div>}
           <Button type="submit" disabled={isLoading} className="w-full">

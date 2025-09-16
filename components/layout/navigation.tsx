@@ -13,8 +13,8 @@ const navigation = [
   { name: "Biorhythms", href: "/biorhythms", icon: Activity },
   { name: "Supplements", href: "/supplements", icon: Zap },
   { name: "Journal", href: "/journal", icon: BookOpen },
-  { name: "Mind", href: "/mind", icon: Brain },
-  { name: "Assistant", href: "/assistant", icon: Sparkles },
+  { name: "AudioMind", href: "/mind", icon: Brain },
+  { name: "AI Assistant", href: "/assistant", icon: Sparkles },
 ]
 
 export function Navigation() {

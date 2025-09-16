@@ -5,7 +5,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
-import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, Play } from "lucide-react"
+import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, Play, User } from "lucide-react"
 import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
 
 const features = [
@@ -22,39 +22,39 @@ const features = [
     description:
       "Explore our range of science-backed supplements designed to enhance your health, boost performance, and support longevity.",
     href: "/supplements",
-    icon: Brain,
+    icon: Zap,
     color: "text-accent",
   },
   {
-    title: "Nutrition",
+    title: "Journal",
     description:
-      "Unlock the power of personalized nutrition. Learn how to fuel your body for optimal performance and healthspan.",
-    href: "/nutrition",
+      "Track your daily wellness journey with our intelligent journaling system. Monitor your progress and gain insights into your health patterns.",
+    href: "/journal",
     icon: BookOpen,
     color: "text-secondary",
   },
   {
-    title: "Fitness",
+    title: "AudioMind",
     description:
-      "Transform your body with our expert-led fitness programs. Tailored workouts to help you achieve your health and fitness goals.",
-    href: "/fitness",
-    icon: Zap,
+      "Enhance your mental well-being with our curated collection of brain-optimizing audio content including meditation, binaural beats, and focus music.",
+    href: "/mind",
+    icon: Brain,
     color: "text-tertiary",
   },
   {
-    title: "Sleep",
+    title: "AI Assistant",
     description:
-      "Master the art of restorative sleep. Understand your sleep patterns and how to improve them for better health and performance.",
-    href: "/sleep",
+      "Get personalized health recommendations and insights from our AI-powered assistant. Ask questions and receive evidence-based guidance.",
+    href: "/assistant",
     icon: Sparkles,
     color: "text-quaternary",
   },
   {
-    title: "Mindfulness",
+    title: "Profile",
     description:
-      "Enhance your mental well-being with our mindfulness and meditation resources. Cultivate a balanced and focused mind.",
-    href: "/mindfulness",
-    icon: Shield,
+      "Manage your personal health profile, track your goals, and customize your biohacking journey with detailed analytics and preferences.",
+    href: "/profile",
+    icon: User,
     color: "text-quinary",
   },
 ]
@@ -141,7 +141,7 @@ export default function HomePage() {
   }, [])
 
   if (!isClient || isLoading) {
-    return <SupplementLoader /> // show loader during initial load
+    return <SupplementLoader isVisible={true} message="Loading BioAionics..." /> // show loader during initial load
   }
 
   return (
@@ -275,7 +275,6 @@ export default function HomePage() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{
@@ -301,7 +300,6 @@ export default function HomePage() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{
