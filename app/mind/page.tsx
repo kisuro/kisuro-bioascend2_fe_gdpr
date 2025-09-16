@@ -10,13 +10,17 @@ import { AudioCategories } from "@/components/mind/audio-categories"
 import { Brain, Music, Headphones, List, Crown } from "lucide-react"
 import type { AudioTrack } from "@/lib/data/audio"
 import { MindBackground } from "@/components/ui/page-backgrounds"
-import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { PremiumPageGate } from "@/components/ui/premium-page-gate"
+import { useUser } from "@/lib/hooks/use-user"
 
 export default function MindPage() {
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [activeTab, setActiveTab] = useState("library")
-  const [isLoading, setIsLoading] = useState(true) // added loading state
+  const [isLoading, setIsLoading] = useState(true)
+  const user = useUser()
+  const isPremium = user?.status === "premium"
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,6 +44,21 @@ export default function MindPage() {
 
   if (isLoading) {
     return <SupplementLoader />
+  }
+
+  if (!isPremium) {
+    return (
+      <div className="min-h-screen py-8 px-4 relative">
+        <MindBackground />
+        <div className="relative z-10">
+          <PremiumPageGate
+            title="Mind Audio Library"
+            description="Access curated audio content for meditation, focus, and mental wellness optimization with advanced features and personalized recommendations."
+            featureName="AudioMind"
+          />
+        </div>
+      </div>
+    )
   }
 
   return (

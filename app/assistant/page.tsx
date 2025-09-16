@@ -6,7 +6,9 @@ import { useState, useRef, useEffect } from "react"
 import { Send, Bot, User, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { PremiumPageGate } from "@/components/ui/premium-page-gate"
+import { useUser } from "@/lib/hooks/use-user"
 
 interface Message {
   id: string
@@ -37,8 +39,10 @@ export default function AssistantPage() {
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState("")
   const [isTyping, setIsTyping] = useState(false)
-  const [isLoading, setIsLoading] = useState(true) // added loading state
+  const [isLoading, setIsLoading] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const user = useUser()
+  const isPremium = user?.status === "premium"
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -69,7 +73,6 @@ export default function AssistantPage() {
     setInput("")
     setIsTyping(true)
 
-    // Simulate AI response delay
     setTimeout(() => {
       const randomResponse = sampleResponses[Math.floor(Math.random() * sampleResponses.length)]
       const assistantMessage: Message = {
@@ -94,12 +97,26 @@ export default function AssistantPage() {
     return <SupplementLoader />
   }
 
+  if (!isPremium) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 relative">
+        <AssistantBackground />
+        <div className="relative z-10">
+          <PremiumPageGate
+            title="AI Biohacking Assistant"
+            description="Get personalized guidance for optimized health and performance with advanced AI insights, supplement recommendations, and wellness optimization strategies."
+            featureName="AI Assistant"
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 relative">
       <AssistantBackground />
 
       <div className="container mx-auto px-4 py-8 max-w-4xl relative z-10">
-        {/* Header */}
         <div className="glass-morph p-6 mb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 rounded-full bg-primary/20 glass-subtle">
@@ -110,9 +127,7 @@ export default function AssistantPage() {
           <p className="text-muted-foreground">Your personal guide to optimized health and performance</p>
         </div>
 
-        {/* Chat Container */}
         <div className="glass-morph h-[600px] flex flex-col">
-          {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((message) => (
               <div
@@ -147,7 +162,6 @@ export default function AssistantPage() {
               </div>
             ))}
 
-            {/* Typing Indicator */}
             {isTyping && (
               <div className="flex gap-3 justify-start">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 glass-subtle flex items-center justify-center">
@@ -172,7 +186,6 @@ export default function AssistantPage() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Area */}
           <div className="border-t border-white/10 p-4">
             <div className="flex gap-2">
               <Input
@@ -197,7 +210,6 @@ export default function AssistantPage() {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           {["Analyze my biorhythms", "Recommend supplements for focus", "Create a morning routine"].map(
             (action, index) => (

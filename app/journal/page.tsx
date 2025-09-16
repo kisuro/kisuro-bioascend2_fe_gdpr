@@ -11,10 +11,14 @@ import { JournalHistory } from "@/components/journal/journal-history"
 import { BookOpen, Plus, Bell, History, Shield } from "lucide-react"
 import { JournalBackground } from "@/components/ui/page-backgrounds"
 import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { PremiumPageGate } from "@/components/ui/premium-page-gate" // imported premium gate component
+import { useUser } from "@/lib/hooks/use-user" // imported user hook
 
 export default function JournalPage() {
   const [activeTab, setActiveTab] = useState("overview")
-  const [isLoading, setIsLoading] = useState(true) // added loading state
+  const [isLoading, setIsLoading] = useState(true)
+  const user = useUser() // added user hook
+  const isPremium = user?.status === "premium" // check premium status
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,6 +29,21 @@ export default function JournalPage() {
 
   if (isLoading) {
     return <SupplementLoader />
+  }
+
+  if (!isPremium) {
+    return (
+      <div className="min-h-screen py-8 px-4 relative">
+        <JournalBackground />
+        <div className="relative z-10">
+          <PremiumPageGate
+            title="Personal Journal"
+            description="Track your supplement intake, monitor progress, and optimize your biohacking journey with detailed analytics and insights."
+            featureName="Personal Journal"
+          />
+        </div>
+      </div>
+    )
   }
 
   return (
