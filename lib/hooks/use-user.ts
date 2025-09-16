@@ -96,3 +96,12 @@ export async function requestEmailVerification() {
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Request failed")
   return res.json()
 }
+
+export async function deleteAccount() {
+  const res = await fetch(`${API_BASE}/auth/account`, {
+    method: "DELETE",
+    credentials: "include",
+  })
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Delete failed")
+  return res.json()
+}

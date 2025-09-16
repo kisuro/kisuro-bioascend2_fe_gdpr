@@ -10,10 +10,11 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload } from "lucide-react"
+import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload, Trash2 } from "lucide-react"
 import { ProfileBackground } from "@/components/ui/page-backgrounds"
 import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
-import { useUser, logoutUser, updateProfile, loginUser, requestEmailVerification } from "@/lib/hooks/use-user"
+import { useUser, logoutUser, updateProfile, loginUser, requestEmailVerification, deleteAccount } from "@/lib/hooks/use-user"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 // Mock user data
 const mockUser = {
@@ -49,6 +50,8 @@ export default function ProfilePage() {
   const [loginPassword, setLoginPassword] = useState("")
   const [loginError, setLoginError] = useState<string | null>(null)
   const [loginPending, setLoginPending] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [deletePending, setDeletePending] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -128,6 +131,19 @@ export default function ProfilePage() {
       setUser({ ...user, avatar: data.avatar_url })
     } catch (e: any) {
       alert(e?.message || "Failed to upload avatar")
+    }
+  }
+
+  const handleDeleteAccount = async () => {
+    setDeletePending(true)
+    try {
+      await deleteAccount()
+      setShowDeleteDialog(false)
+      window.location.href = "/"
+    } catch (e: any) {
+      alert(e?.message || "Failed to delete account")
+    } finally {
+      setDeletePending(false)
     }
   }
 
@@ -399,6 +415,20 @@ export default function ProfilePage() {
                     <Settings className="w-4 h-4" />
                     Two-Factor Authentication
                   </LiquidButton>
+                  <div className="pt-4 border-t border-white/10">
+                    <h4 className="text-sm font-semibold text-red-400 uppercase tracking-wide mb-2">Danger zone</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Permanently remove your account and all associated data from BioAionics.
+                    </p>
+                    <LiquidButton
+                      variant="outline"
+                      className="w-full justify-start gap-2 border-red-500/60 text-red-500 hover:bg-red-500/10"
+                      onClick={() => setShowDeleteDialog(true)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Delete Account
+                    </LiquidButton>
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -437,6 +467,38 @@ export default function ProfilePage() {
           </GlassCard>
         </div>
       </div>
+
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent className="glass-morph border-white/20 max-w-md mx-4">
+          <DialogHeader>
+            <DialogTitle>Delete account</DialogTitle>
+            <DialogDescription>
+              This action permanently removes your BioAionics account, profile data, and any saved preferences. This
+              cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col sm:flex-row sm:justify-end gap-3">
+            <LiquidButton
+              type="button"
+              variant="secondary"
+              className="w-full sm:w-auto"
+              onClick={() => setShowDeleteDialog(false)}
+              disabled={deletePending}
+            >
+              Cancel
+            </LiquidButton>
+            <LiquidButton
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto border-red-500/60 text-red-500 hover:bg-red-500/10"
+              onClick={handleDeleteAccount}
+              disabled={deletePending}
+            >
+              {deletePending ? "Deleting…" : "Yes, delete"}
+            </LiquidButton>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
