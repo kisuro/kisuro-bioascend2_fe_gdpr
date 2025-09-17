@@ -111,6 +111,10 @@ export default function RegisterPage() {
             By creating an account, you agree to our{" "}
             <Link href="/privacy-policy" className="text-primary hover:underline">
               Privacy Policy
+            </Link>{" "}
+            and{" "}
+            <Link href="/terms-of-service" className="text-primary hover:underline">
+              Terms of Service
             </Link>
           </p>
         </div>

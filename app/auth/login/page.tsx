@@ -72,6 +72,10 @@ export default function LoginPage() {
         <p className="text-xs text-muted-foreground text-center mt-3">
           <Link href="/privacy-policy" className="text-primary hover:underline">
             Privacy Policy
+          </Link>{" "}
+          •{" "}
+          <Link href="/terms-of-service" className="text-primary hover:underline">
+            Terms of Service
           </Link>
         </p>
       </GlassCard>
