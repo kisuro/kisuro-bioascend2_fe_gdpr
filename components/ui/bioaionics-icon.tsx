@@ -1,10 +1,12 @@
-interface BioAscendIconProps {
+interface BioAionicsIconProps {
+  // updated interface name from BioAscendIconProps
   size?: number
   variant?: "color" | "monochrome"
   className?: string
 }
 
-export function BioAscendIcon({ size = 32, variant = "color", className = "" }: BioAscendIconProps) {
+export function BioAionicsIcon({ size = 32, variant = "color", className = "" }: BioAionicsIconProps) {
+  // updated function name from BioAscendIcon
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
       <defs>

@@ -19,7 +19,7 @@ interface ReviewsStore {
   ): Promise<{ rating: number; reviews_count: number }>
 }
 
-const STORAGE_KEY = "bioascend_reviews_v1"
+const STORAGE_KEY = "bioaionics_reviews_v1" // updated storage key
 
 class LocalReviewsStore implements ReviewsStore {
   private getStoredReviews(): Record<string, UserReview[]> {

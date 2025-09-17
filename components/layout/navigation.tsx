@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { GlassCard } from "@/components/ui/glass-card"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { BioAscendIcon } from "@/components/ui/bioascend-icon"
+import { BioAionicsIcon } from "@/components/ui/bioaionics-icon" // updated import to use BioAionics
 import { Activity, Brain, BookOpen, Zap, User, Sparkles, Menu, X } from "lucide-react"
 
 const navigation = [
@@ -37,10 +37,10 @@ export function Navigation() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="/" className="flex items-center gap-2 font-bold text-primary">
                 <div className="p-1 rounded-lg bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 shadow-lg dark:from-white/10 dark:to-white/5 dark:border-white/20">
-                  <BioAscendIcon size={28} variant="color" />
+                  <BioAionicsIcon size={28} variant="color" /> {/* updated component name */}
                 </div>
                 <span className="hidden sm:block font-heading text-lg bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  BioAionics
+                  BioAionics {/* updated brand name */}
                 </span>
               </Link>
             </motion.div>

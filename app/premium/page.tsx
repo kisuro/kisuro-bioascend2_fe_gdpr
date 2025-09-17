@@ -77,7 +77,7 @@ export default function PremiumPage() {
             className="inline-flex items-center gap-2 text-foreground hover:text-primary transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-            <span className="font-heading font-semibold text-lg">BioAscend</span>
+            <span className="font-heading font-semibold text-lg">BioAionics</span>
           </Link>
         </div>
       </header>
@@ -97,7 +97,7 @@ export default function PremiumPage() {
                 <div className="absolute inset-0 bg-amber-400/20 blur-lg rounded-full" />
               </div>
               <h1 className="font-heading text-4xl md:text-6xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent">
-                BioAscend Premium
+                BioAionics Premium
               </h1>
             </div>
             <p className="text-xl md:text-2xl text-muted-foreground font-light">
@@ -301,7 +301,7 @@ export default function PremiumPage() {
         <div className="max-w-7xl mx-auto text-center">
           <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8" />
           <p className="text-sm text-muted-foreground">
-            © BioAscend •{" "}
+            © BioAionics •{" "}
             <Link href="/privacy" className="hover:text-primary transition-colors">
               Privacy Policy
             </Link>

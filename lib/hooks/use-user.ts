@@ -18,7 +18,7 @@ interface User {
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1"
-const TOKEN_STORAGE_KEY = "bioascend_access_token"
+const TOKEN_STORAGE_KEY = "bioaionics_access_token" // updated storage key
 
 const readToken = () => {
   if (typeof window === "undefined") return null
@@ -59,10 +59,6 @@ export const buildAuthHeaders = (base: HeadersInit = {}) => {
 
 // Basic user hook backed by backend auth cookie
 export function useUser(): User {
-  // Dev override to simulate premium
-  if (process.env.NEXT_PUBLIC_FORCE_PREMIUM === "true") {
-    return { id: "dev", status: "premium", name: "Dev Premium", isLoading: false }
-  }
   const [user, setUser] = useState<User>({ status: "guest", isLoading: true })
 
   useEffect(() => {
@@ -73,7 +69,18 @@ export function useUser(): User {
         if (res.ok) {
           const data = await res.json()
           if (!cancelled) {
-            setUser({ status: (data.status as UserStatus) || "user", id: data.id, name: data.name, email: data.email, created_at: data.created_at, avatar_url: data.avatar_url, bio: data.bio, stats: data.stats, is_email_verified: data.is_email_verified, isLoading: false })
+            setUser({
+              status: (data.status as UserStatus) || "user",
+              id: data.id,
+              name: data.name,
+              email: data.email,
+              created_at: data.created_at,
+              avatar_url: data.avatar_url,
+              bio: data.bio,
+              stats: data.stats,
+              is_email_verified: data.is_email_verified,
+              isLoading: false,
+            })
           }
         } else {
           if (!cancelled) setUser({ status: "guest", isLoading: false })
@@ -87,6 +94,11 @@ export function useUser(): User {
       cancelled = true
     }
   }, [])
+
+  // Dev override to simulate premium
+  if (process.env.NEXT_PUBLIC_FORCE_PREMIUM === "true") {
+    return { id: "dev", status: "premium", name: "Dev Premium", isLoading: false }
+  }
 
   return user
 }

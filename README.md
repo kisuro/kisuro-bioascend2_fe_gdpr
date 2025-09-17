@@ -1,4 +1,4 @@
-# BioAscend - Biohacking Platform Frontend
+# BioAionics - Biohacking Platform Frontend
 
 A comprehensive Next.js-based biohacking platform that empowers users to optimize their health through supplements tracking, biorhythm analysis, meditation, journaling, and AI-powered insights.
 
@@ -176,7 +176,7 @@ public/
 
 - **Node.js 18+** (20+ recommended)
 - **PNPM 9+** - Fast package manager
-- **Backend API** - BioAscend backend running locally or on Render
+- **Backend API** - BioAionics backend running locally or on Render
 
 ### Installation
 
@@ -228,7 +228,7 @@ public/
 
 ### Backend Integration
 
-Ensure the BioAscend backend is running:
+Ensure the BioAionics backend is running:
 
 **Local Development**:
 
@@ -467,7 +467,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 - **Frontend Repository**: [bioascend2_fe](https://github.com/kisuro/bioascend2_fe)
 - **Backend Repository**: [bioascend2_be](https://github.com/kisuro/bioascend2_be)
-- **Live Application**: [BioAscend Platform](https://vercel.com/kisuros-projects/v0-bioascend)
+- **Live Application**: [BioAionics Platform](https://vercel.com/kisuros-projects/v0-bioascend)
 - **Backend API**: [API Documentation](https://your-backend.onrender.com/docs)
 
 Built with ❤️ for the biohacking community
