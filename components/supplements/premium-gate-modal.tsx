@@ -4,6 +4,7 @@ import { Crown } from "lucide-react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { GlassCard } from "@/components/ui/glass-card"
+import { useRouter } from "next/navigation"
 
 interface PremiumGateModalProps {
   isOpen: boolean
@@ -11,7 +12,13 @@ interface PremiumGateModalProps {
 }
 
 export function PremiumGateModal({ isOpen, onClose }: PremiumGateModalProps) {
+  const router = useRouter()
+
   console.log("[v0] PremiumGateModal mounted, isOpen:", isOpen)
+
+  const handleUpgrade = () => {
+    router.push("/premium")
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -52,7 +59,10 @@ export function PremiumGateModal({ isOpen, onClose }: PremiumGateModalProps) {
               >
                 Close
               </LiquidButton>
-              <LiquidButton className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 border-0">
+              <LiquidButton
+                onClick={handleUpgrade}
+                className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 border-0"
+              >
                 Upgrade to Premium
               </LiquidButton>
             </div>

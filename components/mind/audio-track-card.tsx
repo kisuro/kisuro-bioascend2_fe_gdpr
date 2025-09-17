@@ -5,6 +5,7 @@ import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
 import { Play, Pause, Clock, Crown, Lock } from "lucide-react"
 import type { AudioTrack } from "@/lib/data/audio"
+import { useRouter } from "next/navigation"
 
 interface AudioTrackCardProps {
   track: AudioTrack
@@ -14,6 +15,8 @@ interface AudioTrackCardProps {
 }
 
 export function AudioTrackCard({ track, onPlay, isCurrentTrack, viewMode }: AudioTrackCardProps) {
+  const router = useRouter()
+
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
@@ -22,8 +25,7 @@ export function AudioTrackCard({ track, onPlay, isCurrentTrack, viewMode }: Audi
 
   const handlePlay = () => {
     if (track.isPremium && !track.hasAccess) {
-      // Show premium upgrade modal
-      console.log("Premium content - show upgrade modal")
+      router.push("/premium")
       return
     }
     onPlay()

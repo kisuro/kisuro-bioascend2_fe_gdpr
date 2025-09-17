@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Crown, Sparkles } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface PremiumPageGateProps {
   title: string
@@ -12,6 +13,12 @@ interface PremiumPageGateProps {
 }
 
 export function PremiumPageGate({ title, description, featureName }: PremiumPageGateProps) {
+  const router = useRouter()
+
+  const handleUpgrade = () => {
+    router.push("/premium")
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center py-8 px-4">
       <motion.div
@@ -76,6 +83,7 @@ export function PremiumPageGate({ title, description, featureName }: PremiumPage
               transition={{ duration: 0.6, delay: 0.5 }}
             >
               <LiquidButton
+                onClick={handleUpgrade}
                 size="lg"
                 className="px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-semibold shadow-xl"
               >

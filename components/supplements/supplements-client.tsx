@@ -496,6 +496,10 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     alert(`${supplementName} saved to journal!`)
   }
 
+  const handleUpgrade = () => {
+    router.push("/premium")
+  }
+
   useEffect(() => {
     // If we have supplements data, hide loading immediately
     if (safeSupplements.length > 0) {
@@ -785,7 +789,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                         <h3 className="text-2xl font-bold mb-2">Premium Feature</h3>
                         <p className="text-muted-foreground">This feature is available for Premium subscribers only.</p>
                       </div>
-                      <LiquidButton type="button" className="w-full">
+                      <LiquidButton type="button" onClick={handleUpgrade} className="w-full">
                         <Sparkles className="h-4 w-4 mr-2" />
                         Upgrade to Premium
                       </LiquidButton>
