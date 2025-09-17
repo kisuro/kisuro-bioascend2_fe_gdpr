@@ -56,7 +56,16 @@ export default function LoginPage() {
               required
             />
           </div>
-          {error && <div className="text-sm text-red-500">{error}</div>}
+          {error && (
+            <div className="text-sm text-red-500 space-y-1">
+              <p>{error}</p>
+              {error === "Invalid email or password" && (
+                <Link className="underline" href="/auth/forgot-password">
+                  Forgot password?
+                </Link>
+              )}
+            </div>
+          )}
           <Button type="submit" disabled={isLoading} className="w-full">
             {isLoading ? "Signing in..." : "Log In"}
           </Button>
@@ -65,9 +74,11 @@ export default function LoginPage() {
           <Link className="underline" href="/auth/register">
             Create account
           </Link>
-          <Link className="underline" href="/auth/forgot-password">
-            Forgot password?
-          </Link>
+          {error !== "Invalid email or password" && (
+            <Link className="underline" href="/auth/forgot-password">
+              Forgot password?
+            </Link>
+          )}
         </div>
         <p className="text-xs text-muted-foreground text-center mt-3">
           <Link href="/privacy-policy" className="text-primary hover:underline">
