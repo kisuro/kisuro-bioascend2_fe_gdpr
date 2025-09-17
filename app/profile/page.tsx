@@ -13,7 +13,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload, Trash2 } from "lucide-react"
 import { ProfileBackground } from "@/components/ui/page-backgrounds"
 import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
-import { useUser, logoutUser, updateProfile, loginUser, requestEmailVerification, deleteAccount, buildAuthHeaders } from "@/lib/hooks/use-user"
+import {
+  useUser,
+  logoutUser,
+  updateProfile,
+  loginUser,
+  requestEmailVerification,
+  deleteAccount,
+  buildAuthHeaders,
+  requestPasswordChange,
+  requestEmailChange,
+  triggerTwoFactorPlaceholder,
+} from "@/lib/hooks/use-user"
+import { useToast } from "@/hooks/use-toast"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 // Mock user data
@@ -52,6 +64,15 @@ export default function ProfilePage() {
   const [loginPending, setLoginPending] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [deletePending, setDeletePending] = useState(false)
+  const [passwordPending, setPasswordPending] = useState(false)
+  const [passwordDebugLink, setPasswordDebugLink] = useState<string | null>(null)
+  const [showEmailChangeDialog, setShowEmailChangeDialog] = useState(false)
+  const [emailChangeValue, setEmailChangeValue] = useState("")
+  const [emailChangePending, setEmailChangePending] = useState(false)
+  const [emailChangeDebugLink, setEmailChangeDebugLink] = useState<string | null>(null)
+  const [twoFactorPending, setTwoFactorPending] = useState(false)
+
+  const { toast } = useToast()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -71,6 +92,12 @@ export default function ProfilePage() {
       }))
     }
   }, [authUser])
+
+  useEffect(() => {
+    if (authUser?.email) {
+      setEmailChangeValue(authUser.email)
+    }
+  }, [authUser?.email])
 
   const handleSave = async () => {
     try {
@@ -145,6 +172,51 @@ export default function ProfilePage() {
       alert(e?.message || "Failed to delete account")
     } finally {
       setDeletePending(false)
+    }
+  }
+
+  const handlePasswordChangeRequest = async () => {
+    setPasswordPending(true)
+    try {
+      const res = await requestPasswordChange()
+      setPasswordDebugLink(res.reset_link ?? null)
+      toast({
+        title: "Password reset email",
+        description: res.reset_link ? `Development link: ${res.reset_link}` : res.message,
+      })
+    } catch (err: any) {
+      toast({ title: "Password change failed", description: err?.message || "Try again later", variant: "destructive" })
+    } finally {
+      setPasswordPending(false)
+    }
+  }
+
+  const handleEmailChangeSubmit = async () => {
+    setEmailChangePending(true)
+    try {
+      const res = await requestEmailChange(emailChangeValue)
+      setEmailChangeDebugLink(res.confirm_link ?? null)
+      toast({
+        title: "Email change requested",
+        description: res.confirm_link ? `Development link: ${res.confirm_link}` : res.message,
+      })
+      setShowEmailChangeDialog(false)
+    } catch (err: any) {
+      toast({ title: "Email change failed", description: err?.message || "Try again later", variant: "destructive" })
+    } finally {
+      setEmailChangePending(false)
+    }
+  }
+
+  const handleTwoFactorClick = async () => {
+    setTwoFactorPending(true)
+    try {
+      const res = await triggerTwoFactorPlaceholder()
+      toast({ title: "Two-factor", description: res.message })
+    } catch (err: any) {
+      toast({ title: "Two-factor", description: err?.message || "Try again later", variant: "destructive" })
+    } finally {
+      setTwoFactorPending(false)
     }
   }
 
@@ -404,17 +476,49 @@ export default function ProfilePage() {
                   <p className="text-muted-foreground mb-4">Manage your account security settings and password.</p>
                 </div>
                 <div className="space-y-4">
-                  <LiquidButton variant="outline" className="w-full justify-start gap-2">
-                    <Shield className="w-4 h-4" />
-                    Change Password
-                  </LiquidButton>
-                  <LiquidButton variant="outline" className="w-full justify-start gap-2">
-                    <Mail className="w-4 h-4" />
-                    Update Email
-                  </LiquidButton>
-                  <LiquidButton variant="outline" className="w-full justify-start gap-2">
+                  <div className="space-y-2">
+                    <LiquidButton
+                      variant="outline"
+                      className="w-full justify-start gap-2"
+                      disabled={passwordPending}
+                      onClick={handlePasswordChangeRequest}
+                    >
+                      <Shield className="w-4 h-4" />
+                      {passwordPending ? "Sending..." : "Change Password"}
+                    </LiquidButton>
+                    {passwordDebugLink && (
+                      <p className="text-xs text-muted-foreground break-words px-3">
+                        Dev reset link: <a className="underline" href={passwordDebugLink}>{passwordDebugLink}</a>
+                      </p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <LiquidButton
+                      variant="outline"
+                      className="w-full justify-start gap-2"
+                      onClick={() => {
+                        setEmailChangeValue(authUser.email || user.email || "")
+                        setShowEmailChangeDialog(true)
+                      }}
+                      disabled={emailChangePending}
+                    >
+                      <Mail className="w-4 h-4" />
+                      Update Email
+                    </LiquidButton>
+                    {emailChangeDebugLink && (
+                      <p className="text-xs text-muted-foreground break-words px-3">
+                        Dev confirm link: <a className="underline" href={emailChangeDebugLink}>{emailChangeDebugLink}</a>
+                      </p>
+                    )}
+                  </div>
+                  <LiquidButton
+                    variant="outline"
+                    className="w-full justify-start gap-2"
+                    onClick={handleTwoFactorClick}
+                    disabled={twoFactorPending}
+                  >
                     <Settings className="w-4 h-4" />
-                    Two-Factor Authentication
+                    {twoFactorPending ? "Please wait..." : "Two-Factor Authentication"}
                   </LiquidButton>
                   <div className="pt-4 border-t border-white/10">
                     <h4 className="text-sm font-semibold text-red-400 uppercase tracking-wide mb-2">Danger zone</h4>
@@ -468,6 +572,40 @@ export default function ProfilePage() {
           </GlassCard>
         </div>
       </div>
+
+      <Dialog open={showEmailChangeDialog} onOpenChange={setShowEmailChangeDialog}>
+        <DialogContent className="glass-morph border-white/20 max-w-md mx-4">
+          <DialogHeader>
+            <DialogTitle>Update email</DialogTitle>
+            <DialogDescription>Enter the new email address you want to associate with your account.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <Label htmlFor="new-email">New email</Label>
+              <Input
+                id="new-email"
+                type="email"
+                value={emailChangeValue}
+                onChange={(e) => setEmailChangeValue(e.target.value)}
+                placeholder="new.email@example.com"
+                autoFocus
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              We’ll send a confirmation link to your current email. The change completes only after you confirm from that
+              message.
+            </p>
+          </div>
+          <DialogFooter className="flex flex-col sm:flex-row sm:justify-end gap-3">
+            <LiquidButton variant="ghost" className="w-full sm:w-auto" onClick={() => setShowEmailChangeDialog(false)} disabled={emailChangePending}>
+              Cancel
+            </LiquidButton>
+            <LiquidButton className="w-full sm:w-auto" disabled={emailChangePending} onClick={handleEmailChangeSubmit}>
+              {emailChangePending ? "Requesting..." : "Send confirmation"}
+            </LiquidButton>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent className="glass-morph border-white/20 max-w-md mx-4">

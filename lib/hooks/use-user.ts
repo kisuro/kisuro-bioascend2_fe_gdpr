@@ -170,3 +170,35 @@ export async function deleteAccount() {
   clearToken()
   return res.json()
 }
+
+export async function requestPasswordChange() {
+  const res = await fetch(`${API_BASE}/auth/profile/security/change-password`, {
+    method: "POST",
+    credentials: "include",
+    headers: buildAuthHeaders(),
+  })
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Could not send reset email")
+  return res.json()
+}
+
+export async function requestEmailChange(newEmail: string) {
+  const headers = buildAuthHeaders({ "Content-Type": "application/json" })
+  const res = await fetch(`${API_BASE}/auth/profile/security/request-email-change`, {
+    method: "POST",
+    credentials: "include",
+    headers,
+    body: JSON.stringify({ new_email: newEmail }),
+  })
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Could not request email change")
+  return res.json()
+}
+
+export async function triggerTwoFactorPlaceholder() {
+  const res = await fetch(`${API_BASE}/auth/profile/security/two-factor`, {
+    method: "POST",
+    credentials: "include",
+    headers: buildAuthHeaders(),
+  })
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Two-factor action failed")
+  return res.json()
+}
