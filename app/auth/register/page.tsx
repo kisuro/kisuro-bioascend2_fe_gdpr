@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
@@ -20,19 +22,19 @@ export default function RegisterPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    
+
     // Validate passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match")
       return
     }
-    
+
     // Validate password strength
     if (password.length < 6) {
       setError("Password must be at least 6 characters long")
       return
     }
-    
+
     setIsLoading(true)
     try {
       await registerUser(email, password, name)
@@ -55,26 +57,38 @@ export default function RegisterPage() {
           </div>
           <div className="space-y-2">
             <label className="block text-sm">Email</label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+            />
           </div>
           <div className="space-y-2">
             <label className="block text-sm">Password</label>
-            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Minimum 8 characters" required />
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Minimum 8 characters"
+              required
+            />
           </div>
           <div className="space-y-2">
             <label className="block text-sm">Confirm Password</label>
-            <Input 
-              type="password" 
-              value={confirmPassword} 
+            <Input
+              type="password"
+              value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value)
                 // Clear error when user starts typing
                 if (error === "Passwords do not match") {
                   setError(null)
                 }
-              }} 
-              placeholder="Confirm your password" 
-              required 
+              }}
+              placeholder="Confirm your password"
+              required
               className={confirmPassword && password && password !== confirmPassword ? "border-red-500" : ""}
             />
             {confirmPassword && password && password !== confirmPassword && (
@@ -86,9 +100,21 @@ export default function RegisterPage() {
             {isLoading ? "Creating..." : "Sign Up"}
           </Button>
         </form>
-        <p className="text-sm text-muted-foreground mt-4">
-          Already have an account? <Link className="underline" href="/auth/login">Log in</Link>
-        </p>
+        <div className="space-y-3 mt-4">
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link className="underline" href="/auth/login">
+              Log in
+            </Link>
+          </p>
+          <p className="text-xs text-muted-foreground text-center">
+            By creating an account, you agree to our{" "}
+            <Link href="/privacy-policy" className="text-primary hover:underline">
+              Privacy Policy
+            </Link>
+          </p>
+        </div>
       </GlassCard>
     </div>
-  )}
+  )
+}

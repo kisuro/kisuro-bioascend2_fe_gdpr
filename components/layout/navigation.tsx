@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { GlassCard } from "@/components/ui/glass-card"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { BioAionicsIcon } from "@/components/ui/bioaionics-icon" // updated import to use BioAionics
-import { Activity, Brain, BookOpen, Zap, User, Sparkles, Menu, X } from "lucide-react"
+import { Activity, Brain, BookOpen, Zap, User, Sparkles, Menu, X, Shield } from "lucide-react"
 
 const navigation = [
   { name: "Biorhythms", href: "/biorhythms", icon: Activity },
@@ -142,15 +142,15 @@ export function Navigation() {
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: navigation.length * 0.1 }}
+                  transition={{ duration: 0.3, delay: (navigation.length + 1) * 0.1 }}
                 >
                   <Link
-                    href="/profile"
+                    href="/privacy-policy"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" // using neutral gray instead of slate for better readability
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                   >
-                    <User className="w-5 h-5" />
-                    <span>Profile</span>
+                    <Shield className="w-5 h-5" />
+                    <span>Privacy Policy</span>
                   </Link>
                 </motion.div>
               </div>

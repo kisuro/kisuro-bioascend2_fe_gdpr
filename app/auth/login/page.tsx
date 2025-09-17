@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
@@ -36,11 +38,23 @@ export default function LoginPage() {
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
             <label className="block text-sm">Email</label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+            />
           </div>
           <div className="space-y-2">
             <label className="block text-sm">Password</label>
-            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" required />
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Your password"
+              required
+            />
           </div>
           {error && <div className="text-sm text-red-500">{error}</div>}
           <Button type="submit" disabled={isLoading} className="w-full">
@@ -48,9 +62,18 @@ export default function LoginPage() {
           </Button>
         </form>
         <div className="flex items-center justify-between mt-4 text-sm">
-          <Link className="underline" href="/auth/register">Create account</Link>
-          <Link className="underline" href="/auth/forgot-password">Forgot password?</Link>
+          <Link className="underline" href="/auth/register">
+            Create account
+          </Link>
+          <Link className="underline" href="/auth/forgot-password">
+            Forgot password?
+          </Link>
         </div>
+        <p className="text-xs text-muted-foreground text-center mt-3">
+          <Link href="/privacy-policy" className="text-primary hover:underline">
+            Privacy Policy
+          </Link>
+        </p>
       </GlassCard>
     </div>
   )

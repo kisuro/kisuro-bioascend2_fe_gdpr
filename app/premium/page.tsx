@@ -302,7 +302,7 @@ export default function PremiumPage() {
           <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8" />
           <p className="text-sm text-muted-foreground">
             © BioAionics •{" "}
-            <Link href="/privacy" className="hover:text-primary transition-colors">
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">
               Privacy Policy
             </Link>
           </p>
