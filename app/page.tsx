@@ -2,62 +2,156 @@
 
 import React from "react"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
-import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, Play, User } from "lucide-react"
-import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, ExternalLink, Info } from "lucide-react"
+import { SupplementLoader } from "@/components/ui/supplement-loader"
 
 const features = [
   {
     title: "Biorhythms",
-    description:
-      "Discover the ancient science of biorhythms and how they impact your daily life. Get personalized insights into your physical, emotional, and intellectual cycles.",
+    description: "Visualize cycles and plan your day with awareness.",
     href: "/biorhythms",
+    cta: "Learn more",
     icon: Activity,
     color: "text-primary",
+    isPremium: false,
   },
   {
     title: "Supplements",
-    description:
-      "Explore our range of science-backed supplements designed to enhance your health, boost performance, and support longevity.",
+    description: "Browse structured monographs with sources and safety notes.",
     href: "/supplements",
+    cta: "Explore database",
     icon: Zap,
     color: "text-accent",
+    isPremium: false,
   },
   {
     title: "Journal",
-    description:
-      "Track your daily wellness journey with our intelligent journaling system. Monitor your progress and gain insights into your health patterns.",
+    description: "Guided prompts for mood, sleep, focus.",
     href: "/journal",
+    cta: "See example",
     icon: BookOpen,
     color: "text-secondary",
+    isPremium: true,
   },
   {
     title: "AudioMind",
-    description:
-      "Enhance your mental well-being with our curated collection of brain-optimizing audio content including meditation, binaural beats, and focus music.",
+    description: "Curated audios for relaxation and focus.",
     href: "/mind",
+    cta: "View library",
     icon: Brain,
     color: "text-tertiary",
+    isPremium: true,
   },
   {
     title: "AI Assistant",
-    description:
-      "Get personalized health recommendations and insights from our AI-powered assistant. Ask questions and receive evidence-based guidance.",
+    description: "Structured Q&A over your entries and goals.",
     href: "/assistant",
+    cta: "See capabilities",
     icon: Sparkles,
     color: "text-quaternary",
-  },
-  {
-    title: "Profile",
-    description:
-      "Manage your personal health profile, track your goals, and customize your biohacking journey with detailed analytics and preferences.",
-    href: "/profile",
-    icon: User,
-    color: "text-quinary",
+    isPremium: true,
   },
 ]
+
+const trustedStats = [
+  {
+    number: "58.5%",
+    label: "U.S. adults used at least one dietary supplement in the past 30 days.",
+    source: "CDC / NCHS (2023)",
+    sourceUrl: "https://www.cdc.gov/nchs/data/databriefs/db399.pdf",
+  },
+  {
+    number: "16.9%",
+    label: "U.S. adults practiced yoga in 2022; most cite general health.",
+    source: "CDC Data Brief 501 (2024)",
+    sourceUrl: "https://www.cdc.gov/nchs/products/databriefs/db476.htm",
+  },
+  {
+    number: "18.3%",
+    label: "U.S. adults practiced meditation in 2022 (population trend).",
+    source: "NIH / NLM summary",
+    sourceUrl: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8739022/",
+  },
+  {
+    number: "46%",
+    label: "Young adults report using mental-health apps; 83% of therapists recommend apps.",
+    source: "Market.us overview",
+    sourceUrl: "https://market.us/report/mental-health-apps-market/",
+  },
+  {
+    number: "8%",
+    label: "People who journal consistently; practitioners report stress-management benefits.",
+    source: "Habitbetter survey",
+    sourceUrl: "https://habitbetter.com/journaling-statistics/",
+  },
+]
+
+const AnimatedCounter = ({
+  number,
+  label,
+  source,
+  sourceUrl,
+}: {
+  number: string
+  label: string
+  source: string
+  sourceUrl: string
+}) => {
+  const ref = React.useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [displayNumber, setDisplayNumber] = React.useState("0")
+
+  React.useEffect(() => {
+    if (isInView) {
+      const numericValue = Number.parseFloat(number.replace(/[^\d.]/g, ""))
+      const suffix = number.replace(/[\d.]/g, "")
+
+      let start = 0
+      const duration = 2500
+      const increment = numericValue / (duration / 16)
+
+      const timer = setInterval(() => {
+        start += increment
+        if (start >= numericValue) {
+          setDisplayNumber(number)
+          clearInterval(timer)
+        } else {
+          const currentValue = Math.floor(start * 10) / 10
+          setDisplayNumber(currentValue + suffix)
+        }
+      }, 16)
+
+      return () => clearInterval(timer)
+    }
+  }, [isInView, number])
+
+  return (
+    <motion.div
+      ref={ref}
+      className="text-center p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 hover:border-white/30 transition-all duration-300"
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      whileHover={{ scale: 1.02, y: -5 }}
+    >
+      <div className="text-4xl md:text-5xl font-bold text-primary mb-3">{displayNumber}</div>
+      <div className="text-sm text-muted-foreground mb-3 leading-relaxed">{label}</div>
+      <a
+        href={sourceUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs text-accent hover:text-accent/80 transition-colors inline-flex items-center gap-1"
+        title="Opens external source"
+      >
+        {source}
+        <ExternalLink className="h-3 w-3" />
+      </a>
+    </motion.div>
+  )
+}
 
 const BiorhythmBackground = () => {
   return (
@@ -67,9 +161,8 @@ const BiorhythmBackground = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}
     >
-      {/* Bio-inspired hexagonal cell pattern */}
       <motion.svg
-        className="absolute top-10 right-20 w-40 h-40 text-[#E57373]/4"
+        className="absolute top-10 right-20 w-40 h-40 text-primary/10"
         viewBox="0 0 100 100"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -83,19 +176,10 @@ const BiorhythmBackground = () => {
           animate={{ rotate: [0, 360] }}
           transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
         />
-        <motion.polygon
-          points="50,25 60,32 60,42 50,48 40,42 40,32"
-          stroke="currentColor"
-          strokeWidth="0.5"
-          fill="none"
-          animate={{ rotate: [360, 0] }}
-          transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-        />
       </motion.svg>
 
-      {/* Neuron-like branching lines */}
       <motion.svg
-        className="absolute bottom-20 left-10 w-32 h-32 text-[#64B5F6]/5"
+        className="absolute bottom-20 left-10 w-32 h-32 text-accent/8"
         viewBox="0 0 100 100"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -112,109 +196,150 @@ const BiorhythmBackground = () => {
           }}
           transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
         />
-        <motion.circle
-          cx="50"
-          cy="50"
-          r="3"
-          fill="currentColor"
-          animate={{
-            r: [3, 5, 3],
-            opacity: [0.5, 1, 0.5],
-          }}
-          transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-        />
       </motion.svg>
     </motion.div>
   )
 }
 
+const AnimatedBackground = () => {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          background: [
+            "linear-gradient(45deg, hsl(220 14% 4%), hsl(220 14% 4% / 0.95), hsl(180 100% 50% / 0.08))",
+            "linear-gradient(90deg, hsl(220 14% 4% / 0.98), hsl(240 100% 50% / 0.06), hsl(180 100% 50% / 0.04))",
+            "linear-gradient(135deg, hsl(180 100% 50% / 0.05), hsl(220 14% 4%), hsl(240 100% 50% / 0.08))",
+            "linear-gradient(180deg, hsl(240 100% 50% / 0.04), hsl(220 14% 4% / 0.96), hsl(180 100% 50% / 0.06))",
+            "linear-gradient(45deg, hsl(220 14% 4%), hsl(220 14% 4% / 0.95), hsl(180 100% 50% / 0.08))",
+          ],
+        }}
+        transition={{
+          duration: 35,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          times: [0, 0.25, 0.5, 0.75, 1],
+        }}
+      />
+
+      <motion.div
+        className="absolute top-20 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
+        style={{
+          background: "radial-gradient(circle, hsl(180 100% 50% / 0.3) 0%, transparent 70%)",
+        }}
+        animate={{
+          x: [0, 50, -30, 0],
+          y: [0, -40, 20, 0],
+          scale: [1, 1.1, 0.9, 1],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-32 right-1/3 w-80 h-80 rounded-full opacity-15 blur-3xl"
+        style={{
+          background: "radial-gradient(circle, hsl(240 100% 50% / 0.4) 0%, transparent 70%)",
+        }}
+        animate={{
+          x: [0, -60, 40, 0],
+          y: [0, 30, -50, 0],
+          scale: [1, 0.8, 1.2, 1],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          delay: 5,
+        }}
+      />
+
+      <motion.div
+        className="absolute top-1/2 right-20 w-64 h-64 rounded-full opacity-10 blur-2xl"
+        style={{
+          background: "radial-gradient(circle, hsl(180 100% 50% / 0.5) 0%, transparent 60%)",
+        }}
+        animate={{
+          x: [0, 30, -20, 0],
+          y: [0, -25, 35, 0],
+          scale: [1, 1.3, 0.7, 1],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          delay: 10,
+        }}
+      />
+
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, hsl(180 100% 50% / 0.02) 1px, transparent 1px),
+                           radial-gradient(circle at 75% 75%, hsl(240 100% 50% / 0.02) 1px, transparent 1px)`,
+          backgroundSize: "50px 50px, 80px 80px",
+        }}
+        animate={{
+          backgroundPosition: ["0% 0%, 0% 0%", "100% 100%, -100% -100%"],
+        }}
+        transition={{
+          duration: 60,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "linear",
+        }}
+      />
+    </div>
+  )
+}
+
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true) // added loading state
+  const [isLoading, setIsLoading] = React.useState(true)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false)
 
   React.useEffect(() => {
     setIsClient(true)
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setPrefersReducedMotion(mediaQuery.matches)
+
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1500)
     return () => clearTimeout(timer)
   }, [])
 
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -320, behavior: "smooth" })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 320, behavior: "smooth" })
+    }
+  }
+
   if (!isClient || isLoading) {
-    return <SupplementLoader isVisible={true} message="Loading BioAionics..." /> // show loader during initial load
+    return <SupplementLoader isVisible={true} message="Loading BioAionics..." />
   }
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 pb-32 px-4">
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-[#E57373]/12 via-[#64B5F6]/10 to-[#81C784]/15"
-            animate={{
-              background: [
-                "linear-gradient(45deg, rgba(229,115,115,0.12), rgba(100,181,246,0.10), rgba(129,199,132,0.15))",
-                "linear-gradient(90deg, rgba(100,181,246,0.15), rgba(129,199,132,0.12), rgba(229,115,115,0.10))",
-                "linear-gradient(135deg, rgba(129,199,132,0.12), rgba(229,115,115,0.15), rgba(100,181,246,0.10))",
-                "linear-gradient(180deg, rgba(229,115,115,0.10), rgba(100,181,246,0.15), rgba(129,199,132,0.12))",
-                "linear-gradient(45deg, rgba(229,115,115,0.12), rgba(100,181,246,0.10), rgba(129,199,132,0.15))",
-              ],
-            }}
-            transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#64B5F6]/8 to-[#E57373]/10"
-            animate={{
-              background: [
-                "linear-gradient(225deg, transparent, #64B5F6/8, #E57373/10)",
-                "linear-gradient(270deg, transparent, #81C784/8, #64B5F6/10)",
-                "linear-gradient(315deg, transparent, #E57373/8, #81C784/10)",
-                "linear-gradient(0deg, transparent, #64B5F6/10, #E57373/8)",
-                "linear-gradient(225deg, transparent, #64B5F6/8, #E57373/10)",
-              ],
-            }}
-            transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 3 }}
-          />
-          {/* Additional depth layer */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-radial from-transparent via-primary/3 to-transparent"
-            animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
-        </div>
+        {!prefersReducedMotion && <AnimatedBackground />}
+        {prefersReducedMotion && (
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/10" />
+        )}
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-background pointer-events-none" />
-
         <BiorhythmBackground />
-
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-background/90 pointer-events-none">
-          {/* Fading biorhythm waves at bottom */}
-          <motion.svg
-            className="absolute bottom-0 left-0 w-full h-20 text-[#64B5F6]/3"
-            viewBox="0 0 800 50"
-            preserveAspectRatio="none"
-            style={{ opacity: 0.3 }}
-          >
-            <motion.path
-              d="M0,25 Q200,10 400,25 Q600,40 800,25"
-              stroke="currentColor"
-              strokeWidth="1"
-              fill="none"
-              animate={{
-                d: [
-                  "M0,25 Q200,10 400,25 Q600,40 800,25",
-                  "M0,25 Q200,15 400,25 Q600,35 800,25",
-                  "M0,25 Q200,10 400,25 Q600,40 800,25",
-                ],
-              }}
-              transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-            />
-          </motion.svg>
-        </div>
 
         <div className="relative max-w-7xl mx-auto">
           <motion.div
@@ -234,11 +359,8 @@ export default function HomePage() {
                 stiffness: 100,
                 damping: 15,
               }}
-              style={{
-                textShadow: "0 0 40px rgba(var(--primary), 0.3), 0 0 80px rgba(var(--accent), 0.2)",
-              }}
             >
-              Optimize Your
+              AI-referenced tools
               <br />
               <motion.span
                 initial={{ opacity: 0, y: 30 }}
@@ -246,7 +368,7 @@ export default function HomePage() {
                 transition={{ duration: 1.2, delay: 0.6 }}
                 className="text-primary"
               >
-                Human Potential
+                for personal wellness tracking
               </motion.span>
             </motion.h1>
 
@@ -262,8 +384,8 @@ export default function HomePage() {
                 damping: 12,
               }}
             >
-              Unlock the science of biohacking with personalized insights, evidence-based supplements, and AI-powered
-              recommendations for mental health and longevity.
+              Explore biorhythms, organize your supplement research, journal your habits, and use AI for structured
+              guidance
             </motion.p>
 
             <motion.div
@@ -287,209 +409,159 @@ export default function HomePage() {
               >
                 <LiquidButton
                   size="lg"
-                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300"
+                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 hover:ring-2 hover:ring-primary/50 transition-all duration-300"
                   asChild
                 >
                   <Link href="/biorhythms">
-                    Start Your Journey
+                    Start Free
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </LiquidButton>
               </motion.div>
-
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 1.4,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 15,
-                }}
-              >
-                <LiquidButton variant="outline" size="lg" asChild>
-                  <Link href="#features">
-                    <Play className="mr-2 h-5 w-5" />
-                    Explore Features
-                  </Link>
-                </LiquidButton>
-              </motion.div>
             </motion.div>
+
+            <motion.p
+              className="text-sm text-muted-foreground mt-6 max-w-2xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+            >
+              BioAionics provides educational information and tools. It is not medical advice. Always consult a
+              qualified health professional.
+            </motion.p>
           </motion.div>
         </div>
-
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.6 }}
-        >
-          {[0, 1, 2].map((index) => (
-            <motion.div
-              key={index}
-              className="text-center"
-              whileHover={{ scale: 1.05, y: -5 }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: 1.8 + index * 0.2,
-                type: "spring",
-                stiffness: 100,
-              }}
-            >
-              {index === 0 && (
-                <>
-                  <div className="text-4xl font-bold text-primary mb-2">67%</div>
-                  <div className="text-sm text-muted-foreground">of Americans identify as biohackers</div>
-                  <div className="text-xs text-muted-foreground/70 mt-1">
-                    Majority see optimizing body & mind as healthy lifestyle
-                  </div>
-                  <div className="text-xs text-muted-foreground/50 mt-2 italic">
-                    <a
-                      href="https://sanctuarywellnessinstitute.com/blog/biohacking-statistics-trends/?utm_source=chatgpt.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Source: Sanctuary Wellness Institute (2025)
-                    </a>
-                  </div>
-                </>
-              )}
-              {index === 1 && (
-                <>
-                  <div className="text-4xl font-bold text-accent mb-2">Creatine</div>
-                  <div className="text-sm text-muted-foreground">improves short-term memory & thinking</div>
-                  <div className="text-xs text-muted-foreground/70 mt-1">
-                    Validated in Nutrition Reviews meta-analysis (2023)
-                  </div>
-                  <div className="text-xs text-muted-foreground/50 mt-2 italic">
-                    <a
-                      href="https://en.wikipedia.org/wiki/Creatine?utm_source=chatgpt.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Source: Nutrition Reviews (2023)
-                    </a>
-                  </div>
-                </>
-              )}
-              {index === 2 && (
-                <>
-                  <div className="text-4xl font-bold text-primary mb-2">30-40%</div>
-                  <div className="text-sm text-muted-foreground">Fasting extends lifespan in animal studies</div>
-                  <div className="text-xs text-muted-foreground/70 mt-1">
-                    Time-restricted feeding improved metabolism and longevity
-                  </div>
-                  <div className="text-xs text-muted-foreground/50 mt-2 italic">
-                    <a
-                      href="https://www.nejm.org/doi/full/10.1056/NEJMra1905136?utm_source=chatgpt.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Source: NEJM (2019)
-                    </a>
-                  </div>
-                </>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
       </section>
 
-      {/* Features Section */}
       <section id="features" className="relative py-18 px-4 bg-background">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.svg
-            className="absolute top-10 right-10 w-40 h-40 text-[#81C784]/8"
-            viewBox="0 0 100 100"
-            initial={{ opacity: 0, rotate: -45 }}
-            whileInView={{ opacity: 1, rotate: 0 }}
-            transition={{ duration: 3 }}
-            viewport={{ once: true }}
-          >
-            <motion.path
-              d="M10,50 Q30,10 50,50 Q70,90 90,50"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-              animate={{
-                d: [
-                  "M10,50 Q30,10 50,50 Q70,90 90,50",
-                  "M10,50 Q30,20 50,50 Q70,80 90,50",
-                  "M10,50 Q30,10 50,50 Q70,90 90,50",
-                ],
-              }}
-              transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-            />
-          </motion.svg>
-        </div>
-
         <div className="max-w-7xl mx-auto">
           <motion.div
-            className="text-center mb-20"
+            className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 font-heading text-foreground">
-              Everything You Need to
-              <span className="text-primary"> Biohack</span>
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading text-foreground">Core Features</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive tools and insights to optimize your health, performance, and longevity
+              Comprehensive tools for your wellness tracking journey
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                >
-                  <GlassCard
-                    variant="strong"
-                    className="p-8 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-3xl"
-                    hover
-                  >
-                    <Link href={feature.href} className="block">
-                      <div className="flex items-center mb-6">
-                        <motion.div
-                          className="p-4 rounded-2xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
-                          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                        >
-                          <Icon className={`h-7 w-7 ${feature.color}`} />
-                        </motion.div>
-                        <h3 className="text-2xl font-semibold font-heading">{feature.title}</h3>
-                      </div>
-                      <p className="text-muted-foreground leading-relaxed mb-6 text-lg">{feature.description}</p>
-                      <motion.div className="flex items-center text-primary group-hover:translate-x-3 transition-transform duration-300">
-                        <span className="text-sm font-medium">Learn more</span>
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </motion.div>
-                    </Link>
-                  </GlassCard>
-                </motion.div>
-              )
-            })}
+          <div className="relative">
+            <button
+              onClick={scrollLeft}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-start bg-gradient-to-r from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
+              aria-label="Scroll left"
+            >
+              <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center ml-4 transition-all duration-300 hover:scale-110">
+                <ArrowRight className="h-5 w-5 text-foreground rotate-180" />
+              </div>
+            </button>
+
+            <button
+              onClick={scrollRight}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-end bg-gradient-to-l from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
+              aria-label="Scroll right"
+            >
+              <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center mr-4 transition-all duration-300 hover:scale-110">
+                <ArrowRight className="h-5 w-5 text-foreground" />
+              </div>
+            </button>
+
+            <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+
+            <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 scrollbar-hide">
+              <div className="flex gap-6 pl-24 pr-24 w-max">
+                {features.map((feature, index) => {
+                  const Icon = feature.icon
+                  return (
+                    <motion.div
+                      key={feature.title}
+                      className="flex-shrink-0 w-80"
+                      initial={{ opacity: 0, x: 50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                    >
+                      <GlassCard
+                        variant="strong"
+                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105"
+                        hover
+                      >
+                        <Link href={feature.href} className="block">
+                          {feature.isPremium && (
+                            <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
+                              Premium
+                            </div>
+                          )}
+
+                          <div className="flex items-center mb-4">
+                            <motion.div
+                              className="p-3 rounded-xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
+                              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                            >
+                              <Icon className={`h-6 w-6 ${feature.color}`} />
+                            </motion.div>
+                            <h3 className="text-xl font-semibold font-heading">{feature.title}</h3>
+                          </div>
+                          <p className="text-muted-foreground leading-relaxed mb-4">{feature.description}</p>
+                          <motion.div className="flex items-center text-primary group-hover:translate-x-2 transition-transform duration-300">
+                            <span className="text-sm font-medium">{feature.cta}</span>
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </motion.div>
+                        </Link>
+                      </GlassCard>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="text-center mt-4">
+              <p className="text-sm text-muted-foreground">← Scroll to see all features →</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      <section className="py-24 px-4 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading text-foreground">Trusted Data Insights</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Population statistics from reputable health organizations
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {trustedStats.map((stat, index) => (
+              <AnimatedCounter
+                key={index}
+                number={stat.number}
+                label={stat.label}
+                source={stat.source}
+                sourceUrl={stat.sourceUrl}
+              />
+            ))}
+          </div>
+
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 text-sm text-muted-foreground bg-muted/30 px-4 py-2 rounded-full">
+              <Info className="h-4 w-4" />
+              External sources provide general population data and may not apply to you.
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-24 px-4 bg-background">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
@@ -500,51 +572,65 @@ export default function HomePage() {
           >
             <GlassCard
               variant="strong"
-              className="p-16 rounded-3xl bg-gradient-to-br from-primary/5 via-accent/3 to-primary/8 shadow-2xl"
+              className="p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-primary/15 shadow-2xl"
               animate
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-8 font-heading">Ready to Transform Your Health?</h2>
-              <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-                Join thousands of biohackers who are already optimizing their performance with science-backed insights
-                and personalized recommendations.
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading">Start tracking your wellness journey</h2>
+              <p className="text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+                Access educational tools and structured information to support your personal wellness tracking.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8">
                 <LiquidButton
                   size="lg"
                   className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30"
                   asChild
                 >
                   <Link href="/biorhythms">
-                    Start Free Today
+                    Start Free
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </LiquidButton>
 
                 <LiquidButton variant="outline" size="lg" asChild>
-                  <Link href="/supplements">Browse Supplements</Link>
+                  <Link href="/supplements">Browse Database</Link>
                 </LiquidButton>
               </div>
 
-              <div className="mt-10 text-sm text-muted-foreground">
+              <div className="text-sm text-muted-foreground">
                 <p>No credit card required • Free biorhythms calculator • Premium features available</p>
               </div>
             </GlassCard>
           </motion.div>
+
+          <div className="text-center border-t border-border/30 pt-12">
+            <div className="flex flex-wrap justify-center gap-8 mb-8">
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                About
+              </Link>
+              <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
+                Privacy & Data Use
+              </Link>
+              <Link href="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                Support
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Medical Disclaimer */}
-      <section className="py-12 px-4 border-t border-border/30 bg-background">
+      <section className="py-12 px-4 border-t border-border/30 bg-muted/20">
         <div className="max-w-5xl mx-auto">
           <GlassCard variant="subtle" className="p-8 rounded-2xl">
             <div className="flex items-start gap-4">
               <Shield className="h-6 w-6 text-muted-foreground mt-1 flex-shrink-0" />
               <div className="text-sm text-muted-foreground leading-relaxed">
-                <strong className="text-foreground">Medical Disclaimer:</strong> This application is for educational and
-                informational purposes only. It is not intended to diagnose, treat, cure, or prevent any disease. Always
-                consult with a qualified healthcare professional before making any changes to your health regimen or
-                supplement routine.
+                <strong className="text-foreground">Safety notice:</strong> Dietary supplements are not a substitute for
+                professional care. They may interact with medications and aren't evaluated by the FDA for treating
+                diseases. Speak with a licensed clinician before use.
               </div>
             </div>
           </GlassCard>
