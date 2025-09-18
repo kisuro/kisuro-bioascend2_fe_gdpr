@@ -143,26 +143,18 @@ export function Navigation() {
                   transition={{ duration: 0.3, delay: (navigation.length + 1) * 0.1 }}
                 >
                   <Link
-                    href="/privacy-policy"
+                    href="/profile"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full",
+                      "hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105",
+                      pathname === "/profile"
+                        ? "bg-gradient-to-r from-primary/20 to-accent/20 text-primary shadow-lg"
+                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                    )}
                   >
-                    <Shield className="w-5 h-5" />
-                    <span>Privacy Policy</span>
-                  </Link>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: (navigation.length + 2) * 0.1 }}
-                >
-                  <Link
-                    href="/terms-of-service"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 w-full hover:bg-white/10 hover:backdrop-blur-lg hover:scale-105 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                  >
-                    <FileText className="w-5 h-5" />
-                    <span>Terms of Service</span>
+                    <User className="w-5 h-5" />
+                    <span>Profile</span>
                   </Link>
                 </motion.div>
               </div>
