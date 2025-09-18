@@ -347,8 +347,8 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          <div className="overflow-x-auto pb-8">
-            <div className="flex gap-6 w-max px-4">
+          <div className="overflow-x-auto pb-8 -mx-4">
+            <div className="flex gap-6 px-4" style={{ width: "max-content", minWidth: "100%" }}>
               {features.map((feature, index) => {
                 const Icon = feature.icon
                 return (
@@ -359,16 +359,15 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    whileHover={{ y: -8, transition: { duration: 0.2 } }}
                   >
                     <GlassCard
                       variant="strong"
-                      className="p-6 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:z-10"
+                      className="p-6 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105 hover:-translate-y-2"
                       hover
                     >
                       <Link href={feature.href} className="block">
                         {feature.isPremium && (
-                          <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-20">
+                          <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
                             Premium
                           </div>
                         )}
