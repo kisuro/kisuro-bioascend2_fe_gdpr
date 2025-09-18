@@ -347,9 +347,8 @@ export default function HomePage() {
             </p>
           </motion.div>
 
-          {/* Horizontal scrollable feature cards */}
-          <div className="overflow-x-auto pb-6">
-            <div className="flex gap-6 min-w-max px-4">
+          <div className="overflow-x-auto pb-8">
+            <div className="flex gap-6 w-max px-4">
               {features.map((feature, index) => {
                 const Icon = feature.icon
                 return (
@@ -364,12 +363,12 @@ export default function HomePage() {
                   >
                     <GlassCard
                       variant="strong"
-                      className="p-6 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative"
+                      className="p-6 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:z-10"
                       hover
                     >
                       <Link href={feature.href} className="block">
                         {feature.isPremium && (
-                          <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90">
+                          <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-20">
                             Premium
                           </div>
                         )}
@@ -437,41 +436,6 @@ export default function HomePage() {
       <section className="py-24 px-4 bg-background">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 font-heading text-foreground">How We Use Sources</h2>
-            <p className="text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-              Our database summarizes publicly available research and reputable health statistics. We indicate evidence
-              levels where applicable, and separate user opinions from reference content.
-            </p>
-
-            <GlassCard variant="strong" className="p-8 rounded-2xl text-left max-w-3xl mx-auto">
-              <ul className="space-y-4 text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-                  <span>Informational only — not medical advice.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-                  <span>No disease claims. Individual responses vary.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-                  <span>Consult a qualified professional before using any supplement.</span>
-                </li>
-              </ul>
-            </GlassCard>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="py-24 px-4 bg-background">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
