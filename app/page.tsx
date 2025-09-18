@@ -361,30 +361,31 @@ export default function HomePage() {
           </motion.div>
 
           <div className="relative">
-            {/* Left scroll indicator */}
             <button
               onClick={scrollLeft}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-r from-background via-background/80 to-transparent w-16 h-full flex items-center hover:from-background/95 transition-colors"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-start bg-gradient-to-r from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
               aria-label="Scroll left"
             >
-              <div className="w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/30 flex items-center justify-center ml-2 transition-colors">
-                <ArrowRight className="h-4 w-4 text-primary rotate-180" />
+              <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center ml-4 transition-all duration-300 hover:scale-110">
+                <ArrowRight className="h-5 w-5 text-foreground rotate-180" />
               </div>
             </button>
 
-            {/* Right scroll indicator */}
             <button
               onClick={scrollRight}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-l from-background via-background/80 to-transparent w-16 h-full flex items-center justify-end hover:from-background/95 transition-colors"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-end bg-gradient-to-l from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
               aria-label="Scroll right"
             >
-              <div className="w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/30 flex items-center justify-center mr-2 transition-colors">
-                <ArrowRight className="h-4 w-4 text-primary" />
+              <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center mr-4 transition-all duration-300 hover:scale-110">
+                <ArrowRight className="h-5 w-5 text-foreground" />
               </div>
             </button>
 
-            <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 -mx-4 scrollbar-hide">
-              <div className="flex gap-6 px-4 w-max">
+            <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+
+            <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 scrollbar-hide">
+              <div className="flex gap-6 pl-24 pr-24 w-max">
                 {features.map((feature, index) => {
                   const Icon = feature.icon
                   return (
@@ -398,7 +399,7 @@ export default function HomePage() {
                     >
                       <GlassCard
                         variant="strong"
-                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative mx-2 hover:scale-105"
+                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105"
                         hover
                       >
                         <Link href={feature.href} className="block">
