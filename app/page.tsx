@@ -101,17 +101,16 @@ const AnimatedCounter = ({
   sourceUrl: string
 }) => {
   const ref = React.useRef(null)
-  const isInView = useInView(ref, { once: true })
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [displayNumber, setDisplayNumber] = React.useState("0")
 
   React.useEffect(() => {
     if (isInView) {
-      // Extract numeric value for animation
       const numericValue = Number.parseFloat(number.replace(/[^\d.]/g, ""))
       const suffix = number.replace(/[\d.]/g, "")
 
       let start = 0
-      const duration = 2000
+      const duration = 2500
       const increment = numericValue / (duration / 16)
 
       const timer = setInterval(() => {
@@ -120,7 +119,8 @@ const AnimatedCounter = ({
           setDisplayNumber(number)
           clearInterval(timer)
         } else {
-          setDisplayNumber(Math.floor(start) + suffix)
+          const currentValue = Math.floor(start * 10) / 10
+          setDisplayNumber(currentValue + suffix)
         }
       }, 16)
 
@@ -131,10 +131,11 @@ const AnimatedCounter = ({
   return (
     <motion.div
       ref={ref}
-      className="text-center p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20"
+      className="text-center p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 hover:border-white/30 transition-all duration-300"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      whileHover={{ scale: 1.02, y: -5 }}
     >
       <div className="text-4xl md:text-5xl font-bold text-primary mb-3">{displayNumber}</div>
       <div className="text-sm text-muted-foreground mb-3 leading-relaxed">{label}</div>
@@ -160,7 +161,6 @@ const BiorhythmBackground = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}
     >
-      {/* Bio-inspired hexagonal cell pattern */}
       <motion.svg
         className="absolute top-10 right-20 w-40 h-40 text-primary/10"
         viewBox="0 0 100 100"
@@ -178,7 +178,6 @@ const BiorhythmBackground = () => {
         />
       </motion.svg>
 
-      {/* Neuron-like branching lines */}
       <motion.svg
         className="absolute bottom-20 left-10 w-32 h-32 text-accent/8"
         viewBox="0 0 100 100"
@@ -202,13 +201,112 @@ const BiorhythmBackground = () => {
   )
 }
 
+const AnimatedBackground = () => {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          background: [
+            "linear-gradient(45deg, hsl(220 14% 4%), hsl(220 14% 4% / 0.95), hsl(180 100% 50% / 0.08))",
+            "linear-gradient(90deg, hsl(220 14% 4% / 0.98), hsl(240 100% 50% / 0.06), hsl(180 100% 50% / 0.04))",
+            "linear-gradient(135deg, hsl(180 100% 50% / 0.05), hsl(220 14% 4%), hsl(240 100% 50% / 0.08))",
+            "linear-gradient(180deg, hsl(240 100% 50% / 0.04), hsl(220 14% 4% / 0.96), hsl(180 100% 50% / 0.06))",
+            "linear-gradient(45deg, hsl(220 14% 4%), hsl(220 14% 4% / 0.95), hsl(180 100% 50% / 0.08))",
+          ],
+        }}
+        transition={{
+          duration: 35,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          times: [0, 0.25, 0.5, 0.75, 1],
+        }}
+      />
+
+      <motion.div
+        className="absolute top-20 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
+        style={{
+          background: "radial-gradient(circle, hsl(180 100% 50% / 0.3) 0%, transparent 70%)",
+        }}
+        animate={{
+          x: [0, 50, -30, 0],
+          y: [0, -40, 20, 0],
+          scale: [1, 1.1, 0.9, 1],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-32 right-1/3 w-80 h-80 rounded-full opacity-15 blur-3xl"
+        style={{
+          background: "radial-gradient(circle, hsl(240 100% 50% / 0.4) 0%, transparent 70%)",
+        }}
+        animate={{
+          x: [0, -60, 40, 0],
+          y: [0, 30, -50, 0],
+          scale: [1, 0.8, 1.2, 1],
+        }}
+        transition={{
+          duration: 30,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          delay: 5,
+        }}
+      />
+
+      <motion.div
+        className="absolute top-1/2 right-20 w-64 h-64 rounded-full opacity-10 blur-2xl"
+        style={{
+          background: "radial-gradient(circle, hsl(180 100% 50% / 0.5) 0%, transparent 60%)",
+        }}
+        animate={{
+          x: [0, 30, -20, 0],
+          y: [0, -25, 35, 0],
+          scale: [1, 1.3, 0.7, 1],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+          delay: 10,
+        }}
+      />
+
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, hsl(180 100% 50% / 0.02) 1px, transparent 1px),
+                           radial-gradient(circle at 75% 75%, hsl(240 100% 50% / 0.02) 1px, transparent 1px)`,
+          backgroundSize: "50px 50px, 80px 80px",
+        }}
+        animate={{
+          backgroundPosition: ["0% 0%, 0% 0%", "100% 100%, -100% -100%"],
+        }}
+        transition={{
+          duration: 60,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "linear",
+        }}
+      />
+    </div>
+  )
+}
+
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false)
 
   React.useEffect(() => {
     setIsClient(true)
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setPrefersReducedMotion(mediaQuery.matches)
+
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1500)
@@ -235,20 +333,10 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 pb-32 px-4">
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/20"
-            animate={{
-              background: [
-                "linear-gradient(45deg, hsl(var(--background)), hsl(var(--background)/0.95), hsl(var(--primary)/0.2))",
-                "linear-gradient(90deg, hsl(var(--background)/0.98), hsl(var(--primary)/0.15), hsl(var(--accent)/0.1))",
-                "linear-gradient(135deg, hsl(var(--primary)/0.1), hsl(var(--background)), hsl(var(--accent)/0.15))",
-                "linear-gradient(45deg, hsl(var(--background)), hsl(var(--background)/0.95), hsl(var(--primary)/0.2))",
-              ],
-            }}
-            transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          />
-        </div>
+        {!prefersReducedMotion && <AnimatedBackground />}
+        {prefersReducedMotion && (
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/10" />
+        )}
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
         <BiorhythmBackground />
@@ -321,7 +409,7 @@ export default function HomePage() {
               >
                 <LiquidButton
                   size="lg"
-                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300"
+                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 hover:ring-2 hover:ring-primary/50 transition-all duration-300"
                   asChild
                 >
                   <Link href="/biorhythms">
