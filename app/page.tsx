@@ -205,6 +205,7 @@ const BiorhythmBackground = () => {
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     setIsClient(true)
@@ -213,6 +214,18 @@ export default function HomePage() {
     }, 1500)
     return () => clearTimeout(timer)
   }, [])
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -320, behavior: "smooth" })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 320, behavior: "smooth" })
+    }
+  }
 
   if (!isClient || isLoading) {
     return <SupplementLoader isVisible={true} message="Loading BioAionics..." />
@@ -349,20 +362,28 @@ export default function HomePage() {
 
           <div className="relative">
             {/* Left scroll indicator */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-r from-background via-background/80 to-transparent w-16 h-full flex items-center pointer-events-none">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center ml-2">
+            <button
+              onClick={scrollLeft}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-r from-background via-background/80 to-transparent w-16 h-full flex items-center hover:from-background/95 transition-colors"
+              aria-label="Scroll left"
+            >
+              <div className="w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/30 flex items-center justify-center ml-2 transition-colors">
                 <ArrowRight className="h-4 w-4 text-primary rotate-180" />
               </div>
-            </div>
+            </button>
 
             {/* Right scroll indicator */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-l from-background via-background/80 to-transparent w-16 h-full flex items-center justify-end pointer-events-none">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+            <button
+              onClick={scrollRight}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gradient-to-l from-background via-background/80 to-transparent w-16 h-full flex items-center justify-end hover:from-background/95 transition-colors"
+              aria-label="Scroll right"
+            >
+              <div className="w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/30 flex items-center justify-center mr-2 transition-colors">
                 <ArrowRight className="h-4 w-4 text-primary" />
               </div>
-            </div>
+            </button>
 
-            <div className="overflow-x-auto pb-8 pt-4 -mx-4 scrollbar-hide">
+            <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 -mx-4 scrollbar-hide">
               <div className="flex gap-6 px-4 w-max">
                 {features.map((feature, index) => {
                   const Icon = feature.icon
@@ -377,7 +398,7 @@ export default function HomePage() {
                     >
                       <GlassCard
                         variant="strong"
-                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative"
+                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative mx-2 hover:scale-105"
                         hover
                       >
                         <Link href={feature.href} className="block">
