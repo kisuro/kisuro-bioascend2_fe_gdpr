@@ -107,16 +107,18 @@ export default function RegisterPage() {
               Log in
             </Link>
           </p>
-          <p className="text-xs text-muted-foreground text-center">
-            By creating an account, you agree to our{" "}
-            <Link href="/privacy-policy" className="text-primary hover:underline">
-              Privacy Policy
-            </Link>{" "}
-            and{" "}
-            <Link href="/terms-of-service" className="text-primary hover:underline">
-              Terms of Service
-            </Link>
-          </p>
+          <div className="flex flex-col items-center gap-1 text-xs text-muted-foreground text-center">
+            <span>By creating an account, you agree to our</span>
+            <div>
+              <Link href="/privacy-policy" className="text-primary hover:underline">
+                Privacy Policy
+              </Link>
+              <span className="mx-1">and</span>
+              <Link href="/terms-of-service" className="text-primary hover:underline">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
         </div>
       </GlassCard>
     </div>

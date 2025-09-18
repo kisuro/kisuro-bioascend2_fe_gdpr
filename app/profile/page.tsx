@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 import type React from "react"
 
+import { LoginCard } from "@/components/auth/login-card"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
@@ -17,7 +18,6 @@ import {
   useUser,
   logoutUser,
   updateProfile,
-  loginUser,
   requestEmailVerification,
   deleteAccount,
   buildAuthHeaders,
@@ -58,10 +58,6 @@ export default function ProfilePage() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true) // added loading state
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [loginEmail, setLoginEmail] = useState("")
-  const [loginPassword, setLoginPassword] = useState("")
-  const [loginError, setLoginError] = useState<string | null>(null)
-  const [loginPending, setLoginPending] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [deletePending, setDeletePending] = useState(false)
   const [passwordPending, setPasswordPending] = useState(false)
@@ -226,44 +222,11 @@ export default function ProfilePage() {
 
   // If user is not authenticated, show inline login form
   if (authUser.status === "guest") {
-    const onLoginSubmit = async (e: React.FormEvent) => {
-      e.preventDefault()
-      setLoginError(null)
-      setLoginPending(true)
-      try {
-        await loginUser(loginEmail, loginPassword)
-        window.location.href = "/profile"
-      } catch (err: any) {
-        setLoginError(err?.message || "Login failed")
-      } finally {
-        setLoginPending(false)
-      }
-    }
-
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 pt-24 relative">
         <ProfileBackground />
         <div className="max-w-md mx-auto relative z-10">
-          <GlassCard className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Log in to your account</h1>
-            <form onSubmit={onLoginSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="login_email">Email</Label>
-                <Input id="login_email" type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="login_password">Password</Label>
-                <Input id="login_password" type="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
-              </div>
-              {loginError && <div className="text-sm text-red-500">{loginError}</div>}
-              <LiquidButton type="submit" className="w-full" disabled={loginPending}>
-                {loginPending ? "Signing in..." : "Log In"}
-              </LiquidButton>
-            </form>
-            <p className="text-sm text-muted-foreground mt-4">
-              Don’t have an account? <a className="underline" href="/auth/register">Sign up</a>
-            </p>
-          </GlassCard>
+          <LoginCard onSuccess={() => { window.location.href = "/profile" }} className="w-full" />
         </div>
       </div>
     )
