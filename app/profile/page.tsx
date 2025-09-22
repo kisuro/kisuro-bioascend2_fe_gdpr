@@ -36,6 +36,7 @@ const mockUser = {
   subscription: "Premium",
   avatar: "/professional-headshot.png",
   bio: "Passionate biohacker focused on optimizing health through data-driven approaches.",
+  dateOfBirth: null as Date | null,
   preferences: {
     emailNotifications: true,
     pushNotifications: false,
@@ -87,6 +88,7 @@ export default function ProfilePage() {
         name: authUser.name || mockUser.name,
         email: authUser.email || mockUser.email,
         avatar: authUser.avatar_url || mockUser.avatar,
+        dateOfBirth: authUser.date_of_birth ? new Date(authUser.date_of_birth) : mockUser.dateOfBirth,
       }
       setUser(updatedUser)
       setOriginalUser(updatedUser) // Store the original state
@@ -102,7 +104,16 @@ export default function ProfilePage() {
   const handleSave = async () => {
     setSavePending(true)
     try {
-      await updateProfile({ name: user.name, email: user.email, avatar_url: user.avatar, ...(user.bio ? { bio: user.bio } : {}) })
+      const payload: any = { 
+        name: user.name, 
+        email: user.email, 
+        avatar_url: user.avatar,
+        ...(user.bio ? { bio: user.bio } : {})
+      }
+      if (user.dateOfBirth) {
+        payload.date_of_birth = user.dateOfBirth.toISOString().split('T')[0] // Format as YYYY-MM-DD
+      }
+      await updateProfile(payload)
       setOriginalUser(user) // Update original state to current after successful save
       setIsEditing(false)
       setAvatarPreview(null)
@@ -364,13 +375,13 @@ export default function ProfilePage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="dateOfBirth">Date of Birth</Label>
                   <Input
-                    id="email"
-                    type="email"
-                    value={user.email}
+                    id="dateOfBirth"
+                    type="date"
+                    value={user.dateOfBirth ? user.dateOfBirth.toISOString().split('T')[0] : ''}
                     disabled={!isEditing}
-                    onChange={(e) => setUser({ ...user, email: e.target.value })}
+                    onChange={(e) => setUser({ ...user, dateOfBirth: e.target.value ? new Date(e.target.value) : null })}
                   />
                 </div>
               </div>

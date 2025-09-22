@@ -12,6 +12,7 @@ interface User {
   created_at?: string
   avatar_url?: string
   bio?: string
+  date_of_birth?: string
   stats?: Record<string, number>
   is_email_verified?: boolean
   isLoading?: boolean
@@ -77,6 +78,7 @@ export function useUser(): User {
               created_at: data.created_at,
               avatar_url: data.avatar_url,
               bio: data.bio,
+              date_of_birth: data.date_of_birth,
               stats: data.stats,
               is_email_verified: data.is_email_verified,
               isLoading: false,
@@ -135,7 +137,7 @@ export async function logoutUser() {
   clearToken()
 }
 
-export async function updateProfile(payload: { name?: string; email?: string; avatar_url?: string }) {
+export async function updateProfile(payload: { name?: string; email?: string; avatar_url?: string; date_of_birth?: string }) {
   const headers = buildAuthHeaders({ "Content-Type": "application/json" })
   const res = await fetch(`${API_BASE}/auth/profile`, {
     method: "PATCH",
