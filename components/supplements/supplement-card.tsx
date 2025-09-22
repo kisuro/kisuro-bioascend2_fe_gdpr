@@ -135,16 +135,16 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   return (
     <GlassCard className="p-6 h-full hover:scale-[1.02] transition-all duration-300 flex flex-col group" hover>
       <div className="flex items-center justify-center mb-6">
-        <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm border border-white/30 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-all duration-500">
-          <CategoryIcon className="h-12 w-12 text-cyan-400 group-hover:text-cyan-300 transition-all duration-300 drop-shadow-lg" />
+        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm border border-white/30 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-all duration-500">
+          <CategoryIcon className="h-8 w-8 text-cyan-400 group-hover:text-cyan-300 transition-all duration-300 drop-shadow-lg" />
 
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-pink-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100" />
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100" />
 
           <Sparkles className="absolute -top-2 -right-2 h-4 w-4 text-cyan-400 opacity-0 group-hover:opacity-100 transition-all duration-300 animate-pulse" />
           <Sparkles className="absolute -bottom-1 -left-1 h-3 w-3 text-blue-400 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200 animate-pulse" />
 
-          <div className="absolute inset-0 rounded-3xl shadow-inner opacity-50" />
+          <div className="absolute inset-0 rounded-2xl shadow-inner opacity-50" />
         </div>
       </div>
 
