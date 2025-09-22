@@ -10,7 +10,7 @@ import { AudioCategories } from "@/components/mind/audio-categories"
 import { Brain, Music, Headphones, List, Crown } from "lucide-react"
 import type { AudioTrack } from "@/lib/data/audio"
 import { MindBackground } from "@/components/ui/page-backgrounds"
-import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate"
 import { useUser } from "@/lib/hooks/use-user"
 
@@ -43,7 +43,7 @@ export default function MindPage() {
   }
 
   if (isLoading) {
-    return <SupplementLoader />
+    return <AppLoader isVisible={true} message="Loading audio content..." />
   }
 
   if (!isPremium) {

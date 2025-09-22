@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
 import type React from "react"
+import { motion } from "framer-motion"
 
 import { LoginCard } from "@/components/auth/login-card"
 import { GlassCard } from "@/components/ui/glass-card"
@@ -13,7 +14,7 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload, Trash2 } from "lucide-react"
 import { ProfileBackground } from "@/components/ui/page-backgrounds"
-import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { AppLoader, InlineLoader } from "@/components/ui/app-loader"
 import {
   useUser,
   logoutUser,
@@ -58,7 +59,7 @@ export default function ProfilePage() {
   const [originalUser, setOriginalUser] = useState(mockUser) // Store original state for cancel
   const [imageError, setImageError] = useState(false)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true) // added loading state
+  const [isLoading, setIsLoading] = useState(false) // removed artificial delay
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [deletePending, setDeletePending] = useState(false)
@@ -73,12 +74,7 @@ export default function ProfilePage() {
 
   const { toast } = useToast()
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1400)
-    return () => clearTimeout(timer)
-  }, [])
+  // Removed artificial delay - profile loads naturally with auth
 
   // Sync auth user data into editable state (also override mock avatar)
   useEffect(() => {
@@ -239,7 +235,7 @@ export default function ProfilePage() {
   }
 
   if (authUser.isLoading) {
-    return <SupplementLoader isVisible={true} message="Loading your profile..." />
+    return <AppLoader isVisible={true} message="Authenticating..." />
   }
 
   // If user is not authenticated, show inline login form
@@ -257,7 +253,6 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 pt-24 relative">
       <ProfileBackground />
-      <SupplementLoader isVisible={savePending} message="Save changes" />
 
       <div className="max-w-4xl mx-auto space-y-6 relative z-10">
         {/* Header */}
@@ -398,8 +393,21 @@ export default function ProfilePage() {
               {isEditing && (
                 <div className="flex justify-end">
                   <LiquidButton onClick={handleSave} disabled={savePending} className="gap-2">
-                    <Save className="w-4 h-4" />
-                    {savePending ? "Save changes" : "Save Changes"}
+                    {savePending ? (
+                      <>
+                        <motion.div
+                          className="w-4 h-4 border-2 border-primary-foreground/20 border-t-primary-foreground rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                        />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        Save Changes
+                      </>
+                    )}
                   </LiquidButton>
                 </div>
               )}

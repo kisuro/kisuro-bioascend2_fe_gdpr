@@ -8,7 +8,7 @@ import { BiorhythmChart } from "@/components/biorhythms/biorhythm-chart"
 import { BiorhythmSummary } from "@/components/biorhythms/biorhythm-summary"
 import { Calendar, TrendingUp } from "lucide-react"
 import { BiorhythmsBackground } from "@/components/ui/page-backgrounds"
-import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { AppLoader } from "@/components/ui/app-loader"
 
 interface BiorhythmData {
   date: string
@@ -204,7 +204,7 @@ export default function BiorhythmsPage() {
   }
 
   if (isLoading) {
-    return <SupplementLoader /> // show loader during initial load
+    return <AppLoader isVisible={true} message="Calculating biorhythms..." />
   }
 
   return (

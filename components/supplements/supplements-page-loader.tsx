@@ -1,7 +1,7 @@
 "use client"
 
-import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { AppLoader } from "@/components/ui/app-loader"
 
-export function SupplementsPageLoader() {
-  return <SupplementLoader isVisible={true} message="Loading supplements database..." />
+export default function SupplementsPageLoader() {
+  return <AppLoader isVisible={true} message="Loading supplements database..." />
 }

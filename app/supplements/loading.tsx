@@ -1,5 +1,5 @@
-import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { AppLoader } from "@/components/ui/app-loader"
 
 export default function Loading() {
-  return <SupplementLoader isVisible={true} message="Loading supplements database..." />
+  return <AppLoader isVisible={true} message="Loading supplements database..." />
 }

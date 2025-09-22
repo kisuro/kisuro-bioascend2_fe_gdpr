@@ -10,7 +10,7 @@ import { ReminderManager } from "@/components/journal/reminder-manager"
 import { JournalHistory } from "@/components/journal/journal-history"
 import { BookOpen, Plus, Bell, History, Shield } from "lucide-react"
 import { JournalBackground } from "@/components/ui/page-backgrounds"
-import { SupplementLoader } from "@/components/ui/supplement-loader" // imported loader component
+import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate" // imported premium gate component
 import { useUser } from "@/lib/hooks/use-user" // imported user hook
 
@@ -28,7 +28,7 @@ export default function JournalPage() {
   }, [])
 
   if (isLoading) {
-    return <SupplementLoader />
+    return <AppLoader isVisible={true} message="Loading journal entries..." />
   }
 
   if (!isPremium) {

@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import { Send, Bot, User, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate"
 import { useUser } from "@/lib/hooks/use-user"
 
@@ -94,7 +94,7 @@ export default function AssistantPage() {
   }
 
   if (isLoading) {
-    return <SupplementLoader />
+    return <AppLoader isVisible={true} message="Loading AI assistant..." />
   }
 
   if (!isPremium) {

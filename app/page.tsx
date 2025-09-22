@@ -6,7 +6,6 @@ import { motion, useInView } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, ExternalLink, Info } from "lucide-react"
-import { SupplementLoader } from "@/components/ui/supplement-loader"
 
 const features = [
   {
@@ -298,7 +297,6 @@ const AnimatedBackground = () => {
 
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(true)
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false)
 
@@ -306,11 +304,6 @@ export default function HomePage() {
     setIsClient(true)
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
     setPrefersReducedMotion(mediaQuery.matches)
-
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1500)
-    return () => clearTimeout(timer)
   }, [])
 
   const scrollLeft = () => {
@@ -325,8 +318,8 @@ export default function HomePage() {
     }
   }
 
-  if (!isClient || isLoading) {
-    return <SupplementLoader isVisible={true} message="Loading BioAionics..." />
+  if (!isClient) {
+    return null // Show nothing until client-side hydration
   }
 
   return (

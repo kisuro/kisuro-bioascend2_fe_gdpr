@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import { SupplementsClient } from "@/components/supplements/supplements-client"
-import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { AppLoader } from "@/components/ui/app-loader"
 
 const API = process.env.NEXT_PUBLIC_API_URL
 
@@ -134,7 +134,7 @@ async function fetchFromSeed(): Promise<SupplementItem[]> {
 
     return (suppsRaw as any[]).map((s) => {
       const slug = s.id ?? s.slug
-      const reviewsForSlug: any[] = reviewsBySlug?.[slug]?.items ?? []
+      const reviewsForSlug: any[] = (reviewsBySlug as any)?.[slug]?.items ?? []
       return {
         ...s,
         id: slug,
@@ -169,7 +169,7 @@ export default async function SupplementsPage() {
   if (!Array.isArray(supplements)) supplements = []
 
   return (
-    <Suspense fallback={<SupplementLoader isVisible={true} message="Loading supplements..." />}>
+    <Suspense fallback={<AppLoader isVisible={true} message="Loading supplements..." />}>
       <SupplementsClient supplements={supplements} />
     </Suspense>
   )

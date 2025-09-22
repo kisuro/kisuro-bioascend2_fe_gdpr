@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { SupplementCard } from "@/components/supplements/supplement-card"
 import { SupplementFilters } from "@/components/supplements/supplement-filters"
 import { AlphabetFilter } from "@/components/supplements/alphabet-filter"
-import { SupplementLoader } from "@/components/ui/supplement-loader"
+import { AppLoader } from "@/components/ui/app-loader"
 import { Search, Filter, Grid, List, Lock, Sparkles, Plus } from "lucide-react"
 import { SupplementsBackground } from "@/components/ui/page-backgrounds"
 
@@ -533,7 +533,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
 
   return (
     <>
-      <SupplementLoader isVisible={isInitialLoading} message="Loading supplements database..." />
+      <AppLoader isVisible={isInitialLoading} message="Loading supplements database..." />
 
       <div className="min-h-screen py-8 px-4 relative">
         <SupplementsBackground />
