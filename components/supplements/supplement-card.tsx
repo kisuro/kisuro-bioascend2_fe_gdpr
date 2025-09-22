@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
-import { Star, Zap, Eye, Clock, Shield, Brain, Leaf, Pill, FlaskRoundIcon as Flask, Heart } from "lucide-react"
+import { Star, Zap, Eye, Clock, Shield, Brain, Leaf, Pill, Flag as Flask, Heart } from "lucide-react"
 
 interface Supplement {
   id: string
@@ -28,18 +28,18 @@ interface SupplementCardProps {
   viewMode: "grid" | "list"
 }
 
-type Rating = number | { avg: number | null; count: number } | null;
+type Rating = number | { avg: number | null; count: number } | null
 
 function getRatingValue(r: Rating): number | null {
-  if (typeof r === "number") return r;
-  if (r && typeof r === "object") return r.avg ?? null;
-  return null;
+  if (typeof r === "number") return r
+  if (r && typeof r === "object") return r.avg ?? null
+  return null
 }
 
 function getRatingCount(r: Rating, fallback?: number): number {
-  if (typeof r === "number") return fallback ?? 0;
-  if (r && typeof r === "object") return r.count ?? (fallback ?? 0);
-  return fallback ?? 0;
+  if (typeof r === "number") return fallback ?? 0
+  if (r && typeof r === "object") return r.count ?? fallback ?? 0
+  return fallback ?? 0
 }
 
 export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
@@ -47,9 +47,9 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   const [imageError, setImageError] = useState(false)
   const router = useRouter()
 
-  const ratingValue = getRatingValue(supplement.rating as Rating);
-  const ratingCount = getRatingCount(supplement.rating as Rating, supplement.reviews_count);
-  const hasRating = ratingValue !== null && ratingCount > 0;
+  const ratingValue = getRatingValue(supplement.rating as Rating)
+  const ratingCount = getRatingCount(supplement.rating as Rating, supplement.reviews_count)
+  const hasRating = ratingValue !== null && ratingCount > 0
 
   const handleGoalClick = (goal: string) => {
     router.push(`/supplements?goals=${encodeURIComponent(goal)}`)
@@ -74,30 +74,31 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   }
 
   const firstCategory =
-    Array.isArray(supplement.categories) && supplement.categories.length > 0
-      ? supplement.categories[0]
-      : "other";
-  const CategoryIcon = getCategoryIcon(firstCategory);
+    Array.isArray(supplement.categories) && supplement.categories.length > 0 ? supplement.categories[0] : "other"
+  const CategoryIcon = getCategoryIcon(firstCategory)
 
   if (viewMode === "list") {
     return (
-      <GlassCard className="glass-morph p-4 hover:glass-strong transition-all duration-300" hover>
+      <GlassCard className="glass-liquid p-4 organic-hover transition-all duration-500" hover>
         <div className="flex items-center justify-between gap-4">
           {/* Left side - Main content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-3 mb-2">
               <h3 className="text-lg font-semibold font-heading leading-tight">{supplement.name}</h3>
               {/* Category badge - visible on desktop */}
-              <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1 flex-shrink-0 hidden sm:flex">
+              <Badge
+                variant="secondary"
+                className="text-xs capitalize flex items-center gap-1 flex-shrink-0 hidden sm:flex"
+              >
                 <CategoryIcon className="h-3 w-3" />
                 {firstCategory}
               </Badge>
             </div>
-            
+
             <p className="text-muted-foreground text-sm line-clamp-2 mb-2">
               {truncateDescription(supplement.summary, 120)}
             </p>
-            
+
             {/* Category badge - visible on mobile */}
             <Badge variant="secondary" className="text-xs capitalize flex items-center gap-1 w-fit sm:hidden mb-2">
               <CategoryIcon className="h-3 w-3" />
@@ -121,7 +122,10 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   }
 
   return (
-    <GlassCard className="glass-morph p-6 h-full hover:glass-strong transition-all duration-300 flex flex-col" hover>
+    <GlassCard
+      className="glass-liquid p-6 h-full organic-hover liquid-flow transition-all duration-500 flex flex-col"
+      hover
+    >
       <div className="flex items-center justify-center mb-4">
         <div className="relative w-16 h-16 rounded-xl overflow-hidden">
           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
@@ -152,9 +156,9 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
       <div className="mt-auto space-y-3">
         <div className="flex flex-wrap gap-1">
           {(supplement.goals ?? []).slice(0, 2).map((goal) => (
-            <Badge 
-              key={goal} 
-              variant="outline" 
+            <Badge
+              key={goal}
+              variant="outline"
               className="text-xs glass-subtle hover:glass-strong cursor-pointer transition-all duration-200"
               onClick={() => handleGoalClick(goal)}
             >

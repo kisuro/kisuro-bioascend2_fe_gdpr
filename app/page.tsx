@@ -356,7 +356,7 @@ export default function HomePage() {
                 className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-start bg-gradient-to-r from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
                 aria-label="Scroll left"
               >
-                <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center ml-4 transition-all duration-300 hover:scale-110">
+                <div className="w-10 h-10 rounded-full glass-liquid hover:glass-strong flex items-center justify-center ml-4 transition-all duration-500 hover:scale-110 organic-hover">
                   <ArrowRight className="h-5 w-5 text-foreground rotate-180" />
                 </div>
               </button>
@@ -366,7 +366,7 @@ export default function HomePage() {
                 className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-end bg-gradient-to-l from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
                 aria-label="Scroll right"
               >
-                <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center mr-4 transition-all duration-300 hover:scale-110">
+                <div className="w-10 h-10 rounded-full glass-liquid hover:glass-strong flex items-center justify-center mr-4 transition-all duration-500 hover:scale-110 organic-hover">
                   <ArrowRight className="h-5 w-5 text-foreground" />
                 </div>
               </button>
@@ -388,8 +388,8 @@ export default function HomePage() {
                         viewport={{ once: true }}
                       >
                         <GlassCard
-                          variant="strong"
-                          className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105"
+                          variant="liquid"
+                          className="p-6 h-full group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-3xl relative organic-hover liquid-flow"
                           hover
                         >
                           <Link href={feature.href} className="block">
@@ -440,8 +440,8 @@ export default function HomePage() {
                       viewport={{ once: true }}
                     >
                       <GlassCard
-                        variant="strong"
-                        className="p-4 h-full group transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer rounded-xl relative"
+                        variant="liquid"
+                        className="p-4 h-full group transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative organic-hover"
                         hover
                       >
                         <Link href={feature.href} className="block">
@@ -521,8 +521,8 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             <GlassCard
-              variant="strong"
-              className="p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-primary/15 shadow-2xl"
+              variant="liquid"
+              className="p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-primary/15 shadow-2xl organic-hover liquid-flow"
               animate
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">Start tracking your wellness journey</h2>
@@ -574,7 +574,7 @@ export default function HomePage() {
 
       <section className="py-12 px-4 border-t border-border/30 bg-muted/20">
         <div className="max-w-5xl mx-auto">
-          <GlassCard variant="subtle" className="p-8 rounded-2xl">
+          <GlassCard variant="liquid" className="p-8 rounded-2xl organic-hover">
             <div className="flex items-start gap-4">
               <Shield className="h-6 w-6 text-muted-foreground mt-1 flex-shrink-0" />
               <div className="text-sm text-muted-foreground leading-relaxed">

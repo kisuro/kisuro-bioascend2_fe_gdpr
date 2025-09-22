@@ -33,7 +33,7 @@ export function AudioTrackCard({ track, onPlay, isCurrentTrack, viewMode }: Audi
 
   if (viewMode === "list") {
     return (
-      <GlassCard className="glass-morph p-4 hover:glass-strong transition-all duration-300">
+      <GlassCard className="glass-liquid p-4 organic-hover transition-all duration-500">
         <div className="flex items-center gap-4">
           <div className="relative">
             <div className="w-16 h-16 rounded-lg glass-subtle flex items-center justify-center">
@@ -83,7 +83,7 @@ export function AudioTrackCard({ track, onPlay, isCurrentTrack, viewMode }: Audi
   }
 
   return (
-    <GlassCard className="glass-morph p-6 hover:glass-strong transition-all duration-300">
+    <GlassCard className="glass-liquid p-6 organic-hover liquid-flow transition-all duration-500">
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between">
