@@ -648,7 +648,7 @@ export default function HomePage() {
 
           <div className="text-center border-t border-border/30 pt-12">
             <div className="flex flex-wrap justify-center gap-8 mb-8">
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
               </Link>
               <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
