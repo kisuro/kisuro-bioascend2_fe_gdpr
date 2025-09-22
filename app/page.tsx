@@ -200,97 +200,10 @@ const BiorhythmBackground = () => {
   )
 }
 
-const AnimatedBackground = () => {
+const StaticBackground = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <motion.div
-        className="absolute inset-0"
-        animate={{
-          background: [
-            "linear-gradient(45deg, hsl(220 14% 4%), hsl(220 14% 4% / 0.95), hsl(180 100% 50% / 0.08))",
-            "linear-gradient(90deg, hsl(220 14% 4% / 0.98), hsl(240 100% 50% / 0.06), hsl(180 100% 50% / 0.04))",
-            "linear-gradient(135deg, hsl(180 100% 50% / 0.05), hsl(220 14% 4%), hsl(240 100% 50% / 0.08))",
-            "linear-gradient(180deg, hsl(240 100% 50% / 0.04), hsl(220 14% 4% / 0.96), hsl(180 100% 50% / 0.06))",
-            "linear-gradient(45deg, hsl(220 14% 4%), hsl(220 14% 4% / 0.95), hsl(180 100% 50% / 0.08))",
-          ],
-        }}
-        transition={{
-          duration: 35,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          times: [0, 0.25, 0.5, 0.75, 1],
-        }}
-      />
-
-      <motion.div
-        className="absolute top-20 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl"
-        style={{
-          background: "radial-gradient(circle, hsl(180 100% 50% / 0.3) 0%, transparent 70%)",
-        }}
-        animate={{
-          x: [0, 50, -30, 0],
-          y: [0, -40, 20, 0],
-          scale: [1, 1.1, 0.9, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
-
-      <motion.div
-        className="absolute bottom-32 right-1/3 w-80 h-80 rounded-full opacity-15 blur-3xl"
-        style={{
-          background: "radial-gradient(circle, hsl(240 100% 50% / 0.4) 0%, transparent 70%)",
-        }}
-        animate={{
-          x: [0, -60, 40, 0],
-          y: [0, 30, -50, 0],
-          scale: [1, 0.8, 1.2, 1],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 5,
-        }}
-      />
-
-      <motion.div
-        className="absolute top-1/2 right-20 w-64 h-64 rounded-full opacity-10 blur-2xl"
-        style={{
-          background: "radial-gradient(circle, hsl(180 100% 50% / 0.5) 0%, transparent 60%)",
-        }}
-        animate={{
-          x: [0, 30, -20, 0],
-          y: [0, -25, 35, 0],
-          scale: [1, 1.3, 0.7, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 10,
-        }}
-      />
-
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, hsl(180 100% 50% / 0.02) 1px, transparent 1px),
-                           radial-gradient(circle at 75% 75%, hsl(240 100% 50% / 0.02) 1px, transparent 1px)`,
-          backgroundSize: "50px 50px, 80px 80px",
-        }}
-        animate={{
-          backgroundPosition: ["0% 0%, 0% 0%", "100% 100%, -100% -100%"],
-        }}
-        transition={{
-          duration: 60,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "linear",
-        }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/10" />
     </div>
   )
 }
@@ -298,12 +211,9 @@ const AnimatedBackground = () => {
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
-  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false)
 
   React.useEffect(() => {
     setIsClient(true)
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
   }, [])
 
   const scrollLeft = () => {
@@ -326,10 +236,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-24 pb-32 px-4">
-        {!prefersReducedMotion && <AnimatedBackground />}
-        {prefersReducedMotion && (
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/10" />
-        )}
+        <StaticBackground />
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
         <BiorhythmBackground />
@@ -342,7 +249,7 @@ export default function HomePage() {
             className="text-center mb-20"
           >
             <motion.h1
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 font-heading text-foreground"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 font-heading text-foreground"
               initial={{ opacity: 0, y: 60, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
@@ -366,7 +273,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p
-              className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
+              className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -435,8 +342,8 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading text-foreground">Core Features</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading text-foreground">Core Features</h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               Comprehensive tools for your wellness tracking journey
             </p>
           </motion.div>
@@ -578,8 +485,8 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading text-foreground">Trusted Data Insights</h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading text-foreground">Trusted Data Insights</h2>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               Population statistics from reputable health organizations
             </p>
           </motion.div>
@@ -618,8 +525,8 @@ export default function HomePage() {
               className="p-12 rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-primary/15 shadow-2xl"
               animate
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading">Start tracking your wellness journey</h2>
-              <p className="text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">Start tracking your wellness journey</h2>
+              <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
                 Access educational tools and structured information to support your personal wellness tracking.
               </p>
 
