@@ -152,50 +152,90 @@ const AnimatedCounter = ({
   )
 }
 
-const BiorhythmBackground = () => {
+const WellnessBackground = () => {
   return (
     <motion.div
-      className="absolute inset-0 pointer-events-none"
+      className="absolute inset-0 pointer-events-none overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 2 }}
+      transition={{ duration: 3 }}
     >
-      <motion.svg
-        className="absolute top-10 right-20 w-40 h-40 text-primary/10"
-        viewBox="0 0 100 100"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 4, delay: 2 }}
+      {/* DNA Helix Animation */}
+      <motion.div
+        className="absolute top-20 right-10 w-32 h-32"
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 0.6, scale: 1 }}
+        transition={{ duration: 4, delay: 1 }}
       >
-        <motion.polygon
-          points="50,15 65,25 65,45 50,55 35,45 35,25"
-          stroke="currentColor"
-          strokeWidth="1"
-          fill="none"
-          animate={{ rotate: [0, 360] }}
-          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-        />
-      </motion.svg>
+        <motion.svg
+          className="w-full h-full text-primary/15"
+          viewBox="0 0 100 100"
+          animate={{ rotateY: [0, 360] }}
+          transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <motion.path
+            d="M20,20 Q50,40 80,20 Q50,60 20,80 Q50,60 80,80"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            animate={{
+              pathLength: [0, 1, 0],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+        </motion.svg>
+      </motion.div>
 
-      <motion.svg
-        className="absolute bottom-20 left-10 w-32 h-32 text-accent/8"
-        viewBox="0 0 100 100"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 3, delay: 2.5 }}
+      {/* Molecular Orbits */}
+      <motion.div
+        className="absolute bottom-32 left-16 w-40 h-40"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.4 }}
+        transition={{ duration: 3, delay: 2 }}
       >
-        <motion.path
-          d="M50,50 L30,30 M50,50 L70,30 M50,50 L30,70 M50,50 L70,70 M50,50 L50,20 M50,50 L50,80"
-          stroke="currentColor"
-          strokeWidth="1"
-          fill="none"
-          animate={{
-            pathLength: [0, 1, 0],
-            opacity: [0.3, 0.8, 0.3],
+        <motion.div
+          className="relative w-full h-full"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-accent/60 rounded-full -translate-x-1/2 -translate-y-1/2" />
+          <motion.div
+            className="absolute top-0 left-1/2 w-1 h-1 bg-primary/60 rounded-full -translate-x-1/2"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute bottom-0 left-1/2 w-1 h-1 bg-accent/60 rounded-full -translate-x-1/2"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* Floating Health Particles */}
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-primary/30 rounded-full"
+          style={{
+            left: `${20 + i * 15}%`,
+            top: `${30 + (i % 3) * 20}%`,
           }}
-          transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          animate={{
+            y: [-10, -30, -10],
+            x: [-5, 10, -5],
+            opacity: [0.3, 0.8, 0.3],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: 6 + i,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+            delay: i * 0.5,
+          }}
         />
-      </motion.svg>
+      ))}
     </motion.div>
   )
 }
@@ -239,7 +279,7 @@ export default function HomePage() {
         <StaticBackground />
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
-        <BiorhythmBackground />
+        <WellnessBackground />
 
         <div className="relative max-w-7xl mx-auto">
           <motion.div

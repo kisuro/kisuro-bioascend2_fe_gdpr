@@ -13,7 +13,7 @@ export interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
   ({ className, variant = "default", hover = false, animate = false, children, ...props }, ref) => {
     const variants = {
-      default: "bg-white/12 backdrop-blur-lg border border-white/25 shadow-xl dark:bg-white/6 dark:border-white/15",
+      default: "bg-white/20 backdrop-blur-xl border border-white/35 shadow-2xl dark:bg-white/12 dark:border-white/25",
       strong: "bg-white/20 backdrop-blur-xl border border-white/35 shadow-2xl dark:bg-white/12 dark:border-white/25",
       subtle: "bg-white/8 backdrop-blur-md border border-white/15 shadow-lg dark:bg-white/4 dark:border-white/8",
     }

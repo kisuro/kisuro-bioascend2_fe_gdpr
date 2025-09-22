@@ -1,6 +1,9 @@
+"use client"
+
 import { Suspense } from "react"
 import { SupplementsClient } from "@/components/supplements/supplements-client"
 import { AppLoader } from "@/components/ui/app-loader"
+import { motion } from "framer-motion"
 
 const API = process.env.NEXT_PUBLIC_API_URL
 
@@ -155,6 +158,82 @@ async function fetchFromSeed(): Promise<SupplementItem[]> {
   }
 }
 
+const SupplementBackground = () => {
+  return (
+    <motion.div
+      className="fixed inset-0 pointer-events-none overflow-hidden z-0"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 2 }}
+    >
+      {/* Molecular Structure Animation */}
+      <motion.div
+        className="absolute top-20 right-20 w-48 h-48"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.4, scale: 1 }}
+        transition={{ duration: 3, delay: 1 }}
+      >
+        <motion.svg
+          className="w-full h-full text-primary/10"
+          viewBox="0 0 100 100"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <circle cx="50" cy="50" r="2" fill="currentColor" />
+          <circle cx="30" cy="30" r="1.5" fill="currentColor" />
+          <circle cx="70" cy="30" r="1.5" fill="currentColor" />
+          <circle cx="30" cy="70" r="1.5" fill="currentColor" />
+          <circle cx="70" cy="70" r="1.5" fill="currentColor" />
+          <motion.line
+            x1="50"
+            y1="50"
+            x2="30"
+            y2="30"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            animate={{ pathLength: [0, 1, 0] }}
+            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.line
+            x1="50"
+            y1="50"
+            x2="70"
+            y2="30"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            animate={{ pathLength: [0, 1, 0] }}
+            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
+          />
+        </motion.svg>
+      </motion.div>
+
+      {/* Vitamin Particles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-accent/20 rounded-full"
+          style={{
+            left: `${10 + i * 12}%`,
+            top: `${20 + (i % 4) * 20}%`,
+          }}
+          animate={{
+            y: [-20, -40, -20],
+            x: [-10, 15, -10],
+            opacity: [0.2, 0.6, 0.2],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 8 + i,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+            delay: i * 0.3,
+          }}
+        />
+      ))}
+    </motion.div>
+  )
+}
+
 export default async function SupplementsPage() {
   let supplements: SupplementItem[] = []
   if (API) {
@@ -169,8 +248,13 @@ export default async function SupplementsPage() {
   if (!Array.isArray(supplements)) supplements = []
 
   return (
-    <Suspense fallback={<AppLoader isVisible={true} message="Loading supplements..." />}>
-      <SupplementsClient supplements={supplements} />
-    </Suspense>
+    <>
+      <SupplementBackground />
+      <div className="relative z-10">
+        <Suspense fallback={<AppLoader isVisible={true} message="Loading supplements..." />}>
+          <SupplementsClient supplements={supplements} />
+        </Suspense>
+      </div>
+    </>
   )
 }

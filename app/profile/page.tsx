@@ -12,9 +12,22 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Calendar, Settings, Bell, Shield, Activity, Crown, Edit3, Save, X, Camera, Upload, Trash2 } from "lucide-react"
-import { ProfileBackground } from "@/components/ui/page-backgrounds"
-import { AppLoader, InlineLoader } from "@/components/ui/app-loader"
+import {
+  Mail,
+  Calendar,
+  Settings,
+  Bell,
+  Shield,
+  Activity,
+  Crown,
+  Edit3,
+  Save,
+  X,
+  Camera,
+  Upload,
+  Trash2,
+} from "lucide-react"
+import { AppLoader } from "@/components/ui/app-loader"
 import {
   useUser,
   logoutUser,
@@ -27,7 +40,14 @@ import {
   triggerTwoFactorPlaceholder,
 } from "@/lib/hooks/use-user"
 import { useToast } from "@/hooks/use-toast"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 // Mock user data
 const mockUser = {
@@ -50,6 +70,124 @@ const mockUser = {
     meditationMinutes: 320,
     biorhythmChecks: 28,
   },
+}
+
+const ProfileBackground = () => {
+  return (
+    <motion.div
+      className="fixed inset-0 pointer-events-none overflow-hidden z-0"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 2 }}
+    >
+      {/* User Data Visualization */}
+      <motion.div
+        className="absolute top-32 right-16 w-56 h-56"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.3, scale: 1 }}
+        transition={{ duration: 4, delay: 1 }}
+      >
+        <motion.svg
+          className="w-full h-full text-primary/15"
+          viewBox="0 0 100 100"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          {/* Profile Data Rings */}
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="40"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 251, 0],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="30"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 188, 0],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
+          />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="20"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 126, 0],
+              opacity: [0.4, 0.9, 0.4],
+            }}
+            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+          />
+        </motion.svg>
+      </motion.div>
+
+      {/* Achievement Particles */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1.5 h-1.5 bg-accent/40 rounded-full"
+          style={{
+            left: `${15 + i * 7}%`,
+            top: `${25 + (i % 4) * 15}%`,
+          }}
+          animate={{
+            y: [-15, -35, -15],
+            x: [-8, 12, -8],
+            opacity: [0.2, 0.7, 0.2],
+            scale: [1, 1.8, 1],
+          }}
+          transition={{
+            duration: 7 + i * 0.5,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+            delay: i * 0.4,
+          }}
+        />
+      ))}
+
+      {/* Personal Growth Spiral */}
+      <motion.div
+        className="absolute bottom-24 left-20 w-44 h-44"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.25 }}
+        transition={{ duration: 3, delay: 2 }}
+      >
+        <motion.svg
+          className="w-full h-full text-accent/20"
+          viewBox="0 0 100 100"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 35, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <motion.path
+            d="M50,50 Q30,30 50,10 Q70,30 50,50 Q30,70 50,90 Q70,70 50,50"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            animate={{
+              pathLength: [0, 1, 0],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+        </motion.svg>
+      </motion.div>
+    </motion.div>
+  )
 }
 
 export default function ProfilePage() {
@@ -100,14 +238,14 @@ export default function ProfilePage() {
   const handleSave = async () => {
     setSavePending(true)
     try {
-      const payload: any = { 
-        name: user.name, 
-        email: user.email, 
+      const payload: any = {
+        name: user.name,
+        email: user.email,
         avatar_url: user.avatar,
-        ...(user.bio ? { bio: user.bio } : {})
+        ...(user.bio ? { bio: user.bio } : {}),
       }
       if (user.dateOfBirth) {
-        payload.date_of_birth = user.dateOfBirth.toISOString().split('T')[0] // Format as YYYY-MM-DD
+        payload.date_of_birth = user.dateOfBirth.toISOString().split("T")[0] // Format as YYYY-MM-DD
       }
       await updateProfile(payload)
       setOriginalUser(user) // Update original state to current after successful save
@@ -244,7 +382,12 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 pt-24 relative">
         <ProfileBackground />
         <div className="max-w-md mx-auto relative z-10">
-          <LoginCard onSuccess={() => { window.location.href = "/profile" }} className="w-full" />
+          <LoginCard
+            onSuccess={() => {
+              window.location.href = "/profile"
+            }}
+            className="w-full"
+          />
         </div>
       </div>
     )
@@ -262,7 +405,9 @@ export default function ProfilePage() {
               <div className="relative flex-shrink-0">
                 <div className={`relative ${isEditing ? "cursor-pointer group" : ""}`} onClick={handleAvatarClick}>
                   <img
-                    src={avatarPreview || (imageError ? "/placeholder-logo.svg" : user.avatar || "/placeholder-logo.svg")}
+                    src={
+                      avatarPreview || (imageError ? "/placeholder-logo.svg" : user.avatar || "/placeholder-logo.svg")
+                    }
                     alt="Profile"
                     className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-primary/20"
                     onError={handleImageError}
@@ -291,23 +436,37 @@ export default function ProfilePage() {
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                   <h1 className="text-xl sm:text-2xl font-bold truncate">{authUser.name ?? user.name}</h1>
                   <Badge variant="secondary" className="bg-primary/20 text-primary w-fit">
-                    {authUser.status ? authUser.status.charAt(0).toUpperCase() + authUser.status.slice(1) : user.subscription}
+                    {authUser.status
+                      ? authUser.status.charAt(0).toUpperCase() + authUser.status.slice(1)
+                      : user.subscription}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground mb-1 text-sm sm:text-base truncate">{authUser.email ?? user.email}</p>
+                <p className="text-muted-foreground mb-1 text-sm sm:text-base truncate">
+                  {authUser.email ?? user.email}
+                </p>
                 <p className="text-xs sm:text-sm text-muted-foreground">
                   Member since {new Date((authUser.created_at as any) || user.joinDate).toLocaleDateString()}
                 </p>
                 {authUser.id && authUser.is_email_verified === false && (
                   <div className="mt-2 text-xs sm:text-sm text-amber-600">
-                    Email not verified. <button className="underline" onClick={async () => {
-                      try {
-                        const res = await requestEmailVerification()
-                        alert(res.verification_link ? `Dev verification link: ${res.verification_link}` : "Verification email sent")
-                      } catch (e: any) {
-                        alert(e?.message || "Failed to send verification")
-                      }
-                    }}>Verify now</button>
+                    Email not verified.{" "}
+                    <button
+                      className="underline"
+                      onClick={async () => {
+                        try {
+                          const res = await requestEmailVerification()
+                          alert(
+                            res.verification_link
+                              ? `Dev verification link: ${res.verification_link}`
+                              : "Verification email sent",
+                          )
+                        } catch (e: any) {
+                          alert(e?.message || "Failed to send verification")
+                        }
+                      }}
+                    >
+                      Verify now
+                    </button>
                   </div>
                 )}
               </div>
@@ -322,7 +481,14 @@ export default function ProfilePage() {
                 {isEditing ? "Cancel" : "Edit Profile"}
               </LiquidButton>
               {authUser.id && (
-                <LiquidButton variant="outline" onClick={async () => { await logoutUser(); window.location.href = "/auth/login" }} className="gap-2 w-full sm:w-auto">
+                <LiquidButton
+                  variant="outline"
+                  onClick={async () => {
+                    await logoutUser()
+                    window.location.href = "/auth/login"
+                  }}
+                  className="gap-2 w-full sm:w-auto"
+                >
                   Logout
                 </LiquidButton>
               )}
@@ -346,7 +512,10 @@ export default function ProfilePage() {
                   <div className="flex items-center gap-4">
                     <div className="relative">
                       <img
-                        src={avatarPreview || (imageError ? "/placeholder-logo.svg" : user.avatar || "/placeholder-logo.svg")}
+                        src={
+                          avatarPreview ||
+                          (imageError ? "/placeholder-logo.svg" : user.avatar || "/placeholder-logo.svg")
+                        }
                         alt="Avatar preview"
                         className="w-16 h-16 rounded-full object-cover border-2 border-primary/20"
                       />
@@ -374,9 +543,11 @@ export default function ProfilePage() {
                   <Input
                     id="dateOfBirth"
                     type="date"
-                    value={user.dateOfBirth ? user.dateOfBirth.toISOString().split('T')[0] : ''}
+                    value={user.dateOfBirth ? user.dateOfBirth.toISOString().split("T")[0] : ""}
                     disabled={!isEditing}
-                    onChange={(e) => setUser({ ...user, dateOfBirth: e.target.value ? new Date(e.target.value) : null })}
+                    onChange={(e) =>
+                      setUser({ ...user, dateOfBirth: e.target.value ? new Date(e.target.value) : null })
+                    }
                   />
                 </div>
               </div>
@@ -482,7 +653,10 @@ export default function ProfilePage() {
                     </LiquidButton>
                     {passwordDebugLink && (
                       <p className="text-xs text-muted-foreground break-words px-3">
-                        Dev reset link: <a className="underline" href={passwordDebugLink}>{passwordDebugLink}</a>
+                        Dev reset link:{" "}
+                        <a className="underline" href={passwordDebugLink}>
+                          {passwordDebugLink}
+                        </a>
                       </p>
                     )}
                   </div>
@@ -501,7 +675,10 @@ export default function ProfilePage() {
                     </LiquidButton>
                     {emailChangeDebugLink && (
                       <p className="text-xs text-muted-foreground break-words px-3">
-                        Dev confirm link: <a className="underline" href={emailChangeDebugLink}>{emailChangeDebugLink}</a>
+                        Dev confirm link:{" "}
+                        <a className="underline" href={emailChangeDebugLink}>
+                          {emailChangeDebugLink}
+                        </a>
                       </p>
                     )}
                   </div>
@@ -540,28 +717,36 @@ export default function ProfilePage() {
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Activity className="w-6 h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold">{(authUser.stats?.supplements_tracked ?? user.stats.supplementsTracked) as any}</div>
+            <div className="text-2xl font-bold">
+              {(authUser.stats?.supplements_tracked ?? user.stats.supplementsTracked) as any}
+            </div>
             <div className="text-sm text-muted-foreground">Supplements</div>
           </GlassCard>
           <GlassCard className="p-4 text-center">
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Calendar className="w-6 h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold">{(authUser.stats?.journal_entries ?? user.stats.journalEntries) as any}</div>
+            <div className="text-2xl font-bold">
+              {(authUser.stats?.journal_entries ?? user.stats.journalEntries) as any}
+            </div>
             <div className="text-sm text-muted-foreground">Journal Entries</div>
           </GlassCard>
           <GlassCard className="p-4 text-center">
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Bell className="w-6 h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold">{(authUser.stats?.meditation_minutes ?? user.stats.meditationMinutes) as any}</div>
+            <div className="text-2xl font-bold">
+              {(authUser.stats?.meditation_minutes ?? user.stats.meditationMinutes) as any}
+            </div>
             <div className="text-sm text-muted-foreground">Meditation Min</div>
           </GlassCard>
           <GlassCard className="p-4 text-center">
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Shield className="w-6 h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold">{(authUser.stats?.biorhythm_checks ?? user.stats.biorhythmChecks) as any}</div>
+            <div className="text-2xl font-bold">
+              {(authUser.stats?.biorhythm_checks ?? user.stats.biorhythmChecks) as any}
+            </div>
             <div className="text-sm text-muted-foreground">Biorhythm Checks</div>
           </GlassCard>
         </div>
@@ -586,12 +771,17 @@ export default function ProfilePage() {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              We’ll send a confirmation link to your current email. The change completes only after you confirm from that
-              message.
+              We’ll send a confirmation link to your current email. The change completes only after you confirm from
+              that message.
             </p>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row sm:justify-end gap-3">
-            <LiquidButton variant="ghost" className="w-full sm:w-auto" onClick={() => setShowEmailChangeDialog(false)} disabled={emailChangePending}>
+            <LiquidButton
+              variant="ghost"
+              className="w-full sm:w-auto"
+              onClick={() => setShowEmailChangeDialog(false)}
+              disabled={emailChangePending}
+            >
               Cancel
             </LiquidButton>
             <LiquidButton className="w-full sm:w-auto" disabled={emailChangePending} onClick={handleEmailChangeSubmit}>
