@@ -18,7 +18,7 @@ interface User {
   isLoading?: boolean
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1"
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
 const TOKEN_STORAGE_KEY = "bioaionics_access_token" // updated storage key
 
 const readToken = () => {
@@ -66,7 +66,7 @@ export function useUser(): User {
     let cancelled = false
     async function loadMe() {
       try {
-        const res = await fetch(`${API_BASE}/auth/me`, { credentials: "include", headers: buildAuthHeaders() })
+        const res = await fetch(`${API_BASE}/v1/auth/me`, { credentials: "include", headers: buildAuthHeaders() })
         if (res.ok) {
           const data = await res.json()
           if (!cancelled) {
@@ -107,7 +107,7 @@ export function useUser(): User {
 
 // Optional helpers for UI actions
 export async function registerUser(email: string, password: string, name?: string) {
-  const res = await fetch(`${API_BASE}/auth/register`, {
+  const res = await fetch(`${API_BASE}/v1/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -120,7 +120,7 @@ export async function registerUser(email: string, password: string, name?: strin
 }
 
 export async function loginUser(email: string, password: string) {
-  const res = await fetch(`${API_BASE}/auth/login`, {
+  const res = await fetch(`${API_BASE}/v1/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -133,13 +133,13 @@ export async function loginUser(email: string, password: string) {
 }
 
 export async function logoutUser() {
-  await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include", headers: buildAuthHeaders() })
+  await fetch(`${API_BASE}/v1/auth/logout`, { method: "POST", credentials: "include", headers: buildAuthHeaders() })
   clearToken()
 }
 
 export async function updateProfile(payload: { name?: string; email?: string; avatar_url?: string; date_of_birth?: string }) {
   const headers = buildAuthHeaders({ "Content-Type": "application/json" })
-  const res = await fetch(`${API_BASE}/auth/profile`, {
+  const res = await fetch(`${API_BASE}/v1/auth/profile`, {
     method: "PATCH",
     headers,
     credentials: "include",
@@ -153,7 +153,7 @@ export async function updateProfile(payload: { name?: string; email?: string; av
 }
 
 export async function requestEmailVerification() {
-  const res = await fetch(`${API_BASE}/auth/request-email-verification`, {
+  const res = await fetch(`${API_BASE}/v1/auth/request-email-verification`, {
     method: "POST",
     credentials: "include",
     headers: buildAuthHeaders(),
@@ -163,7 +163,7 @@ export async function requestEmailVerification() {
 }
 
 export async function deleteAccount() {
-  const res = await fetch(`${API_BASE}/auth/account`, {
+  const res = await fetch(`${API_BASE}/v1/auth/account`, {
     method: "DELETE",
     credentials: "include",
     headers: buildAuthHeaders(),
@@ -174,7 +174,7 @@ export async function deleteAccount() {
 }
 
 export async function requestPasswordChange() {
-  const res = await fetch(`${API_BASE}/auth/profile/security/change-password`, {
+  const res = await fetch(`${API_BASE}/v1/auth/profile/security/change-password`, {
     method: "POST",
     credentials: "include",
     headers: buildAuthHeaders(),
@@ -185,7 +185,7 @@ export async function requestPasswordChange() {
 
 export async function requestEmailChange(newEmail: string) {
   const headers = buildAuthHeaders({ "Content-Type": "application/json" })
-  const res = await fetch(`${API_BASE}/auth/profile/security/request-email-change`, {
+  const res = await fetch(`${API_BASE}/v1/auth/profile/security/request-email-change`, {
     method: "POST",
     credentials: "include",
     headers,
@@ -196,7 +196,7 @@ export async function requestEmailChange(newEmail: string) {
 }
 
 export async function triggerTwoFactorPlaceholder() {
-  const res = await fetch(`${API_BASE}/auth/profile/security/two-factor`, {
+  const res = await fetch(`${API_BASE}/v1/auth/profile/security/two-factor`, {
     method: "POST",
     credentials: "include",
     headers: buildAuthHeaders(),

@@ -13,7 +13,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { SupplementInteractions } from "@/components/supplements/supplement-interactions"
 
-const API = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "")
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/$/, "")
 
 // --- Types ---------------------------------------------------------------
 interface SupplementLink {
@@ -229,10 +229,10 @@ const mapApiReviewToUI = (r: any): Review => ({
     try {
       setIsLoadingReviews(true)
       const [aggRes, revRes] = await Promise.all([
-        fetch(`${API}/v1/ratings/${supplement.id}/aggregate`, {
+        fetch(`${API_BASE}/v1/ratings/${supplement.id}/aggregate`, {
           cache: "no-store",
         }),
-        fetch(`${API}/v1/reviews/${supplement.id}`, {
+        fetch(`${API_BASE}/v1/reviews/${supplement.id}`, {
           cache: "no-store",
         }),
       ])
@@ -313,8 +313,8 @@ const mapApiReviewToUI = (r: any): Review => ({
       console.log("[DEBUG] API payload:", payload) // Debug logging
       
       const url = existing
-        ? `${API}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
-        : `${API}/v1/reviews/${supplement.id}`
+        ? `${API_BASE}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
+        : `${API_BASE}/v1/reviews/${supplement.id}`
       const method = existing ? "PATCH" : "POST"
       
       console.log("[DEBUG] Request:", { method, url }) // Debug logging
@@ -355,8 +355,8 @@ const mapApiReviewToUI = (r: any): Review => ({
       const existing = allReviews.find((r) => r.user === username)
       const payload = { user: username, rating, comment: "" }
       const url = existing
-        ? `${API}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
-        : `${API}/v1/reviews/${supplement.id}`
+        ? `${API_BASE}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
+        : `${API_BASE}/v1/reviews/${supplement.id}`
       const method = existing ? "PATCH" : "POST"
       const res = await fetch(url, {
         method,

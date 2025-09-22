@@ -2,7 +2,7 @@
 import { notFound } from "next/navigation";
 import { SupplementDetailClient } from "./supplement-detail-client";
 
-const API = process.env.NEXT_PUBLIC_API_URL!;
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
 type Rating = number | { avg: number | null; count: number } | null;
 
@@ -90,12 +90,12 @@ function deriveInteractions(src: any): { synergy: string[]; caution: string[]; a
 
 // ---------- fetchers ----------
 async function getSupplementFromAPI(slug: string): Promise<SupplementFromAPI | null> {
-  const res = await fetch(`${API}/v1/supplements/${slug}`, { cache: "no-store" });
+  const res = await fetch(`${API_BASE}/v1/supplements/${slug}`, { cache: "no-store" });
   if (!res.ok) return null;
   return res.json();
 }
 async function getReviewsFromAPI(slug: string): Promise<Review[]> {
-  const res = await fetch(`${API}/v1/reviews/${slug}`, { cache: "no-store" });
+  const res = await fetch(`${API_BASE}/v1/reviews/${slug}`, { cache: "no-store" });
   if (!res.ok) return [];
   return res.json();
 }
