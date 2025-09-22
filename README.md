@@ -11,7 +11,8 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 
 ## 🌐 Live Application
 
-**Production URLs**: 
+**Production URLs**:
+
 - **Primary**: [https://www.bioaionics.com](https://www.bioaionics.com)
 - **Vercel**: [https://bioaionics.vercel.app](https://bioaionics.vercel.app)
 
@@ -23,13 +24,15 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 
 **Backend API**: [https://bioaionics-api.onrender.com](https://bioaionics-api.onrender.com) | [API Docs](https://bioaionics-api.onrender.com/docs)
 
-**Repository Links**: 
+**Repository Links**:
+
 - Frontend: [bioascend2_fe](https://github.com/kisuro/bioascend2_fe)
 - Backend: [bioascend2_be](https://github.com/kisuro/bioascend2_be)
 
 ## ✨ Platform Features
 
 ### 🧬 Advanced Biorhythm Calculator
+
 - **7 Biorhythm Cycles**: Physical (23d), Emotional (28d), Intellectual (33d), Intuitive (38d), Spiritual (53d), Aesthetic (43d), and Charismatic (48d)
 - **Interactive Visualizations**: Beautiful Chart.js-powered graphs with extrema detection and trend analysis
 - **Flexible Date Ranges**: Analyze biorhythms over 7-30 day periods with customizable start dates
@@ -37,6 +40,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Export Capabilities**: Download biorhythm data and charts for personal tracking
 
 ### 💊 Comprehensive Supplement Database
+
 - **2000+ Supplements**: Evidence-based supplement profiles with detailed metadata and scientific backing
 - **Advanced Search & Filtering**: Filter by categories (adaptogen, nootropic, etc.), goals (focus, energy, sleep), evidence levels, and manufacturers
 - **Community Reviews**: User-driven rating and review system with aggregated statistics
@@ -44,6 +48,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Detailed Profiles**: Each supplement includes dosage, timing, cycling protocols, interactions, and side effects
 
 ### 📖 Personal Health Journal
+
 - **Supplement Intake Tracking**: Log daily supplement consumption with precise dosages and timing
 - **Progress Analytics**: Visual charts showing supplement effectiveness and health trends over time
 - **Smart Reminders**: Customizable notification system for supplement schedules and health goals
@@ -51,6 +56,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Data Export**: CSV and JSON export for external analysis and healthcare provider sharing
 
 ### 🧠 Mind Enhancement Hub
+
 - **Curated Audio Library**: 20+ high-quality meditation tracks, brainwave entrainment, and focus soundscapes
 - **Multiple Categories**: Meditation, binaural beats, nature sounds, mantras, and cognitive enhancement audio
 - **Custom Playlists**: Create and manage personal audio collections for different activities and goals
@@ -58,6 +64,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Session Tracking**: Monitor meditation consistency, session duration, and mindfulness progress
 
 ### 👤 User Profile & Authentication
+
 - **Secure Authentication**: JWT-based authentication with HTTP-only cookies and email verification
 - **Profile Management**: Avatar uploads (Supabase storage), biographical information, and health goal setting
 - **Statistics Dashboard**: Comprehensive tracking of supplements tried, reviews written, meditation sessions, and biorhythm checks
@@ -65,6 +72,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Privacy Controls**: GDPR-compliant data management with granular privacy settings
 
 ### 🎨 Glass Morphism Design System
+
 - **Modern UI/UX**: Custom glass morphism components with liquid animations and smooth transitions
 - **Dark/Light Mode**: Automatic system preference detection with manual toggle option
 - **Responsive Design**: Mobile-first approach with fluid layouts optimized for all screen sizes
@@ -74,11 +82,13 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 ## 🏗 Architecture & Tech Stack
 
 ### Frontend Framework
+
 - **Next.js 15.2** - React framework with App Router, Server Components, and RSC support
 - **React 19** - Latest React with concurrent features, automatic batching, and improved performance
 - **TypeScript 5.7** - Strict type checking with advanced TypeScript features
 
 ### Styling & Design System
+
 - **Tailwind CSS 4.1** - Utility-first CSS framework with custom design tokens
 - **Glass Morphism Components** - Custom glass effect library with `GlassCard` and `LiquidButton`
 - **Framer Motion 12** - Advanced animations, page transitions, and micro-interactions
@@ -87,6 +97,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Geist Font** - Modern typography from Vercel with optimized loading
 
 ### State Management & Data Handling
+
 - **Custom Hooks Architecture** - `useUser()` for authentication, `useToast()` for notifications
 - **React Hook Form** - Performant forms with minimal re-renders and built-in validation
 - **Zod Validation** - Schema-first validation with TypeScript integration
@@ -94,12 +105,14 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Optimistic UI Updates** - Immediate feedback with background API synchronization
 
 ### Data Visualization & Charts
+
 - **Chart.js 4** with **React-Chartjs-2** - Interactive biorhythm charts with real-time updates
 - **Recharts** - Responsive charts for supplement analytics and progress tracking
 - **Custom D3 Components** - Advanced data visualizations for complex health metrics
 - **Canvas-based Rendering** - High-performance chart rendering for large datasets
 
 ### Development & Build Tools
+
 - **PNPM 9+** - Fast, disk space efficient package manager with workspace support
 - **ESLint & Prettier** - Comprehensive code quality and consistent formatting
 - **PostCSS** - Advanced CSS processing with autoprefixer and optimization
@@ -107,12 +120,14 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 - **Bundle Analyzer** - Built-in bundle size analysis and optimization insights
 
 ### External Integrations
+
 - **FastAPI Backend** - RESTful API integration with automatic OpenAPI client generation
 - **Supabase Storage** - File uploads, avatar management, and CDN delivery
 - **JWT Authentication** - Secure token-based auth with HTTP-only cookie storage
 - **Email Verification** - Integration with backend email verification system
 
 ### Deployment & Performance
+
 - **Vercel Deployment** - Serverless deployment with automatic CI/CD and edge optimization
 - **Image Optimization** - Next.js automatic image optimization with WebP/AVIF support
 - **Code Splitting** - Automatic route-based and dynamic component code splitting
@@ -271,6 +286,7 @@ bioascend2_fe/
    ```
 
    The application will be available at:
+
    - **Local**: `http://localhost:3000`
    - **Network**: `http://[your-ip]:3000` (for mobile testing)
 
@@ -279,10 +295,10 @@ bioascend2_fe/
    ```bash
    # Build the application
    pnpm build
-   
+
    # Start production server locally
    pnpm start
-   
+
    # Analyze bundle size
    pnpm analyze
    ```
@@ -290,6 +306,7 @@ bioascend2_fe/
 ### Backend Integration Requirements
 
 **Local Development Setup:**
+
 ```bash
 # In the backend directory (bioascend2_be)
 # Ensure Python virtual environment is activated
@@ -302,6 +319,7 @@ uvicorn app.main:app --reload --port 8000
 ```
 
 **Verify Backend Connection:**
+
 ```bash
 # Health check
 curl http://localhost:8000/v1/health
@@ -311,6 +329,7 @@ open http://localhost:8000/docs
 ```
 
 **Production Backend:**
+
 - Backend automatically deployed on Render at `https://bioaionics-api.onrender.com`
 - Database hosted on Supabase with real-time capabilities
 - File storage managed through Supabase storage buckets
@@ -320,11 +339,12 @@ open http://localhost:8000/docs
 ### Glass Morphism Components
 
 **GlassCard Variants:**
+
 ```tsx
 // Primary glass effect for main content
 <GlassCard variant="primary">Main content</GlassCard>
 
-// Secondary glass effect for supporting content  
+// Secondary glass effect for supporting content
 <GlassCard variant="secondary">Supporting content</GlassCard>
 
 // Accent glass effect for highlighting
@@ -332,18 +352,16 @@ open http://localhost:8000/docs
 ```
 
 **LiquidButton Animations:**
+
 ```tsx
 // Animated button with liquid hover effects
-<LiquidButton 
-  variant="primary"
-  size="lg"
-  className="transform hover:scale-105"
->
+<LiquidButton variant="primary" size="lg" className="transform hover:scale-105">
   Get Started
 </LiquidButton>
 ```
 
 **Animated Backgrounds:**
+
 ```tsx
 // Page-specific animated gradient backgrounds
 <PageBackground page="biorhythms" />  // Biorhythm-themed gradients
@@ -354,18 +372,19 @@ open http://localhost:8000/docs
 ### Theme System Architecture
 
 **CSS Custom Properties:**
+
 ```css
 :root {
   /* Glass morphism variables */
   --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-  
+
   /* Color palette */
   --primary: 210 40% 98%;
   --secondary: 210 40% 96%;
   --accent: 142 76% 36%;
-  
+
   /* Animation timing */
   --animation-fast: 0.15s;
   --animation-normal: 0.3s;
@@ -374,6 +393,7 @@ open http://localhost:8000/docs
 ```
 
 **Theme Toggle Implementation:**
+
 - Automatic system preference detection on first visit
 - Manual theme toggle with smooth transitions
 - Persistent theme preference in localStorage
@@ -382,17 +402,19 @@ open http://localhost:8000/docs
 ### Responsive Design Principles
 
 **Breakpoint System:**
+
 ```javascript
 const breakpoints = {
-  sm: '640px',   // Mobile landscape
-  md: '768px',   // Tablet portrait
-  lg: '1024px',  // Tablet landscape / Small desktop
-  xl: '1280px',  // Desktop
-  '2xl': '1536px' // Large desktop
-}
+  sm: "640px", // Mobile landscape
+  md: "768px", // Tablet portrait
+  lg: "1024px", // Tablet landscape / Small desktop
+  xl: "1280px", // Desktop
+  "2xl": "1536px", // Large desktop
+};
 ```
 
 **Mobile-First Approach:**
+
 - Base styles optimized for mobile devices
 - Progressive enhancement for larger screens
 - Touch-friendly interactive elements (44px minimum target size)
@@ -401,13 +423,14 @@ const breakpoints = {
 ### Animation Philosophy
 
 **Framer Motion Integration:**
+
 ```tsx
 // Page transitions with stagger animations
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
   in: { opacity: 1, y: 0 },
-  out: { opacity: 0, y: -20 }
-}
+  out: { opacity: 0, y: -20 },
+};
 
 // Staggered list animations
 const containerVariants = {
@@ -415,13 +438,14 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
-    }
-  }
-}
+      staggerChildren: 0.1,
+    },
+  },
+};
 ```
 
 **Performance Considerations:**
+
 - Use `transform` and `opacity` for GPU-accelerated animations
 - Implement `will-change` property judiciously
 - Respect user's motion preferences (`prefers-reduced-motion`)
@@ -432,81 +456,84 @@ const containerVariants = {
 ### Authentication Flow
 
 **User Registration:**
+
 ```typescript
 // Registration with email verification
 const registerUser = async (userData: RegisterData) => {
   const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userData)
-  })
-  
-  if (!response.ok) throw new Error('Registration failed')
-  return response.json()
-}
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) throw new Error("Registration failed");
+  return response.json();
+};
 ```
 
 **Authentication State Management:**
+
 ```typescript
 // useUser hook implementation
 const useUser = () => {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-  
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     // Check authentication status on mount
-    checkAuthStatus()
-  }, [])
-  
+    checkAuthStatus();
+  }, []);
+
   const checkAuthStatus = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/v1/auth/me`, {
-        credentials: 'include' // Include HTTP-only cookies
-      })
-      
+        credentials: "include", // Include HTTP-only cookies
+      });
+
       if (response.ok) {
-        const userData = await response.json()
-        setUser(userData)
+        const userData = await response.json();
+        setUser(userData);
       }
     } catch (error) {
-      console.error('Auth check failed:', error)
+      console.error("Auth check failed:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-  
-  return { user, loading, checkAuthStatus }
-}
+  };
+
+  return { user, loading, checkAuthStatus };
+};
 ```
 
 ### API Client Architecture
 
 **Base API Configuration:**
+
 ```typescript
 const apiClient = {
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000',
-  
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000",
+
   // Generic request handler with error handling
   async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`
+    const url = `${this.baseURL}${endpoint}`;
     const config: RequestInit = {
       headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+        "Content-Type": "application/json",
+        ...options.headers,
       },
-      credentials: 'include', // Include cookies for authentication
-      ...options
-    }
-    
-    const response = await fetch(url, config)
-    
+      credentials: "include", // Include cookies for authentication
+      ...options,
+    };
+
+    const response = await fetch(url, config);
+
     if (!response.ok) {
-      throw new APIError(`API Error: ${response.status}`, response.status)
+      throw new APIError(`API Error: ${response.status}`, response.status);
     }
-    
-    return response.json()
-  }
-}
+
+    return response.json();
+  },
+};
 ```
 
 ### Supplements API Integration
@@ -533,6 +560,7 @@ GET /v1/ratings/{supplement_id}/aggregate
 ### Error Handling & User Feedback
 
 **Global Error Management:**
+
 ```typescript
 // Custom error boundary with user-friendly messages
 export function ErrorBoundary({ children }: { children: React.ReactNode }) {
@@ -542,52 +570,56 @@ export function ErrorBoundary({ children }: { children: React.ReactNode }) {
         <div className="error-fallback">
           <h2>Something went wrong</h2>
           <p>{getErrorMessage(error)}</p>
-          <button onClick={() => window.location.reload()}>
-            Try again
-          </button>
+          <button onClick={() => window.location.reload()}>Try again</button>
         </div>
       )}
     >
       {children}
     </ErrorBoundaryComponent>
-  )
+  );
 }
 
 // User-friendly error messages
 const getErrorMessage = (error: unknown): string => {
   if (error instanceof APIError) {
     switch (error.status) {
-      case 401: return 'Please log in to continue'
-      case 403: return 'You don\'t have permission for this action'
-      case 404: return 'The requested resource was not found'
-      case 500: return 'Server error. Please try again later'
-      default: return 'Something went wrong. Please try again'
+      case 401:
+        return "Please log in to continue";
+      case 403:
+        return "You don't have permission for this action";
+      case 404:
+        return "The requested resource was not found";
+      case 500:
+        return "Server error. Please try again later";
+      default:
+        return "Something went wrong. Please try again";
     }
   }
-  return 'An unexpected error occurred'
-}
+  return "An unexpected error occurred";
+};
 ```
 
 **Toast Notification System:**
+
 ```typescript
 // Integrated toast notifications for API responses
-const { toast } = useToast()
+const { toast } = useToast();
 
 const handleSuccess = (message: string) => {
   toast({
     title: "Success",
     description: message,
     variant: "default",
-  })
-}
+  });
+};
 
 const handleError = (error: APIError) => {
   toast({
     title: "Error",
     description: getErrorMessage(error),
     variant: "destructive",
-  })
-}
+  });
+};
 ```
 
 ## 📱 Features in Detail
@@ -629,6 +661,7 @@ const handleError = (error: APIError) => {
 ### Vercel Deployment (Recommended)
 
 **Automatic Deployment Features:**
+
 - **Git Integration**: Automatic deployments on push to main branch
 - **Preview Deployments**: PR/branch previews with unique URLs
 - **Edge Functions**: Serverless functions at the edge for optimal performance
@@ -638,24 +671,26 @@ const handleError = (error: APIError) => {
 **Production Environment Setup:**
 
 1. **Connect Repository to Vercel**:
+
    - Link your GitHub repository to Vercel
    - Configure build settings and environment variables
    - Set up custom domain and SSL certificates
 
 2. **Production Environment Variables**:
+
    ```env
    # API Configuration
    NEXT_PUBLIC_API_BASE_URL=https://bioaionics-api.onrender.com
-   
+
    # Feature Flags
    NEXT_PUBLIC_ENABLE_AI_ASSISTANT=true
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
    NEXT_PUBLIC_FORCE_PREMIUM=false
-   
+
    # Analytics
    NEXT_PUBLIC_GA_ID=your_production_google_analytics_id
    NEXT_PUBLIC_POSTHOG_KEY=your_production_posthog_key
-   
+
    # Environment
    NODE_ENV=production
    ```
@@ -675,6 +710,7 @@ const handleError = (error: APIError) => {
 ### Alternative Deployment Options
 
 **Manual Static Export:**
+
 ```bash
 # Build and export static files
 pnpm build
@@ -685,6 +721,7 @@ pnpm export
 ```
 
 **Docker Deployment:**
+
 ```dockerfile
 # Dockerfile for containerized deployment
 FROM node:18-alpine AS base
@@ -705,6 +742,7 @@ CMD ["npm", "start"]
 ### Performance Optimization
 
 **Bundle Analysis:**
+
 ```bash
 # Analyze bundle size and dependencies
 pnpm analyze
@@ -717,6 +755,7 @@ pnpm analyze
 ```
 
 **SEO & Meta Optimization:**
+
 - Dynamic meta tags based on page content
 - Open Graph and Twitter Card meta tags
 - Structured data for supplement pages
@@ -728,6 +767,7 @@ pnpm analyze
 ### Code Quality Standards
 
 **TypeScript Configuration:**
+
 ```json
 // tsconfig.json - Strict type checking
 {
@@ -742,6 +782,7 @@ pnpm analyze
 ```
 
 **ESLint & Prettier Setup:**
+
 ```bash
 # Run linting
 pnpm lint
@@ -759,6 +800,7 @@ pnpm format
 ### Development Workflow
 
 **Component Development:**
+
 ```bash
 # Create new component with proper typing
 # components/ui/new-component.tsx
@@ -781,6 +823,7 @@ export function NewComponent({ variant = 'primary', children }: NewComponentProp
 ```
 
 **API Integration Testing:**
+
 ```bash
 # Test API endpoints
 curl -X GET "http://localhost:8000/v1/health"
@@ -795,11 +838,13 @@ curl -X POST "http://localhost:8000/v1/auth/register" \
 ### Performance Monitoring
 
 **Core Web Vitals:**
+
 - Monitor LCP, FID, and CLS in development
 - Use Vercel Analytics for production metrics
 - Implement performance budgets in CI/CD
 
 **Bundle Size Monitoring:**
+
 ```bash
 # Generate bundle analysis
 pnpm build && pnpm analyze
@@ -813,6 +858,7 @@ pnpm build && pnpm analyze
 ### Testing Strategy (Future Implementation)
 
 **Unit Testing:**
+
 ```bash
 # Jest + Testing Library setup
 pnpm test
@@ -821,6 +867,7 @@ pnpm test:coverage
 ```
 
 **Integration Testing:**
+
 ```bash
 # Cypress E2E testing
 pnpm cypress:open
@@ -828,6 +875,7 @@ pnpm cypress:run
 ```
 
 **Key Test Areas:**
+
 - Authentication flows (login, registration, verification)
 - Supplement search and filtering
 - Biorhythm calculations and visualizations
@@ -839,6 +887,7 @@ pnpm cypress:run
 ### Completed Features ✅
 
 **Core Platform:**
+
 - [x] **Next.js 15 Architecture**: App Router with Server/Client Components
 - [x] **Biorhythm Calculator**: 7 cycles with interactive Chart.js visualizations
 - [x] **Supplement Database**: 2000+ supplements with advanced filtering
@@ -853,6 +902,7 @@ pnpm cypress:run
 ### In Progress 🚧
 
 **Current Development Focus:**
+
 - [ ] **AI Health Assistant**: ChatGPT-powered personalized health insights
 - [ ] **Advanced Analytics**: Enhanced progress tracking with data correlations
 - [ ] **Supplement Stacks**: Personal supplement combination management
@@ -862,6 +912,7 @@ pnpm cypress:run
 ### Planned Features 🎯
 
 **Q1 2025:**
+
 - [ ] **Mobile App**: React Native app with offline capabilities
 - [ ] **Wearable Integration**: Apple Health and Google Fit connectivity
 - [ ] **Advanced Biomarker Tracking**: Lab result integration and trend analysis
@@ -869,6 +920,7 @@ pnpm cypress:run
 - [ ] **Telemedicine Integration**: Healthcare provider connectivity
 
 **Q2 2025:**
+
 - [ ] **Multi-language Support**: i18n implementation for global users
 - [ ] **Advanced Data Visualization**: 3D charts and interactive health timelines
 - [ ] **Supplement Interaction Checker**: Drug-supplement interaction warnings
@@ -876,6 +928,7 @@ pnpm cypress:run
 - [ ] **Community Challenges**: Gamified health improvement challenges
 
 **Q3-Q4 2025:**
+
 - [ ] **Offline-First Architecture**: PWA with comprehensive offline support
 - [ ] **Real-time Collaboration**: Shared health journeys and family tracking
 - [ ] **Advanced AI Features**: Computer vision for supplement recognition
@@ -885,6 +938,7 @@ pnpm cypress:run
 ### Technical Improvements 🔧
 
 **Performance & Scalability:**
+
 - [ ] **Edge Runtime Optimization**: Migrate to Vercel Edge Functions
 - [ ] **Database Optimization**: Implement Redis caching layer
 - [ ] **Bundle Size Reduction**: Advanced code splitting and tree shaking
@@ -892,6 +946,7 @@ pnpm cypress:run
 - [ ] **SEO Enhancement**: Advanced structured data and meta optimization
 
 **Developer Experience:**
+
 - [ ] **Comprehensive Testing**: Unit, integration, and E2E test coverage
 - [ ] **Storybook Integration**: Component library documentation
 - [ ] **CI/CD Pipeline**: GitHub Actions for automated testing and deployment
@@ -901,6 +956,7 @@ pnpm cypress:run
 ### User Experience Enhancements 🎨
 
 **Accessibility & Usability:**
+
 - [ ] **Screen Reader Optimization**: Enhanced ARIA labels and navigation
 - [ ] **Keyboard Navigation**: Comprehensive keyboard-only interaction
 - [ ] **Voice Control**: Voice commands for hands-free operation
@@ -908,6 +964,7 @@ pnpm cypress:run
 - [ ] **Reduced Motion Support**: Respect user motion preferences
 
 **Personalization:**
+
 - [ ] **Adaptive UI**: Interface that learns from user behavior
 - [ ] **Custom Themes**: User-created theme support
 - [ ] **Dashboard Customization**: Drag-and-drop widget arrangement
@@ -921,6 +978,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Getting Started with Contributions
 
 **Development Setup for Contributors:**
+
 1. **Fork the repository** and clone your fork locally
 2. **Install dependencies**: `pnpm install`
 3. **Set up environment**: Copy `.env.example` to `.env.local` and configure
@@ -930,6 +988,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Contribution Guidelines
 
 **Code Standards:**
+
 - **TypeScript**: Always use proper typing, avoid `any` type
 - **Component Structure**: Follow established patterns in `components/ui/`
 - **Styling**: Use Tailwind CSS classes, follow glass morphism design system
@@ -938,6 +997,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 - **Mobile First**: Design and test for mobile, then enhance for desktop
 
 **Pull Request Process:**
+
 1. **Clear Description**: Explain the problem and your solution approach
 2. **Small, Focused Changes**: Keep PRs manageable and focused on single features
 3. **Visual Examples**: Include screenshots or GIFs for UI changes
@@ -947,6 +1007,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Areas for Contribution
 
 **Frontend Development:**
+
 - React components and hooks
 - UI/UX improvements and animations
 - Mobile responsiveness enhancements
@@ -954,6 +1015,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 - Accessibility improvements
 
 **Design & UX:**
+
 - Glass morphism component designs
 - User interface improvements
 - User experience research and testing
@@ -961,6 +1023,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 - Animation and micro-interaction design
 
 **Content & Documentation:**
+
 - Supplement database improvements
 - User guide and documentation
 - API documentation
@@ -968,6 +1031,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 - SEO and content optimization
 
 **Quality Assurance:**
+
 - Manual testing across devices
 - Bug reporting and reproduction
 - Test case creation
@@ -977,12 +1041,14 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Development Environment
 
 **Required Tools:**
+
 - Node.js 18+ and PNPM 9+
 - VS Code with recommended extensions
 - Git for version control
 - Backend API running locally or using production endpoint
 
 **Recommended VS Code Extensions:**
+
 ```json
 {
   "recommendations": [
@@ -1008,6 +1074,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Documentation & Help
 
 **Primary Resources:**
+
 - **Live Application**: [https://www.bioaionics.com](https://www.bioaionics.com)
 - **API Documentation**: [https://bioaionics-api.onrender.com/docs](https://bioaionics-api.onrender.com/docs)
 - **GitHub Issues**: [Report bugs or request features](https://github.com/kisuro/bioascend2_fe/issues)
@@ -1016,18 +1083,21 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Getting Help
 
 **For Users:**
+
 - Browse the supplement database and read community reviews
 - Use the biorhythm calculator to understand your natural cycles
 - Track your supplement intake and progress in the journal
 - Explore the meditation library for mental wellness resources
 
 **For Developers:**
+
 - Follow the development setup instructions above
 - Check the component structure and API integration examples
 - Review the design system and glass morphism implementation
 - Join the discussion in GitHub Issues for technical questions
 
 **For Contributors:**
+
 - Read the contribution guidelines and code standards
 - Start with small improvements or bug fixes
 - Reach out via GitHub Issues for guidance on larger features
@@ -1036,12 +1106,14 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Project Resources
 
 **Repository Links:**
+
 - **Frontend Repository**: [bioascend2_fe](https://github.com/kisuro/bioascend2_fe)
 - **Backend Repository**: [bioascend2_be](https://github.com/kisuro/bioascend2_be)
 - **Live Frontend**: [https://www.bioaionics.com](https://www.bioaionics.com)
 - **Backend API**: [https://bioaionics-api.onrender.com](https://bioaionics-api.onrender.com)
 
 **Technology Resources:**
+
 - **Next.js Documentation**: [https://nextjs.org/docs](https://nextjs.org/docs)
 - **React Documentation**: [https://react.dev](https://react.dev)
 - **Tailwind CSS**: [https://tailwindcss.com/docs](https://tailwindcss.com/docs)
@@ -1051,11 +1123,13 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 ### Contact & Support
 
 **Technical Support:**
+
 - **GitHub Issues**: For bug reports, feature requests, and technical discussions
 - **Email**: Contact the development team for enterprise inquiries and partnerships
 - **Community**: Join discussions and help other users in GitHub Issues
 
 **Health & Content:**
+
 - All supplement information is for educational purposes only
 - Consult healthcare professionals before making health decisions
 - Report any inaccurate health information via GitHub Issues
@@ -1089,12 +1163,14 @@ copies or substantial portions of the Software.
 **Built with ❤️ for the biohacking and health optimization community**
 
 **Special Thanks:**
+
 - The open-source community for the amazing tools and libraries
 - Contributors who help improve the platform
 - Users who provide feedback and share their health journeys
 - Healthcare professionals who guide our evidence-based approach
 
 **Technology Stack Appreciation:**
+
 - **Vercel** for seamless deployment and hosting
 - **Next.js Team** for the incredible React framework
 - **Tailwind CSS** for the utility-first styling approach
@@ -1104,6 +1180,6 @@ copies or substantial portions of the Software.
 
 ---
 
-*Last updated: September 2025 | Version: 2.0.0*
+_Last updated: September 2025 | Version: 2.0.0_
 
 **Join us in building the future of personalized health optimization! 🚀**
