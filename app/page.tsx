@@ -155,20 +155,20 @@ const AnimatedCounter = ({
 const WellnessBackground = () => {
   return (
     <motion.div
-      className="absolute inset-0 pointer-events-none overflow-hidden"
+      className="fixed inset-0 pointer-events-none overflow-hidden z-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 3 }}
     >
-      {/* DNA Helix Animation */}
+      {/* Enhanced DNA Helix Animation - larger and more prominent */}
       <motion.div
-        className="absolute top-20 right-10 w-32 h-32"
+        className="absolute top-10 right-10 w-64 h-64"
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 0.6, scale: 1 }}
+        animate={{ opacity: 0.8, scale: 1 }}
         transition={{ duration: 4, delay: 1 }}
       >
         <motion.svg
-          className="w-full h-full text-primary/15"
+          className="w-full h-full text-primary/20"
           viewBox="0 0 100 100"
           animate={{ rotateY: [0, 360] }}
           transition={{ duration: 15, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
@@ -176,22 +176,34 @@ const WellnessBackground = () => {
           <motion.path
             d="M20,20 Q50,40 80,20 Q50,60 20,80 Q50,60 80,80"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="3"
             fill="none"
             animate={{
               pathLength: [0, 1, 0],
-              opacity: [0.3, 0.8, 0.3],
+              opacity: [0.4, 1, 0.4],
             }}
             transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.path
+            d="M25,25 Q50,35 75,25 Q50,55 25,75 Q50,55 75,75"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.6"
+            animate={{
+              pathLength: [1, 0, 1],
+              opacity: [0.3, 0.8, 0.3],
+            }}
+            transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
           />
         </motion.svg>
       </motion.div>
 
-      {/* Molecular Orbits */}
+      {/* Enhanced Molecular Orbits - larger and more complex */}
       <motion.div
-        className="absolute bottom-32 left-16 w-40 h-40"
+        className="absolute bottom-20 left-10 w-80 h-80"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
+        animate={{ opacity: 0.6 }}
         transition={{ duration: 3, delay: 2 }}
       >
         <motion.div
@@ -199,43 +211,108 @@ const WellnessBackground = () => {
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
         >
-          <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-accent/60 rounded-full -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-accent/80 rounded-full -translate-x-1/2 -translate-y-1/2" />
           <motion.div
-            className="absolute top-0 left-1/2 w-1 h-1 bg-primary/60 rounded-full -translate-x-1/2"
+            className="absolute top-0 left-1/2 w-3 h-3 bg-primary/80 rounded-full -translate-x-1/2"
             animate={{ rotate: -360 }}
             transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           />
           <motion.div
-            className="absolute bottom-0 left-1/2 w-1 h-1 bg-accent/60 rounded-full -translate-x-1/2"
+            className="absolute bottom-0 left-1/2 w-3 h-3 bg-accent/80 rounded-full -translate-x-1/2"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute left-0 top-1/2 w-2 h-2 bg-primary/60 rounded-full -translate-y-1/2"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          />
+          <motion.div
+            className="absolute right-0 top-1/2 w-2 h-2 bg-accent/60 rounded-full -translate-y-1/2"
             animate={{ rotate: -360 }}
             transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           />
         </motion.div>
       </motion.div>
 
-      {/* Floating Health Particles */}
-      {[...Array(6)].map((_, i) => (
+      {/* Enhanced Floating Health Particles - more particles across full screen */}
+      {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 bg-primary/30 rounded-full"
+          className="absolute w-2 h-2 bg-primary/40 rounded-full"
           style={{
-            left: `${20 + i * 15}%`,
-            top: `${30 + (i % 3) * 20}%`,
+            left: `${5 + i * 6}%`,
+            top: `${10 + (i % 5) * 18}%`,
           }}
           animate={{
-            y: [-10, -30, -10],
-            x: [-5, 10, -5],
-            opacity: [0.3, 0.8, 0.3],
-            scale: [1, 1.5, 1],
+            y: [-20, -50, -20],
+            x: [-10, 20, -10],
+            opacity: [0.2, 0.9, 0.2],
+            scale: [1, 2, 1],
           }}
           transition={{
-            duration: 6 + i,
+            duration: 8 + i * 0.5,
             repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
-            delay: i * 0.5,
+            delay: i * 0.3,
           }}
         />
       ))}
+
+      {/* New: Wellness Energy Waves */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ duration: 4, delay: 3 }}
+      >
+        <motion.svg
+          className="w-full h-full text-accent/15"
+          viewBox="0 0 100 100"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="45"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 283, 0],
+              opacity: [0.2, 0.8, 0.2],
+            }}
+            transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="35"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 220, 0],
+              opacity: [0.3, 0.9, 0.3],
+            }}
+            transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+          />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="25"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 157, 0],
+              opacity: [0.4, 1, 0.4],
+            }}
+            transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 4 }}
+          />
+        </motion.svg>
+      </motion.div>
     </motion.div>
   )
 }

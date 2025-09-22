@@ -80,95 +80,108 @@ const ProfileBackground = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}
     >
-      {/* User Data Visualization */}
+      {/* Enhanced User Data Visualization - larger and more complex */}
       <motion.div
-        className="absolute top-32 right-16 w-56 h-56"
+        className="absolute top-20 right-10 w-80 h-80"
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.3, scale: 1 }}
+        animate={{ opacity: 0.5, scale: 1 }}
         transition={{ duration: 4, delay: 1 }}
       >
         <motion.svg
-          className="w-full h-full text-primary/15"
+          className="w-full h-full text-primary/20"
           viewBox="0 0 100 100"
           animate={{ rotate: 360 }}
           transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
         >
-          {/* Profile Data Rings */}
+          {/* Enhanced Profile Data Rings */}
           <motion.circle
             cx="50"
             cy="50"
-            r="40"
+            r="45"
             stroke="currentColor"
-            strokeWidth="0.5"
+            strokeWidth="1"
             fill="none"
             animate={{
-              strokeDasharray: [0, 251, 0],
-              opacity: [0.2, 0.6, 0.2],
+              strokeDasharray: [0, 283, 0],
+              opacity: [0.2, 0.8, 0.2],
             }}
             transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
           />
           <motion.circle
             cx="50"
             cy="50"
-            r="30"
+            r="35"
             stroke="currentColor"
-            strokeWidth="0.5"
+            strokeWidth="1"
             fill="none"
             animate={{
-              strokeDasharray: [0, 188, 0],
-              opacity: [0.3, 0.8, 0.3],
+              strokeDasharray: [0, 220, 0],
+              opacity: [0.3, 0.9, 0.3],
             }}
             transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
           />
           <motion.circle
             cx="50"
             cy="50"
-            r="20"
+            r="25"
             stroke="currentColor"
-            strokeWidth="0.5"
+            strokeWidth="1"
             fill="none"
             animate={{
-              strokeDasharray: [0, 126, 0],
-              opacity: [0.4, 0.9, 0.4],
+              strokeDasharray: [0, 157, 0],
+              opacity: [0.4, 1, 0.4],
             }}
             transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+          />
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="15"
+            stroke="currentColor"
+            strokeWidth="1"
+            fill="none"
+            animate={{
+              strokeDasharray: [0, 94, 0],
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 3 }}
           />
         </motion.svg>
       </motion.div>
 
-      {/* Achievement Particles */}
-      {[...Array(12)].map((_, i) => (
+      {/* Enhanced Achievement Particles - more particles across full screen */}
+      {[...Array(18)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1.5 h-1.5 bg-accent/40 rounded-full"
+          className="absolute w-2.5 h-2.5 bg-accent/50 rounded-full"
           style={{
-            left: `${15 + i * 7}%`,
-            top: `${25 + (i % 4) * 15}%`,
+            left: `${8 + i * 5}%`,
+            top: `${15 + (i % 6) * 12}%`,
           }}
           animate={{
-            y: [-15, -35, -15],
-            x: [-8, 12, -8],
-            opacity: [0.2, 0.7, 0.2],
-            scale: [1, 1.8, 1],
+            y: [-20, -50, -20],
+            x: [-12, 18, -12],
+            opacity: [0.2, 0.9, 0.2],
+            scale: [1, 2.2, 1],
           }}
           transition={{
-            duration: 7 + i * 0.5,
+            duration: 8 + i * 0.4,
             repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
-            delay: i * 0.4,
+            delay: i * 0.3,
           }}
         />
       ))}
 
-      {/* Personal Growth Spiral */}
+      {/* Enhanced Personal Growth Spiral - larger and more prominent */}
       <motion.div
-        className="absolute bottom-24 left-20 w-44 h-44"
+        className="absolute bottom-16 left-10 w-72 h-72"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.25 }}
+        animate={{ opacity: 0.4 }}
         transition={{ duration: 3, delay: 2 }}
       >
         <motion.svg
-          className="w-full h-full text-accent/20"
+          className="w-full h-full text-accent/25"
           viewBox="0 0 100 100"
           animate={{ rotate: -360 }}
           transition={{ duration: 35, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
@@ -176,13 +189,102 @@ const ProfileBackground = () => {
           <motion.path
             d="M50,50 Q30,30 50,10 Q70,30 50,50 Q30,70 50,90 Q70,70 50,50"
             stroke="currentColor"
-            strokeWidth="1"
+            strokeWidth="2"
             fill="none"
             animate={{
               pathLength: [0, 1, 0],
-              opacity: [0.2, 0.6, 0.2],
+              opacity: [0.2, 0.8, 0.2],
             }}
             transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.path
+            d="M50,50 Q35,35 50,20 Q65,35 50,50 Q35,65 50,80 Q65,65 50,50"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            fill="none"
+            animate={{
+              pathLength: [1, 0, 1],
+              opacity: [0.3, 0.9, 0.3],
+            }}
+            transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+          />
+        </motion.svg>
+      </motion.div>
+
+      {/* New: Profile Stats Constellation */}
+      <motion.div
+        className="absolute top-1/3 left-1/4 w-64 h-64"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ duration: 4, delay: 3 }}
+      >
+        <motion.svg
+          className="w-full h-full text-primary/15"
+          viewBox="0 0 100 100"
+          animate={{ rotateY: [0, 360] }}
+          transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <motion.circle
+            cx="20"
+            cy="20"
+            r="2"
+            fill="currentColor"
+            animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.5, 1] }}
+            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.circle
+            cx="80"
+            cy="30"
+            r="2"
+            fill="currentColor"
+            animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.5, 1] }}
+            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
+          />
+          <motion.circle
+            cx="30"
+            cy="80"
+            r="2"
+            fill="currentColor"
+            animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.5, 1] }}
+            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
+          />
+          <motion.circle
+            cx="70"
+            cy="70"
+            r="2"
+            fill="currentColor"
+            animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.5, 1] }}
+            transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.5 }}
+          />
+          <motion.line
+            x1="20"
+            y1="20"
+            x2="80"
+            y2="30"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            animate={{ pathLength: [0, 1, 0] }}
+            transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          />
+          <motion.line
+            x1="80"
+            y1="30"
+            x2="70"
+            y2="70"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            animate={{ pathLength: [0, 1, 0] }}
+            transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
+          />
+          <motion.line
+            x1="70"
+            y1="70"
+            x2="30"
+            y2="80"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            animate={{ pathLength: [0, 1, 0] }}
+            transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2 }}
           />
         </motion.svg>
       </motion.div>
