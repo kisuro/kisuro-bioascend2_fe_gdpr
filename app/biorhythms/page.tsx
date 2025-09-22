@@ -420,6 +420,26 @@ export default function BiorhythmsPage() {
             )}
           </div>
         </div>
+
+        {/* Note Section */}
+        <motion.div
+          className="mt-12 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+        >
+          <GlassCard className="glass-subtle p-6">
+            <h3 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">
+              Note:
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              The idea of biorhythms originated in the early 20th century, when researchers like Hermann Swoboda and Wilhelm Fliess proposed that human life follows regular physical, emotional, and intellectual cycles. Over time, the concept gained popularity in self-help and wellness communities, though it has never been scientifically validated.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-3">
+              While modern science does not confirm the accuracy of biorhythms, many people—including myself—find that tracking these cycles can feel meaningful and sometimes surprisingly reflective of real experience. Please use it as a personal tool for self-observation, not as a medical or scientific fact.
+            </p>
+          </GlassCard>
+        </motion.div>
       </div>
     </div>
   )
