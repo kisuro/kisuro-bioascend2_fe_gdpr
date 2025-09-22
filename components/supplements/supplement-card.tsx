@@ -149,16 +149,17 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   return (
     <GlassCard className="p-6 h-full hover:scale-[1.02] transition-all duration-300 flex flex-col" hover>
       <div className="flex items-center justify-center mb-4">
-        <div className="relative w-16 h-16 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center overflow-hidden">
+        <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex items-center justify-center overflow-hidden group">
           <img
             src={getCategoryImage(firstCategory) || "/placeholder.svg"}
             alt={`${firstCategory} supplement`}
-            className="w-10 h-10 object-contain opacity-80"
+            className="w-full h-full object-contain p-3 opacity-90 group-hover:opacity-100 transition-opacity duration-300 filter brightness-110 contrast-125"
             onError={(e) => {
               const target = e.target as HTMLImageElement
               target.src = "/supplement-icon.png"
             }}
           />
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       </div>
 
