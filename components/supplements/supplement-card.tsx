@@ -81,25 +81,25 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
     const categoryLower = category.toLowerCase()
 
     if (categoryLower.includes("adaptogen")) {
-      return "/adaptogenic-herbs-shield-protection-natural.jpg"
+      return "/minimalistic-shield-icon-for-adaptogenic-supplemen.jpg"
     }
     if (categoryLower.includes("nootropic")) {
-      return "/brain-enhancement-neural-network-cognitive.jpg"
+      return "/minimalistic-brain-icon-for-nootropic-supplements.jpg"
     }
     if (categoryLower.includes("herb") || categoryLower.includes("extract") || categoryLower.includes("mushroom")) {
-      return "/medicinal-herbs-botanical-extract-natural.jpg"
+      return "/minimalistic-leaf-icon-for-herbal-supplements.jpg"
     }
     if (categoryLower.includes("vitamin")) {
-      return "/vitamin-capsule-nutritional-supplement.jpg"
+      return "/minimalistic-pill-capsule-icon-for-vitamin-supplem.jpg"
     }
     if (categoryLower.includes("mineral")) {
-      return "/mineral-crystal-structure-chemical-compound.jpg"
+      return "/minimalistic-crystal-icon-for-mineral-supplements.jpg"
     }
     if (categoryLower.includes("amino")) {
-      return "/amino-acid-protein-building-blocks-molecular.jpg"
+      return "/minimalistic-molecule-icon-for-amino-acid-suppleme.jpg"
     }
 
-    return "/dietary-supplement-health-wellness.jpg"
+    return "/minimalistic-supplement-bottle-icon.jpg"
   }
 
   if (viewMode === "list") {
@@ -149,14 +149,14 @@ export function SupplementCard({ supplement, viewMode }: SupplementCardProps) {
   return (
     <GlassCard className="p-6 h-full hover:scale-[1.02] transition-all duration-300 flex flex-col" hover>
       <div className="flex items-center justify-center mb-4">
-        <div className="relative w-16 h-16 rounded-xl overflow-hidden">
+        <div className="relative w-16 h-16 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center overflow-hidden">
           <img
             src={getCategoryImage(firstCategory) || "/placeholder.svg"}
             alt={`${firstCategory} supplement`}
-            className="w-full h-full object-cover"
+            className="w-10 h-10 object-contain opacity-80"
             onError={(e) => {
               const target = e.target as HTMLImageElement
-              target.src = "/dietary-supplement-health-wellness.jpg"
+              target.src = "/supplement-icon.png"
             }}
           />
         </div>
