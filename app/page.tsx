@@ -442,67 +442,121 @@ export default function HomePage() {
           </motion.div>
 
           <div className="relative">
-            <button
-              onClick={scrollLeft}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-start bg-gradient-to-r from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
-              aria-label="Scroll left"
-            >
-              <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center ml-4 transition-all duration-300 hover:scale-110">
-                <ArrowRight className="h-5 w-5 text-foreground rotate-180" />
+            {/* Desktop horizontal scroll */}
+            <div className="hidden md:block">
+              <button
+                onClick={scrollLeft}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-start bg-gradient-to-r from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
+                aria-label="Scroll left"
+              >
+                <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center ml-4 transition-all duration-300 hover:scale-110">
+                  <ArrowRight className="h-5 w-5 text-foreground rotate-180" />
+                </div>
+              </button>
+
+              <button
+                onClick={scrollRight}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-end bg-gradient-to-l from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
+                aria-label="Scroll right"
+              >
+                <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center mr-4 transition-all duration-300 hover:scale-110">
+                  <ArrowRight className="h-5 w-5 text-foreground" />
+                </div>
+              </button>
+
+              <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
+
+              <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 scrollbar-hide">
+                <div className="flex gap-6 pl-24 pr-24 w-max">
+                  {features.map((feature, index) => {
+                    const Icon = feature.icon
+                    return (
+                      <motion.div
+                        key={feature.title}
+                        className="flex-shrink-0 w-80"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        <GlassCard
+                          variant="strong"
+                          className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105"
+                          hover
+                        >
+                          <Link href={feature.href} className="block">
+                            {feature.isPremium && (
+                              <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
+                                Premium
+                              </div>
+                            )}
+
+                            <div className="flex items-center mb-4">
+                              <motion.div
+                                className="p-3 rounded-xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
+                                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                              >
+                                <Icon className={`h-6 w-6 ${feature.color}`} />
+                              </motion.div>
+                              <h3 className="text-xl font-semibold font-heading">{feature.title}</h3>
+                            </div>
+                            <p className="text-muted-foreground leading-relaxed mb-4">{feature.description}</p>
+                            <motion.div className="flex items-center text-primary group-hover:translate-x-2 transition-transform duration-300">
+                              <span className="text-sm font-medium">{feature.cta}</span>
+                              <ArrowRight className="ml-2 h-4 w-4" />
+                            </motion.div>
+                          </Link>
+                        </GlassCard>
+                      </motion.div>
+                    )
+                  })}
+                </div>
               </div>
-            </button>
 
-            <button
-              onClick={scrollRight}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-end bg-gradient-to-l from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
-              aria-label="Scroll right"
-            >
-              <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center mr-4 transition-all duration-300 hover:scale-110">
-                <ArrowRight className="h-5 w-5 text-foreground" />
+              <div className="text-center mt-4">
+                <p className="text-sm text-muted-foreground">← Scroll to see all features →</p>
               </div>
-            </button>
+            </div>
 
-            <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
-
-            <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 scrollbar-hide">
-              <div className="flex gap-6 pl-24 pr-24 w-max">
+            {/* Mobile responsive grid */}
+            <div className="md:hidden">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {features.map((feature, index) => {
                   const Icon = feature.icon
                   return (
                     <motion.div
                       key={feature.title}
-                      className="flex-shrink-0 w-80"
-                      initial={{ opacity: 0, x: 50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                       viewport={{ once: true }}
                     >
                       <GlassCard
                         variant="strong"
-                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105"
+                        className="p-4 h-full group transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 cursor-pointer rounded-xl relative"
                         hover
                       >
                         <Link href={feature.href} className="block">
                           {feature.isPremium && (
-                            <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
+                            <div className="absolute top-3 right-3 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
                               Premium
                             </div>
                           )}
 
-                          <div className="flex items-center mb-4">
+                          <div className="flex items-center mb-3">
                             <motion.div
-                              className="p-3 rounded-xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
+                              className="p-2 rounded-lg bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-lg dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-3"
                               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
                             >
-                              <Icon className={`h-6 w-6 ${feature.color}`} />
+                              <Icon className={`h-5 w-5 ${feature.color}`} />
                             </motion.div>
-                            <h3 className="text-xl font-semibold font-heading">{feature.title}</h3>
+                            <h3 className="text-lg font-semibold font-heading">{feature.title}</h3>
                           </div>
-                          <p className="text-muted-foreground leading-relaxed mb-4">{feature.description}</p>
-                          <motion.div className="flex items-center text-primary group-hover:translate-x-2 transition-transform duration-300">
+                          <p className="text-muted-foreground text-sm leading-relaxed mb-3">{feature.description}</p>
+                          <motion.div className="flex items-center text-primary group-hover:translate-x-1 transition-transform duration-300">
                             <span className="text-sm font-medium">{feature.cta}</span>
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            <ArrowRight className="ml-1 h-3 w-3" />
                           </motion.div>
                         </Link>
                       </GlassCard>
@@ -510,10 +564,6 @@ export default function HomePage() {
                   )
                 })}
               </div>
-            </div>
-
-            <div className="text-center mt-4">
-              <p className="text-sm text-muted-foreground">← Scroll to see all features →</p>
             </div>
           </div>
         </div>

@@ -136,7 +136,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 bioascend2_fe/
 ├── app/                           # Next.js App Router
 │   ├── layout.tsx                 # Root layout with navigation and theme providers
@@ -227,7 +227,7 @@ bioascend2_fe/
 ├── package.json                 # Dependencies and scripts
 ├── pnpm-lock.yaml              # PNPM lockfile for consistent installations
 └── README.md                    # This documentation file
-```
+\`\`\`
 
 ## 🚀 Getting Started
 
@@ -256,7 +256,7 @@ bioascend2_fe/
 3. **Environment Configuration**:
    Create `.env.local` file in the root directory:
 
-   ```env
+   \`\`\`env
    # API Configuration
    NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
    # Production: https://bioaionics-api.onrender.com
@@ -276,14 +276,14 @@ bioascend2_fe/
 
    # Optional: Email testing
    NEXT_PUBLIC_ENABLE_EMAIL_DEBUG=true
-   ```
+   \`\`\`
 
 4. **Start the development server**:
 
-   ```bash
+   \`\`\`bash
    pnpm dev
    # Alternative: npm run dev or yarn dev
-   ```
+   \`\`\`
 
    The application will be available at:
 
@@ -292,7 +292,7 @@ bioascend2_fe/
 
 5. **Build and test production version**:
 
-   ```bash
+   \`\`\`bash
    # Build the application
    pnpm build
 
@@ -301,13 +301,13 @@ bioascend2_fe/
 
    # Analyze bundle size
    pnpm analyze
-   ```
+   \`\`\`
 
 ### Backend Integration Requirements
 
 **Local Development Setup:**
 
-```bash
+\`\`\`bash
 # In the backend directory (bioascend2_be)
 # Ensure Python virtual environment is activated
 source .venv/bin/activate
@@ -316,17 +316,17 @@ source .venv/bin/activate
 uvicorn app.main:app --reload --port 8000
 
 # Or use VS Code task: backend:dev
-```
+\`\`\`
 
 **Verify Backend Connection:**
 
-```bash
+\`\`\`bash
 # Health check
 curl http://localhost:8000/v1/health
 
 # API documentation
 open http://localhost:8000/docs
-```
+\`\`\`
 
 **Production Backend:**
 
@@ -340,7 +340,7 @@ open http://localhost:8000/docs
 
 **GlassCard Variants:**
 
-```tsx
+\`\`\`tsx
 // Primary glass effect for main content
 <GlassCard variant="primary">Main content</GlassCard>
 
@@ -349,31 +349,31 @@ open http://localhost:8000/docs
 
 // Accent glass effect for highlighting
 <GlassCard variant="accent">Highlighted content</GlassCard>
-```
+\`\`\`
 
 **LiquidButton Animations:**
 
-```tsx
+\`\`\`tsx
 // Animated button with liquid hover effects
 <LiquidButton variant="primary" size="lg" className="transform hover:scale-105">
   Get Started
 </LiquidButton>
-```
+\`\`\`
 
 **Animated Backgrounds:**
 
-```tsx
+\`\`\`tsx
 // Page-specific animated gradient backgrounds
 <PageBackground page="biorhythms" />  // Biorhythm-themed gradients
 <PageBackground page="supplements" />  // Health-focused gradients
 <PageBackground page="mind" />         // Meditation-inspired gradients
-```
+\`\`\`
 
 ### Theme System Architecture
 
 **CSS Custom Properties:**
 
-```css
+\`\`\`css
 :root {
   /* Glass morphism variables */
   --glass-bg: rgba(255, 255, 255, 0.1);
@@ -390,7 +390,7 @@ open http://localhost:8000/docs
   --animation-normal: 0.3s;
   --animation-slow: 0.5s;
 }
-```
+\`\`\`
 
 **Theme Toggle Implementation:**
 
@@ -403,7 +403,7 @@ open http://localhost:8000/docs
 
 **Breakpoint System:**
 
-```javascript
+\`\`\`javascript
 const breakpoints = {
   sm: "640px", // Mobile landscape
   md: "768px", // Tablet portrait
@@ -411,7 +411,7 @@ const breakpoints = {
   xl: "1280px", // Desktop
   "2xl": "1536px", // Large desktop
 };
-```
+\`\`\`
 
 **Mobile-First Approach:**
 
@@ -424,7 +424,7 @@ const breakpoints = {
 
 **Framer Motion Integration:**
 
-```tsx
+\`\`\`tsx
 // Page transitions with stagger animations
 const pageVariants = {
   initial: { opacity: 0, y: 20 },
@@ -442,7 +442,7 @@ const containerVariants = {
     },
   },
 };
-```
+\`\`\`
 
 **Performance Considerations:**
 
@@ -457,7 +457,7 @@ const containerVariants = {
 
 **User Registration:**
 
-```typescript
+\`\`\`typescript
 // Registration with email verification
 const registerUser = async (userData: RegisterData) => {
   const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
@@ -469,11 +469,11 @@ const registerUser = async (userData: RegisterData) => {
   if (!response.ok) throw new Error("Registration failed");
   return response.json();
 };
-```
+\`\`\`
 
 **Authentication State Management:**
 
-```typescript
+\`\`\`typescript
 // useUser hook implementation
 const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -503,13 +503,13 @@ const useUser = () => {
 
   return { user, loading, checkAuthStatus };
 };
-```
+\`\`\`
 
 ### API Client Architecture
 
 **Base API Configuration:**
 
-```typescript
+\`\`\`typescript
 const apiClient = {
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000",
 
@@ -534,11 +534,11 @@ const apiClient = {
     return response.json();
   },
 };
-```
+\`\`\`
 
 ### Supplements API Integration
 
-```typescript
+\`\`\`typescript
 // Get supplements with filtering and pagination
 GET /v1/supplements?page=1&limit=20&category=adaptogen&goals=focus,energy&q=ashwagandha
 
@@ -555,13 +555,13 @@ POST /v1/reviews/{supplement_id}
 
 // Get aggregated rating statistics
 GET /v1/ratings/{supplement_id}/aggregate
-```
+\`\`\`
 
 ### Error Handling & User Feedback
 
 **Global Error Management:**
 
-```typescript
+\`\`\`typescript
 // Custom error boundary with user-friendly messages
 export function ErrorBoundary({ children }: { children: React.ReactNode }) {
   return (
@@ -597,11 +597,11 @@ const getErrorMessage = (error: unknown): string => {
   }
   return "An unexpected error occurred";
 };
-```
+\`\`\`
 
 **Toast Notification System:**
 
-```typescript
+\`\`\`typescript
 // Integrated toast notifications for API responses
 const { toast } = useToast();
 
@@ -620,7 +620,7 @@ const handleError = (error: APIError) => {
     variant: "destructive",
   });
 };
-```
+\`\`\`
 
 ## 📱 Features in Detail
 
@@ -678,7 +678,7 @@ const handleError = (error: APIError) => {
 
 2. **Production Environment Variables**:
 
-   ```env
+   \`\`\`env
    # API Configuration
    NEXT_PUBLIC_API_BASE_URL=https://bioaionics-api.onrender.com
 
@@ -693,10 +693,10 @@ const handleError = (error: APIError) => {
 
    # Environment
    NODE_ENV=production
-   ```
+   \`\`\`
 
 3. **Build Configuration**:
-   ```javascript
+   \`\`\`javascript
    // vercel.json (optional)
    {
      "buildCommand": "pnpm build",
@@ -705,24 +705,24 @@ const handleError = (error: APIError) => {
      "framework": "nextjs",
      "regions": ["iad1"] // US East for optimal backend connectivity
    }
-   ```
+   \`\`\`
 
 ### Alternative Deployment Options
 
 **Manual Static Export:**
 
-```bash
+\`\`\`bash
 # Build and export static files
 pnpm build
 pnpm export
 
 # Deploy to any static hosting provider
 # (Netlify, GitHub Pages, AWS S3, etc.)
-```
+\`\`\`
 
 **Docker Deployment:**
 
-```dockerfile
+\`\`\`dockerfile
 # Dockerfile for containerized deployment
 FROM node:18-alpine AS base
 WORKDIR /app
@@ -737,13 +737,13 @@ FROM base AS runtime
 COPY --from=build /app/.next ./.next
 EXPOSE 3000
 CMD ["npm", "start"]
-```
+\`\`\`
 
 ### Performance Optimization
 
 **Bundle Analysis:**
 
-```bash
+\`\`\`bash
 # Analyze bundle size and dependencies
 pnpm analyze
 
@@ -752,7 +752,7 @@ pnpm analyze
 # - Largest Contentful Paint (LCP): < 2.5s
 # - Cumulative Layout Shift (CLS): < 0.1
 # - First Input Delay (FID): < 100ms
-```
+\`\`\`
 
 **SEO & Meta Optimization:**
 
@@ -768,7 +768,7 @@ pnpm analyze
 
 **TypeScript Configuration:**
 
-```json
+\`\`\`json
 // tsconfig.json - Strict type checking
 {
   "compilerOptions": {
@@ -779,11 +779,11 @@ pnpm analyze
     "exactOptionalPropertyTypes": true
   }
 }
-```
+\`\`\`
 
 **ESLint & Prettier Setup:**
 
-```bash
+\`\`\`bash
 # Run linting
 pnpm lint
 
@@ -795,13 +795,13 @@ pnpm format:check
 
 # Format code
 pnpm format
-```
+\`\`\`
 
 ### Development Workflow
 
 **Component Development:**
 
-```bash
+\`\`\`bash
 # Create new component with proper typing
 # components/ui/new-component.tsx
 export interface NewComponentProps {
@@ -820,11 +820,11 @@ export function NewComponent({ variant = 'primary', children }: NewComponentProp
     </div>
   )
 }
-```
+\`\`\`
 
 **API Integration Testing:**
 
-```bash
+\`\`\`bash
 # Test API endpoints
 curl -X GET "http://localhost:8000/v1/health"
 curl -X GET "http://localhost:8000/v1/supplements?limit=5"
@@ -833,7 +833,7 @@ curl -X GET "http://localhost:8000/v1/supplements?limit=5"
 curl -X POST "http://localhost:8000/v1/auth/register" \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"testpass123","name":"Test User"}'
-```
+\`\`\`
 
 ### Performance Monitoring
 
@@ -845,7 +845,7 @@ curl -X POST "http://localhost:8000/v1/auth/register" \
 
 **Bundle Size Monitoring:**
 
-```bash
+\`\`\`bash
 # Generate bundle analysis
 pnpm build && pnpm analyze
 
@@ -853,26 +853,26 @@ pnpm build && pnpm analyze
 # - Initial bundle: < 250KB gzipped
 # - Route chunks: < 100KB gzipped
 # - Shared chunks: Optimal code splitting
-```
+\`\`\`
 
 ### Testing Strategy (Future Implementation)
 
 **Unit Testing:**
 
-```bash
+\`\`\`bash
 # Jest + Testing Library setup
 pnpm test
 pnpm test:watch
 pnpm test:coverage
-```
+\`\`\`
 
 **Integration Testing:**
 
-```bash
+\`\`\`bash
 # Cypress E2E testing
 pnpm cypress:open
 pnpm cypress:run
-```
+\`\`\`
 
 **Key Test Areas:**
 
@@ -1049,7 +1049,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 
 **Recommended VS Code Extensions:**
 
-```json
+\`\`\`json
 {
   "recommendations": [
     "bradlc.vscode-tailwindcss",
@@ -1059,7 +1059,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
     "christian-kohler.path-intellisense"
   ]
 }
-```
+\`\`\`
 
 ### Community Guidelines
 
@@ -1140,7 +1140,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for complete details.
 
-```
+\`\`\`
 MIT License
 
 Copyright (c) 2024 BioAionics Team
@@ -1154,7 +1154,7 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-```
+\`\`\`
 
 ---
 
