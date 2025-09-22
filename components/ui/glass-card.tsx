@@ -13,14 +13,13 @@ export interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
   ({ className, variant = "default", hover = false, animate = false, children, ...props }, ref) => {
     const variants = {
-      default: "bg-white/20 backdrop-blur-xl border border-white/35 shadow-2xl dark:bg-white/12 dark:border-white/25",
-      strong: "bg-white/20 backdrop-blur-xl border border-white/35 shadow-2xl dark:bg-white/12 dark:border-white/25",
-      subtle: "bg-white/8 backdrop-blur-md border border-white/15 shadow-lg dark:bg-white/4 dark:border-white/8",
+      default: "bg-white/12 backdrop-blur-xl border border-white/25 shadow-2xl dark:bg-white/8 dark:border-white/20",
+      strong: "bg-white/15 backdrop-blur-xl border border-white/30 shadow-2xl dark:bg-white/10 dark:border-white/22",
+      subtle: "bg-white/5 backdrop-blur-md border border-white/12 shadow-lg dark:bg-white/3 dark:border-white/6",
     }
 
     const hoverClasses = hover
-      ? // Enhanced hover effects with scale and glow
-        "transition-all duration-500 hover:bg-white/18 hover:backdrop-blur-xl hover:border-white/30 hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 dark:hover:bg-white/10 dark:hover:border-white/20 cursor-pointer group"
+      ? "transition-all duration-500 hover:bg-white/15 hover:backdrop-blur-xl hover:border-white/28 hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1 dark:hover:bg-white/8 dark:hover:border-white/18 cursor-pointer group"
       : ""
 
     const cardContent = (
