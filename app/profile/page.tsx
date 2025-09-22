@@ -54,6 +54,7 @@ export default function ProfilePage() {
   const authUser = useUser()
   const [isEditing, setIsEditing] = useState(false)
   const [user, setUser] = useState(mockUser)
+  const [originalUser, setOriginalUser] = useState(mockUser) // Store original state for cancel
   const [imageError, setImageError] = useState(false)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true) // added loading state
@@ -67,6 +68,7 @@ export default function ProfilePage() {
   const [emailChangePending, setEmailChangePending] = useState(false)
   const [emailChangeDebugLink, setEmailChangeDebugLink] = useState<string | null>(null)
   const [twoFactorPending, setTwoFactorPending] = useState(false)
+  const [savePending, setSavePending] = useState(false)
 
   const { toast } = useToast()
 
@@ -80,12 +82,14 @@ export default function ProfilePage() {
   // Sync auth user data into editable state (also override mock avatar)
   useEffect(() => {
     if (authUser && authUser.status !== "guest") {
-      setUser((prev) => ({
-        ...prev,
-        name: authUser.name || prev.name,
-        email: authUser.email || prev.email,
-        avatar: authUser.avatar_url || undefined,
-      }))
+      const updatedUser = {
+        ...mockUser,
+        name: authUser.name || mockUser.name,
+        email: authUser.email || mockUser.email,
+        avatar: authUser.avatar_url || mockUser.avatar,
+      }
+      setUser(updatedUser)
+      setOriginalUser(updatedUser) // Store the original state
     }
   }, [authUser])
 
@@ -96,17 +100,21 @@ export default function ProfilePage() {
   }, [authUser?.email])
 
   const handleSave = async () => {
+    setSavePending(true)
     try {
       await updateProfile({ name: user.name, email: user.email, avatar_url: user.avatar, ...(user.bio ? { bio: user.bio } : {}) })
+      setOriginalUser(user) // Update original state to current after successful save
       setIsEditing(false)
       setAvatarPreview(null)
     } catch (e: any) {
       alert(e?.message || "Failed to update profile")
+    } finally {
+      setSavePending(false)
     }
   }
 
   const handleCancel = () => {
-    setUser(mockUser)
+    setUser(originalUser) // Restore original user data instead of mock data
     setIsEditing(false)
     setAvatarPreview(null)
   }
@@ -152,7 +160,10 @@ export default function ProfilePage() {
       })
       if (!res.ok) throw new Error("Failed to upload avatar")
       const data = await res.json()
-      setUser({ ...user, avatar: data.avatar_url })
+      const updatedUser = { ...user, avatar: data.avatar_url }
+      setUser(updatedUser)
+      // Don't update originalUser here - only update it when the full profile is saved
+      // This allows the user to cancel and revert the avatar change if they want
     } catch (e: any) {
       alert(e?.message || "Failed to upload avatar")
     }
@@ -235,6 +246,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 p-4 pt-24 relative">
       <ProfileBackground />
+      <SupplementLoader isVisible={savePending} message="Save changes" />
 
       <div className="max-w-4xl mx-auto space-y-6 relative z-10">
         {/* Header */}
@@ -280,7 +292,7 @@ export default function ProfilePage() {
                 <p className="text-xs sm:text-sm text-muted-foreground">
                   Member since {new Date((authUser.created_at as any) || user.joinDate).toLocaleDateString()}
                 </p>
-                {authUser.status !== "guest" && authUser.is_email_verified === false && (
+                {authUser.id && authUser.is_email_verified === false && (
                   <div className="mt-2 text-xs sm:text-sm text-amber-600">
                     Email not verified. <button className="underline" onClick={async () => {
                       try {
@@ -296,14 +308,14 @@ export default function ProfilePage() {
             </div>
             <div className="flex-shrink-0 w-full sm:w-auto flex gap-2">
               <LiquidButton
-                variant={isEditing ? "destructive" : "outline"}
+                variant={isEditing ? "ghost" : "outline"}
                 onClick={isEditing ? handleCancel : () => setIsEditing(true)}
                 className="gap-2 w-full sm:w-auto"
               >
                 {isEditing ? <X className="w-4 h-4" /> : <Edit3 className="w-4 h-4" />}
                 {isEditing ? "Cancel" : "Edit Profile"}
               </LiquidButton>
-              {authUser.status !== "guest" && (
+              {authUser.id && (
                 <LiquidButton variant="outline" onClick={async () => { await logoutUser(); window.location.href = "/auth/login" }} className="gap-2 w-full sm:w-auto">
                   Logout
                 </LiquidButton>
@@ -374,9 +386,9 @@ export default function ProfilePage() {
               </div>
               {isEditing && (
                 <div className="flex justify-end">
-                  <LiquidButton onClick={handleSave} className="gap-2">
+                  <LiquidButton onClick={handleSave} disabled={savePending} className="gap-2">
                     <Save className="w-4 h-4" />
-                    Save Changes
+                    {savePending ? "Save changes" : "Save Changes"}
                   </LiquidButton>
                 </div>
               )}
