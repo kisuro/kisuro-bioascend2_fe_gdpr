@@ -425,32 +425,50 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
     return relevantSupplements.slice(0, 4)
   }
 
-  const handleFoodCravingSubmit = async (e: React.FormEvent) => {
+    const handleFoodCravingSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!foodCraving.trim()) return
 
     setIsLoadingCravings(true)
 
     try {
-      const relevantSupplements = findRelevantSupplements(foodCraving)
-
       let data = null
 
+      // Try to call the real API first
       try {
-        const response = await fetch("/api/food-cravings/recommend", {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+        const response = await fetch(`${API_URL}/v1/cravings/analyze`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ food_name: foodCraving }),
+          body: JSON.stringify({ foods: [foodCraving] }),
         })
 
         if (response.ok) {
-          data = await response.json()
+          const apiData = await response.json()
+          
+          // Transform API response to match our UI format
+          data = {
+            food_name: foodCraving,
+            foods_analyzed: apiData.foods_analyzed,
+            nutrients: apiData.potential_deficiencies,
+            deficiency_frequency: apiData.deficiency_frequency,
+            recommendations: apiData.recommended_supplements.map((supplement: any) => ({
+              name: supplement.name,
+              reason: `Based on your ${foodCraving} craving, this may help with ${supplement.summary || 'nutritional balance'}`,
+              supplement_id: supplement.id,
+              supplement: supplement,
+              dosage: supplement.dosage,
+              evidence_level: supplement.evidence_level
+            })),
+          }
         }
       } catch (apiError) {
-        console.log("[v0] API endpoint not available, using supplement library data")
+        console.log("Cravings API not available, using fallback logic")
       }
 
+      // Fallback to local logic if API fails
       if (!data) {
+        const relevantSupplements = findRelevantSupplements(foodCraving)
         const cravingLower = foodCraving.toLowerCase()
         let nutrients = ["Magnesium", "Iron", "B-Complex"]
 
@@ -869,17 +887,47 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                         transition={{ duration: 0.5 }}
                       >
                         <GlassCard className="glass-strong p-6 mb-6">
-                          <h3 className="text-xl font-bold mb-4">Analysis for "{cravingResults.food_name}"</h3>
+                          <h3 className="text-xl font-bold mb-4">
+                            Analysis for "{cravingResults.food_name}"
+                            {cravingResults.foods_analyzed && cravingResults.foods_analyzed.length > 0 && (
+                              <span className="text-sm font-normal text-muted-foreground ml-2">
+                                (Found {cravingResults.foods_analyzed.length} matching foods)
+                              </span>
+                            )}
+                          </h3>
+                          
                           <div className="mb-4">
-                            <h4 className="font-semibold mb-2">Key Nutrients:</h4>
+                            <h4 className="font-semibold mb-2">Potential Deficiencies:</h4>
                             <div className="flex flex-wrap gap-2">
                               {cravingResults.nutrients.map((nutrient: string) => (
-                                <Badge key={nutrient} variant="secondary" className="glass-subtle">
+                                <Badge 
+                                  key={nutrient} 
+                                  variant="secondary" 
+                                  className="glass-subtle relative"
+                                >
                                   {nutrient}
+                                  {cravingResults.deficiency_frequency?.[nutrient] && (
+                                    <span className="ml-1 text-xs text-primary">
+                                      ×{cravingResults.deficiency_frequency[nutrient]}
+                                    </span>
+                                  )}
                                 </Badge>
                               ))}
                             </div>
                           </div>
+
+                          {cravingResults.foods_analyzed && cravingResults.foods_analyzed.length > 0 && (
+                            <div className="mb-4">
+                              <h4 className="font-semibold mb-2">Matching Foods:</h4>
+                              <div className="flex flex-wrap gap-2">
+                                {cravingResults.foods_analyzed.map((food: string) => (
+                                  <Badge key={food} variant="outline" className="glass-subtle">
+                                    {food}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </GlassCard>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -892,7 +940,14 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                             >
                               <GlassCard className="glass-subtle p-6">
                                 <div className="flex justify-between items-start mb-3">
-                                  <h4 className="font-bold text-lg">{rec.name}</h4>
+                                  <div>
+                                    <h4 className="font-bold text-lg">{rec.name}</h4>
+                                    {rec.evidence_level && (
+                                      <Badge variant="outline" className="text-xs mt-1">
+                                        Evidence: {rec.evidence_level}
+                                      </Badge>
+                                    )}
+                                  </div>
                                   {rec.supplement_id && (
                                     <LiquidButton
                                       variant="ghost"
@@ -909,15 +964,20 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                                 {rec.supplement && (
                                   <div className="mb-4 space-y-2">
                                     <div className="flex flex-wrap gap-1">
-                                      {rec.supplement.goals.slice(0, 3).map((goal: string) => (
+                                      {(rec.supplement.goals || []).slice(0, 3).map((goal: string) => (
                                         <Badge key={goal} variant="outline" className="text-xs">
                                           {goal}
                                         </Badge>
                                       ))}
                                     </div>
-                                    {rec.supplement.dosage && (
+                                    {(rec.dosage || rec.supplement.dosage) && (
                                       <p className="text-sm text-muted-foreground">
-                                        <strong>Dosage:</strong> {rec.supplement.dosage}
+                                        <strong>Dosage:</strong> {rec.dosage || rec.supplement.dosage}
+                                      </p>
+                                    )}
+                                    {rec.supplement.summary && (
+                                      <p className="text-sm text-muted-foreground line-clamp-2">
+                                        {rec.supplement.summary}
                                       </p>
                                     )}
                                   </div>
