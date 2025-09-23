@@ -126,8 +126,11 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
 
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
             <LiquidButton variant="outline" onClick={handleClose} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5" disabled={isSubmitting}>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
+            <LiquidButton variant="outline" onClick={handleClose} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5" disabled={isSubmitting}>
               Cancel
             </LiquidButton>
+            <LiquidButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5">
             <LiquidButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5">
               {isSubmitting ? "Submitting..." : "Submit"}
             </LiquidButton>
