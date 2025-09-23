@@ -5,7 +5,7 @@ import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus, Exte
 import { GlassCard } from "@/components/ui/glass-card"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
-import { useUser } from "@/lib/hooks/use-user"
+import { useUser, buildAuthHeaders } from "@/lib/hooks/use-user"
 import { StarRatingPicker } from "@/components/supplements/star-rating-picker"
 import { ReviewModal } from "@/components/supplements/review-modal"
 import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
@@ -319,12 +319,19 @@ const mapApiReviewToUI = (r: any): Review => ({
       
       console.log("[DEBUG] Request:", { method, url }) // Debug logging
       
+      const headers = buildAuthHeaders({
+        "Content-Type": "application/json",
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+      })
+      
+      console.log("[DEBUG] Request headers:", headers) // Debug logging
+      
       const res = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         credentials: "include",
+        cache: 'no-store', // Prevent caching issues in mobile Safari
         body: JSON.stringify(payload),
       })
 
@@ -358,12 +365,17 @@ const mapApiReviewToUI = (r: any): Review => ({
         ? `${API_BASE}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
         : `${API_BASE}/v1/reviews/${supplement.id}`
       const method = existing ? "PATCH" : "POST"
+      const headers = buildAuthHeaders({
+        "Content-Type": "application/json",
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+      })
+      
       const res = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         credentials: "include",
+        cache: 'no-store', // Prevent caching issues in mobile Safari
         body: JSON.stringify(payload),
       })
 

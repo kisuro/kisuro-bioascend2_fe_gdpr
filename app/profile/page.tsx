@@ -399,20 +399,44 @@ export default function ProfilePage() {
     const form = new FormData()
     form.append("file", file)
     try {
+      // Use improved headers for Mobile Safari compatibility
+      const headers = buildAuthHeaders({
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        // Note: Don't set Content-Type for FormData, let browser set it with boundary
+      })
+      // Remove Content-Type header for FormData to let browser handle it
+      delete (headers as any)['Content-Type']
+      
+      console.log("[Avatar Upload] Uploading with headers:", headers) // Debug logging
+      
       const res = await fetch((process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000") + "/v1/auth/avatar", {
         method: "POST",
         credentials: "include",
-        headers: buildAuthHeaders(),
+        headers,
         body: form,
+        cache: 'no-store', // Prevent caching issues in mobile Safari
       })
-      if (!res.ok) throw new Error("Failed to upload avatar")
+      
+      console.log("[Avatar Upload] Response status:", res.status) // Debug logging
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        console.error("[Avatar Upload] Error:", { status: res.status, errorData }) // Debug logging
+        throw new Error(errorData?.detail || `Upload failed with status ${res.status}`)
+      }
       const data = await res.json()
+      console.log("[Avatar Upload] Success:", data) // Debug logging
       const updatedUser = { ...user, avatar: data.avatar_url }
       setUser(updatedUser)
       // Don't update originalUser here - only update it when the full profile is saved
       // This allows the user to cancel and revert the avatar change if they want
     } catch (e: any) {
-      alert(e?.message || "Failed to upload avatar")
+      console.error("[Avatar Upload] Exception:", e) // Debug logging
+      const errorMsg = e?.message || "Failed to upload avatar"
+      alert(`Avatar upload failed: ${errorMsg}`)
+      // Reset preview on error
+      setAvatarPreview(null)
     }
   }
 

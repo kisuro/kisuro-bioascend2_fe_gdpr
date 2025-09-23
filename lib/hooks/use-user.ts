@@ -66,9 +66,27 @@ export function useUser(): User {
     let cancelled = false
     async function loadMe() {
       try {
-        const res = await fetch(`${API_BASE}/v1/auth/me`, { credentials: "include", headers: buildAuthHeaders() })
+        // For mobile Safari compatibility, try multiple approaches
+        const headers = buildAuthHeaders({
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+        })
+        
+        console.log("[useUser] Attempting to load user with headers:", headers)
+        
+        const res = await fetch(`${API_BASE}/v1/auth/me`, { 
+          credentials: "include",
+          headers,
+          // Add cache busting for mobile Safari
+          cache: 'no-store'
+        })
+        
+        console.log("[useUser] Response status:", res.status)
+        console.log("[useUser] Response headers:", Object.fromEntries(res.headers.entries()))
+        
         if (res.ok) {
           const data = await res.json()
+          console.log("[useUser] User data received:", data)
           if (!cancelled) {
             setUser({
               status: (data.status as UserStatus) || "user",
@@ -85,9 +103,11 @@ export function useUser(): User {
             })
           }
         } else {
+          console.log("[useUser] Auth failed with status:", res.status)
           if (!cancelled) setUser({ status: "guest", isLoading: false })
         }
-      } catch {
+      } catch (error) {
+        console.error("[useUser] Auth request failed:", error)
         if (!cancelled) setUser({ status: "guest", isLoading: false })
       }
     }
@@ -109,26 +129,48 @@ export function useUser(): User {
 export async function registerUser(email: string, password: string, name?: string) {
   const res = await fetch(`${API_BASE}/v1/auth/register`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+    },
     credentials: "include",
     body: JSON.stringify({ email, password, name }),
   })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Registration failed")
   const data = await res.json()
-  storeToken(res.headers.get("X-Access-Token"))
+  
+  // Store token from header for mobile Safari compatibility
+  const token = res.headers.get("X-Access-Token")
+  if (token) {
+    console.log("[registerUser] Storing token from header for mobile Safari compatibility")
+    storeToken(token)
+  }
+  
   return data
 }
 
 export async function loginUser(email: string, password: string) {
   const res = await fetch(`${API_BASE}/v1/auth/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+    },
     credentials: "include",
     body: JSON.stringify({ email, password }),
   })
   if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "Login failed")
   const data = await res.json()
-  storeToken(res.headers.get("X-Access-Token"))
+  
+  // Store token from header for mobile Safari compatibility
+  const token = res.headers.get("X-Access-Token")
+  if (token) {
+    console.log("[loginUser] Storing token from header for mobile Safari compatibility")
+    storeToken(token)
+  }
+  
   return data
 }
 
