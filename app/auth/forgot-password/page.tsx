@@ -9,14 +9,14 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1"
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setMessage(null)
     setPending(true)
     try {
-      const res = await fetch(`${API_BASE}/auth/forgot-password?email=${encodeURIComponent(email)}`, { method: "POST" })
+      const res = await fetch(`${API_BASE}/v1/auth/forgot-password?email=${encodeURIComponent(email)}`, { method: "POST" })
       const data = await res.json().catch(() => ({}))
       setMessage(data.reset_link ? `Link (dev): ${data.reset_link}` : "If the email exists, a reset link was sent")
     } finally {
