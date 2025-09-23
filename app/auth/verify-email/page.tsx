@@ -11,7 +11,7 @@ export default function VerifyEmailPage() {
       setMessage("Missing token")
       return
     }
-    fetch((process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1") + `/auth/verify-email?token=${encodeURIComponent(token)}`)
+    fetch((process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000") + `/v1/auth/verify-email?token=${encodeURIComponent(token)}`)
       .then(async (r) => {
         if (r.ok) setMessage("Email verified. You can close this page.")
         else {
