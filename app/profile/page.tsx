@@ -399,7 +399,7 @@ export default function ProfilePage() {
     const form = new FormData()
     form.append("file", file)
     try {
-      const res = await fetch((process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/v1") + "/auth/avatar", {
+      const res = await fetch((process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000") + "/v1/auth/avatar", {
         method: "POST",
         credentials: "include",
         headers: buildAuthHeaders(),
