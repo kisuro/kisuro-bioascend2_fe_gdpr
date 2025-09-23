@@ -54,7 +54,7 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="glass-morph border-white/20 !max-w-[calc(100vw-2rem)] !w-[calc(100vw-2rem)] sm:mx-4 sm:!max-w-md sm:!w-auto overflow-hidden">
+      <DialogContent className="glass-morph border-white/20 !max-w-[calc(100vw-2rem)] !w-[calc(100vw-2rem)] mx-4 sm:!max-w-md sm:!w-auto overflow-hidden">
         <DialogHeader>
           <DialogTitle>{mode === "edit" ? "Edit Review" : "Add Review"}</DialogTitle>
           <DialogDescription>
