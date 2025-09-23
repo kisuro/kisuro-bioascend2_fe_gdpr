@@ -25,8 +25,6 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
   const [body, setBody] = useState(initialBody)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  console.log("[v0] ReviewModal mounted, isOpen:", isOpen)
-
   const handleSubmit = async () => {
     if (rating === 0) return
 
@@ -56,9 +54,7 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="glass-morph border-white/20 max-w-md mx-4">
-        {isOpen && console.log("[v0] ReviewModal DialogContent mounted")}
-
+      <DialogContent className="glass-morph border-white/20 !max-w-[calc(100vw-2rem)] !w-[calc(100vw-2rem)] sm:mx-4 sm:!max-w-md sm:!w-auto overflow-hidden">
         <DialogHeader>
           <DialogTitle>{mode === "edit" ? "Edit Review" : "Add Review"}</DialogTitle>
           <DialogDescription>
@@ -128,11 +124,11 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
             </div>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <LiquidButton variant="outline" onClick={handleClose} className="flex-1" disabled={isSubmitting}>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
+            <LiquidButton variant="outline" onClick={handleClose} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5" disabled={isSubmitting}>
               Cancel
             </LiquidButton>
-            <LiquidButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="flex-1">
+            <LiquidButton onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5">
               {isSubmitting ? "Submitting..." : "Submit"}
             </LiquidButton>
           </div>
