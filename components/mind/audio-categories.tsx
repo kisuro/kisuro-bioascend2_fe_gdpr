@@ -135,7 +135,7 @@ export function AudioCategories({ onPlayTrack }: AudioCategoriesProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <AudioTrackCard track={track} onPlay={() => onPlayTrack(track)} isPlaying={false} />
+                <AudioTrackCard track={track} onPlay={() => onPlayTrack(track)} isCurrentTrack={false} viewMode="grid" />
               </motion.div>
             ))
           ) : (

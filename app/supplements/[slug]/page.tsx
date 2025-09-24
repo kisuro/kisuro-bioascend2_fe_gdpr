@@ -213,5 +213,6 @@ export default async function SupplementDetailPage({
     rating,
     reviews_count,
   } as any;
-  return <SupplementDetailClient supplement={supplement as any} reviews={reviews} />;
+  // The client component fetches reviews itself; don't pass server-fetched reviews to avoid type mismatch
+  return <SupplementDetailClient supplement={supplement as any} />;
 }

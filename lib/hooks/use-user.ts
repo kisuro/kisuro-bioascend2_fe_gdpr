@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react"
 
 export type UserStatus = "guest" | "user" | "premium"
+export type UserRole = "user" | "moderator" | "owner"
 
 interface User {
   status: UserStatus
+  role?: UserRole
   id?: string
   name?: string
   email?: string
@@ -90,6 +92,7 @@ export function useUser(): User {
           if (!cancelled) {
             setUser({
               status: (data.status as UserStatus) || "user",
+              role: (data.role as UserRole) || "user",
               id: data.id,
               name: data.name,
               email: data.email,
@@ -119,10 +122,16 @@ export function useUser(): User {
 
   // Dev override to simulate premium
   if (process.env.NEXT_PUBLIC_FORCE_PREMIUM === "true") {
-    return { id: "dev", status: "premium", name: "Dev Premium", isLoading: false }
+    return { id: "dev", status: "premium", role: "user", name: "Dev Premium", isLoading: false }
   }
 
   return user
+}
+
+// Helper: treat moderators/owners as having premium capabilities
+export function hasPremiumAccess(u: User | undefined | null): boolean {
+  if (!u) return false
+  return u.status === "premium" || u.role === "moderator" || u.role === "owner"
 }
 
 // Optional helpers for UI actions

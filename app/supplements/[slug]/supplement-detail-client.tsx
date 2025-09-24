@@ -5,7 +5,7 @@ import { Star, Users, Calendar, User, Zap, BookOpen, Info, Shield, X, Plus, Exte
 import { GlassCard } from "@/components/ui/glass-card"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
-import { useUser, buildAuthHeaders } from "@/lib/hooks/use-user"
+import { useUser, buildAuthHeaders, hasPremiumAccess } from "@/lib/hooks/use-user"
 import { StarRatingPicker } from "@/components/supplements/star-rating-picker"
 import { ReviewModal } from "@/components/supplements/review-modal"
 import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
@@ -150,7 +150,9 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
   const { toast } = useToast()
   const user = useUser()
   const isAuthLoading = (user as any)?.isLoading
-  const isPremium = !!(user?.status === "premium")
+  const isPremium = hasPremiumAccess(user as any)
+  const isModerator = (user as any)?.role === "moderator" || (user as any)?.role === "owner"
+  const [moderatorEditingUsername, setModeratorEditingUsername] = useState<string | null>(null)
   const router = useRouter()
 
   const handleGoalClick = (goal: string) => {
@@ -290,6 +292,7 @@ const mapApiReviewToUI = (r: any): Review => ({
       const comment: string = (data?.body ?? data?.title ?? "").toString().trim()
       const rating: number = Number(data?.rating ?? userRating ?? 0) || 0
       const username = resolveUsername()
+      const targetUser = moderatorEditingUsername || username
 
       console.log("[DEBUG] Review submission data:", { rating, comment, username }) // Debug logging
 
@@ -301,21 +304,21 @@ const mapApiReviewToUI = (r: any): Review => ({
         body: comment,
         verified_purchase: false,
         created_at: new Date().toISOString(),
-        user: username,
+        user: targetUser,
       }
 
       // оптимистично покажем отзыв
       setAllReviews((prev) => [optimistic, ...prev])
 
-      const existing = allReviews.find((r) => r.user === username)
-      const payload = { user: username, rating, comment }
+  const existing = allReviews.find((r) => r.user === targetUser)
+  const payload = { user: targetUser, rating, comment }
       
       console.log("[DEBUG] API payload:", payload) // Debug logging
       
-      const url = existing
-        ? `${API_BASE}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
+      const url = existing || moderatorEditingUsername
+        ? `${API_BASE}/v1/reviews/${supplement.id}/${encodeURIComponent(targetUser)}`
         : `${API_BASE}/v1/reviews/${supplement.id}`
-      const method = existing ? "PATCH" : "POST"
+      const method = existing || moderatorEditingUsername ? "PATCH" : "POST"
       
       console.log("[DEBUG] Request:", { method, url }) // Debug logging
       
@@ -345,6 +348,7 @@ const mapApiReviewToUI = (r: any): Review => ({
       await refreshFromAPI()
       setUserRating(rating)
       setShowReviewModal(false)
+      setModeratorEditingUsername(null)
       toast({ title: "Thanks for your feedback!", description: "Your review has been submitted." })
     } catch (e: any) {
       toast({
@@ -394,6 +398,21 @@ const mapApiReviewToUI = (r: any): Review => ({
         description: e?.message || "Failed to submit rating.",
         variant: "destructive",
       })
+    }
+  }
+
+  const handleDeleteReview = async (username: string) => {
+    try {
+      const url = `${API_BASE}/v1/reviews/${supplement.id}/${encodeURIComponent(username)}`
+      const res = await fetch(url, { method: "DELETE", credentials: "include", headers: buildAuthHeaders() })
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}))
+        throw new Error(j?.detail || `HTTP ${res.status}`)
+      }
+      await refreshFromAPI()
+      toast({ title: "Deleted", description: "Review removed." })
+    } catch (e: any) {
+      toast({ title: "Error", description: e?.message || "Failed to delete review.", variant: "destructive" })
     }
   }
 
@@ -575,9 +594,30 @@ const mapApiReviewToUI = (r: any): Review => ({
                           </div>
                           {renderStars(rv.rating)}
                         </div>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Calendar className="h-3 w-3" />
                           <span>{formatDate(rv.created_at)}</span>
+                          {/* Moderator/Owner controls */}
+                          {isModerator && (
+                            <>
+                              <button
+                                className="underline text-amber-400 hover:text-amber-300"
+                                onClick={() => {
+                                  setUserRating(rv.rating)
+                                  setModeratorEditingUsername(rv.user || null)
+                                  setShowReviewModal(true)
+                                }}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="underline text-red-400 hover:text-red-300"
+                                onClick={() => rv.user && handleDeleteReview(rv.user)}
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                       {rv.title && <h4 className="font-medium mb-1">{rv.title}</h4>}
@@ -724,29 +764,30 @@ const mapApiReviewToUI = (r: any): Review => ({
 
         {/* Always mount modals so portals exist; control visibility via `open` */}
         {(() => {
-          const username = resolveUsername()
-          const mine = allReviews.find((r) => r.user === username)
+          // Determine which review to prefill in the modal:
+          // - If a moderator/owner clicked Edit on a specific review, use that review's username
+          // - Else use the current user's own review (if any)
+          const fallbackUsername = resolveUsername()
+          const username = moderatorEditingUsername || fallbackUsername
+          const selected = allReviews.find((r) => r.user === username) || null
+
           return (
             <ReviewModal
-              open={showReviewModal}
               isOpen={showReviewModal}
-              onOpenChange={(v: boolean) => setShowReviewModal(!!v)}
-              onClose={() => setShowReviewModal(false)}
+              onClose={() => {
+                setShowReviewModal(false)
+                setModeratorEditingUsername(null)
+              }}
               onSubmit={handleReviewSubmit}
-              initialRating={mine ? mine.rating : userRating}
-              initialTitle={mine?.title || ""}
-              initialBody={mine?.body || ""}
-              mode={mine ? "edit" : "add"}
+              initialRating={selected ? selected.rating : userRating}
+              initialTitle={selected?.title || ""}
+              initialBody={selected?.body || ""}
+              mode={selected ? "edit" : "add"}
             />
           )
         })()}
 
-        <PremiumGateModal
-          open={showPremiumGate}
-          isOpen={showPremiumGate}
-          onOpenChange={(v: boolean) => setShowPremiumGate(!!v)}
-          onClose={() => setShowPremiumGate(false)}
-        />
+        <PremiumGateModal isOpen={showPremiumGate} onClose={() => setShowPremiumGate(false)} />
       </div>
 
       {/* Floating action bar */}

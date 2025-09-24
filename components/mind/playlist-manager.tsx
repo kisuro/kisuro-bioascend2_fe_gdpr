@@ -201,7 +201,8 @@ export function PlaylistManager({ onPlayTrack, currentTrack }: PlaylistManagerPr
                   <AudioTrackCard
                     track={track}
                     onPlay={() => onPlayTrack(track)}
-                    isPlaying={currentTrack?.id === track.id}
+                    isCurrentTrack={currentTrack?.id === track.id}
+                    viewMode="list"
                   />
                 </motion.div>
               ))

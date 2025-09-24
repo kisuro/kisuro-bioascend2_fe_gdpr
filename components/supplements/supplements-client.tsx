@@ -394,7 +394,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const findRelevantSupplements = (craving: string): Supplement[] => {
     const cravingLower = craving.toLowerCase()
 
-    let matchedMapping = null
+  let matchedMapping: { keywords: string[]; goals: string[]; nutrients: string[] } | null = null
     for (const [key, mapping] of Object.entries(CRAVING_TO_SUPPLEMENT_MAP)) {
       if (cravingLower.includes(key)) {
         matchedMapping = mapping
@@ -402,21 +402,20 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
       }
     }
 
-    if (!matchedMapping) {
-      matchedMapping = {
-        nutrients: ["B-Complex", "Magnesium", "Adaptogenic herbs"],
-        goals: ["stress management", "energy", "wellbeing"],
-        keywords: ["ashwagandha", "rhodiola", "ginseng", "l-theanine"],
-      }
+    const fallbackMapping = {
+      nutrients: ["B-Complex", "Magnesium", "Adaptogenic herbs"],
+      goals: ["stress management", "energy", "wellbeing"],
+      keywords: ["ashwagandha", "rhodiola", "ginseng", "l-theanine"],
     }
+    if (!matchedMapping) matchedMapping = fallbackMapping
 
     const relevantSupplements = safeSupplements.filter((supplement) => {
-      const nameMatch = matchedMapping.keywords.some((keyword) =>
+      const nameMatch = (matchedMapping ?? fallbackMapping).keywords.some((keyword: string) =>
         (supplement.name ?? "").toLowerCase().includes(keyword),
       )
-      const goalMatch = (supplement.goals ?? []).some((goal) => matchedMapping.goals.includes(goal))
+  const goalMatch = (supplement.goals ?? []).some((goal: string) => (matchedMapping ?? fallbackMapping).goals.includes(goal))
       const benefitMatch = (supplement.benefits ?? []).some((benefit) =>
-        matchedMapping.keywords.some((keyword) => (benefit ?? "").toLowerCase().includes(keyword)),
+        (matchedMapping ?? fallbackMapping).keywords.some((keyword: string) => (benefit ?? "").toLowerCase().includes(keyword)),
       )
 
       return nameMatch || goalMatch || benefitMatch

@@ -255,7 +255,7 @@ export function BiorhythmChart({ data, targetDate, extrema, showAdditional }: Bi
           font: {
             family: "system-ui, -apple-system, sans-serif",
             size: 12,
-            weight: "400",
+            weight: 400,
           },
           usePointStyle: true,
           pointStyle: "circle",
@@ -294,7 +294,7 @@ export function BiorhythmChart({ data, targetDate, extrema, showAdditional }: Bi
           font: {
             family: "system-ui, -apple-system, sans-serif",
             size: 11,
-            weight: "400",
+            weight: 400,
           },
           callback: (value, index) => {
             const date = new Date(data[index]?.date || "")
@@ -318,7 +318,7 @@ export function BiorhythmChart({ data, targetDate, extrema, showAdditional }: Bi
           font: {
             family: "system-ui, -apple-system, sans-serif",
             size: 11,
-            weight: "400",
+            weight: 400,
           },
           callback: (value) => `${Math.round(Number(value) * 100)}%`,
         },

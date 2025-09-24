@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Star } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { LiquidButton } from "@/components/ui/liquid-button"
@@ -25,6 +25,17 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
   const [body, setBody] = useState(initialBody)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Keep form state in sync with incoming props whenever the modal is opened
+  // or the initial values change (e.g., moderator selects a different review).
+  useEffect(() => {
+    if (isOpen) {
+      setRating(initialRating || 0)
+      setTitle(initialTitle || "")
+      setBody(initialBody || "")
+      setHoverRating(0)
+    }
+  }, [isOpen, initialRating, initialTitle, initialBody])
+
   const handleSubmit = async () => {
     if (rating === 0) return
 
@@ -42,9 +53,9 @@ export function ReviewModal({ isOpen, onClose, onSubmit, initialRating = 0, init
   }
 
   const handleClose = () => {
-    setRating(initialRating)
-    setTitle(initialTitle)
-    setBody(initialBody)
+    setRating(initialRating || 0)
+    setTitle(initialTitle || "")
+    setBody(initialBody || "")
     onClose()
   }
 

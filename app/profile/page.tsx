@@ -39,6 +39,7 @@ import {
   requestEmailChange,
   triggerTwoFactorPlaceholder,
 } from "@/lib/hooks/use-user"
+import { hasPremiumAccess } from "@/lib/hooks/use-user"
 import { useToast } from "@/hooks/use-toast"
 import {
   Dialog,
@@ -544,7 +545,7 @@ export default function ProfilePage() {
                       <Camera className="w-6 h-6 text-white" />
                     </div>
                   )}
-                  {authUser.status === "premium" && (
+                  {(authUser.role === "owner" || authUser.role === "moderator" || authUser.status === "premium") && (
                     <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-full flex items-center justify-center">
                       <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-primary-foreground" />
                     </div>
@@ -561,11 +562,18 @@ export default function ProfilePage() {
               <div className="min-w-0 flex-1">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                   <h1 className="text-xl sm:text-2xl font-bold truncate">{authUser.name ?? user.name}</h1>
-                  <Badge variant="secondary" className="bg-primary/20 text-primary w-fit">
-                    {authUser.status
-                      ? authUser.status.charAt(0).toUpperCase() + authUser.status.slice(1)
-                      : user.subscription}
-                  </Badge>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Badge variant="secondary" className="bg-primary/20 text-primary w-fit">
+                      {authUser.status
+                        ? authUser.status.charAt(0).toUpperCase() + authUser.status.slice(1)
+                        : user.subscription}
+                    </Badge>
+                    {authUser.role && authUser.role !== "user" && (
+                      <Badge variant="outline" className="border-amber-500/50 text-amber-400">
+                        {authUser.role.charAt(0).toUpperCase() + authUser.role.slice(1)}
+                      </Badge>
+                    )}
+                  </div>
                 </div>
                 <p className="text-muted-foreground mb-1 text-sm sm:text-base truncate">
                   {authUser.email ?? user.email}

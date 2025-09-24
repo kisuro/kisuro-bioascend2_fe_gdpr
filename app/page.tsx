@@ -437,15 +437,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            <motion.p
-              className="text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
-            >
-              BioAionics provides educational information and tools. It is not medical advice. Always consult a
-              qualified health professional.
-            </motion.p>
+            {/* Disclaimer moved to Safety notice section at the bottom */}
           </motion.div>
         </div>
       </section>
@@ -698,6 +690,9 @@ export default function HomePage() {
                 <strong className="text-foreground">Safety notice:</strong> Dietary supplements are not a substitute for
                 professional care. They may interact with medications and aren't evaluated by the FDA for treating
                 diseases. Speak with a licensed clinician before use.
+                <br />
+                BioAionics provides educational information and tools. It is not medical advice. Always consult a qualified
+                health professional.
               </div>
             </div>
           </GlassCard>
