@@ -71,7 +71,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 pb-32 px-4">
+      <section className="relative overflow-hidden px-4 pt-4 pb-6 md:pt-16 md:pb-24">
         <StaticBackground />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
 
@@ -80,7 +80,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-center mb-20"
+            className="text-center mb-5 md:mb-14"
           >
             <motion.h1
               className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 font-heading text-foreground"
@@ -124,11 +124,11 @@ export default function AboutPage() {
       </section>
 
       {/* Story Section */}
-      <AnimatedSection className="py-24 px-4 bg-background">
+      <AnimatedSection className="px-4 py-5 md:py-16 bg-background">
         <div className="max-w-5xl mx-auto">
           <GlassCard variant="strong" className="p-12 rounded-3xl" animate>
             <div className="space-y-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 font-heading">Our Story</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 font-heading">Our Story</h2>
 
               <div className="prose prose-lg mx-auto text-muted-foreground leading-relaxed space-y-6">
                 <p className="text-xl">
@@ -149,7 +149,7 @@ export default function AboutPage() {
       </AnimatedSection>
 
       {/* Mission & Vision Section */}
-      <AnimatedSection className="py-24 px-4 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <AnimatedSection className="px-4 py-5 md:py-16 bg-gradient-to-br from-primary/5 via-background to-accent/5">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8">
             <GlassCard
@@ -196,9 +196,9 @@ export default function AboutPage() {
       </AnimatedSection>
 
       {/* Values Section */}
-      <AnimatedSection className="py-24 px-4 bg-background">
+      <AnimatedSection className="px-4 py-5 md:py-16 bg-background">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 font-heading">What We Stand For</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-5 md:mb-12 font-heading">What We Stand For</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => {
@@ -234,10 +234,10 @@ export default function AboutPage() {
       </AnimatedSection>
 
       {/* What Makes Us Different */}
-      <AnimatedSection className="py-24 px-4 bg-gradient-to-br from-accent/5 via-background to-primary/5">
+      <AnimatedSection className="px-4 py-5 md:py-16 bg-gradient-to-br from-accent/5 via-background to-primary/5">
         <div className="max-w-5xl mx-auto">
           <GlassCard variant="strong" className="p-12 rounded-3xl" animate>
-            <div className="text-center mb-12">
+            <div className="text-center mb-7">
               <motion.div
                 className="p-4 rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/20 backdrop-blur-xl border border-green-500/30 mb-6 w-fit mx-auto"
                 whileHover={{ scale: 1.1, rotate: -10 }}
@@ -260,9 +260,9 @@ export default function AboutPage() {
       </AnimatedSection>
 
       {/* Team Section */}
-      <AnimatedSection className="py-24 px-4 bg-background">
+      <AnimatedSection className="px-4 py-5 md:py-16 bg-background">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-5 md:mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">Our Team</h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               Small but driven — a diverse group of enthusiasts united by a shared passion
@@ -325,7 +325,7 @@ export default function AboutPage() {
       </AnimatedSection>
 
       {/* Call to Action */}
-      <AnimatedSection className="py-24 px-4 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/15">
+      <AnimatedSection className="px-4 py-5 md:py-16 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/15">
         <div className="max-w-4xl mx-auto text-center">
           <GlassCard
             variant="strong"

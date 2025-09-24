@@ -352,7 +352,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 pb-32 px-4">
+      <section className="relative overflow-hidden px-4 pt-4 pb-6 md:pt-16 md:pb-24">
         <StaticBackground />
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
@@ -363,7 +363,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-center mb-20"
+            className="text-center mb-5 md:mb-14"
           >
             <motion.h1
               className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 font-heading text-foreground"
@@ -390,7 +390,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed"
+              className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto mb-3 leading-relaxed"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -438,7 +438,7 @@ export default function HomePage() {
             </motion.div>
 
             <motion.p
-              className="text-sm text-muted-foreground mt-6 max-w-2xl mx-auto"
+              className="text-sm text-muted-foreground mt-1.5 max-w-2xl mx-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.6 }}
@@ -450,10 +450,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="features" className="relative py-18 px-4 bg-background">
+      <section id="features" className="relative px-4 py-5 md:py-14 bg-background">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-5 md:mb-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -593,10 +593,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-24 px-4 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <section className="px-4 py-5 md:py-16 bg-gradient-to-br from-primary/5 via-background to-accent/5">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-5 md:mb-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -629,7 +629,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-24 px-4 bg-background">
+      <section className="px-4 py-5 md:py-16 bg-background">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

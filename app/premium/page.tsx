@@ -83,7 +83,7 @@ export default function PremiumPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 px-4 py-16">
+      <section className="relative z-10 px-4 py-12 md:py-16">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -109,7 +109,7 @@ export default function PremiumPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-16"
+            className="mb-12 md:mb-16"
           >
             {/* Scientific Abstract Visual */}
             <div className="relative mb-8 md:mb-12">
@@ -166,15 +166,15 @@ export default function PremiumPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="relative z-10 px-4 py-16">
+      <section className="relative z-10 px-4 py-12 md:py-16">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mb-16"
+            className="mb-12 md:mb-16"
           >
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-center mb-16">What you get</h2>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16">What you get</h2>
 
             <div className="space-y-12">
               {[
@@ -227,12 +227,12 @@ export default function PremiumPage() {
           </motion.div>
 
           {/* Subtle divider */}
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-16" />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-12 md:mb-16" />
         </div>
       </section>
 
       {/* Access Status & Waitlist */}
-      <section className="relative z-10 px-4 py-16">
+      <section className="relative z-10 px-4 py-12 md:py-16">
         <div className="max-w-2xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
