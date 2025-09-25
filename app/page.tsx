@@ -366,7 +366,7 @@ export default function HomePage() {
             className="text-center mb-5 md:mb-14"
           >
             <motion.h1
-              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 font-heading text-foreground"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight font-bold mb-8 font-heading text-foreground"
               initial={{ opacity: 0, y: 60, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{

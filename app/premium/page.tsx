@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Crown, Check, ArrowLeft } from "lucide-react"
+import { Crown, Check, ArrowLeft, BadgePercent, Handshake, Calendar, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,6 +15,14 @@ export default function PremiumPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
+
+  // Pricing (preliminary)
+  const monthlyEur = 9.99
+  const yearlyBase = monthlyEur * 12 // 119.88
+  const annual15 = Math.round(yearlyBase * 0.85 * 100) / 100 // 15% off
+
+  const fmtEUR = (v: number) =>
+    new Intl.NumberFormat("ru-RU", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(v)
 
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -242,6 +250,92 @@ export default function PremiumPage() {
 
           {/* Subtle divider */}
           <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent mb-12 md:mb-16" />
+        </div>
+      </section>
+
+      {/* Pricing and Upcoming Plans (EN) */}
+      <section className="relative z-10 px-4 py-12 md:py-16">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8 md:mb-12 text-center"
+         >
+            <h2 className="font-heading text-3xl md:text-4xl font-bold mb-3">Pricing and upcoming plans (preliminary)</h2>
+            <p className="text-muted-foreground">Here are the plans we’re preparing to launch. Prices are indicative and may change.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {/* Premium Monthly */}
+            <GlassCard className="p-6 md:p-8">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="relative">
+                  <Crown className="w-6 h-6 text-amber-400" />
+                  <div className="absolute inset-0 bg-amber-400/20 blur-md rounded-full" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-2xl font-semibold">Premium</h3>
+                  <p className="text-muted-foreground mt-1">
+                    Includes personal journal, full supplements database with ratings and scientific references, full
+                    audio library, AI assistant with request limits, and reports with recommendations.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-baseline gap-2 mt-4">
+                <div className="text-3xl font-bold">{fmtEUR(monthlyEur)}</div>
+                <div className="text-muted-foreground">/ month</div>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">or USD equivalent</p>
+            </GlassCard>
+
+            {/* Annual with discount */}
+            <GlassCard className="p-6 md:p-8">
+              <div className="flex items-start gap-4 mb-4">
+                <BadgePercent className="w-6 h-6 text-primary" />
+                <div>
+                  <h3 className="font-heading text-2xl font-semibold">Annual Premium with discount</h3>
+                  <p className="text-muted-foreground mt-1">Save 15% when paying for a year upfront.</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-baseline gap-2">
+                  <Calendar className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Base price for 12 months: {fmtEUR(yearlyBase)}</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <Sparkles className="w-4 h-4 text-emerald-600" />
+                  <span className="text-foreground">15%: <span className="font-semibold">{fmtEUR(annual15)}</span> / year</span>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Partnerships */}
+            <GlassCard className="p-6 md:p-8">
+              <div className="flex items-start gap-4 mb-4">
+                <Handshake className="w-6 h-6 text-primary" />
+                <div>
+                  <h3 className="font-heading text-2xl font-semibold">Partnership programs</h3>
+                  <p className="text-muted-foreground mt-1">For companies, fitness clubs, and clinics. Corporate plans with customized terms.</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">Contact us to discuss details.</p>
+            </GlassCard>
+
+            {/* Promotions & Consultations */}
+            <GlassCard className="p-6 md:p-8">
+              <div className="flex items-start gap-4 mb-4">
+                <Sparkles className="w-6 h-6 text-primary" />
+                <div>
+                  <h3 className="font-heading text-2xl font-semibold">Promotions, consultations, and more</h3>
+                  <p className="text-muted-foreground mt-1">Individual consultations, special offers, and additional services — as they launch.</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">Subscribe for updates to be the first to know.</p>
+            </GlassCard>
+          </div>
+
+          <p className="text-xs text-muted-foreground mt-6 text-center">The listed prices are preliminary and may be adjusted before public launch.</p>
         </div>
       </section>
 
