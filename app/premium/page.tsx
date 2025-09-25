@@ -31,11 +31,25 @@ export default function PremiumPage() {
 
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000").replace(/\/$/, "")
+      const res = await fetch(`${API_BASE}/v1/premium/waitlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        throw new Error(text || `Request failed: ${res.status}`)
+      }
+
       setIsSubmitted(true)
-    }, 1000)
+    } catch (err: any) {
+      setError("Could not submit email. Please try again later.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

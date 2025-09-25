@@ -876,7 +876,7 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                       </div>
                       <LiquidButton type="button" onClick={handleUpgrade} className="w-full">
                         <Sparkles className="h-4 w-4 mr-2" />
-                        Upgrade to Premium
+                        More about premium
                       </LiquidButton>
                     </GlassCard>
                   </motion.div>

@@ -118,7 +118,7 @@ export function PremiumPageGate({ title, description, featureName }: PremiumPage
                 className="px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-semibold shadow-lg"
               >
                 <Sparkles className="h-5 w-5 mr-2" />
-                Upgrade to Premium
+                More about premium
               </LiquidButton>
             </motion.div>
 

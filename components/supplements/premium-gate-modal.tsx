@@ -62,7 +62,7 @@ export function PremiumGateModal({ isOpen, onClose }: PremiumGateModalProps) {
                 onClick={handleUpgrade}
                 className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 border-0 text-sm sm:text-base py-2 sm:py-2.5"
               >
-                Upgrade to Premium
+                More about premium
               </LiquidButton>
             </div>
           </div>
