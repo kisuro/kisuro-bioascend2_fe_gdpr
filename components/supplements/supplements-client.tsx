@@ -135,6 +135,10 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   const [isLoadingCravings, setIsLoadingCravings] = useState(false)
   const [isPremium, setIsPremium] = useState(false)
   const [isInitialLoading, setIsInitialLoading] = useState(true)
+  const [showSuggestionForm, setShowSuggestionForm] = useState(false)
+  const [suggestionName, setSuggestionName] = useState("")
+  const [suggestionSubmitting, setSuggestionSubmitting] = useState(false)
+  const [suggestionSubmitted, setSuggestionSubmitted] = useState<null | { id: string }>(null)
 
   useEffect(() => {
     setIsPremium(authUser.status === "premium")
@@ -782,7 +786,71 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                         <GlassCard className="glass-subtle p-8">
                           <div className="text-4xl mb-4">🔍</div>
                           <h3 className="text-xl font-semibold mb-2">No supplements found</h3>
-                          <p className="text-muted-foreground">Try adjusting your search criteria or filters</p>
+                          <p className="text-muted-foreground mb-6">Try adjusting your search criteria or filters.</p>
+
+                          {!showSuggestionForm ? (
+                            <div className="mt-4">
+                              <LiquidButton onClick={() => setShowSuggestionForm(true)}>
+                                Suggest adding this supplement
+                              </LiquidButton>
+                            </div>
+                          ) : (
+                            <div className="mt-6 max-w-md mx-auto text-left">
+                              {suggestionSubmitted ? (
+                                <div className="text-green-500 font-medium text-center">
+                                  Thank you! Your suggestion was submitted.
+                                </div>
+                              ) : (
+                                <form
+                                  onSubmit={async (e) => {
+                                    e.preventDefault()
+                                    if (!suggestionName.trim()) return
+                                    try {
+                                      setSuggestionSubmitting(true)
+                                      const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+                                      const res = await fetch(`${API_BASE}/v1/suggestions/supplement`, {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ name: suggestionName.trim() }),
+                                      })
+                                      if (res.ok) {
+                                        const data = await res.json()
+                                        setSuggestionSubmitted({ id: data.id })
+                                        setSuggestionName("")
+                                        setTimeout(() => setShowSuggestionForm(false), 1200)
+                                      } else {
+                                        console.error("Failed to submit suggestion", res.status)
+                                      }
+                                    } catch (err) {
+                                      console.error("Suggestion submit error", err)
+                                    } finally {
+                                      setSuggestionSubmitting(false)
+                                    }
+                                  }}
+                                  className="space-y-3"
+                                >
+                                  <label className="block text-sm font-medium">Supplement name</label>
+                                  <Input
+                                    value={suggestionName}
+                                    onChange={(e) => setSuggestionName(e.target.value)}
+                                    placeholder={searchQuery || "Enter the supplement name"}
+                                  />
+                                  <div className="flex gap-2 justify-end pt-2">
+                                    <LiquidButton
+                                      type="button"
+                                      variant="ghost"
+                                      onClick={() => setShowSuggestionForm(false)}
+                                    >
+                                      Cancel
+                                    </LiquidButton>
+                                    <LiquidButton type="submit" disabled={suggestionSubmitting || !suggestionName.trim()}>
+                                      {suggestionSubmitting ? "Submitting..." : "Send Suggestion"}
+                                    </LiquidButton>
+                                  </div>
+                                </form>
+                              )}
+                            </div>
+                          )}
                         </GlassCard>
                       </motion.div>
                     )}
