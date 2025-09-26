@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
-import { Crown, Sparkles, Lock, Check } from "lucide-react"
+import { Crown, Sparkles, Lock, Check, ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 interface PremiumPageGateProps {
@@ -107,18 +107,10 @@ export function PremiumPageGate({ title, description, featureName }: PremiumPage
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-            >
-              <LiquidButton
-                onClick={handleUpgrade}
-                size="lg"
-                className="px-8 py-3 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-semibold shadow-lg"
-              >
-                <Sparkles className="h-5 w-5 mr-2" />
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.0 }}>
+              <LiquidButton onClick={handleUpgrade} size="lg" className="px-8 py-3">
                 More about premium
+                <ArrowRight className="ml-2 h-5 w-5" />
               </LiquidButton>
             </motion.div>
 

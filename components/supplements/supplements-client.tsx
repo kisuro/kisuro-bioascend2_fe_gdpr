@@ -14,7 +14,7 @@ import { SupplementCard } from "@/components/supplements/supplement-card"
 import { SupplementFilters } from "@/components/supplements/supplement-filters"
 import { AlphabetFilter } from "@/components/supplements/alphabet-filter"
 import { AppLoader } from "@/components/ui/app-loader"
-import { Search, Filter, Grid, List, Lock, Sparkles, Plus } from "lucide-react"
+import { Search, Filter, Grid, List, Lock, Sparkles, Plus, ArrowRight } from "lucide-react"
 import { SupplementsBackground } from "@/components/ui/page-backgrounds"
 
 interface Supplement {
@@ -875,8 +875,8 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                         <p className="text-muted-foreground">This feature is available for Premium subscribers only.</p>
                       </div>
                       <LiquidButton type="button" onClick={handleUpgrade} className="w-full">
-                        <Sparkles className="h-4 w-4 mr-2" />
                         More about premium
+                        <ArrowRight className="ml-2 h-4 w-4" />
                       </LiquidButton>
                     </GlassCard>
                   </motion.div>

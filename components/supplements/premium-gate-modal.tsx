@@ -1,6 +1,6 @@
 "use client"
 
-import { Crown } from "lucide-react"
+import { Crown, ArrowRight } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { GlassCard } from "@/components/ui/glass-card"
@@ -58,11 +58,9 @@ export function PremiumGateModal({ isOpen, onClose }: PremiumGateModalProps) {
               >
                 Close
               </LiquidButton>
-              <LiquidButton
-                onClick={handleUpgrade}
-                className="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 border-0 text-sm sm:text-base py-2 sm:py-2.5"
-              >
+              <LiquidButton onClick={handleUpgrade} className="flex-1 text-sm sm:text-base py-2 sm:py-2.5">
                 More about premium
+                <ArrowRight className="ml-2 h-4 w-4" />
               </LiquidButton>
             </div>
           </div>

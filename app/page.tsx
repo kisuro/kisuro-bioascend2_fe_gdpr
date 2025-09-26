@@ -45,7 +45,7 @@ const features = [
     href: "/articles",
     cta: "Explore articles",
     icon: Newspaper,
-    color: "text-secondary",
+    color: "text-foreground",
     isPremium: false,
   },
   {
@@ -54,7 +54,7 @@ const features = [
     href: "/journal",
     cta: "See example",
     icon: BookOpen,
-    color: "text-secondary",
+    color: "text-primary",
     isPremium: true,
   },
   {
