@@ -6,14 +6,24 @@ interface AppLoaderProps {
   isVisible: boolean
   message?: string
   showLogo?: boolean
+  constrainToParent?: boolean
 }
 
-export function AppLoader({ isVisible, message = "Loading...", showLogo = true }: AppLoaderProps) {
+export function AppLoader({
+  isVisible,
+  message = "Loading...",
+  showLogo = true,
+  constrainToParent = false,
+}: AppLoaderProps) {
   if (!isVisible) return null
+
+  const containerClasses = constrainToParent
+    ? "absolute inset-0 z-30 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+    : "fixed inset-0 z-30 flex items-center justify-center bg-background/80 backdrop-blur-sm"
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+      className={containerClasses}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

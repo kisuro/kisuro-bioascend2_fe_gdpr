@@ -12,7 +12,7 @@ import type { AudioTrack } from "@/lib/data/audio"
 import { MindBackground } from "@/components/ui/page-backgrounds"
 import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate"
-import { useUser } from "@/lib/hooks/use-user"
+import { useUser } from "@/lib/contexts/user-context"
 
 export default function MindPage() {
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null)

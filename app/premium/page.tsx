@@ -299,8 +299,8 @@ export default function PremiumPage() {
                 </div>
               </div>
               <div className="flex items-baseline justify-center gap-2 mt-4">
-                <div className="text-3xl font-bold line-through text-muted-foreground">{fmtEUR(yearlyBase)}</div>
-                <div className="text-3xl font-bold text-emerald-600">{fmtEUR(annual15)}</div>
+                <div className="text-xl font-semibold line-through text-muted-foreground">{fmtEUR(yearlyBase)}</div>
+                <div className="text-2xl font-bold text-white">{fmtEUR(annual15)}</div>
                 <div className="text-muted-foreground">/ year</div>
               </div>
             </GlassCard>

@@ -9,7 +9,7 @@ import { BiorhythmSummary } from "@/components/biorhythms/biorhythm-summary"
 import { Calendar, TrendingUp } from "lucide-react"
 import { BiorhythmsBackground } from "@/components/ui/page-backgrounds"
 import { AppLoader } from "@/components/ui/app-loader"
-import { useUser } from "@/lib/hooks/use-user"
+import { useUser } from "@/lib/contexts/user-context"
 
 interface BiorhythmData {
   date: string

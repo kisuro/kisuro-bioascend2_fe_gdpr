@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate"
-import { useUser } from "@/lib/hooks/use-user"
+import { useUser } from "@/lib/contexts/user-context"
 
 interface Message {
   id: string

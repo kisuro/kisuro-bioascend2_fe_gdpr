@@ -12,7 +12,7 @@ import { BookOpen, Plus, Bell, History, Shield } from "lucide-react"
 import { JournalBackground } from "@/components/ui/page-backgrounds"
 import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate" // imported premium gate component
-import { useUser } from "@/lib/hooks/use-user" // imported user hook
+import { useUser } from "@/lib/contexts/user-context" // imported user hook
 
 export default function JournalPage() {
   const [activeTab, setActiveTab] = useState("overview")

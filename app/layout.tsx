@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/layout/navigation"
 import { ErrorHandler } from "@/components/error-handler"
+import { UserProvider } from "@/lib/contexts/user-context"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,11 +52,13 @@ html {
       </head>
       <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
         <ThemeProvider>
-          <ErrorHandler />
-          <div className="min-h-screen">
-            <Navigation />
-            <main className="pt-20">{children}</main>
-          </div>
+          <UserProvider>
+            <ErrorHandler />
+            <div className="min-h-screen">
+              <Navigation />
+              <main className="pt-20">{children}</main>
+            </div>
+          </UserProvider>
         </ThemeProvider>
       </body>
     </html>

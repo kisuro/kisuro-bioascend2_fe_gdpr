@@ -60,73 +60,8 @@ export const buildAuthHeaders = (base: HeadersInit = {}) => {
   return headers
 }
 
-// Basic user hook backed by backend auth cookie
-export function useUser(): User {
-  const [user, setUser] = useState<User>({ status: "guest", isLoading: true })
-
-  useEffect(() => {
-    let cancelled = false
-    async function loadMe() {
-      try {
-        // For mobile Safari compatibility, try multiple approaches
-        const headers = buildAuthHeaders({
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-        })
-        
-        console.log("[useUser] Attempting to load user with headers:", headers)
-        
-        const res = await fetch(`${API_BASE}/v1/auth/me`, { 
-          credentials: "include",
-          headers,
-          // Add cache busting for mobile Safari
-          cache: 'no-store'
-        })
-        
-        console.log("[useUser] Response status:", res.status)
-        console.log("[useUser] Response headers:", Object.fromEntries(res.headers.entries()))
-        
-        if (res.ok) {
-          const data = await res.json()
-          console.log("[useUser] User data received:", data)
-          if (!cancelled) {
-            setUser({
-              status: (data.status as UserStatus) || "user",
-              role: (data.role as UserRole) || "user",
-              id: data.id,
-              name: data.name,
-              email: data.email,
-              created_at: data.created_at,
-              avatar_url: data.avatar_url,
-              bio: data.bio,
-              date_of_birth: data.date_of_birth,
-              stats: data.stats,
-              is_email_verified: data.is_email_verified,
-              isLoading: false,
-            })
-          }
-        } else {
-          console.log("[useUser] Auth failed with status:", res.status)
-          if (!cancelled) setUser({ status: "guest", isLoading: false })
-        }
-      } catch (error) {
-        console.error("[useUser] Auth request failed:", error)
-        if (!cancelled) setUser({ status: "guest", isLoading: false })
-      }
-    }
-    loadMe()
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
-  // Dev override to simulate premium
-  if (process.env.NEXT_PUBLIC_FORCE_PREMIUM === "true") {
-    return { id: "dev", status: "premium", role: "user", name: "Dev Premium", isLoading: false }
-  }
-
-  return user
-}
+// Note: useUser hook moved to /lib/contexts/user-context.tsx for global state management
+// This file now contains only utility functions for auth operations
 
 // Helper: treat moderators/owners as having premium capabilities
 export function hasPremiumAccess(u: User | undefined | null): boolean {

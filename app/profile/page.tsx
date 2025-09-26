@@ -28,8 +28,8 @@ import {
   Trash2,
 } from "lucide-react"
 import { AppLoader } from "@/components/ui/app-loader"
+import { useUser } from "@/lib/contexts/user-context"
 import {
-  useUser,
   logoutUser,
   updateProfile,
   requestEmailVerification,

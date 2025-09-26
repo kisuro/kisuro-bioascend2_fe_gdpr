@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Star } from "lucide-react"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { GlassCard } from "@/components/ui/glass-card"
 
 interface StarRatingPickerProps {
   currentRating?: number
@@ -100,14 +101,20 @@ export function StarRatingPicker({
         {trigger}
       </PopoverTrigger>
       <PopoverContent
-        className="w-64 p-4 glass-morph border-white/20"
+        className="w-[min(18rem,calc(100vw-2rem))] p-0 bg-transparent border-none shadow-none"
         align="center"
         sideOffset={8}
         onInteractOutside={handleInteractOutside}
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="space-y-4">
-          <h4 className="font-medium text-center">Rate this supplement</h4>
+        <GlassCard
+          variant="strong"
+          animate
+          className="space-y-4 p-5 sm:p-6 text-center rounded-2xl sm:rounded-3xl bg-white/95 dark:bg-slate-950/90 border-white/80 dark:border-white/30 backdrop-blur-2xl"
+        >
+          <h4 className="text-lg font-semibold text-foreground">
+            Rate this supplement
+          </h4>
 
           <div className="flex items-center gap-1 justify-center">
             {[1, 2, 3, 4, 5].map((star) => (
@@ -134,7 +141,7 @@ export function StarRatingPicker({
           </div>
 
           {rating > 0 && (
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-sm text-foreground/80">
               Selected: {rating} star{rating !== 1 ? "s" : ""}
             </div>
           )}
@@ -142,7 +149,7 @@ export function StarRatingPicker({
           <div className="flex gap-2">
             <LiquidButton
               variant="outline"
-              className="flex-1"
+              className="flex-1 bg-white/10 hover:bg-white/20 border-white/30 hover:border-white/40 backdrop-blur-sm text-foreground/80 hover:text-foreground transition-all duration-300"
               onClick={handleCancel}
               type="button"
               onMouseDown={(e) => e.preventDefault()}
@@ -159,7 +166,7 @@ export function StarRatingPicker({
               Submit
             </LiquidButton>
           </div>
-        </div>
+        </GlassCard>
       </PopoverContent>
     </Popover>
   )

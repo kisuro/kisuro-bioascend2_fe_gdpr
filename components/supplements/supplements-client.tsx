@@ -1,6 +1,6 @@
 "use client"
 import { useState, useMemo, useCallback, useEffect } from "react"
-import { useUser } from "@/lib/hooks/use-user"
+import { useUser } from "@/lib/contexts/user-context"
 import { useRouter, useSearchParams } from "next/navigation"
 import type React from "react"
 
@@ -535,10 +535,14 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
   }, [safeSupplements.length]) // Depend on data availability
 
   return (
-    <>
-      <AppLoader isVisible={isInitialLoading} message="Loading supplements database..." />
+    <div className="relative min-h-screen">
+      <AppLoader
+        isVisible={isInitialLoading}
+        message="Loading supplements database..."
+        constrainToParent
+      />
 
-      <div className="min-h-screen py-8 px-4 relative">
+  <div className="py-8 px-4 relative h-full">
         <SupplementsBackground />
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -1067,6 +1071,6 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
           </motion.div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

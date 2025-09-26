@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useUser } from "@/lib/hooks/use-user"
+import { useUser } from "@/lib/contexts/user-context"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
 
