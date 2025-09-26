@@ -791,23 +791,31 @@ const mapApiReviewToUI = (r: any): Review => ({
       </div>
 
       {/* Floating action bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-border/50 p-4 z-40 safe-area-pb">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row gap-3">
-          <Link
-            href="/supplements"
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transform-gpu border-2 border-primary/60 bg-white/8 backdrop-blur-md hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 hover:backdrop-blur-lg hover:border-primary/80 hover:scale-105 hover:shadow-xl active:scale-95 shadow-lg h-11 px-6 py-2.5 flex-1 min-h-[44px]"
-          >
-            <X className="h-4 w-4 mr-2" />
-            Close
-          </Link>
-          <button
-            type="button"
-            onClick={() => router.push(`/journal?add=${encodeURIComponent(supplement.id)}`)}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transform-gpu bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 text-primary-foreground hover:scale-105 hover:shadow-2xl hover:shadow-primary/25 active:scale-95 backdrop-blur-lg border border-white/20 shadow-xl h-11 px-6 py-2.5 flex-1 liquid-gradient min-h-[44px]"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add to Journal
-          </button>
+      <div className="fixed bottom-0 left-0 right-0 p-4 z-40 safe-area-pb">
+        <div className="max-w-6xl mx-auto">
+          <GlassCard variant="strong" className="px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-xl border-white/30 dark:border-white/20">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+              <div className="flex-1 transform-gpu">
+                <Link
+                  href="/supplements"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border-2 border-primary/60 bg-white/8 backdrop-blur-md hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 hover:backdrop-blur-lg hover:border-primary/80 hover:scale-105 hover:shadow-xl active:scale-95 shadow-lg h-11 px-6 py-2.5 w-full min-h-[44px]"
+                >
+                  <X className="h-4 w-4 mr-2" />
+                  Close
+                </Link>
+              </div>
+              <div className="flex-1 transform-gpu">
+                <button
+                  type="button"
+                  onClick={() => router.push(`/journal?add=${encodeURIComponent(supplement.id)}`)}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 text-primary-foreground hover:scale-105 hover:shadow-2xl hover:shadow-primary/25 active:scale-95 backdrop-blur-lg border border-white/20 shadow-xl h-11 px-6 py-2.5 w-full liquid-gradient min-h-[44px]"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add to Journal
+                </button>
+              </div>
+            </div>
+          </GlassCard>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Crown, Check, ArrowLeft, BadgePercent, Handshake, Calendar, Sparkles } from "lucide-react"
+import { Crown, Check, ArrowLeft, BadgePercent, Handshake, Calendar, Sparkles, Pill, BookOpen, Brain, Bot, Plus } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -201,30 +201,30 @@ export default function PremiumPage() {
             <div className="space-y-12">
               {[
                 {
-                  icon: "🧬",
+                  icon: <Pill className="w-6 h-6 text-primary" />,
                   title: "Supplements",
                   description:
                     "Add ratings and reviews, unlock deeper evidence-backed details, and see richer insights for each supplement.",
                 },
                 {
-                  icon: "📝",
+                  icon: <BookOpen className="w-6 h-6 text-primary" />,
                   title: "Journal",
                   description:
                     "Track your daily wellness journey with our intelligent journaling system. Monitor your progress and gain insights into your health patterns.",
                 },
                 {
-                  icon: "🧠",
+                  icon: <Brain className="w-6 h-6 text-primary" />,
                   title: "AudioMind",
                   description:
                     "Enhance your mental well-being with our curated collection of brain-optimizing audio: meditation, binaural beats, and focus music.",
                 },
                 {
-                  icon: "🤖",
+                  icon: <Bot className="w-6 h-6 text-primary" />,
                   title: "AI Assistant",
                   description: "Get personalized health recommendations and insights from our AI-powered assistant.",
                 },
                 {
-                  icon: "✨",
+                  icon: <Plus className="w-6 h-6 text-primary" />,
                   title: "…and more",
                   description: "Early access to upcoming features and premium experiments.",
                 },
@@ -236,7 +236,7 @@ export default function PremiumPage() {
                   transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
                   className="flex gap-6 items-start"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-xl">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                     {benefit.icon}
                   </div>
                   <div className="flex-1">
@@ -282,11 +282,11 @@ export default function PremiumPage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-baseline gap-2 mt-4">
+              <div className="flex items-baseline justify-center gap-2 mt-4">
                 <div className="text-3xl font-bold">{fmtEUR(monthlyEur)}</div>
                 <div className="text-muted-foreground">/ month</div>
               </div>
-              <p className="text-sm text-muted-foreground mt-1">or USD equivalent</p>
+              <p className="text-sm text-muted-foreground mt-1 text-center">or USD equivalent</p>
             </GlassCard>
 
             {/* Annual with discount */}
@@ -298,15 +298,10 @@ export default function PremiumPage() {
                   <p className="text-muted-foreground mt-1">Save 15% when paying for a year upfront.</p>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex items-baseline gap-2">
-                  <Calendar className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Base price for 12 months: {fmtEUR(yearlyBase)}</span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-600" />
-                  <span className="text-foreground">15%: <span className="font-semibold">{fmtEUR(annual15)}</span> / year</span>
-                </div>
+              <div className="flex items-baseline justify-center gap-2 mt-4">
+                <div className="text-3xl font-bold line-through text-muted-foreground">{fmtEUR(yearlyBase)}</div>
+                <div className="text-3xl font-bold text-emerald-600">{fmtEUR(annual15)}</div>
+                <div className="text-muted-foreground">/ year</div>
               </div>
             </GlassCard>
 
