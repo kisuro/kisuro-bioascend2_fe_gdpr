@@ -9,6 +9,7 @@ import { BiorhythmSummary } from "@/components/biorhythms/biorhythm-summary"
 import { Calendar, TrendingUp } from "lucide-react"
 import { BiorhythmsBackground } from "@/components/ui/page-backgrounds"
 import { AppLoader } from "@/components/ui/app-loader"
+import { useUser } from "@/lib/hooks/use-user"
 
 interface BiorhythmData {
   date: string
@@ -110,6 +111,7 @@ export default function BiorhythmsPage() {
     aesthetic: false,
     charismatic: false,
   })
+  const user = useUser()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -117,6 +119,25 @@ export default function BiorhythmsPage() {
     }, 1200)
     return () => clearTimeout(timer)
   }, [])
+
+  // Auto-fill DOB from logged-in user profile if available
+  useEffect(() => {
+    if (!user?.isLoading && !dateOfBirth && user?.status !== "guest" && user?.date_of_birth) {
+      const dob = user.date_of_birth
+      const normalized = /^\d{4}-\d{2}-\d{2}$/.test(dob)
+        ? dob
+        : (() => {
+            const d = new Date(dob)
+            if (Number.isNaN(d.getTime())) return ""
+            // Use UTC parts to avoid TZ off-by-one
+            const y = d.getUTCFullYear()
+            const m = String(d.getUTCMonth() + 1).padStart(2, "0")
+            const day = String(d.getUTCDate()).padStart(2, "0")
+            return `${y}-${m}-${day}`
+          })()
+      if (normalized) setDateOfBirth(normalized)
+    }
+  }, [user, dateOfBirth])
 
   const biorhythmData = useMemo(() => {
     if (!dateOfBirth) return []
@@ -423,7 +444,7 @@ export default function BiorhythmsPage() {
 
         {/* Note Section */}
         <motion.div
-          className="mt-12 max-w-4xl mx-auto"
+          className="mt-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
