@@ -5,7 +5,20 @@ import Link from "next/link"
 import { motion, useInView } from "framer-motion"
 import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
-import { Activity, Brain, BookOpen, Zap, Sparkles, Shield, ArrowRight, ExternalLink, Info } from "lucide-react"
+import {
+  Activity,
+  Brain,
+  BookOpen,
+  Zap,
+  Sparkles,
+  Shield,
+  ArrowRight,
+  ExternalLink,
+  Info,
+  Lock,
+  ShieldCheck,
+  Newspaper,
+} from "lucide-react"
 
 const features = [
   {
@@ -24,6 +37,15 @@ const features = [
     cta: "Explore database",
     icon: Zap,
     color: "text-accent",
+    isPremium: false,
+  },
+  {
+    title: "Articles",
+    description: "Articles, news, and research on biohacking and health.",
+    href: "/articles",
+    cta: "Explore articles",
+    icon: Newspaper,
+    color: "text-secondary",
     isPremium: false,
   },
   {
@@ -109,7 +131,7 @@ const AnimatedCounter = ({
       const suffix = number.replace(/[\d.]/g, "")
 
       let start = 0
-      const duration = 2500
+      const duration = 1400
       const increment = numericValue / (duration / 16)
 
       const timer = setInterval(() => {
@@ -325,6 +347,8 @@ const StaticBackground = () => {
   )
 }
 
+// (Visualization removed by request)
+
 export default function HomePage() {
   const [isClient, setIsClient] = React.useState(false)
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
@@ -355,7 +379,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden px-4 pt-4 pb-6 md:pt-16 md:pb-24">
         <StaticBackground />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 pointer-events-none" />
+  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30 pointer-events-none" />
         <WellnessBackground />
 
         <div className="relative max-w-7xl mx-auto">
@@ -363,86 +387,89 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="text-center mb-5 md:mb-14"
+            className="mb-5 md:mb-14"
           >
-            <motion.h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight font-bold mb-8 font-heading text-foreground"
-              initial={{ opacity: 0, y: 60, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 1.4,
-                delay: 0.2,
-                type: "spring",
-                stiffness: 100,
-                damping: 15,
-              }}
-            >
-              AI-referenced tools
-              <br />
-              <motion.span
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.6 }}
-                className="text-primary"
-              >
-                for personal wellness tracking
-              </motion.span>
-            </motion.h1>
-
-            <motion.p
-              className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto mb-3 leading-relaxed"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1,
-                delay: 0.8,
-                type: "spring",
-                stiffness: 80,
-                damping: 12,
-              }}
-            >
-              Explore biorhythms, organize your supplement research, journal your habits, and use AI for structured
-              guidance
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1 }}
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 1.2,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 15,
-                }}
-              >
-                <LiquidButton
-                  size="lg"
-                  className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 hover:ring-2 hover:ring-primary/50 transition-all duration-300"
-                  asChild
+            <div className="flex flex-col items-center text-center">
+              {/* Text block */}
+              <div className="max-w-3xl">
+                <motion.h1
+                  className="text-4xl sm:text-5xl md:text-6xl leading-tight font-bold mb-6 font-heading text-foreground"
+                  initial={{ opacity: 0, y: 60, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 1.2,
+                    delay: 0.2,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15,
+                  }}
                 >
-                  <Link href="/biorhythms">
-                    Start Free
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </LiquidButton>
-              </motion.div>
-            </motion.div>
+                  Manage your well-being
+                  <br />
+                  <motion.span
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                    className="text-primary"
+                  >
+                    and longevity with AI insights.
+                  </motion.span>
+                </motion.h1>
 
-            {/* Disclaimer moved to Safety notice section at the bottom */}
+                <motion.p
+                  className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 leading-relaxed"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.7 }}
+                >
+                  Synchronize your biorhythms, get detailed information from a large supplement library with convenient
+                  filters, record habits and stacks, and get personalized recommendations powered by AI.
+                </motion.p>
+
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.9 }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 1.1, type: "spring", stiffness: 220, damping: 16 }}
+                  >
+                    <LiquidButton
+                      size="lg"
+                      className="bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 hover:shadow-2xl hover:shadow-primary/30 hover:ring-2 hover:ring-primary/50 transition-all duration-300"
+                      asChild
+                    >
+                      <Link href="/biorhythms">
+                        Start for free
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </LiquidButton>
+                  </motion.div>
+                </motion.div>
+
+                {/* Privacy icons */}
+                <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 items-center justify-center text-xs text-muted-foreground">
+                  <div className="inline-flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4 text-primary" />
+                    <span>Private by default</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2">
+                    <Lock className="h-4 w-4 text-primary" />
+                    <span>Secure & encrypted</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      <section id="features" className="relative px-4 py-5 md:py-14 bg-background">
+  <section id="features" className="relative px-4 py-5 md:py-14">
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-5 md:mb-12"
@@ -458,81 +485,63 @@ export default function HomePage() {
           </motion.div>
 
           <div className="relative">
-            {/* Desktop horizontal scroll */}
+            {/* Desktop: left column Free, right column Premium (2 columns x 3 rows) */}
             <div className="hidden md:block">
-              <button
-                onClick={scrollLeft}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-start bg-gradient-to-r from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
-                aria-label="Scroll left"
-              >
-                <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center ml-4 transition-all duration-300 hover:scale-110">
-                  <ArrowRight className="h-5 w-5 text-foreground rotate-180" />
-                </div>
-              </button>
-
-              <button
-                onClick={scrollRight}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-20 h-full flex items-center justify-end bg-gradient-to-l from-background via-background/90 to-transparent hover:from-background transition-all duration-300"
-                aria-label="Scroll right"
-              >
-                <div className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center mr-4 transition-all duration-300 hover:scale-110">
-                  <ArrowRight className="h-5 w-5 text-foreground" />
-                </div>
-              </button>
-
-              <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background via-background/80 to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background via-background/80 to-transparent z-10 pointer-events-none" />
-
-              <div ref={scrollContainerRef} className="overflow-x-auto pb-8 pt-8 scrollbar-hide">
-                <div className="flex gap-6 pl-24 pr-24 w-max">
-                  {features.map((feature, index) => {
-                    const Icon = feature.icon
-                    return (
-                      <motion.div
-                        key={feature.title}
-                        className="flex-shrink-0 w-80"
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.1 }}
-                        viewport={{ once: true }}
+              {(() => {
+                const freeFeatures = features.filter((f) => !f.isPremium)
+                const premiumFeatures = features.filter((f) => f.isPremium)
+                const renderCard = (feature: (typeof features)[number], index: number) => {
+                  const Icon = feature.icon
+                  return (
+                    <motion.div
+                      key={feature.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.05 }}
+                      viewport={{ once: true }}
+                    >
+                      <GlassCard
+                        variant="strong"
+                        className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-[1.02]"
+                        hover
                       >
-                        <GlassCard
-                          variant="strong"
-                          className="p-6 h-full group transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer rounded-2xl relative hover:scale-105"
-                          hover
-                        >
-                          <Link href={feature.href} className="block">
-                            {feature.isPremium && (
-                              <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
-                                Premium
-                              </div>
-                            )}
-
-                            <div className="flex items-center mb-4">
-                              <motion.div
-                                className="p-3 rounded-xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
-                                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                              >
-                                <Icon className={`h-6 w-6 ${feature.color}`} />
-                              </motion.div>
-                              <h3 className="text-xl font-semibold font-heading">{feature.title}</h3>
+                        <Link href={feature.href} className="block">
+                          {feature.isPremium && (
+                            <div className="absolute top-4 right-4 bg-gradient-to-r from-accent/80 to-primary/80 text-white text-xs px-2 py-1 rounded-full font-medium opacity-90 z-10">
+                              Premium
                             </div>
-                            <p className="text-muted-foreground leading-relaxed mb-4">{feature.description}</p>
-                            <motion.div className="flex items-center text-primary group-hover:translate-x-2 transition-transform duration-300">
-                              <span className="text-sm font-medium">{feature.cta}</span>
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </motion.div>
-                          </Link>
-                        </GlassCard>
-                      </motion.div>
-                    )
-                  })}
-                </div>
-              </div>
+                          )}
 
-              <div className="text-center mt-4">
-                <p className="text-sm text-muted-foreground">← Scroll to see all features →</p>
-              </div>
+                          <div className="flex items-center mb-4">
+                            <motion.div
+                              className="p-3 rounded-xl bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-xl border border-white/30 shadow-xl dark:from-white/15 dark:to-white/5 dark:border-white/20 mr-4"
+                              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                            >
+                              <Icon className={`h-6 w-6 ${feature.color}`} />
+                            </motion.div>
+                            <h3 className="text-xl font-semibold font-heading">{feature.title}</h3>
+                          </div>
+                          <p className="text-muted-foreground leading-relaxed mb-4">{feature.description}</p>
+                          <motion.div className="flex items-center text-primary group-hover:translate-x-2 transition-transform duration-300">
+                            <span className="text-sm font-medium">{feature.cta}</span>
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </motion.div>
+                        </Link>
+                      </GlassCard>
+                    </motion.div>
+                  )
+                }
+                return (
+                  <div className="grid grid-cols-2 gap-6 pt-8">
+                    <div className="flex flex-col gap-6">
+                      {freeFeatures.map((f, i) => renderCard(f, i))}
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      {premiumFeatures.map((f, i) => renderCard(f, i))}
+                    </div>
+                  </div>
+                )
+              })()}
             </div>
 
             {/* Mobile responsive grid */}
@@ -585,7 +594,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-4 py-5 md:py-16 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+  <section className="px-4 py-5 md:py-16">
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-5 md:mb-12"
@@ -621,7 +630,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="px-4 py-5 md:py-16 bg-background">
+  <section className="px-4 py-5 md:py-16">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -681,7 +690,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-12 px-4 border-t border-border/30 bg-muted/20">
+  <section className="py-12 px-4">
         <div className="max-w-5xl mx-auto">
           <GlassCard variant="subtle" className="p-8 rounded-2xl">
             <div className="flex items-start gap-4">
