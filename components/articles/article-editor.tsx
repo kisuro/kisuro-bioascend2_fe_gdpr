@@ -1,15 +1,11 @@
 "use client"
 
-import { useEditor, EditorContent } from "@tiptap/react"
-import StarterKit from "@tiptap/starter-kit"
-import Link from "@tiptap/extension-link"
-import Placeholder from "@tiptap/extension-placeholder"
-import Typography from "@tiptap/extension-typography"
-import { useState, useCallback } from "react"
-import { Bold, Italic, Underline, LinkIcon, Heading2, Heading3 } from "lucide-react"
+import { useState, useCallback, useRef } from "react"
+import { Bold, Italic, Underline, LinkIcon, Heading2, Heading3, List, ListOrdered, Quote } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Toggle } from "@/components/ui/toggle"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
 interface ArticleEditorProps {
@@ -25,135 +21,143 @@ export function ArticleEditor({
   placeholder = "Start writing your article...",
   className,
 }: ArticleEditorProps) {
+  const [editorContent, setEditorContent] = useState(content)
   const [linkUrl, setLinkUrl] = useState("")
   const [showLinkInput, setShowLinkInput] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: {
-          levels: [2, 3],
-        },
-      }),
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: "text-primary underline underline-offset-2 hover:text-primary/80",
-        },
-      }),
-      Placeholder.configure({
-        placeholder,
-      }),
-      Typography,
-    ],
-    content,
-    onUpdate: ({ editor }) => {
-      onChange?.(editor.getHTML())
+  const handleContentChange = (value: string) => {
+    setEditorContent(value)
+    onChange?.(value)
+  }
+
+  const insertText = useCallback(
+    (before: string, after = "") => {
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const selectedText = editorContent.substring(start, end)
+
+      const newText = editorContent.substring(0, start) + before + selectedText + after + editorContent.substring(end)
+
+      handleContentChange(newText)
+
+      // Restore cursor position
+      setTimeout(() => {
+        textarea.focus()
+        textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length)
+      }, 0)
     },
-    editorProps: {
-      attributes: {
-        class:
-          "prose prose-lg max-w-none dark:prose-invert prose-headings:font-heading prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-code:text-foreground prose-pre:bg-muted prose-pre:border prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground focus:outline-none min-h-[400px] p-4",
-      },
+    [editorContent],
+  )
+
+  const insertAtCursor = useCallback(
+    (text: string) => {
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+
+      const newText = editorContent.substring(0, start) + text + editorContent.substring(end)
+
+      handleContentChange(newText)
+
+      // Restore cursor position
+      setTimeout(() => {
+        textarea.focus()
+        textarea.setSelectionRange(start + text.length, start + text.length)
+      }, 0)
     },
-  })
-
-  const setLink = useCallback(() => {
-    if (!editor) return
-
-    const previousUrl = editor.getAttributes("link").href
-    const url = linkUrl || previousUrl
-
-    // cancelled
-    if (url === null) {
-      return
-    }
-
-    // empty
-    if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run()
-      return
-    }
-
-    // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
-    setLinkUrl("")
-    setShowLinkInput(false)
-  }, [editor, linkUrl])
+    [editorContent],
+  )
 
   const addLink = useCallback(() => {
-    if (!editor) return
+    const textarea = textareaRef.current
+    if (!textarea) return
 
-    const { from, to } = editor.state.selection
-    const text = editor.state.doc.textBetween(from, to, "")
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = editorContent.substring(start, end)
 
-    if (text) {
+    if (selectedText) {
       setShowLinkInput(true)
     }
-  }, [editor])
+  }, [editorContent])
 
-  if (!editor) {
-    return null
-  }
+  const insertLink = useCallback(() => {
+    const textarea = textareaRef.current
+    if (!textarea || !linkUrl) return
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = editorContent.substring(start, end)
+
+    const linkText = selectedText || linkUrl
+    const markdownLink = `[${linkText}](${linkUrl})`
+
+    const newText = editorContent.substring(0, start) + markdownLink + editorContent.substring(end)
+
+    handleContentChange(newText)
+    setLinkUrl("")
+    setShowLinkInput(false)
+
+    // Restore focus
+    setTimeout(() => {
+      textarea.focus()
+      textarea.setSelectionRange(start + markdownLink.length, start + markdownLink.length)
+    }, 0)
+  }, [editorContent, linkUrl])
 
   return (
     <div className={cn("border rounded-lg overflow-hidden", className)}>
       {/* Toolbar */}
       <div
-        className="flex items-center gap-1 p-2 border-b bg-muted/30"
+        className="flex items-center gap-1 p-2 border-b bg-muted/30 flex-wrap"
         role="toolbar"
         aria-label="Text formatting toolbar"
       >
-        <Toggle
-          size="sm"
-          pressed={editor.isActive("bold")}
-          onPressedChange={() => editor.chain().focus().toggleBold().run()}
-          aria-label="Bold"
-        >
+        <Toggle size="sm" onPressedChange={() => insertText("**", "**")} aria-label="Bold">
           <Bold className="h-4 w-4" />
         </Toggle>
 
-        <Toggle
-          size="sm"
-          pressed={editor.isActive("italic")}
-          onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-          aria-label="Italic"
-        >
+        <Toggle size="sm" onPressedChange={() => insertText("*", "*")} aria-label="Italic">
           <Italic className="h-4 w-4" />
         </Toggle>
 
-        <Toggle
-          size="sm"
-          pressed={editor.isActive("underline")}
-          onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
-          aria-label="Underline"
-        >
+        <Toggle size="sm" onPressedChange={() => insertText("~~", "~~")} aria-label="Strikethrough">
           <Underline className="h-4 w-4" />
         </Toggle>
 
         <div className="w-px h-6 bg-border mx-1" />
 
-        <Toggle
-          size="sm"
-          pressed={editor.isActive("heading", { level: 2 })}
-          onPressedChange={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          aria-label="Heading 2"
-        >
+        <Toggle size="sm" onPressedChange={() => insertAtCursor("## ")} aria-label="Heading 2">
           <Heading2 className="h-4 w-4" />
         </Toggle>
 
-        <Toggle
-          size="sm"
-          pressed={editor.isActive("heading", { level: 3 })}
-          onPressedChange={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          aria-label="Heading 3"
-        >
+        <Toggle size="sm" onPressedChange={() => insertAtCursor("### ")} aria-label="Heading 3">
           <Heading3 className="h-4 w-4" />
         </Toggle>
 
         <div className="w-px h-6 bg-border mx-1" />
 
-        <Toggle size="sm" pressed={editor.isActive("link")} onPressedChange={addLink} aria-label="Add link">
+        <Toggle size="sm" onPressedChange={() => insertAtCursor("- ")} aria-label="Bullet list">
+          <List className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle size="sm" onPressedChange={() => insertAtCursor("1. ")} aria-label="Numbered list">
+          <ListOrdered className="h-4 w-4" />
+        </Toggle>
+
+        <Toggle size="sm" onPressedChange={() => insertAtCursor("> ")} aria-label="Quote">
+          <Quote className="h-4 w-4" />
+        </Toggle>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        <Toggle size="sm" onPressedChange={addLink} aria-label="Add link">
           <LinkIcon className="h-4 w-4" />
         </Toggle>
 
@@ -168,7 +172,7 @@ export function ArticleEditor({
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault()
-                  setLink()
+                  insertLink()
                 }
                 if (e.key === "Escape") {
                   setShowLinkInput(false)
@@ -177,7 +181,7 @@ export function ArticleEditor({
               }}
               autoFocus
             />
-            <Button size="sm" onClick={setLink}>
+            <Button size="sm" onClick={insertLink}>
               Add
             </Button>
             <Button
@@ -195,7 +199,21 @@ export function ArticleEditor({
       </div>
 
       {/* Editor */}
-      <EditorContent editor={editor} />
+      <div className="relative">
+        <Textarea
+          ref={textareaRef}
+          value={editorContent}
+          onChange={(e) => handleContentChange(e.target.value)}
+          placeholder={placeholder}
+          className="min-h-[400px] resize-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 font-mono text-sm leading-relaxed"
+          style={{
+            fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+          }}
+        />
+        <div className="absolute bottom-2 right-2 text-xs text-muted-foreground bg-background/80 px-2 py-1 rounded">
+          Markdown supported
+        </div>
+      </div>
     </div>
   )
 }
