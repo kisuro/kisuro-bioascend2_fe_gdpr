@@ -15,7 +15,7 @@ const baseNavigation = [
   { name: "Supplements", href: "/supplements", icon: Zap },
   { name: "Journal", href: "/journal", icon: BookOpen },
   { name: "AudioMind", href: "/mind", icon: Brain },
-  { name: "AI Assistant", href: "/assistant", icon: Sparkles },
+  { name: "AI Guidance", href: "/assistant", icon: Sparkles },
 ]
 
 export function Navigation() {

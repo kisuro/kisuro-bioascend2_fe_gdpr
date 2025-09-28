@@ -156,7 +156,7 @@ bioascend2_fe/
 │ ├── journal/page.tsx # Personal health journal and intake tracking
 │ ├── mind/page.tsx # Meditation hub with audio library
 │ ├── profile/page.tsx # User profile management and statistics
-│ ├── assistant/page.tsx # AI health assistant (coming soon)
+│ ├── assistant/page.tsx # AI health guidance (coming soon)
 │ ├── premium/page.tsx # Premium features and subscription management
 │ ├── privacy-policy/page.tsx # Privacy policy and GDPR compliance
 │ └── terms-of-service/page.tsx # Terms of service and user agreements
@@ -268,7 +268,7 @@ bioascend2_fe/
 
    NEXT_PUBLIC_JOURNAL_FEATURE=false # Toggle journal visibility
    NEXT_PUBLIC_REVIEW_FEATURE=false # Toggle review system visibility (default: false)
-   NEXT_PUBLIC_ENABLE_AI_ASSISTANT=false
+   NEXT_PUBLIC_ENABLE_AI_GUIDANCE=false
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
    NEXT_PUBLIC_FORCE_PREMIUM=false # Set to true for premium feature testing
 
@@ -689,6 +689,7 @@ export function ErrorBoundary({ children }: { children: React.ReactNode }) {
 return (
 <ErrorBoundaryComponent
 fallback={({ error }) => (
+
 <div className="error-fallback">
 <h2>Something went wrong</h2>
 <p>{getErrorMessage(error)}</p>
@@ -809,7 +810,7 @@ variant: "destructive",
 
    NEXT_PUBLIC_JOURNAL_FEATURE=false
    NEXT_PUBLIC_REVIEW_FEATURE=false # Reviews disabled by default
-   NEXT_PUBLIC_ENABLE_AI_ASSISTANT=true
+   NEXT_PUBLIC_ENABLE_AI_GUIDANCE=true
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
    NEXT_PUBLIC_FORCE_PREMIUM=false
 
@@ -968,6 +969,7 @@ children: React.ReactNode
 
 export function NewComponent({ variant = 'primary', children }: NewComponentProps) {
 return (
+
 <div className={cn(
 'base-styles',
 variant === 'primary' && 'primary-styles',
@@ -1073,7 +1075,7 @@ pnpm cypress:run
 
 **Current Development Focus:**
 
-- [ ] **AI Health Assistant**: ChatGPT-powered personalized health insights
+- [ ] **AI Health Guidance**: ChatGPT-powered personalized health insights
 - [ ] **Advanced Analytics**: Enhanced progress tracking with data correlations
 - [ ] **Supplement Stacks**: Personal supplement combination management
 - [ ] **Social Features**: User profiles and community interactions

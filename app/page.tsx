@@ -69,7 +69,7 @@ const allFeatures = [
     isPremium: true,
   },
   {
-    title: "AI Assistant",
+    title: "AI Guidance",
     description: "Structured Q&A over your entries and goals.",
     href: "/assistant",
     cta: "See capabilities",
@@ -706,12 +706,7 @@ export default function HomePage() {
             <div className="flex items-start gap-4">
               <Shield className="h-6 w-6 text-muted-foreground mt-1 flex-shrink-0" />
               <div className="text-sm text-muted-foreground leading-relaxed">
-                <strong className="text-foreground">Safety notice:</strong> Dietary supplements are not a substitute for
-                professional care. They may interact with medications and aren't evaluated by the FDA for treating
-                diseases. Speak with a licensed clinician before use.
-                <br />
-                BioAionics provides educational information and tools. It is not medical advice. Always consult a qualified
-                health professional.
+                Educational wellness platform • Not medical advice • Consult healthcare professionals • <Link href="/disclaimer" className="text-primary hover:text-primary/80 underline">Full disclaimer</Link>
               </div>
             </div>
           </GlassCard>

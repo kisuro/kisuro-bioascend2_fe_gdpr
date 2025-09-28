@@ -21,7 +21,7 @@ const initialMessages: Message[] = [
   {
     id: "1",
     content:
-      "Hello! I'm your AI biohacking assistant. I can help you with supplement advice, wellness optimization, biorhythm insights, and answer questions about your health journey. What would you like to know?",
+      "Hello! I'm your AI biohacking guidance system. I can help you with supplement advice, wellness optimization, biorhythm insights, and answer questions about your health journey. What would you like to know?",
     role: "assistant",
     timestamp: new Date(),
   },
@@ -94,7 +94,7 @@ export default function AssistantPage() {
   }
 
   if (isLoading) {
-    return <AppLoader isVisible={true} message="Loading AI assistant..." />
+    return <AppLoader isVisible={true} message="Loading AI guidance..." />
   }
 
   if (!isPremium) {
@@ -103,9 +103,9 @@ export default function AssistantPage() {
         <AssistantBackground />
         <div className="relative z-10">
           <PremiumPageGate
-            title="AI Biohacking Assistant"
+            title="AI Biohacking Guidance"
             description="Get personalized guidance for optimized health and performance with advanced AI insights, supplement recommendations, and wellness optimization strategies."
-            featureName="AI Assistant"
+            featureName="AI Guidance"
           />
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function AssistantPage() {
             <div className="p-2 rounded-full bg-primary/20 glass-subtle">
               <Sparkles className="w-6 h-6 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold liquid-text">AI Biohacking Assistant</h1>
+            <h1 className="text-2xl font-bold liquid-text">AI Biohacking Guidance</h1>
           </div>
           <p className="text-muted-foreground">Your personal guide to optimized health and performance</p>
         </div>
