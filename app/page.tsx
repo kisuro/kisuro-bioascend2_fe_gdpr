@@ -18,6 +18,7 @@ import {
   Lock,
   ShieldCheck,
   Newspaper,
+  RotateCcw,
 } from "lucide-react"
 import { journalFeatureEnabled } from "@/lib/features"
 
@@ -351,7 +352,6 @@ const WellnessBackground = () => {
 const StaticBackground = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/10" />
     </div>
   )
 }
@@ -386,9 +386,6 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden px-4 pt-4 pb-6 md:pt-16 md:pb-24">
-        <StaticBackground />
-
-  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/30 pointer-events-none" />
         <WellnessBackground />
 
         <div className="relative max-w-7xl mx-auto">
@@ -413,15 +410,13 @@ export default function HomePage() {
                     damping: 15,
                   }}
                 >
-                  Manage your well-being
-                  <br />
                   <motion.span
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                     className="text-primary"
                   >
-                    and longevity with AI insights.
+                    Your Complete Wellness <span className="text-white">Intelligence Hub</span>
                   </motion.span>
                 </motion.h1>
 
@@ -431,8 +426,10 @@ export default function HomePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.7 }}
                 >
-                  Synchronize your biorhythms, get detailed information from a large supplement library with convenient
-                  filters, record habits and stacks, and get personalized recommendations powered by AI.
+                  Master your wellness with advanced biorhythm insights, 
+                  unlock our complete supplement library, explore expert articles 
+                  on health and nutrition, access premium meditation audio, 
+                  and get AI-powered wellness intelligence.
                 </motion.p>
 
                 <motion.div
@@ -464,12 +461,16 @@ export default function HomePage() {
                 {/* Privacy icons */}
                 <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 items-center justify-center text-xs text-muted-foreground">
                   <div className="inline-flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-primary" />
-                    <span>Private by default</span>
-                  </div>
-                  <div className="inline-flex items-center gap-2">
                     <Lock className="h-4 w-4 text-primary" />
                     <span>Secure & encrypted</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4 text-primary" />
+                    <span>Privacy-first • No health data stored</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2">
+                    <RotateCcw className="h-4 w-4 text-primary" />
+                    <span>Cancel anytime</span>
                   </div>
                 </div>
               </div>
