@@ -43,7 +43,7 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 
 - **2000+ Supplements**: Evidence-based supplement profiles with detailed metadata and scientific backing
 - **Advanced Search & Filtering**: Filter by categories (adaptogen, nootropic, etc.), goals (focus, energy, sleep), evidence levels, and manufacturers
-- **Community Reviews**: User-driven rating and review system with aggregated statistics
+- **Community Reviews**: User-driven rating and review system with aggregated statistics (controlled by `NEXT_PUBLIC_REVIEW_FEATURE` flag)
 - **Smart Recommendations**: Intelligent supplement suggestions based on user goals and preferences
 - **Detailed Profiles**: Each supplement includes dosage, timing, cycling protocols, interactions, and side effects
 
@@ -138,95 +138,95 @@ A comprehensive Next.js-based biohacking platform that empowers users to optimiz
 
 \`\`\`
 bioascend2_fe/
-├── app/                           # Next.js App Router
-│   ├── layout.tsx                 # Root layout with navigation and theme providers
-│   ├── page.tsx                   # Homepage with feature showcase and hero section
-│   ├── globals.css                # Global styles, CSS variables, and theme definitions
-│   ├── auth/                      # Authentication flow pages
-│   │   ├── login/page.tsx         # User login with form validation and error handling
-│   │   ├── register/page.tsx      # User registration with email verification flow
-│   │   ├── verify-email/page.tsx  # Email verification completion page
-│   │   ├── forgot-password/page.tsx # Password reset request form
-│   │   └── reset-password/page.tsx  # Password reset completion with token validation
-│   ├── biorhythms/page.tsx        # Biorhythm calculator with Chart.js visualizations
-│   ├── supplements/               # Supplement database and management
-│   │   ├── page.tsx               # Supplement listing with advanced filtering
-│   │   ├── [slug]/page.tsx        # Individual supplement details with reviews
-│   │   └── loading.tsx            # Loading states with animated placeholders
-│   ├── journal/page.tsx           # Personal health journal and intake tracking
-│   ├── mind/page.tsx              # Meditation hub with audio library
-│   ├── profile/page.tsx           # User profile management and statistics
-│   ├── assistant/page.tsx         # AI health assistant (coming soon)
-│   ├── premium/page.tsx           # Premium features and subscription management
-│   ├── privacy-policy/page.tsx    # Privacy policy and GDPR compliance
-│   └── terms-of-service/page.tsx  # Terms of service and user agreements
-├── components/                    # Reusable React components
-│   ├── ui/                        # Core UI component library
-│   │   ├── glass-card.tsx         # Glass morphism card variants (primary, secondary, accent)
-│   │   ├── liquid-button.tsx      # Animated buttons with liquid hover effects
-│   │   ├── supplement-loader.tsx  # Loading animations with biorhythm-inspired designs
-│   │   ├── theme-provider.tsx     # Dark/light theme management with system detection
-│   │   ├── page-backgrounds.tsx   # Animated gradient backgrounds for each page
-│   │   └── toast.tsx              # Toast notification system with animations
-│   ├── layout/                    # Layout and navigation components
-│   │   └── navigation.tsx         # Main navigation with mobile support and user menu
-│   ├── biorhythms/               # Biorhythm-specific components
-│   │   ├── biorhythm-chart.tsx   # Interactive Chart.js biorhythm visualization
-│   │   ├── biorhythm-summary.tsx # Analysis summary with extrema points and insights
-│   │   └── cycle-legend.tsx       # Color-coded legend for biorhythm cycles
-│   ├── supplements/              # Supplement database components
-│   │   ├── supplement-card.tsx   # Individual supplement preview cards
-│   │   ├── supplement-filters.tsx # Advanced filtering system with categories and goals
-│   │   ├── supplement-detail.tsx  # Detailed supplement information display
-│   │   ├── review-form.tsx       # Review submission form with rating system
-│   │   └── supplements-client.tsx # Client-side supplement data management
-│   ├── journal/                  # Journal and health tracking components
-│   │   ├── journal-overview.tsx  # Dashboard with analytics and progress charts
-│   │   ├── supplement-manager.tsx # Personal supplement stack management
-│   │   ├── intake-logger.tsx     # Daily supplement intake logging form
-│   │   ├── progress-charts.tsx   # Visual progress tracking with Recharts
-│   │   └── journal-history.tsx   # Historical data analysis and export
-│   ├── mind/                     # Meditation and audio enhancement components
-│   │   ├── audio-library.tsx     # Audio track library with categorization
-│   │   ├── audio-player.tsx      # Custom audio player with advanced controls
-│   │   ├── playlist-manager.tsx  # Playlist creation and management interface
-│   │   └── session-timer.tsx     # Meditation timer with interval bells
-│   └── auth/                     # Authentication-related components
-│       ├── login-form.tsx        # Login form with validation and error handling
-│       ├── register-form.tsx     # Registration form with email verification
-│       └── profile-form.tsx      # Profile editing form with avatar upload
-├── lib/                          # Utility libraries and helpers
-│   ├── utils.ts                  # General utility functions and helpers
-│   ├── api.ts                    # API client with request/response interceptors
-│   ├── auth.ts                   # Authentication utilities and token management
-│   ├── data/                     # Data structures and type definitions
-│   │   ├── supplements.ts        # Supplement data types and mock data
-│   │   ├── audio.ts              # Audio library data and metadata
-│   │   ├── biorhythms.ts         # Biorhythm calculation algorithms
-│   │   └── journal.ts            # Journal data structures and validations
-│   ├── hooks/                    # Custom React hooks
-│   │   ├── use-user.ts           # User authentication and profile management
-│   │   ├── use-supplements.ts    # Supplement data fetching and caching
-│   │   ├── use-biorhythms.ts     # Biorhythm calculation and caching
-│   │   └── use-toast.ts          # Toast notification system management
-│   └── stores/                   # State management (Zustand or Context)
-│       ├── user-store.ts         # Global user state management
-│       └── preferences-store.ts  # User preferences and settings
-├── public/                       # Static assets
-│   ├── seed/                     # Seed data for development and testing
-│   │   ├── supplements.json      # Comprehensive supplement database
-│   │   └── audio-tracks.json     # Audio library metadata
-│   ├── images/                   # Static images and graphics
-│   └── audio/                    # Audio files for meditation and focus
-├── styles/                       # Global styles and CSS modules
-│   └── globals.css               # Global CSS imports and base styles
-├── components.json               # Shadcn/UI component configuration
-├── next.config.mjs              # Next.js configuration with optimizations
-├── tailwind.config.js           # Tailwind CSS configuration with custom design tokens
-├── tsconfig.json                # TypeScript configuration with strict settings
-├── package.json                 # Dependencies and scripts
-├── pnpm-lock.yaml              # PNPM lockfile for consistent installations
-└── README.md                    # This documentation file
+├── app/ # Next.js App Router
+│ ├── layout.tsx # Root layout with navigation and theme providers
+│ ├── page.tsx # Homepage with feature showcase and hero section
+│ ├── globals.css # Global styles, CSS variables, and theme definitions
+│ ├── auth/ # Authentication flow pages
+│ │ ├── login/page.tsx # User login with form validation and error handling
+│ │ ├── register/page.tsx # User registration with email verification flow
+│ │ ├── verify-email/page.tsx # Email verification completion page
+│ │ ├── forgot-password/page.tsx # Password reset request form
+│ │ └── reset-password/page.tsx # Password reset completion with token validation
+│ ├── biorhythms/page.tsx # Biorhythm calculator with Chart.js visualizations
+│ ├── supplements/ # Supplement database and management
+│ │ ├── page.tsx # Supplement listing with advanced filtering
+│ │ ├── [slug]/page.tsx # Individual supplement details with reviews
+│ │ └── loading.tsx # Loading states with animated placeholders
+│ ├── journal/page.tsx # Personal health journal and intake tracking
+│ ├── mind/page.tsx # Meditation hub with audio library
+│ ├── profile/page.tsx # User profile management and statistics
+│ ├── assistant/page.tsx # AI health assistant (coming soon)
+│ ├── premium/page.tsx # Premium features and subscription management
+│ ├── privacy-policy/page.tsx # Privacy policy and GDPR compliance
+│ └── terms-of-service/page.tsx # Terms of service and user agreements
+├── components/ # Reusable React components
+│ ├── ui/ # Core UI component library
+│ │ ├── glass-card.tsx # Glass morphism card variants (primary, secondary, accent)
+│ │ ├── liquid-button.tsx # Animated buttons with liquid hover effects
+│ │ ├── supplement-loader.tsx # Loading animations with biorhythm-inspired designs
+│ │ ├── theme-provider.tsx # Dark/light theme management with system detection
+│ │ ├── page-backgrounds.tsx # Animated gradient backgrounds for each page
+│ │ └── toast.tsx # Toast notification system with animations
+│ ├── layout/ # Layout and navigation components
+│ │ └── navigation.tsx # Main navigation with mobile support and user menu
+│ ├── biorhythms/ # Biorhythm-specific components
+│ │ ├── biorhythm-chart.tsx # Interactive Chart.js biorhythm visualization
+│ │ ├── biorhythm-summary.tsx # Analysis summary with extrema points and insights
+│ │ └── cycle-legend.tsx # Color-coded legend for biorhythm cycles
+│ ├── supplements/ # Supplement database components
+│ │ ├── supplement-card.tsx # Individual supplement preview cards
+│ │ ├── supplement-filters.tsx # Advanced filtering system with categories and goals
+│ │ ├── supplement-detail.tsx # Detailed supplement information display
+│ │ ├── review-form.tsx # Review submission form with rating system
+│ │ └── supplements-client.tsx # Client-side supplement data management
+│ ├── journal/ # Journal and health tracking components
+│ │ ├── journal-overview.tsx # Dashboard with analytics and progress charts
+│ │ ├── supplement-manager.tsx # Personal supplement stack management
+│ │ ├── intake-logger.tsx # Daily supplement intake logging form
+│ │ ├── progress-charts.tsx # Visual progress tracking with Recharts
+│ │ └── journal-history.tsx # Historical data analysis and export
+│ ├── mind/ # Meditation and audio enhancement components
+│ │ ├── audio-library.tsx # Audio track library with categorization
+│ │ ├── audio-player.tsx # Custom audio player with advanced controls
+│ │ ├── playlist-manager.tsx # Playlist creation and management interface
+│ │ └── session-timer.tsx # Meditation timer with interval bells
+│ └── auth/ # Authentication-related components
+│ ├── login-form.tsx # Login form with validation and error handling
+│ ├── register-form.tsx # Registration form with email verification
+│ └── profile-form.tsx # Profile editing form with avatar upload
+├── lib/ # Utility libraries and helpers
+│ ├── utils.ts # General utility functions and helpers
+│ ├── api.ts # API client with request/response interceptors
+│ ├── auth.ts # Authentication utilities and token management
+│ ├── data/ # Data structures and type definitions
+│ │ ├── supplements.ts # Supplement data types and mock data
+│ │ ├── audio.ts # Audio library data and metadata
+│ │ ├── biorhythms.ts # Biorhythm calculation algorithms
+│ │ └── journal.ts # Journal data structures and validations
+│ ├── hooks/ # Custom React hooks
+│ │ ├── use-user.ts # User authentication and profile management
+│ │ ├── use-supplements.ts # Supplement data fetching and caching
+│ │ ├── use-biorhythms.ts # Biorhythm calculation and caching
+│ │ └── use-toast.ts # Toast notification system management
+│ └── stores/ # State management (Zustand or Context)
+│ ├── user-store.ts # Global user state management
+│ └── preferences-store.ts # User preferences and settings
+├── public/ # Static assets
+│ ├── seed/ # Seed data for development and testing
+│ │ ├── supplements.json # Comprehensive supplement database
+│ │ └── audio-tracks.json # Audio library metadata
+│ ├── images/ # Static images and graphics
+│ └── audio/ # Audio files for meditation and focus
+├── styles/ # Global styles and CSS modules
+│ └── globals.css # Global CSS imports and base styles
+├── components.json # Shadcn/UI component configuration
+├── next.config.mjs # Next.js configuration with optimizations
+├── tailwind.config.js # Tailwind CSS configuration with custom design tokens
+├── tsconfig.json # TypeScript configuration with strict settings
+├── package.json # Dependencies and scripts
+├── pnpm-lock.yaml # PNPM lockfile for consistent installations
+└── README.md # This documentation file
 \`\`\`
 
 ## 🚀 Getting Started
@@ -257,36 +257,47 @@ bioascend2_fe/
    Create `.env.local` file in the root directory:
 
    \`\`\`env
+
    # API Configuration
+
    NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+
    # Production: https://bioaionics-api.onrender.com
 
    # Feature Flags
-   NEXT_PUBLIC_JOURNAL_FEATURE=false  # Toggle journal visibility
+
+   NEXT_PUBLIC_JOURNAL_FEATURE=false # Toggle journal visibility
+   NEXT_PUBLIC_REVIEW_FEATURE=false # Toggle review system visibility (default: false)
    NEXT_PUBLIC_ENABLE_AI_ASSISTANT=false
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
-   NEXT_PUBLIC_FORCE_PREMIUM=false  # Set to true for premium feature testing
+   NEXT_PUBLIC_FORCE_PREMIUM=false # Set to true for premium feature testing
 
    # Development Settings
+
    NEXT_PUBLIC_DEBUG_MODE=true
    NODE_ENV=development
 
    # Analytics (optional)
+
    NEXT_PUBLIC_GA_ID=your_google_analytics_id
    NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key
 
    # Optional: Email testing
+
    NEXT_PUBLIC_ENABLE_EMAIL_DEBUG=true
    \`\`\`
 
    - `NEXT_PUBLIC_JOURNAL_FEATURE` controls whether the Journal navigation, page, and related CTAs are shown. Set to
      `true` to enable the experience when you're ready.
+   - `NEXT_PUBLIC_REVIEW_FEATURE` controls the review system visibility. When `false` (default), the review blocks are hidden, review counts are not shown in ratings, and only quick ratings are available for premium users. When `true`, full review functionality is enabled.
 
 4. **Start the development server**:
 
    \`\`\`bash
    pnpm dev
+
    # Alternative: npm run dev or yarn dev
+
    \`\`\`
 
    The application will be available at:
@@ -297,13 +308,17 @@ bioascend2_fe/
 5. **Build and test production version**:
 
    \`\`\`bash
+
    # Build the application
+
    pnpm build
 
    # Start production server locally
+
    pnpm start
 
    # Analyze bundle size
+
    pnpm analyze
    \`\`\`
 
@@ -312,23 +327,31 @@ bioascend2_fe/
 **Local Development Setup:**
 
 \`\`\`bash
+
 # In the backend directory (bioascend2_be)
+
 # Ensure Python virtual environment is activated
+
 source .venv/bin/activate
 
 # Start the FastAPI development server
+
 uvicorn app.main:app --reload --port 8000
 
 # Or use VS Code task: backend:dev
+
 \`\`\`
 
 **Verify Backend Connection:**
 
 \`\`\`bash
+
 # Health check
+
 curl http://localhost:8000/v1/health
 
 # API documentation
+
 open http://localhost:8000/docs
 \`\`\`
 
@@ -360,7 +383,7 @@ open http://localhost:8000/docs
 \`\`\`tsx
 // Animated button with liquid hover effects
 <LiquidButton variant="primary" size="lg" className="transform hover:scale-105">
-  Get Started
+Get Started
 </LiquidButton>
 \`\`\`
 
@@ -368,9 +391,9 @@ open http://localhost:8000/docs
 
 \`\`\`tsx
 // Page-specific animated gradient backgrounds
-<PageBackground page="biorhythms" />  // Biorhythm-themed gradients
-<PageBackground page="supplements" />  // Health-focused gradients
-<PageBackground page="mind" />         // Meditation-inspired gradients
+<PageBackground page="biorhythms" /> // Biorhythm-themed gradients
+<PageBackground page="supplements" /> // Health-focused gradients
+<PageBackground page="mind" /> // Meditation-inspired gradients
 \`\`\`
 
 ### Theme System Architecture
@@ -379,20 +402,20 @@ open http://localhost:8000/docs
 
 \`\`\`css
 :root {
-  /* Glass morphism variables */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+/_ Glass morphism variables _/
+--glass-bg: rgba(255, 255, 255, 0.1);
+--glass-border: rgba(255, 255, 255, 0.2);
+--glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
 
-  /* Color palette */
-  --primary: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --accent: 142 76% 36%;
+/_ Color palette _/
+--primary: 210 40% 98%;
+--secondary: 210 40% 96%;
+--accent: 142 76% 36%;
 
-  /* Animation timing */
-  --animation-fast: 0.15s;
-  --animation-normal: 0.3s;
-  --animation-slow: 0.5s;
+/_ Animation timing _/
+--animation-fast: 0.15s;
+--animation-normal: 0.3s;
+--animation-slow: 0.5s;
 }
 \`\`\`
 
@@ -409,11 +432,11 @@ open http://localhost:8000/docs
 
 \`\`\`javascript
 const breakpoints = {
-  sm: "640px", // Mobile landscape
-  md: "768px", // Tablet portrait
-  lg: "1024px", // Tablet landscape / Small desktop
-  xl: "1280px", // Desktop
-  "2xl": "1536px", // Large desktop
+sm: "640px", // Mobile landscape
+md: "768px", // Tablet portrait
+lg: "1024px", // Tablet landscape / Small desktop
+xl: "1280px", // Desktop
+"2xl": "1536px", // Large desktop
 };
 \`\`\`
 
@@ -431,20 +454,20 @@ const breakpoints = {
 \`\`\`tsx
 // Page transitions with stagger animations
 const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  in: { opacity: 1, y: 0 },
-  out: { opacity: 0, y: -20 },
+initial: { opacity: 0, y: 20 },
+in: { opacity: 1, y: 0 },
+out: { opacity: 0, y: -20 },
 };
 
 // Staggered list animations
 const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
+hidden: { opacity: 0 },
+visible: {
+opacity: 1,
+transition: {
+staggerChildren: 0.1,
+},
+},
 };
 \`\`\`
 
@@ -455,6 +478,99 @@ const containerVariants = {
 - Respect user's motion preferences (`prefers-reduced-motion`)
 - Lazy load heavy animations based on viewport intersection
 
+## 🏁 Feature Flags
+
+The application uses environment-based feature flags to control functionality visibility and enable/disable features dynamically.
+
+### Available Feature Flags
+
+#### Review System (`NEXT_PUBLIC_REVIEW_FEATURE`)
+
+Controls the visibility and functionality of the review system throughout the application.
+
+**Environment Variable:** `NEXT_PUBLIC_REVIEW_FEATURE`
+**Default Value:** `false` (reviews disabled)
+**Accepted Values:** `true`, `false`, `1`, `0`, `yes`, `no`, `on`, `off`, `enabled`, `disabled`
+
+**When Enabled (`true`):**
+
+- ✅ Review blocks visible on supplement detail pages
+- ✅ Rating displays include review counts (e.g., "4.5 (23 reviews)")
+- ✅ Full review functionality: add, edit, delete reviews
+- ✅ Review modals and forms available
+- ✅ API calls for review data
+
+**When Disabled (`false` - default):**
+
+- ❌ Review blocks hidden on supplement detail pages
+- ❌ Rating displays show only stars and average (e.g., "4.5")
+- ✅ Quick ratings still available for premium users (stars only)
+- ✅ Premium access control preserved (non-premium users see subscription modal)
+- ❌ No API calls for reviews (performance optimized)
+
+**Usage Examples:**
+
+```bash
+# Enable reviews
+NEXT_PUBLIC_REVIEW_FEATURE=true
+
+# Disable reviews (default)
+NEXT_PUBLIC_REVIEW_FEATURE=false
+# or simply omit the variable
+```
+
+#### Journal Feature (`NEXT_PUBLIC_JOURNAL_FEATURE`)
+
+Controls whether the Journal navigation, page, and related CTAs are shown.
+
+**Environment Variable:** `NEXT_PUBLIC_JOURNAL_FEATURE`
+**Default Value:** `false` (journal disabled)
+
+**When Enabled (`true`):**
+
+- ✅ Journal navigation item visible
+- ✅ Journal page accessible
+- ✅ Journal-related CTAs shown throughout app
+
+**When Disabled (`false` - default):**
+
+- ❌ Journal navigation hidden
+- ❌ Journal page returns 404
+- ❌ Journal CTAs hidden
+
+### Implementation Details
+
+Feature flags are implemented in `/lib/features.ts` with a robust parsing system:
+
+```typescript
+// Example usage in components
+import { reviewFeatureEnabled, journalFeatureEnabled } from "@/lib/features";
+
+function MyComponent() {
+  return (
+    <div>
+      {reviewFeatureEnabled && <ReviewSection />}
+      {journalFeatureEnabled && <JournalButton />}
+    </div>
+  );
+}
+```
+
+**Flag Parsing Logic:**
+
+- Checks multiple environment variable variants for flexibility
+- Case-insensitive parsing
+- Supports boolean strings, numbers, and keywords
+- Defaults to `false` for safety
+
+**Performance Considerations:**
+
+- Disabled features don't make unnecessary API calls
+- Code splitting can be used with dynamic imports for large features
+- Server-side feature detection prevents hydration mismatches
+
+For detailed implementation information, see [FEATURE_FLAGS.md](FEATURE_FLAGS.md).
+
 ## 🔗 API Integration & Data Management
 
 ### Authentication Flow
@@ -464,14 +580,14 @@ const containerVariants = {
 \`\`\`typescript
 // Registration with email verification
 const registerUser = async (userData: RegisterData) => {
-  const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userData),
-  });
+const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify(userData),
+});
 
-  if (!response.ok) throw new Error("Registration failed");
-  return response.json();
+if (!response.ok) throw new Error("Registration failed");
+return response.json();
 };
 \`\`\`
 
@@ -480,19 +596,19 @@ const registerUser = async (userData: RegisterData) => {
 \`\`\`typescript
 // useUser hook implementation
 const useUser = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+const [user, setUser] = useState<User | null>(null);
+const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Check authentication status on mount
-    checkAuthStatus();
-  }, []);
+useEffect(() => {
+// Check authentication status on mount
+checkAuthStatus();
+}, []);
 
-  const checkAuthStatus = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/v1/auth/me`, {
-        credentials: "include", // Include HTTP-only cookies
-      });
+const checkAuthStatus = async () => {
+try {
+const response = await fetch(`${API_BASE_URL}/v1/auth/me`, {
+credentials: "include", // Include HTTP-only cookies
+});
 
       if (response.ok) {
         const userData = await response.json();
@@ -503,9 +619,10 @@ const useUser = () => {
     } finally {
       setLoading(false);
     }
-  };
 
-  return { user, loading, checkAuthStatus };
+};
+
+return { user, loading, checkAuthStatus };
 };
 \`\`\`
 
@@ -515,19 +632,19 @@ const useUser = () => {
 
 \`\`\`typescript
 const apiClient = {
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000",
+baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000",
 
-  // Generic request handler with error handling
-  async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
-    const config: RequestInit = {
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-      credentials: "include", // Include cookies for authentication
-      ...options,
-    };
+// Generic request handler with error handling
+async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+const url = `${this.baseURL}${endpoint}`;
+const config: RequestInit = {
+headers: {
+"Content-Type": "application/json",
+...options.headers,
+},
+credentials: "include", // Include cookies for authentication
+...options,
+};
 
     const response = await fetch(url, config);
 
@@ -536,7 +653,8 @@ const apiClient = {
     }
 
     return response.json();
-  },
+
+},
 };
 \`\`\`
 
@@ -552,9 +670,9 @@ GET /v1/supplements/{slug}
 // Add authenticated review
 POST /v1/reviews/{supplement_id}
 {
-  "user": "username",
-  "rating": 5,
-  "comment": "Excellent for stress relief and sleep quality!"
+"user": "username",
+"rating": 5,
+"comment": "Excellent for stress relief and sleep quality!"
 }
 
 // Get aggregated rating statistics
@@ -568,38 +686,37 @@ GET /v1/ratings/{supplement_id}/aggregate
 \`\`\`typescript
 // Custom error boundary with user-friendly messages
 export function ErrorBoundary({ children }: { children: React.ReactNode }) {
-  return (
-    <ErrorBoundaryComponent
-      fallback={({ error }) => (
-        <div className="error-fallback">
-          <h2>Something went wrong</h2>
-          <p>{getErrorMessage(error)}</p>
-          <button onClick={() => window.location.reload()}>Try again</button>
-        </div>
-      )}
-    >
-      {children}
-    </ErrorBoundaryComponent>
-  );
+return (
+<ErrorBoundaryComponent
+fallback={({ error }) => (
+<div className="error-fallback">
+<h2>Something went wrong</h2>
+<p>{getErrorMessage(error)}</p>
+<button onClick={() => window.location.reload()}>Try again</button>
+</div>
+)} >
+{children}
+</ErrorBoundaryComponent>
+);
 }
 
 // User-friendly error messages
 const getErrorMessage = (error: unknown): string => {
-  if (error instanceof APIError) {
-    switch (error.status) {
-      case 401:
-        return "Please log in to continue";
-      case 403:
-        return "You don't have permission for this action";
-      case 404:
-        return "The requested resource was not found";
-      case 500:
-        return "Server error. Please try again later";
-      default:
-        return "Something went wrong. Please try again";
-    }
-  }
-  return "An unexpected error occurred";
+if (error instanceof APIError) {
+switch (error.status) {
+case 401:
+return "Please log in to continue";
+case 403:
+return "You don't have permission for this action";
+case 404:
+return "The requested resource was not found";
+case 500:
+return "Server error. Please try again later";
+default:
+return "Something went wrong. Please try again";
+}
+}
+return "An unexpected error occurred";
 };
 \`\`\`
 
@@ -610,19 +727,19 @@ const getErrorMessage = (error: unknown): string => {
 const { toast } = useToast();
 
 const handleSuccess = (message: string) => {
-  toast({
-    title: "Success",
-    description: message,
-    variant: "default",
-  });
+toast({
+title: "Success",
+description: message,
+variant: "default",
+});
 };
 
 const handleError = (error: APIError) => {
-  toast({
-    title: "Error",
-    description: getErrorMessage(error),
-    variant: "destructive",
-  });
+toast({
+title: "Error",
+description: getErrorMessage(error),
+variant: "destructive",
+});
 };
 \`\`\`
 
@@ -640,8 +757,8 @@ const handleError = (error: APIError) => {
 
 - **Comprehensive Filtering**: Categories, goals, evidence levels, manufacturers
 - **Advanced Search**: Full-text search across names, benefits, and descriptions
-- **Rating System**: 5-star rating with detailed statistics
-- **Review Management**: CRUD operations for authenticated users
+- **Rating System**: 5-star rating with optional review counts (controlled by feature flag)
+- **Review Management**: CRUD operations for authenticated users (when reviews enabled)
 - **Recommendation Engine**: Smart suggestions based on user goals and history
 
 ### Personal Journal
@@ -683,38 +800,46 @@ const handleError = (error: APIError) => {
 2. **Production Environment Variables**:
 
    \`\`\`env
+
    # API Configuration
+
    NEXT_PUBLIC_API_BASE_URL=https://bioaionics-api.onrender.com
 
    # Feature Flags
+
    NEXT_PUBLIC_JOURNAL_FEATURE=false
+   NEXT_PUBLIC_REVIEW_FEATURE=false # Reviews disabled by default
    NEXT_PUBLIC_ENABLE_AI_ASSISTANT=true
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
    NEXT_PUBLIC_FORCE_PREMIUM=false
 
    # Analytics
+
    NEXT_PUBLIC_GA_ID=your_production_google_analytics_id
    NEXT_PUBLIC_POSTHOG_KEY=your_production_posthog_key
 
    # Environment
+
    NODE_ENV=production
    \`\`\`
 
-   Управление флагом на Vercel:
+   Управление флагами на Vercel:
 
-   - Войдите в **Project → Settings → Environment Variables** и добавьте/измените переменную `NEXT_PUBLIC_JOURNAL_FEATURE`.
-   - Для включения используйте одно из значений `true`, `1`, `yes`, `on`, `enabled`; любое другое значение отключает журнал.
+   - Войдите в **Project → Settings → Environment Variables** и добавьте/измените переменные флагов:
+     - `NEXT_PUBLIC_JOURNAL_FEATURE` - управляет отображением журнала
+     - `NEXT_PUBLIC_REVIEW_FEATURE` - управляет системой отзывов (по умолчанию отключена)
+   - Для включения используйте одно из значений `true`, `1`, `yes`, `on`, `enabled`; любое другое значение отключает функцию.
    - После изменения запустите новый деплой (или перезапустите последний), чтобы Next.js подхватил обновление.
 
 3. **Build Configuration**:
    \`\`\`javascript
    // vercel.json (optional)
    {
-     "buildCommand": "pnpm build",
-     "outputDirectory": ".next",
-     "installCommand": "pnpm install",
-     "framework": "nextjs",
-     "regions": ["iad1"] // US East for optimal backend connectivity
+   "buildCommand": "pnpm build",
+   "outputDirectory": ".next",
+   "installCommand": "pnpm install",
+   "framework": "nextjs",
+   "regions": ["iad1"] // US East for optimal backend connectivity
    }
    \`\`\`
 
@@ -723,21 +848,27 @@ const handleError = (error: APIError) => {
 **Manual Static Export:**
 
 \`\`\`bash
+
 # Build and export static files
+
 pnpm build
 pnpm export
 
 # Deploy to any static hosting provider
+
 # (Netlify, GitHub Pages, AWS S3, etc.)
+
 \`\`\`
 
 **Docker Deployment:**
 
 \`\`\`dockerfile
+
 # Dockerfile for containerized deployment
+
 FROM node:18-alpine AS base
 WORKDIR /app
-COPY package*.json ./
+COPY package\*.json ./
 RUN npm ci --only=production
 
 FROM base AS build
@@ -755,14 +886,21 @@ CMD ["npm", "start"]
 **Bundle Analysis:**
 
 \`\`\`bash
+
 # Analyze bundle size and dependencies
+
 pnpm analyze
 
 # Key metrics to monitor:
+
 # - First Contentful Paint (FCP): < 1.2s
+
 # - Largest Contentful Paint (LCP): < 2.5s
+
 # - Cumulative Layout Shift (CLS): < 0.1
+
 # - First Input Delay (FID): < 100ms
+
 \`\`\`
 
 **SEO & Meta Optimization:**
@@ -782,29 +920,34 @@ pnpm analyze
 \`\`\`json
 // tsconfig.json - Strict type checking
 {
-  "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitReturns": true,
-    "noImplicitOverride": true,
-    "exactOptionalPropertyTypes": true
-  }
+"compilerOptions": {
+"strict": true,
+"noUncheckedIndexedAccess": true,
+"noImplicitReturns": true,
+"noImplicitOverride": true,
+"exactOptionalPropertyTypes": true
+}
 }
 \`\`\`
 
 **ESLint & Prettier Setup:**
 
 \`\`\`bash
+
 # Run linting
+
 pnpm lint
 
 # Fix auto-fixable issues
+
 pnpm lint:fix
 
 # Check code formatting
+
 pnpm format:check
 
 # Format code
+
 pnpm format
 \`\`\`
 
@@ -813,37 +956,43 @@ pnpm format
 **Component Development:**
 
 \`\`\`bash
+
 # Create new component with proper typing
+
 # components/ui/new-component.tsx
+
 export interface NewComponentProps {
-  variant?: 'primary' | 'secondary'
-  children: React.ReactNode
+variant?: 'primary' | 'secondary'
+children: React.ReactNode
 }
 
 export function NewComponent({ variant = 'primary', children }: NewComponentProps) {
-  return (
-    <div className={cn(
-      'base-styles',
-      variant === 'primary' && 'primary-styles',
-      variant === 'secondary' && 'secondary-styles'
-    )}>
-      {children}
-    </div>
-  )
+return (
+<div className={cn(
+'base-styles',
+variant === 'primary' && 'primary-styles',
+variant === 'secondary' && 'secondary-styles'
+)}>
+{children}
+</div>
+)
 }
 \`\`\`
 
 **API Integration Testing:**
 
 \`\`\`bash
+
 # Test API endpoints
+
 curl -X GET "http://localhost:8000/v1/health"
 curl -X GET "http://localhost:8000/v1/supplements?limit=5"
 
 # Test authentication flow
+
 curl -X POST "http://localhost:8000/v1/auth/register" \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"testpass123","name":"Test User"}'
+ -H "Content-Type: application/json" \
+ -d '{"email":"test@example.com","password":"testpass123","name":"Test User"}'
 \`\`\`
 
 ### Performance Monitoring
@@ -857,13 +1006,19 @@ curl -X POST "http://localhost:8000/v1/auth/register" \
 **Bundle Size Monitoring:**
 
 \`\`\`bash
+
 # Generate bundle analysis
+
 pnpm build && pnpm analyze
 
 # Key targets:
+
 # - Initial bundle: < 250KB gzipped
+
 # - Route chunks: < 100KB gzipped
+
 # - Shared chunks: Optimal code splitting
+
 \`\`\`
 
 ### Testing Strategy (Future Implementation)
@@ -871,7 +1026,9 @@ pnpm build && pnpm analyze
 **Unit Testing:**
 
 \`\`\`bash
+
 # Jest + Testing Library setup
+
 pnpm test
 pnpm test:watch
 pnpm test:coverage
@@ -880,7 +1037,9 @@ pnpm test:coverage
 **Integration Testing:**
 
 \`\`\`bash
+
 # Cypress E2E testing
+
 pnpm cypress:open
 pnpm cypress:run
 \`\`\`
@@ -952,9 +1111,10 @@ pnpm cypress:run
 
 - [ ] **Edge Runtime Optimization**: Migrate to Vercel Edge Functions
 - [ ] **Database Optimization**: Implement Redis caching layer
-- [ ] **Bundle Size Reduction**: Advanced code splitting and tree shaking
+- [ ] **Bundle Size Reduction**: Advanced code splitting and tree shaking with feature flag-based dynamic imports
 - [ ] **Image Optimization**: WebP/AVIF adoption with responsive images
 - [ ] **SEO Enhancement**: Advanced structured data and meta optimization
+- [x] **Feature Flag System**: Environment-based feature toggles for reviews and journal
 
 **Developer Experience:**
 
@@ -1062,13 +1222,13 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 
 \`\`\`json
 {
-  "recommendations": [
-    "bradlc.vscode-tailwindcss",
-    "esbenp.prettier-vscode",
-    "ms-vscode.vscode-typescript-next",
-    "formulahendry.auto-rename-tag",
-    "christian-kohler.path-intellisense"
-  ]
+"recommendations": [
+"bradlc.vscode-tailwindcss",
+"esbenp.prettier-vscode",
+"ms-vscode.vscode-typescript-next",
+"formulahendry.auto-rename-tag",
+"christian-kohler.path-intellisense"
+]
 }
 \`\`\`
 
@@ -1088,6 +1248,7 @@ We welcome contributions from developers, designers, and health enthusiasts! Her
 
 - **Live Application**: [https://www.bioaionics.com](https://www.bioaionics.com)
 - **API Documentation**: [https://bioaionics-api.onrender.com/docs](https://bioaionics-api.onrender.com/docs)
+- **Feature Flags Documentation**: [FEATURE_FLAGS.md](FEATURE_FLAGS.md) - Complete guide to feature toggles
 - **GitHub Issues**: [Report bugs or request features](https://github.com/kisuro/bioascend2_fe/issues)
 - **Development Guide**: This README provides comprehensive setup and contribution instructions
 
