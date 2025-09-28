@@ -109,9 +109,13 @@ export default async function SupplementDetailPage({
 }) {
   const { slug } = await params;
 
+  // Check if review feature is enabled
+  const reviewFeatureEnabled = process.env.NEXT_PUBLIC_REVIEW_FEATURE?.toLowerCase() === 'true'
+
   const [apiSupp, reviews] = await Promise.all([
     getSupplementFromAPI(slug),
-    getReviewsFromAPI(slug),
+    // Only fetch reviews if feature is enabled
+    reviewFeatureEnabled ? getReviewsFromAPI(slug) : Promise.resolve([]),
   ]);
 
   if (!apiSupp) notFound();
@@ -172,9 +176,10 @@ export default async function SupplementDetailPage({
     undefined;
 
   // Rating and counts
-  const rating = normalizeRating(apiSupp.rating, reviews.length);
-  const reviews_count =
-    typeof apiSupp.reviews_count === "number" ? apiSupp.reviews_count : reviews.length;
+  const rating = normalizeRating(apiSupp.rating, reviewFeatureEnabled ? reviews.length : 0);
+  const reviews_count = reviewFeatureEnabled 
+    ? (typeof apiSupp.reviews_count === "number" ? apiSupp.reviews_count : reviews.length)
+    : 0;
 
   // meta — enrich with keys UI expects
   const meta: Record<string, any> = {

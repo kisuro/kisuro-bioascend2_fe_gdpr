@@ -13,7 +13,7 @@ import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { SupplementInteractions } from "@/components/supplements/supplement-interactions"
-import { journalFeatureEnabled } from "@/lib/features"
+import { journalFeatureEnabled, reviewFeatureEnabled } from "@/lib/features"
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/$/, "")
 
@@ -163,13 +163,15 @@ export function SupplementDetailClient({ supplement: initial }: Props) {
 
   // === КЛИК ПО ЗВЁЗДАМ ==================================================
   const handleRatingClick = () => {
-    console.log("[UI] star click", { isPremium, isAuthLoading })
+    console.log("[UI] star click", { isPremium, isAuthLoading, reviewFeatureEnabled })
     if (isAuthLoading) return
     if (!isPremium) {
       console.log("[UI] opening PremiumGateModal")
       setShowPremiumGate(true)
       return
     }
+    // If reviews are disabled, only allow quick rating (star picker)
+    // If reviews are enabled, allow both rating and full reviews
     console.log("[UI] opening StarRatingPicker")
     setShowRatingPicker(true)
   }
@@ -232,14 +234,18 @@ const mapApiReviewToUI = (r: any): Review => ({
   const refreshFromAPI = async () => {
     try {
       setIsLoadingReviews(true)
-      const [aggRes, revRes] = await Promise.all([
-        fetch(`${API_BASE}/v1/ratings/${supplement.id}/aggregate`, {
-          cache: "no-store",
-        }),
-        fetch(`${API_BASE}/v1/reviews/${supplement.id}`, {
-          cache: "no-store",
-        }),
-      ])
+      
+      // Always fetch ratings aggregate
+      const aggRes = await fetch(`${API_BASE}/v1/ratings/${supplement.id}/aggregate`, {
+        cache: "no-store",
+      })
+      
+      // Only fetch reviews if the feature is enabled
+      const revRes = reviewFeatureEnabled 
+        ? await fetch(`${API_BASE}/v1/reviews/${supplement.id}`, {
+            cache: "no-store",
+          })
+        : null
 
       let nextCountFromAgg: number | undefined
       if (aggRes.ok) {
@@ -253,7 +259,7 @@ const mapApiReviewToUI = (r: any): Review => ({
         }))
       }
 
-      if (revRes.ok) {
+      if (revRes?.ok) {
         const items = await revRes.json()
         const mapped = Array.isArray(items) ? items.map(mapApiReviewToUI) : []
         setAllReviews(mapped)
@@ -268,6 +274,9 @@ const mapApiReviewToUI = (r: any): Review => ({
                 : { ...prev.rating, count: mapped.length },
           }))
         }
+      } else if (!reviewFeatureEnabled) {
+        // If reviews are disabled, clear any existing reviews
+        setAllReviews([])
       }
     } catch (e) {
       // swallow errors
@@ -473,7 +482,9 @@ const mapApiReviewToUI = (r: any): Review => ({
                               ))}
                             </div>
                             <span className="font-semibold text-lg">{avg!.toFixed(1)}</span>
-                            <span className="text-muted-foreground whitespace-nowrap">({cnt} reviews)</span>
+                            {reviewFeatureEnabled && (
+                              <span className="text-muted-foreground whitespace-nowrap">({cnt} reviews)</span>
+                            )}
                           </div>
                         ) : (
                           <div className="flex items-center gap-2">
@@ -569,72 +580,74 @@ const mapApiReviewToUI = (r: any): Review => ({
               supplement={{ interactions: supplement.interactions || { synergy: [], caution: [], avoid: [] } }}
             />
 
-            {/* Reviews */}
-            <GlassCard className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-lg font-semibold">Reviews</div>
-                {(() => {
-                  const username = resolveUsername()
-                  const mine = allReviews.find((r) => r.user === username)
-                  return (
-                    <button className="text-sm underline" onClick={handleAddReviewClick}>
-                      {mine ? "Edit your review" : "Add review"}
-                    </button>
-                  )
-                })()}
-              </div>
-              {isLoadingReviews ? (
-                <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
-              ) : allReviews.length ? (
-                <div className="space-y-4">
-                  {allReviews.map((rv) => (
-                    <div key={rv.id} className="border-l-2 border-primary/20 pl-4 py-2">
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
-                            <User className="h-3 w-3" />
+            {/* Reviews - Only show if feature is enabled */}
+            {reviewFeatureEnabled && (
+              <GlassCard className="p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-lg font-semibold">Reviews</div>
+                  {(() => {
+                    const username = resolveUsername()
+                    const mine = allReviews.find((r) => r.user === username)
+                    return (
+                      <button className="text-sm underline" onClick={handleAddReviewClick}>
+                        {mine ? "Edit your review" : "Add review"}
+                      </button>
+                    )
+                  })()}
+                </div>
+                {isLoadingReviews ? (
+                  <div className="text-center py-8 text-muted-foreground">Loading reviews…</div>
+                ) : allReviews.length ? (
+                  <div className="space-y-4">
+                    {allReviews.map((rv) => (
+                      <div key={rv.id} className="border-l-2 border-primary/20 pl-4 py-2">
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
+                              <User className="h-3 w-3" />
+                            </div>
+                            {renderStars(rv.rating)}
                           </div>
-                          {renderStars(rv.rating)}
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Calendar className="h-3 w-3" />
+                            <span>{formatDate(rv.created_at)}</span>
+                            {/* Moderator/Owner controls */}
+                            {isModerator && (
+                              <>
+                                <button
+                                  className="underline text-amber-400 hover:text-amber-300"
+                                  onClick={() => {
+                                    setUserRating(rv.rating)
+                                    setModeratorEditingUsername(rv.user || null)
+                                    setShowReviewModal(true)
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="underline text-red-400 hover:text-red-300"
+                                  onClick={() => rv.user && handleDeleteReview(rv.user)}
+                                >
+                                  Delete
+                                </button>
+                              </>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Calendar className="h-3 w-3" />
-                          <span>{formatDate(rv.created_at)}</span>
-                          {/* Moderator/Owner controls */}
-                          {isModerator && (
-                            <>
-                              <button
-                                className="underline text-amber-400 hover:text-amber-300"
-                                onClick={() => {
-                                  setUserRating(rv.rating)
-                                  setModeratorEditingUsername(rv.user || null)
-                                  setShowReviewModal(true)
-                                }}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="underline text-red-400 hover:text-red-300"
-                                onClick={() => rv.user && handleDeleteReview(rv.user)}
-                              >
-                                Delete
-                              </button>
-                            </>
-                          )}
-                        </div>
+                        {rv.title && <h4 className="font-medium mb-1">{rv.title}</h4>}
+                        {rv.body && <p className="text-sm text-muted-foreground leading-relaxed">{rv.body}</p>}
                       </div>
-                      {rv.title && <h4 className="font-medium mb-1">{rv.title}</h4>}
-                      {rv.body && <p className="text-sm text-muted-foreground leading-relaxed">{rv.body}</p>}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <div className="text-4xl mb-4">📝</div>
-                  <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
-                  <p className="text-muted-foreground">Be the first to review this supplement!</p>
-                </div>
-              )}
-            </GlassCard>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-4">📝</div>
+                    <h3 className="text-lg font-semibold mb-2">No reviews yet</h3>
+                    <p className="text-muted-foreground">Be the first to review this supplement!</p>
+                  </div>
+                )}
+              </GlassCard>
+            )}
           </div>
 
           {/* RIGHT COLUMN (sidebar) */}
@@ -764,8 +777,8 @@ const mapApiReviewToUI = (r: any): Review => ({
           </div>
         </div>
 
-        {/* Always mount modals so portals exist; control visibility via `open` */}
-        {(() => {
+        {/* Always mount modals so portals exist; control visibility via `open` - Only when review feature is enabled */}
+        {reviewFeatureEnabled && (() => {
           // Determine which review to prefill in the modal:
           // - If a moderator/owner clicked Edit on a specific review, use that review's username
           // - Else use the current user's own review (if any)

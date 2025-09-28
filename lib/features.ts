@@ -13,6 +13,13 @@ const rawJournalFlag =
   process.env.JOURNAL_FEATURE_ENABLED ??
   process.env["journal_feature"]
 
+const rawReviewFlag =
+  process.env.NEXT_PUBLIC_REVIEW_FEATURE ??
+  process.env.REVIEW_FEATURE ??
+  process.env.REVIEW_FEATURE_ENABLED ??
+  process.env["review_feature"]
+
 export const journalFeatureEnabled = parseFlag(rawJournalFlag, false)
+export const reviewFeatureEnabled = parseFlag(rawReviewFlag, false)
 
 export { parseFlag }
