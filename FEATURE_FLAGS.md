@@ -7,9 +7,9 @@ This document describes the available feature flags for the BioAscend frontend a
 Controls the display of the review functionality throughout the application.
 
 ### Environment Variable
-```bash
+\`\`\`bash
 NEXT_PUBLIC_REVIEW_FEATURE=true|false
-```
+\`\`\`
 
 ### Default Value
 `false` - Reviews are disabled by default
@@ -47,14 +47,14 @@ The flag is implemented using the `reviewFeatureEnabled` variable in `/lib/featu
 
 ### Usage Example
 
-```bash
+\`\`\`bash
 # Enable reviews
 NEXT_PUBLIC_REVIEW_FEATURE=true
 
 # Disable reviews (default)
 NEXT_PUBLIC_REVIEW_FEATURE=false
 # or simply omit the variable
-```
+\`\`\`
 
 ### Affected Components
 - `/app/supplements/[slug]/page.tsx` - Server-side data fetching
@@ -64,10 +64,10 @@ NEXT_PUBLIC_REVIEW_FEATURE=false
 ### Development
 When developing new review-related features, always check the `reviewFeatureEnabled` flag to ensure proper feature gating.
 
-```typescript
+\`\`\`typescript
 import { reviewFeatureEnabled } from '@/lib/features'
 
 if (reviewFeatureEnabled) {
   // Review-related code here
 }
-```
+\`\`\`

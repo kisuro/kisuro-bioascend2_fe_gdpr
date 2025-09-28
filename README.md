@@ -510,14 +510,14 @@ Controls the visibility and functionality of the review system throughout the ap
 
 **Usage Examples:**
 
-```bash
+\`\`\`bash
 # Enable reviews
 NEXT_PUBLIC_REVIEW_FEATURE=true
 
 # Disable reviews (default)
 NEXT_PUBLIC_REVIEW_FEATURE=false
 # or simply omit the variable
-```
+\`\`\`
 
 #### Journal Feature (`NEXT_PUBLIC_JOURNAL_FEATURE`)
 
@@ -542,7 +542,7 @@ Controls whether the Journal navigation, page, and related CTAs are shown.
 
 Feature flags are implemented in `/lib/features.ts` with a robust parsing system:
 
-```typescript
+\`\`\`typescript
 // Example usage in components
 import { reviewFeatureEnabled, journalFeatureEnabled } from "@/lib/features";
 
@@ -554,7 +554,7 @@ function MyComponent() {
     </div>
   );
 }
-```
+\`\`\`
 
 **Flag Parsing Logic:**
 
