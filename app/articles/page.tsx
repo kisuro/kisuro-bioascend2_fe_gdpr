@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
-import { ArticleCard, type Article } from "@/components/articles/article-card"
+import { ArticleCard } from "@/components/articles/article-card"
 import { ArticleFiltersComponent, type ArticleFilters } from "@/components/articles/article-filters"
 import { EmptyState } from "@/components/articles/empty-state"
 import { ErrorState } from "@/components/articles/error-state"
@@ -13,106 +13,7 @@ import { Plus } from "lucide-react"
 import { useUser, hasPremiumAccess } from "@/lib/contexts/user-context"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-
-// Mock data - will be replaced with real API calls
-const mockArticles: Article[] = [
-  {
-    id: "1",
-    slug: "understanding-circadian-rhythms",
-    title: "Understanding Circadian Rhythms: The Science Behind Your Body Clock",
-    excerpt:
-      "Explore how your internal biological clock affects sleep, metabolism, and overall health. Learn practical strategies to optimize your circadian rhythm for better wellness.",
-    content: "Full article content here...",
-    isPremium: false,
-    publishedAt: "2024-01-15T10:00:00Z",
-    tags: ["Sleep", "Circadian", "Health", "Science"],
-    sources: [
-      { label: "Nature Sleep Research", url: "https://nature.com/sleep" },
-      { label: "Harvard Medical School", url: "https://harvard.edu/sleep" },
-    ],
-    coverImageUrl: "/circadian-rhythm-sleep-cycle.jpg",
-  },
-  {
-    id: "2",
-    slug: "advanced-biohacking-techniques",
-    title: "Advanced Biohacking Techniques for Cognitive Enhancement",
-    excerpt:
-      "Discover cutting-edge biohacking methods to boost cognitive performance, including nootropics, neurofeedback, and lifestyle optimization strategies.",
-    content: "Full article content here...",
-    isPremium: true,
-    publishedAt: "2024-01-10T14:30:00Z",
-    tags: ["Biohacking", "Cognitive", "Nootropics", "Performance"],
-    sources: [
-      { label: "Journal of Cognitive Enhancement", url: "https://example.com/cognitive" },
-      { label: "Biohacker's Handbook", url: "https://example.com/biohacking" },
-    ],
-    coverImageUrl: "/brain-enhancement-biohacking.jpg",
-  },
-  {
-    id: "3",
-    slug: "nutrition-longevity-guide",
-    title: "The Complete Guide to Nutrition for Longevity",
-    excerpt:
-      "Evidence-based nutritional strategies to promote healthy aging and extend lifespan. From intermittent fasting to micronutrient optimization.",
-    content: "Full article content here...",
-    isPremium: false,
-    publishedAt: "2024-01-05T09:15:00Z",
-    tags: ["Nutrition", "Longevity", "Aging", "Diet"],
-    sources: [
-      { label: "Longevity Research Institute", url: "https://example.com/longevity" },
-      { label: "Nutrition Science Journal", url: "https://example.com/nutrition" },
-    ],
-    coverImageUrl: "/healthy-nutrition-longevity-food.jpg",
-  },
-  {
-    id: "4",
-    slug: "meditation-brain-plasticity",
-    title: "How Meditation Rewires Your Brain: The Neuroplasticity Connection",
-    excerpt:
-      "Scientific insights into how meditation practices physically change brain structure and function, enhancing emotional regulation and cognitive abilities.",
-    content: "Full article content here...",
-    isPremium: true,
-    publishedAt: "2023-12-28T16:45:00Z",
-    tags: ["Meditation", "Neuroplasticity", "Brain", "Mindfulness"],
-    sources: [
-      { label: "Neuroscience Research", url: "https://example.com/neuroscience" },
-      { label: "Mindfulness Studies", url: "https://example.com/mindfulness" },
-    ],
-    coverImageUrl: "/meditation-brain-neuroplasticity.jpg",
-  },
-  {
-    id: "5",
-    slug: "exercise-molecular-level",
-    title: "Exercise at the Molecular Level: Understanding Cellular Adaptation",
-    excerpt:
-      "Deep dive into how exercise triggers molecular changes in muscle cells, mitochondria, and gene expression for optimal health benefits.",
-    content: "Full article content here...",
-    isPremium: false,
-    publishedAt: "2023-12-20T11:20:00Z",
-    tags: ["Exercise", "Molecular", "Fitness", "Cellular"],
-    sources: [
-      { label: "Exercise Physiology Review", url: "https://example.com/exercise" },
-      { label: "Molecular Biology Journal", url: "https://example.com/molecular" },
-    ],
-    coverImageUrl: "/exercise-molecular-cellular-adaptation.jpg",
-  },
-  {
-    id: "6",
-    slug: "stress-hormones-optimization",
-    title: "Mastering Stress Hormones: A Comprehensive Optimization Guide",
-    excerpt:
-      "Learn to optimize cortisol, adrenaline, and other stress hormones through lifestyle interventions, breathing techniques, and recovery protocols.",
-    content: "Full article content here...",
-    isPremium: true,
-    publishedAt: "2023-12-15T13:10:00Z",
-    tags: ["Stress", "Hormones", "Cortisol", "Recovery"],
-    sources: [
-      { label: "Endocrinology Today", url: "https://example.com/endocrinology" },
-      { label: "Stress Research Institute", url: "https://example.com/stress" },
-    ],
-    coverImageUrl: "/stress-hormones-cortisol-management.jpg",
-  },
-]
+import { getArticles, getArticleTags, type Article } from "@/lib/services/articles"
 
 export default function ArticlesPage() {
   const router = useRouter()
@@ -122,6 +23,9 @@ export default function ArticlesPage() {
   const canCreateArticles = user.role === "owner" || user.role === "moderator"
 
   // State management
+  const [articles, setArticles] = useState<Article[]>([])
+  const [totalArticles, setTotalArticles] = useState(0)
+  const [availableTags, setAvailableTags] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -145,6 +49,36 @@ export default function ArticlesPage() {
     }
   })
 
+  const loadArticles = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+
+      // Load articles with current filters
+      const searchParams = {
+        search: filters.search || undefined,
+        tags: filters.tags.length > 0 ? filters.tags : undefined,
+        limit: 50, // Load more articles for client-side filtering
+      }
+
+      const [articlesResult, tagsResult] = await Promise.all([getArticles(searchParams), getArticleTags()])
+
+      setArticles(articlesResult.articles)
+      setTotalArticles(articlesResult.total)
+      setAvailableTags(tagsResult)
+    } catch (err) {
+      setError("Failed to load articles. Please try again.")
+      console.error("Error loading articles:", err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Load articles when filters change
+  useEffect(() => {
+    loadArticles()
+  }, [filters.search, filters.tags])
+
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams()
@@ -159,34 +93,9 @@ export default function ArticlesPage() {
     router.replace(newUrl, { scroll: false })
   }, [filters, router])
 
-  // Simulate loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Filter and sort articles
+  // Filter and sort articles (client-side for date range and sorting)
   const filteredArticles = useMemo(() => {
-    let result = [...mockArticles]
-
-    // Apply search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase()
-      result = result.filter(
-        (article) =>
-          article.title.toLowerCase().includes(searchLower) ||
-          article.excerpt.toLowerCase().includes(searchLower) ||
-          article.tags.some((tag) => tag.toLowerCase().includes(searchLower)),
-      )
-    }
-
-    // Apply tag filter
-    if (filters.tags.length > 0) {
-      result = result.filter((article) => filters.tags.some((tag) => article.tags.includes(tag)))
-    }
+    let result = [...articles]
 
     // Apply date range filter
     if (filters.dateRange.from || filters.dateRange.to) {
@@ -206,22 +115,10 @@ export default function ArticlesPage() {
     })
 
     return result
-  }, [filters])
-
-  // Get all available tags
-  const availableTags = useMemo(() => {
-    const tagSet = new Set<string>()
-    mockArticles.forEach((article) => {
-      article.tags.forEach((tag) => tagSet.add(tag))
-    })
-    return Array.from(tagSet).sort()
-  }, [])
+  }, [articles, filters.dateRange, filters.sort])
 
   const handleRetry = () => {
-    setError(null)
-    setIsLoading(true)
-    // Simulate retry
-    setTimeout(() => setIsLoading(false), 1000)
+    loadArticles()
   }
 
   if (error) {
@@ -326,7 +223,7 @@ export default function ArticlesPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="text-center text-sm text-muted-foreground"
           >
-            Showing {filteredArticles.length} of {mockArticles.length} articles
+            Showing {filteredArticles.length} of {totalArticles} articles
             {filters.search && ` for "${filters.search}"`}
             {filters.tags.length > 0 && ` tagged with ${filters.tags.join(", ")}`}
           </motion.div>

@@ -6,22 +6,10 @@ import { GlassCard } from "@/components/ui/glass-card"
 import { Badge } from "@/components/ui/badge"
 import { PremiumBadge } from "@/components/articles/premium-badge"
 import { PremiumGateTitleOnly } from "@/components/articles/premium-gate-title-only"
-import { Calendar, ExternalLink } from "lucide-react"
+import { Calendar, ExternalLink, Clock } from "lucide-react"
 import { useUser, hasPremiumAccess } from "@/lib/contexts/user-context"
 import { cn } from "@/lib/utils"
-
-export interface Article {
-  id: string
-  slug: string
-  title: string
-  excerpt: string
-  content: string
-  isPremium: boolean
-  publishedAt: string
-  tags: string[]
-  sources: Array<{ label: string; url: string }>
-  coverImageUrl?: string
-}
+import type { Article } from "@/lib/services/articles"
 
 interface ArticleCardProps {
   article: Article
@@ -62,12 +50,12 @@ export function ArticleCard({ article, index = 0, viewMode = "grid" }: ArticleCa
           )}
           hover
         >
-          {article.coverImageUrl && (
+          {article.image && (
             <div
               className={cn("mb-4 rounded-xl overflow-hidden", viewMode === "list" && "mb-0 w-48 h-32 flex-shrink-0")}
             >
               <img
-                src={article.coverImageUrl || "/placeholder.svg"}
+                src={article.image || "/placeholder.svg"}
                 alt={article.title}
                 className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -80,16 +68,34 @@ export function ArticleCard({ article, index = 0, viewMode = "grid" }: ArticleCa
                 <h3 className="text-xl font-semibold font-heading mb-2 group-hover:text-primary transition-colors">
                   {article.title}
                 </h3>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Calendar className="h-4 w-4" />
-                  <time dateTime={article.publishedAt}>
-                    {new Date(article.publishedAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4" />
+                    <time dateTime={article.publishedAt}>
+                      {new Date(article.publishedAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                  </div>
+                  {article.readTime && (
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4" />
+                      <span>{article.readTime} min read</span>
+                    </div>
+                  )}
                 </div>
+                {article.author && (
+                  <div className="flex items-center gap-2 mb-3">
+                    <img
+                      src={article.author.avatar || "/placeholder.svg?key=author"}
+                      alt={article.author.name}
+                      className="w-6 h-6 rounded-full"
+                    />
+                    <span className="text-sm text-muted-foreground">by {article.author.name}</span>
+                  </div>
+                )}
               </div>
               {article.isPremium && <PremiumBadge />}
             </div>
@@ -110,9 +116,16 @@ export function ArticleCard({ article, index = 0, viewMode = "grid" }: ArticleCa
                 )}
               </div>
 
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <ExternalLink className="h-4 w-4" />
-                <span>{article.sources.length} sources</span>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                {article.sources && article.sources.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <ExternalLink className="h-4 w-4" />
+                    <span>{article.sources.length} sources</span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <span>{article.views.toLocaleString()} views</span>
+                </div>
               </div>
             </div>
           </div>
