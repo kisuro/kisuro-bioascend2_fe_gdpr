@@ -4,12 +4,13 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { journalFeatureEnabled } from "@/lib/features"
 import { GlassCard } from "@/components/ui/glass-card"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { BioAionicsIcon } from "@/components/ui/bioaionics-icon" // updated import to use BioAionics
 import { Activity, Brain, BookOpen, Zap, User, Sparkles, Menu, X, Shield, FileText } from "lucide-react"
 
-const navigation = [
+const baseNavigation = [
   { name: "Biorhythms", href: "/biorhythms", icon: Activity },
   { name: "Supplements", href: "/supplements", icon: Zap },
   { name: "Journal", href: "/journal", icon: BookOpen },
@@ -20,6 +21,9 @@ const navigation = [
 export function Navigation() {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const navigation = journalFeatureEnabled
+    ? baseNavigation
+    : baseNavigation.filter((item) => item.href !== "/journal")
 
   return (
     <>

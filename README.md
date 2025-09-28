@@ -262,6 +262,7 @@ bioascend2_fe/
    # Production: https://bioaionics-api.onrender.com
 
    # Feature Flags
+   NEXT_PUBLIC_JOURNAL_FEATURE=false  # Toggle journal visibility
    NEXT_PUBLIC_ENABLE_AI_ASSISTANT=false
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
    NEXT_PUBLIC_FORCE_PREMIUM=false  # Set to true for premium feature testing
@@ -277,6 +278,9 @@ bioascend2_fe/
    # Optional: Email testing
    NEXT_PUBLIC_ENABLE_EMAIL_DEBUG=true
    \`\`\`
+
+   - `NEXT_PUBLIC_JOURNAL_FEATURE` controls whether the Journal navigation, page, and related CTAs are shown. Set to
+     `true` to enable the experience when you're ready.
 
 4. **Start the development server**:
 
@@ -683,6 +687,7 @@ const handleError = (error: APIError) => {
    NEXT_PUBLIC_API_BASE_URL=https://bioaionics-api.onrender.com
 
    # Feature Flags
+   NEXT_PUBLIC_JOURNAL_FEATURE=false
    NEXT_PUBLIC_ENABLE_AI_ASSISTANT=true
    NEXT_PUBLIC_ENABLE_PREMIUM_FEATURES=true
    NEXT_PUBLIC_FORCE_PREMIUM=false
@@ -694,6 +699,12 @@ const handleError = (error: APIError) => {
    # Environment
    NODE_ENV=production
    \`\`\`
+
+   Управление флагом на Vercel:
+
+   - Войдите в **Project → Settings → Environment Variables** и добавьте/измените переменную `NEXT_PUBLIC_JOURNAL_FEATURE`.
+   - Для включения используйте одно из значений `true`, `1`, `yes`, `on`, `enabled`; любое другое значение отключает журнал.
+   - После изменения запустите новый деплой (или перезапустите последний), чтобы Next.js подхватил обновление.
 
 3. **Build Configuration**:
    \`\`\`javascript

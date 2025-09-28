@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { ArrowLeft, Shield, Lock, Eye, Users, Globe, Clock, Mail, AlertTriangle } from "lucide-react"
 import Link from "next/link"
 import { GlassCard } from "@/components/ui/glass-card"
+import { journalFeatureEnabled } from "@/lib/features"
 
 export default function PrivacyPolicyPage() {
   return (
@@ -84,10 +85,10 @@ export default function PrivacyPolicyPage() {
                     <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
                     <div className="text-sm text-amber-800 dark:text-amber-200">
                       <strong>Disclaimer:</strong> BioAionics does not provide medical advice, diagnosis, or treatment.
-                      All content, including supplement data, user reviews, personal "stacks," journaling entries, and
-                      AI recommendations, is provided for informational and educational purposes only. Always consult
-                      with a qualified healthcare professional before making any decisions regarding your health,
-                      supplements, or treatments.
+                      All content, including supplement data, user reviews, personal "stacks"
+                      {journalFeatureEnabled ? ", journaling entries," : ","} and AI recommendations, is provided for
+                      informational and educational purposes only. Always consult with a qualified healthcare
+                      professional before making any decisions regarding your health, supplements, or treatments.
                     </div>
                   </div>
                 </div>
@@ -130,7 +131,7 @@ export default function PrivacyPolicyPage() {
                     <ul className="space-y-2 text-muted-foreground">
                       <li>• Supplements you log or review, including personal "stacks."</li>
                       <li>• Goals, benefits, categories, and timing information you choose to track.</li>
-                      <li>• Journaling entries and biorhythm data, if you use these features.</li>
+                      <li>• Biorhythm data{journalFeatureEnabled ? " and journaling entries" : ""}, if you use these features.</li>
                     </ul>
                     <div className="mt-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800">
                       <p className="text-sm text-blue-800 dark:text-blue-200">
@@ -160,8 +161,8 @@ export default function PrivacyPolicyPage() {
                 <p className="text-muted-foreground leading-relaxed">We use the collected information to:</p>
                 <ul className="space-y-2 text-muted-foreground ml-6">
                   <li>
-                    • Provide and improve our services (supplement database, reviews, biorhythms, journaling, AudioMind,
-                    AI assistant).
+                    • Provide and improve our services (supplement database, reviews, biorhythms
+                    {journalFeatureEnabled ? ", journaling," : ","} AudioMind, AI assistant).
                   </li>
                   <li>• Enable personalization of your wellness tracking and supplement stacks.</li>
                   <li>• Offer insights and content for educational purposes.</li>

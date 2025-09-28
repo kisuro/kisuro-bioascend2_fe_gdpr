@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Crown, Sparkles, Lock, Check, ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { journalFeatureEnabled } from "@/lib/features"
 
 interface PremiumPageGateProps {
   title: string
@@ -12,13 +13,17 @@ interface PremiumPageGateProps {
   featureName: string
 }
 
-const premiumBenefits = [
+const basePremiumBenefits = [
   "Add ratings and reviews, unlock deeper evidence-backed details, and see richer insights for each supplement.",
   "Track your daily wellness journey with our intelligent journaling system. Monitor your progress and gain insights into your health patterns.",
   "Enhance your mental well-being with our curated collection of brain-optimizing audio: meditation, binaural beats, and focus music.",
   "Get personalized health recommendations and insights from our AI-powered assistant.",
   "Early access to upcoming features and premium experiments.",
 ]
+
+const premiumBenefits = journalFeatureEnabled
+  ? basePremiumBenefits
+  : basePremiumBenefits.filter((benefit) => !benefit.toLowerCase().includes("journal"))
 
 export function PremiumPageGate({ title, description, featureName }: PremiumPageGateProps) {
   const router = useRouter()

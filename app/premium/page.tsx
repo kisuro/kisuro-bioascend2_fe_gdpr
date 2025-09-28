@@ -9,6 +9,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { GlassCard } from "@/components/ui/glass-card"
+import { journalFeatureEnabled } from "@/lib/features"
 
 export default function PremiumPage() {
   const [email, setEmail] = useState("")
@@ -27,6 +28,48 @@ export default function PremiumPage() {
   const validateEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
+
+  const benefitsAtGlance = ["Advanced biorhythms", "Deep supplement analytics", "Smart journaling", "AI insights"]
+  const displayedBenefitsAtGlance = journalFeatureEnabled
+    ? benefitsAtGlance
+    : benefitsAtGlance.filter((benefit) => !benefit.toLowerCase().includes("journal"))
+
+  const baseOfferings = [
+    {
+      icon: <Pill className="w-6 h-6 text-primary" />,
+      title: "Supplements",
+      description:
+        "Add ratings and reviews, unlock deeper evidence-backed details, and see richer insights for each supplement.",
+    },
+    {
+      icon: <BookOpen className="w-6 h-6 text-primary" />,
+      title: "Journal",
+      description:
+        "Track your daily wellness journey with our intelligent journaling system. Monitor your progress and gain insights into your health patterns.",
+    },
+    {
+      icon: <Brain className="w-6 h-6 text-primary" />,
+      title: "AudioMind",
+      description:
+        "Enhance your mental well-being with our curated collection of brain-optimizing audio: meditation, binaural beats, and focus music.",
+    },
+    {
+      icon: <Bot className="w-6 h-6 text-primary" />,
+      title: "AI Assistant",
+      description: "Get personalized health recommendations and insights from our AI-powered assistant.",
+    },
+    {
+      icon: <Plus className="w-6 h-6 text-primary" />,
+      title: "…and more",
+      description: "Early access to upcoming features and premium experiments.",
+    },
+  ]
+
+  const offerings = journalFeatureEnabled ? baseOfferings : baseOfferings.filter((item) => item.title !== "Journal")
+
+  const premiumPlanDescription = journalFeatureEnabled
+    ? "Includes personal journal, full supplements database with ratings and scientific references, full audio library, AI assistant with request limits, and reports with recommendations."
+    : "Includes full supplements database with ratings and scientific references, full audio library, AI assistant with request limits, and reports with recommendations."
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -168,20 +211,18 @@ export default function PremiumPage() {
 
             {/* Benefits at a glance */}
             <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-              {["Advanced biorhythms", "Deep supplement analytics", "Smart journaling", "AI insights"].map(
-                (benefit, index) => (
-                  <motion.div
-                    key={benefit}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                    className="flex items-center gap-2"
-                  >
-                    <Check className="w-4 h-4 text-primary" />
-                    <span>{benefit}</span>
-                  </motion.div>
-                ),
-              )}
+              {displayedBenefitsAtGlance.map((benefit, index) => (
+                <motion.div
+                  key={benefit}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                  className="flex items-center gap-2"
+                >
+                  <Check className="w-4 h-4 text-primary" />
+                  <span>{benefit}</span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -199,36 +240,7 @@ export default function PremiumPage() {
             <h2 className="font-heading text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16">What you get</h2>
 
             <div className="space-y-12">
-              {[
-                {
-                  icon: <Pill className="w-6 h-6 text-primary" />,
-                  title: "Supplements",
-                  description:
-                    "Add ratings and reviews, unlock deeper evidence-backed details, and see richer insights for each supplement.",
-                },
-                {
-                  icon: <BookOpen className="w-6 h-6 text-primary" />,
-                  title: "Journal",
-                  description:
-                    "Track your daily wellness journey with our intelligent journaling system. Monitor your progress and gain insights into your health patterns.",
-                },
-                {
-                  icon: <Brain className="w-6 h-6 text-primary" />,
-                  title: "AudioMind",
-                  description:
-                    "Enhance your mental well-being with our curated collection of brain-optimizing audio: meditation, binaural beats, and focus music.",
-                },
-                {
-                  icon: <Bot className="w-6 h-6 text-primary" />,
-                  title: "AI Assistant",
-                  description: "Get personalized health recommendations and insights from our AI-powered assistant.",
-                },
-                {
-                  icon: <Plus className="w-6 h-6 text-primary" />,
-                  title: "…and more",
-                  description: "Early access to upcoming features and premium experiments.",
-                },
-              ].map((benefit, index) => (
+              {offerings.map((benefit, index) => (
                 <motion.div
                   key={benefit.title}
                   initial={{ opacity: 0, x: -20 }}
@@ -276,10 +288,7 @@ export default function PremiumPage() {
                 </div>
                 <div>
                   <h3 className="font-heading text-2xl font-semibold">Premium</h3>
-                  <p className="text-muted-foreground mt-1">
-                    Includes personal journal, full supplements database with ratings and scientific references, full
-                    audio library, AI assistant with request limits, and reports with recommendations.
-                  </p>
+                  <p className="text-muted-foreground mt-1">{premiumPlanDescription}</p>
                 </div>
               </div>
               <div className="flex items-baseline justify-center gap-2 mt-4">

@@ -19,8 +19,9 @@ import {
   ShieldCheck,
   Newspaper,
 } from "lucide-react"
+import { journalFeatureEnabled } from "@/lib/features"
 
-const features = [
+const allFeatures = [
   {
     title: "Biorhythms",
     description: "Visualize cycles and plan your day with awareness.",
@@ -77,7 +78,11 @@ const features = [
   },
 ]
 
-const trustedStats = [
+const features = journalFeatureEnabled
+  ? allFeatures
+  : allFeatures.filter((feature) => feature.href !== "/journal")
+
+const allTrustedStats = [
   {
     number: "58.5%",
     label: "U.S. adults used at least one dietary supplement in the past 30 days.",
@@ -109,6 +114,10 @@ const trustedStats = [
     sourceUrl: "https://habitbetter.com/journaling-statistics/",
   },
 ]
+
+const trustedStats = journalFeatureEnabled
+  ? allTrustedStats
+  : allTrustedStats.filter((stat) => !stat.label.toLowerCase().includes("journal"))
 
 const AnimatedCounter = ({
   number,

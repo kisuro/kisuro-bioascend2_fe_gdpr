@@ -16,6 +16,7 @@ import { AlphabetFilter } from "@/components/supplements/alphabet-filter"
 import { AppLoader } from "@/components/ui/app-loader"
 import { Search, Filter, Grid, List, Lock, Sparkles, Plus, ArrowRight } from "lucide-react"
 import { SupplementsBackground } from "@/components/ui/page-backgrounds"
+import { journalFeatureEnabled } from "@/lib/features"
 
 interface Supplement {
   id: string
@@ -1054,10 +1055,12 @@ export function SupplementsClient({ supplements }: SupplementsClientProps) {
                                   </div>
                                 )}
 
-                                <LiquidButton onClick={() => saveToJournal(rec.name)} size="sm" className="w-full">
-                                  <Plus className="h-4 w-4 mr-2" />
-                                  Save to Journal
-                                </LiquidButton>
+                                {journalFeatureEnabled && (
+                                  <LiquidButton onClick={() => saveToJournal(rec.name)} size="sm" className="w-full">
+                                    <Plus className="h-4 w-4 mr-2" />
+                                    Save to Journal
+                                  </LiquidButton>
+                                )}
                               </GlassCard>
                             </motion.div>
                           ))}

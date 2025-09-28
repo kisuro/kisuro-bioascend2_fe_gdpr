@@ -13,6 +13,7 @@ import { PremiumGateModal } from "@/components/supplements/premium-gate-modal"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { SupplementInteractions } from "@/components/supplements/supplement-interactions"
+import { journalFeatureEnabled } from "@/lib/features"
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000").replace(/\/$/, "")
 
@@ -805,16 +806,18 @@ const mapApiReviewToUI = (r: any): Review => ({
                   Close
                 </Link>
               </div>
-              <div className="flex-1 transform-gpu">
-                <button
-                  type="button"
-                  onClick={() => router.push(`/journal?add=${encodeURIComponent(supplement.id)}`)}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 text-primary-foreground hover:scale-105 hover:shadow-2xl hover:shadow-primary/25 active:scale-95 backdrop-blur-lg border border-white/20 shadow-xl h-11 px-6 py-2.5 w-full liquid-gradient min-h-[44px]"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add to Journal
-                </button>
-              </div>
+              {journalFeatureEnabled && (
+                <div className="flex-1 transform-gpu">
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/journal?add=${encodeURIComponent(supplement.id)}`)}
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-gradient-to-br from-primary/90 via-accent/70 to-primary/95 text-primary-foreground hover:scale-105 hover:shadow-2xl hover:shadow-primary/25 active:scale-95 backdrop-blur-lg border border-white/20 shadow-xl h-11 px-6 py-2.5 w-full liquid-gradient min-h-[44px]"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add to Journal
+                  </button>
+                </div>
+              )}
             </div>
           </GlassCard>
         </div>

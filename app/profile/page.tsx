@@ -49,6 +49,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { journalFeatureEnabled } from "@/lib/features"
 
 // Mock user data
 const mockUser = {
@@ -846,7 +847,7 @@ export default function ProfilePage() {
         </GlassCard>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className={`grid grid-cols-2 ${journalFeatureEnabled ? "md:grid-cols-4" : "md:grid-cols-3"} gap-4`}>
           <GlassCard className="p-4 text-center">
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Activity className="w-6 h-6 text-primary" />
@@ -856,15 +857,17 @@ export default function ProfilePage() {
             </div>
             <div className="text-sm text-muted-foreground">Supplements</div>
           </GlassCard>
-          <GlassCard className="p-4 text-center">
-            <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-              <Calendar className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-2xl font-bold">
-              {(authUser.stats?.journal_entries ?? user.stats.journalEntries) as any}
-            </div>
-            <div className="text-sm text-muted-foreground">Journal Entries</div>
-          </GlassCard>
+          {journalFeatureEnabled && (
+            <GlassCard className="p-4 text-center">
+              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Calendar className="w-6 h-6 text-primary" />
+              </div>
+              <div className="text-2xl font-bold">
+                {(authUser.stats?.journal_entries ?? user.stats.journalEntries) as any}
+              </div>
+              <div className="text-sm text-muted-foreground">Journal Entries</div>
+            </GlassCard>
+          )}
           <GlassCard className="p-4 text-center">
             <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
               <Bell className="w-6 h-6 text-primary" />

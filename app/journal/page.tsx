@@ -13,19 +13,35 @@ import { JournalBackground } from "@/components/ui/page-backgrounds"
 import { AppLoader } from "@/components/ui/app-loader"
 import { PremiumPageGate } from "@/components/ui/premium-page-gate" // imported premium gate component
 import { useUser } from "@/lib/contexts/user-context" // imported user hook
+import { useRouter } from "next/navigation"
+import { journalFeatureEnabled } from "@/lib/features"
 
 export default function JournalPage() {
   const [activeTab, setActiveTab] = useState("overview")
   const [isLoading, setIsLoading] = useState(true)
   const user = useUser() // added user hook
   const isPremium = user?.status === "premium" // check premium status
+  const router = useRouter()
 
   useEffect(() => {
+    if (!journalFeatureEnabled) {
+      router.replace("/")
+    }
+  }, [router])
+
+  useEffect(() => {
+    if (!journalFeatureEnabled) {
+      return
+    }
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1100)
     return () => clearTimeout(timer)
   }, [])
+
+  if (!journalFeatureEnabled) {
+    return null
+  }
 
   if (isLoading) {
     return <AppLoader isVisible={true} message="Loading journal entries..." />

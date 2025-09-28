@@ -2,6 +2,7 @@
 import { GlassCard } from "@/components/ui/glass-card"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Pill, Calendar, Info, AlertTriangle } from "lucide-react"
+import { journalFeatureEnabled } from "@/lib/features"
 
 interface SupplementDosageProps {
   supplement: {
@@ -154,9 +155,9 @@ export function SupplementDosage({ supplement }: SupplementDosageProps) {
               <div className="text-sm">
                 <p className="font-medium text-teal-200 mb-1">Personalizing Your Schedule:</p>
                 <p className="text-teal-200/80 text-xs">
-                  Individual responses vary. Track your experience in your journal to find the optimal timing and dosage
-                  that works best for your body, lifestyle, and health goals. Consider factors like meal timing, sleep
-                  schedule, and other supplements when planning your routine.
+                  {journalFeatureEnabled
+                    ? "Individual responses vary. Track your experience in your journal to find the optimal timing and dosage that works best for your body, lifestyle, and health goals. Consider factors like meal timing, sleep schedule, and other supplements when planning your routine."
+                    : "Individual responses vary. Keep notes about your experience to find the optimal timing and dosage that works best for your body, lifestyle, and health goals. Consider factors like meal timing, sleep schedule, and other supplements when planning your routine."}
                 </p>
               </div>
             </div>

@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/glass-card"
 import { LiquidButton } from "@/components/ui/liquid-button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { journalFeatureEnabled } from "@/lib/features"
 import { X, Star, Clock, Zap, AlertTriangle, CheckCircle, ExternalLink, Plus, Minus, Info } from "lucide-react"
 
 interface Supplement {
@@ -368,7 +369,7 @@ export function SupplementModal({ supplement, isOpen, onClose }: SupplementModal
                 <LiquidButton variant="outline" onClick={onClose}>
                   Close
                 </LiquidButton>
-                <LiquidButton>Add to Journal</LiquidButton>
+                {journalFeatureEnabled && <LiquidButton>Add to Journal</LiquidButton>}
               </div>
             </GlassCard>
           </motion.div>

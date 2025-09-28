@@ -15,6 +15,7 @@ import {
   MessageSquare,
   Mail,
 } from "lucide-react"
+import { journalFeatureEnabled } from "@/lib/features"
 
 export const metadata: Metadata = {
   title: "Terms of Service | BioAionics",
@@ -82,8 +83,9 @@ export default function TermsOfServicePage() {
               <ul className="space-y-3">
                 <li>• BioAionics provides educational and informational resources only.</li>
                 <li>
-                  • The content on supplements, "stacks," wellness tracking, journaling, AudioMind, and AI
-                  recommendations is not medical advice.
+                  • The content on supplements, "stacks," wellness tracking
+                  {journalFeatureEnabled ? ", journaling," : ","} AudioMind, and AI recommendations is not medical
+                  advice.
                 </li>
                 <li>• We are not doctors, pharmacists, or healthcare providers.</li>
                 <li>
@@ -109,8 +111,8 @@ export default function TermsOfServicePage() {
             </div>
             <ul className="space-y-3 text-slate-700 dark:text-slate-300 leading-relaxed">
               <li>
-                • To access certain features (e.g., reviews, journaling, premium content), you may need to create an
-                account.
+                • To access certain features (e.g., reviews{journalFeatureEnabled ? ", journaling" : ""}, premium
+                content), you may need to create an account.
               </li>
               <li>• You are responsible for maintaining the confidentiality of your credentials.</li>
               <li>• You agree not to share your account or allow unauthorized access.</li>
@@ -128,7 +130,8 @@ export default function TermsOfServicePage() {
             </div>
             <div className="space-y-4 text-slate-700 dark:text-slate-300 leading-relaxed">
               <p>
-                You may contribute reviews, supplement logs, stacks, journaling entries, or other materials ("Content").
+                You may contribute reviews, supplement logs, stacks{journalFeatureEnabled ? ", journaling entries," : ","}
+                or other materials ("Content").
                 By submitting Content, you agree that:
               </p>
               <ul className="space-y-3">
