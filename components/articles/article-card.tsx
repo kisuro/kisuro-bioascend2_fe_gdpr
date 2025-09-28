@@ -50,12 +50,12 @@ export function ArticleCard({ article, index = 0, viewMode = "grid" }: ArticleCa
           )}
           hover
         >
-          {article.image && (
+          {article.imageUrl && (
             <div
               className={cn("mb-4 rounded-xl overflow-hidden", viewMode === "list" && "mb-0 w-48 h-32 flex-shrink-0")}
             >
               <img
-                src={article.image || "/placeholder.svg"}
+                src={article.imageUrl || "/placeholder.svg"}
                 alt={article.title}
                 className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />

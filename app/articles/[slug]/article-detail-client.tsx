@@ -21,16 +21,19 @@ type Article = {
   content: string
   isPremium: boolean
   publishedAt: string
+  updatedAt: string
   tags: string[]
   sources?: Array<{ label: string; url: string }>
-  coverImageUrl?: string
+  imageUrl?: string
   author?: {
     name: string
     bio?: string
     avatar?: string
   }
-  readingTime?: number
-  meta?: Record<string, any>
+  readTime?: number
+  views?: number
+  likes?: number
+  category?: string
 }
 
 type Props = {
@@ -183,9 +186,11 @@ export function ArticleDetailClient({ article }: Props) {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <Button variant="ghost" onClick={() => router.back()} className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Articles
+          <Button variant="ghost" asChild className="gap-2">
+            <Link href="/articles">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Articles
+            </Link>
           </Button>
         </motion.div>
 
@@ -228,10 +233,10 @@ export function ArticleDetailClient({ article }: Props) {
               <span>{formatDate(article.publishedAt)}</span>
             </div>
 
-            {article.readingTime && (
+            {article.readTime && (
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                <span>{article.readingTime} min read</span>
+                <span>{article.readTime} min read</span>
               </div>
             )}
           </div>
@@ -263,7 +268,7 @@ export function ArticleDetailClient({ article }: Props) {
         </motion.div>
 
         {/* Cover image */}
-        {article.coverImageUrl && (
+        {article.imageUrl && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -272,7 +277,7 @@ export function ArticleDetailClient({ article }: Props) {
           >
             <div className="relative aspect-video rounded-2xl overflow-hidden">
               <img
-                src={article.coverImageUrl || "/placeholder.svg"}
+                src={article.imageUrl || "/placeholder.svg"}
                 alt={article.title}
                 className="w-full h-full object-cover"
               />
@@ -361,7 +366,7 @@ export function ArticleDetailClient({ article }: Props) {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <Button variant="outline" size="sm" asChild>
-                  <Link href="/articles">
+                  <Link href="/articles" replace>
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     All Articles
                   </Link>

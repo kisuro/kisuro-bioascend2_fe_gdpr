@@ -17,6 +17,7 @@ import { TagInput } from "@/components/articles/tag-input"
 import { SourcesList, type Source } from "@/components/articles/sources-list"
 import { useToast } from "@/hooks/use-toast"
 import { useUser } from "@/lib/contexts/user-context"
+import { createArticle } from "@/lib/services/articles"
 import Link from "next/link"
 
 const articleSchema = z.object({
@@ -24,7 +25,9 @@ const articleSchema = z.object({
   excerpt: z.string().min(1, "Excerpt is required").max(500, "Excerpt must be less than 500 characters"),
   content: z.string().min(1, "Content is required"),
   isPremium: z.boolean().default(false),
+  useSiteAuthor: z.boolean().default(true),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
+  category: z.string().optional(),
   coverImageUrl: z.string().url().optional().or(z.literal("")),
   sources: z
     .array(
@@ -60,7 +63,9 @@ export default function NewArticlePage() {
       excerpt: "",
       content: "",
       isPremium: false,
+      useSiteAuthor: true,
       tags: [],
+      category: "",
       coverImageUrl: "",
       sources: [],
     },
@@ -70,45 +75,34 @@ export default function NewArticlePage() {
   const canCreateArticles = user.role === "owner" || user.role === "moderator"
 
   const isPremium = watch("isPremium")
+  const useSiteAuthor = watch("useSiteAuthor")
 
   const onSubmit = async (data: ArticleFormData) => {
     setIsSubmitting(true)
 
     try {
-      // Create slug from title
-      const slug = data.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "")
-
       const articleData = {
-        ...data,
-        slug,
+        title: data.title,
+        excerpt: data.excerpt,
         content,
+        isPremium: data.isPremium,
+        useSiteAuthor: data.useSiteAuthor,
         tags,
+        category: data.category || undefined,
+        imageUrl: data.coverImageUrl || undefined,
         sources: sources.filter((s) => s.label && s.url),
-        publishedAt: new Date().toISOString(),
-        author: {
-          name: user.name || user.email?.split("@")[0] || "Anonymous",
-          bio: "Content creator and health optimization expert.",
-          avatar: "/authors/default-avatar.jpg",
-        },
-        readingTime: Math.ceil(content.split(" ").length / 200), // Estimate reading time
       }
 
-      // In a real app, this would be an API call
-      console.log("Creating article:", articleData)
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const createdArticle = await createArticle(articleData)
 
       toast({
         title: "Article created!",
         description: "Your article has been published successfully.",
       })
 
-      router.push(`/articles/${slug}`)
+      router.push(`/articles/${createdArticle.slug}`)
     } catch (error) {
+      console.error("Error creating article:", error)
       toast({
         title: "Error",
         description: "Failed to create article. Please try again.",
@@ -201,6 +195,41 @@ export default function NewArticlePage() {
                   />
                 </div>
 
+                {/* Site Author Toggle */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="useSiteAuthor" className="text-base font-semibold">
+                      Site Author
+                    </Label>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {useSiteAuthor 
+                        ? "Published as bioaionics.com - Your Complete Wellness Intelligence Hub" 
+                        : `Published as ${user.name || user.email?.split("@")[0] || "your account"}`}
+                    </p>
+                  </div>
+                  <Switch
+                    id="useSiteAuthor"
+                    checked={useSiteAuthor}
+                    onCheckedChange={(checked) => setValue("useSiteAuthor", checked)}
+                  />
+                </div>
+
+                {/* Category */}
+                <div>
+                  <Label htmlFor="category" className="text-base font-semibold">
+                    Category
+                  </Label>
+                  <Input
+                    id="category"
+                    {...register("category")}
+                    placeholder="e.g., Sleep Optimization, Cognitive Enhancement"
+                    className="mt-2"
+                  />
+                  {errors.category && (
+                    <p className="text-sm text-destructive mt-1">{errors.category.message}</p>
+                  )}
+                </div>
+
                 {/* Cover Image */}
                 <div>
                   <Label htmlFor="coverImageUrl" className="text-base font-semibold">
@@ -235,6 +264,9 @@ export default function NewArticlePage() {
             <GlassCard className="p-6">
               <div>
                 <Label className="text-base font-semibold mb-4 block">Content *</Label>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Save the article first to enable image uploads in the editor
+                </p>
                 <ArticleEditor
                   content={content}
                   onChange={(newContent) => {

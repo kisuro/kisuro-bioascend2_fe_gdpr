@@ -17,6 +17,7 @@ import { TagInput } from "@/components/articles/tag-input"
 import { SourcesList, type Source } from "@/components/articles/sources-list"
 import { useToast } from "@/hooks/use-toast"
 import { useUser } from "@/lib/contexts/user-context"
+import { getArticleBySlug, updateArticle, deleteArticle } from "@/lib/services/articles"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
@@ -25,6 +26,7 @@ const articleSchema = z.object({
   excerpt: z.string().min(1, "Excerpt is required").max(500, "Excerpt must be less than 500 characters"),
   content: z.string().min(1, "Content is required"),
   isPremium: z.boolean().default(false),
+  useSiteAuthor: z.boolean().default(true),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
   coverImageUrl: z.string().url().optional().or(z.literal("")),
   sources: z
@@ -39,25 +41,7 @@ const articleSchema = z.object({
 
 type ArticleFormData = z.infer<typeof articleSchema>
 
-// Mock article data - in real app this would come from API
-const mockArticleData = {
-  "understanding-circadian-rhythms": {
-    id: "1",
-    slug: "understanding-circadian-rhythms",
-    title: "Understanding Circadian Rhythms: The Science Behind Your Body Clock",
-    excerpt:
-      "Explore how your internal biological clock affects sleep, metabolism, and overall health. Learn practical strategies to optimize your circadian rhythm for better wellness.",
-    content:
-      "<h2>Understanding Circadian Rhythms</h2><p>Your circadian rhythm is one of the most fundamental biological processes governing your health and well-being...</p>",
-    isPremium: false,
-    tags: ["Sleep", "Circadian", "Health", "Science"],
-    sources: [
-      { label: "Nature Sleep Research", url: "https://nature.com/sleep" },
-      { label: "Harvard Medical School", url: "https://harvard.edu/sleep" },
-    ],
-    coverImageUrl: "/circadian-rhythm-sleep-cycle.jpg",
-  },
-}
+
 
 export default function EditArticlePage({
   params,
@@ -92,6 +76,7 @@ export default function EditArticlePage({
       excerpt: "",
       content: "",
       isPremium: false,
+      useSiteAuthor: true,
       tags: [],
       coverImageUrl: "",
       sources: [],
@@ -99,36 +84,42 @@ export default function EditArticlePage({
   })
 
   const isPremium = watch("isPremium")
+  const useSiteAuthor = watch("useSiteAuthor")
 
   // Load article data
   useEffect(() => {
     const loadArticle = async () => {
-      const resolvedParams = await params
-      const articleSlug = resolvedParams.slug
-      setSlug(articleSlug)
+      try {
+        const resolvedParams = await params
+        const articleSlug = resolvedParams.slug
+        setSlug(articleSlug)
 
-      // In real app, this would be an API call
-      const article = mockArticleData[articleSlug as keyof typeof mockArticleData]
+        const article = await getArticleBySlug(articleSlug)
 
-      if (!article) {
+        if (!article) {
+          notFound()
+        }
+
+        // Populate form with existing data
+        reset({
+          title: article.title,
+          excerpt: article.excerpt,
+          content: article.content,
+          isPremium: article.isPremium,
+          useSiteAuthor: article.useSiteAuthor ?? true,  // Default to true if not present
+          tags: article.tags,
+          coverImageUrl: article.imageUrl || "",
+          sources: article.sources || [],
+        })
+
+        setContent(article.content)
+        setTags(article.tags)
+        setSources(article.sources || [])
+        setIsLoading(false)
+      } catch (error) {
+        console.error('Error loading article:', error)
         notFound()
       }
-
-      // Populate form with existing data
-      reset({
-        title: article.title,
-        excerpt: article.excerpt,
-        content: article.content,
-        isPremium: article.isPremium,
-        tags: article.tags,
-        coverImageUrl: article.coverImageUrl || "",
-        sources: article.sources || [],
-      })
-
-      setContent(article.content)
-      setTags(article.tags)
-      setSources(article.sources || [])
-      setIsLoading(false)
     }
 
     loadArticle()
@@ -167,27 +158,31 @@ export default function EditArticlePage({
 
     try {
       const articleData = {
-        ...data,
-        slug,
+        title: data.title,
+        excerpt: data.excerpt,
         content,
+        isPremium: data.isPremium,
+        useSiteAuthor: data.useSiteAuthor,
         tags,
+        imageUrl: data.coverImageUrl || undefined,
         sources: sources.filter((s) => s.label && s.url),
-        updatedAt: new Date().toISOString(),
       }
 
-      // In a real app, this would be an API call
-      console.log("Updating article:", articleData)
+      const updatedArticle = await updateArticle(slug, articleData)
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      if (!updatedArticle) {
+        throw new Error('Failed to update article')
+      }
 
       toast({
         title: "Article updated!",
         description: "Your changes have been saved successfully.",
       })
 
-      router.push(`/articles/${slug}`)
+      // Navigate to updated slug in case title changed
+      router.push(`/articles/${updatedArticle.slug}`)
     } catch (error) {
+      console.error('Error updating article:', error)
       toast({
         title: "Error",
         description: "Failed to update article. Please try again.",
@@ -206,11 +201,11 @@ export default function EditArticlePage({
     setIsDeleting(true)
 
     try {
-      // In a real app, this would be an API call
-      console.log("Deleting article:", slug)
+      const success = await deleteArticle(slug)
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      if (!success) {
+        throw new Error('Failed to delete article')
+      }
 
       toast({
         title: "Article deleted",
@@ -219,6 +214,7 @@ export default function EditArticlePage({
 
       router.push("/articles")
     } catch (error) {
+      console.error('Error deleting article:', error)
       toast({
         title: "Error",
         description: "Failed to delete article. Please try again.",
@@ -297,6 +293,25 @@ export default function EditArticlePage({
                   />
                 </div>
 
+                {/* Site Author Toggle */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="useSiteAuthor" className="text-base font-semibold">
+                      Site Author
+                    </Label>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {useSiteAuthor 
+                        ? "Published as bioaionics.com - Your Complete Wellness Intelligence Hub" 
+                        : `Published as ${user.name || user.email?.split("@")[0] || "your account"}`}
+                    </p>
+                  </div>
+                  <Switch
+                    id="useSiteAuthor"
+                    checked={useSiteAuthor}
+                    onCheckedChange={(checked) => setValue("useSiteAuthor", checked)}
+                  />
+                </div>
+
                 {/* Cover Image */}
                 <div>
                   <Label htmlFor="coverImageUrl" className="text-base font-semibold">
@@ -338,6 +353,7 @@ export default function EditArticlePage({
                     setValue("content", newContent)
                   }}
                   placeholder="Start writing your article..."
+                  articleSlug={slug}
                 />
                 {errors.content && <p className="text-sm text-destructive mt-2">{errors.content.message}</p>}
               </div>

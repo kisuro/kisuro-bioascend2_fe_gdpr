@@ -36,7 +36,7 @@ export function PremiumGateTitleOnly({ article }: PremiumGateTitleOnlyProps) {
           <Lock className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
           <p className="text-sm text-muted-foreground mb-3">Premium content requires subscription</p>
           <Button asChild size="sm">
-            <Link href="/profile">More about Premium</Link>
+            <Link href="/premium">More about Premium</Link>
           </Button>
         </div>
       </div>
