@@ -119,7 +119,7 @@ export function ArticleEditor({
       const formData = new FormData()
       formData.append("file", file)
       
-      const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null
+      const token = typeof window !== 'undefined' ? localStorage.getItem('bioaionics_access_token') : null
       const headers: Record<string, string> = {}
       
       if (token) {

@@ -88,11 +88,20 @@ export function ArticleCard({ article, index = 0, viewMode = "grid" }: ArticleCa
                 </div>
                 {article.author && (
                   <div className="flex items-center gap-2 mb-3">
-                    <img
-                      src={article.author.avatar || "/placeholder.svg?key=author"}
-                      alt={article.author.name}
-                      className="w-6 h-6 rounded-full"
-                    />
+                    <div className={cn(
+                      "w-6 h-6 rounded-full overflow-hidden",
+                      article.author.name === "bioaionics.com" && 
+                      "p-1 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 shadow-lg dark:from-white/10 dark:to-white/5 dark:border-white/20"
+                    )}>
+                      <img
+                        src={article.author.avatar || "/placeholder.svg?key=author"}
+                        alt={article.author.name}
+                        className={cn(
+                          "w-full h-full object-cover",
+                          article.author.name === "bioaionics.com" ? "" : "rounded-full"
+                        )}
+                      />
+                    </div>
                     <span className="text-sm text-muted-foreground">by {article.author.name}</span>
                   </div>
                 )}

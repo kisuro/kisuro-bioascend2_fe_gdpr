@@ -15,6 +15,7 @@ import { GlassCard } from "@/components/ui/glass-card"
 import { ArticleEditor } from "@/components/articles/article-editor"
 import { TagInput } from "@/components/articles/tag-input"
 import { SourcesList, type Source } from "@/components/articles/sources-list"
+import { CoverImageUploader } from "@/components/articles/cover-image-uploader"
 import { useToast } from "@/hooks/use-toast"
 import { useUser } from "@/lib/contexts/user-context"
 import { getArticleBySlug, updateArticle, deleteArticle } from "@/lib/services/articles"
@@ -313,21 +314,13 @@ export default function EditArticlePage({
                 </div>
 
                 {/* Cover Image */}
-                <div>
-                  <Label htmlFor="coverImageUrl" className="text-base font-semibold">
-                    Cover Image URL
-                  </Label>
-                  <Input
-                    id="coverImageUrl"
-                    type="url"
-                    {...register("coverImageUrl")}
-                    placeholder="https://example.com/image.jpg"
-                    className="mt-2"
-                  />
-                  {errors.coverImageUrl && (
-                    <p className="text-sm text-destructive mt-1">{errors.coverImageUrl.message}</p>
-                  )}
-                </div>
+                <CoverImageUploader
+                  currentImageUrl={watch("coverImageUrl")}
+                  onImageUrlChange={(url) => setValue("coverImageUrl", url)}
+                />
+                {errors.coverImageUrl && (
+                  <p className="text-sm text-destructive mt-1">{errors.coverImageUrl.message}</p>
+                )}
 
                 {/* Tags */}
                 <TagInput

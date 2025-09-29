@@ -151,3 +151,7 @@ export function hasPremiumAccess(u: User | undefined | null): boolean {
   if (!u) return false
   return u.status === "premium" || u.role === "moderator" || u.role === "owner"
 }
+
+export function getAuthToken(): string | null {
+  return readToken()
+}

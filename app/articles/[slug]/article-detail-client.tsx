@@ -305,11 +305,18 @@ export function ArticleDetailClient({ article }: Props) {
             <GlassCard className="p-6">
               <div className="flex items-start gap-4">
                 {article.author.avatar && (
-                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                  <div className={cn(
+                    "w-16 h-16 rounded-full overflow-hidden flex-shrink-0",
+                    article.author.name === "bioaionics.com" && 
+                    "p-2 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 shadow-lg dark:from-white/10 dark:to-white/5 dark:border-white/20"
+                  )}>
                     <img
                       src={article.author.avatar || "/placeholder.svg"}
                       alt={article.author.name}
-                      className="w-full h-full object-cover"
+                      className={cn(
+                        "w-full h-full object-cover",
+                        article.author.name === "bioaionics.com" ? "" : "rounded-full"
+                      )}
                     />
                   </div>
                 )}
