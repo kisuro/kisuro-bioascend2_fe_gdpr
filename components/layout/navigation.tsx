@@ -39,9 +39,7 @@ export function Navigation() {
           <nav className="flex items-center justify-between">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="/" className="flex items-center gap-2 font-bold text-primary">
-                <div className="p-1 rounded-lg bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 shadow-lg dark:from-white/10 dark:to-white/5 dark:border-white/20">
-                  <BioAionicsIcon size={28} variant="color" /> {/* updated component name */}
-                </div>
+                <BioAionicsIcon size={28} variant="color" />
                 <span className="hidden sm:block font-heading text-lg text-primary font-bold">BioAionics</span>
               </Link>
             </motion.div>

@@ -48,10 +48,17 @@ export function AppLoader({
               transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
             >
               <defs>
-                <linearGradient id="biorhythm-gradient-loader" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#E57373" />
-                  <stop offset="50%" stopColor="#64B5F6" />
-                  <stop offset="100%" stopColor="#81C784" />
+                {/* Gradient для основного круга */}
+                <linearGradient id="bioaionics-gradient-loader" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#3B82F6" />
+                  <stop offset="50%" stopColor="#8B5CF6" />
+                  <stop offset="100%" stopColor="#06B6D4" />
+                </linearGradient>
+                
+                {/* Gradient для внутренних элементов */}
+                <linearGradient id="inner-gradient-loader" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#F3F4F6" stopOpacity="0.7" />
                 </linearGradient>
               </defs>
 
@@ -61,69 +68,66 @@ export function AppLoader({
                 cy="50"
                 r="45"
                 fill="none"
-                stroke="url(#biorhythm-gradient-loader)"
+                stroke="url(#bioaionics-gradient-loader)"
                 strokeWidth="3"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
               />
 
-              {/* Animated biorhythm waves */}
+              {/* DNA спираль - левая */}
               <motion.path
-                d="M 20 50 Q 30 30, 40 50 T 60 50 T 80 50"
+                d="M 30 25 Q 35 35, 30 45 Q 25 55, 30 65 Q 35 75, 30 85"
                 fill="none"
-                stroke="#E57373"
+                stroke="url(#inner-gradient-loader)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 opacity="0.8"
-                animate={{
-                  d: [
-                    "M 20 50 Q 30 30, 40 50 T 60 50 T 80 50",
-                    "M 20 50 Q 30 70, 40 50 T 60 50 T 80 50",
-                    "M 20 50 Q 30 30, 40 50 T 60 50 T 80 50",
-                  ],
-                }}
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 2.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.2 }}
+              />
+
+              {/* DNA спираль - правая */}
+              <motion.path
+                d="M 70 25 Q 65 35, 70 45 Q 75 55, 70 65 Q 65 75, 70 85"
+                fill="none"
+                stroke="url(#inner-gradient-loader)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                opacity="0.8"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 2.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.4 }}
+              />
+
+              {/* Центральная молекулярная структура - анимированная */}
+              <motion.circle
+                cx="50" cy="40" r="3"
+                fill="url(#inner-gradient-loader)"
+                opacity="0.8"
+                animate={{ scale: [0.8, 1.2, 0.8] }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
               />
-
-              <motion.path
-                d="M 20 45 Q 30 25, 40 45 T 60 45 T 80 45"
-                fill="none"
-                stroke="#64B5F6"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                opacity="0.8"
-                animate={{
-                  d: [
-                    "M 20 45 Q 30 25, 40 45 T 60 45 T 80 45",
-                    "M 20 45 Q 30 65, 40 45 T 60 45 T 80 45",
-                    "M 20 45 Q 30 25, 40 45 T 60 45 T 80 45",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.3 }}
+              <motion.circle
+                cx="50" cy="50" r="4"
+                fill="url(#inner-gradient-loader)"
+                opacity="0.9"
+                animate={{ scale: [0.8, 1.2, 0.8] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.5 }}
               />
-
-              <motion.path
-                d="M 20 55 Q 30 35, 40 55 T 60 55 T 80 55"
-                fill="none"
-                stroke="#81C784"
-                strokeWidth="2.5"
-                strokeLinecap="round"
+              <motion.circle
+                cx="50" cy="60" r="3"
+                fill="url(#inner-gradient-loader)"
                 opacity="0.8"
-                animate={{
-                  d: [
-                    "M 20 55 Q 30 35, 40 55 T 60 55 T 80 55",
-                    "M 20 55 Q 30 75, 40 55 T 60 55 T 80 55",
-                    "M 20 55 Q 30 35, 40 55 T 60 55 T 80 55",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 0.6 }}
+                animate={{ scale: [0.8, 1.2, 0.8] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
               />
             </motion.svg>
 
             {/* Subtle glow effect */}
             <motion.div
-              className="absolute inset-0 rounded-full bg-gradient-to-r from-red-400/20 via-blue-400/20 to-green-400/20 blur-md"
+              className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-cyan-400/20 blur-md"
               animate={{
                 opacity: [0.3, 0.6, 0.3],
                 scale: [0.8, 1.1, 0.8],

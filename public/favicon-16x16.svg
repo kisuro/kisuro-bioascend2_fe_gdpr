@@ -1,0 +1,25 @@
+<svg width="16" height="16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bioaionics-gradient-16" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"></stop>
+      <stop offset="50%" stop-color="#8B5CF6"></stop>
+      <stop offset="100%" stop-color="#06B6D4"></stop>
+    </linearGradient>
+    <linearGradient id="inner-gradient-16" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"></stop>
+      <stop offset="100%" stop-color="#F3F4F6" stop-opacity="0.7"></stop>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="45" fill="none" stroke="url(#bioaionics-gradient-16)" stroke-width="3"></circle>
+  <path d="M 30 25 Q 35 35, 30 45 Q 25 55, 30 65 Q 35 75, 30 85" fill="none" stroke="url(#inner-gradient-16)" stroke-width="2.5" stroke-linecap="round" opacity="0.8"></path>
+  <path d="M 70 25 Q 65 35, 70 45 Q 75 55, 70 65 Q 65 75, 70 85" fill="none" stroke="url(#inner-gradient-16)" stroke-width="2.5" stroke-linecap="round" opacity="0.8"></path>
+  <line x1="30" y1="30" x2="70" y2="30" stroke="url(#inner-gradient-16)" stroke-width="1.5" opacity="0.6"></line>
+  <line x1="30" y1="45" x2="70" y2="45" stroke="url(#inner-gradient-16)" stroke-width="1.5" opacity="0.6"></line>
+  <line x1="30" y1="60" x2="70" y2="60" stroke="url(#inner-gradient-16)" stroke-width="1.5" opacity="0.6"></line>
+  <line x1="30" y1="75" x2="70" y2="75" stroke="url(#inner-gradient-16)" stroke-width="1.5" opacity="0.6"></line>
+  <circle cx="50" cy="40" r="3" fill="url(#inner-gradient-16)" opacity="0.8"></circle>
+  <circle cx="50" cy="50" r="4" fill="url(#inner-gradient-16)" opacity="0.9"></circle>
+  <circle cx="50" cy="60" r="3" fill="url(#inner-gradient-16)" opacity="0.8"></circle>
+  <line x1="50" y1="43" x2="50" y2="46" stroke="url(#inner-gradient-16)" stroke-width="2" opacity="0.7"></line>
+  <line x1="50" y1="54" x2="50" y2="57" stroke="url(#inner-gradient-16)" stroke-width="2" opacity="0.7"></line>
+</svg>
